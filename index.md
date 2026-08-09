@@ -47,7 +47,7 @@ Measured out of the file itself:
 |---|---|---|
 | Octagonal plate, finger-jointed rim | 1 | 172.298mm across flats — R 90 |
 | Its central hole | 1 | 116.298mm across flats — R 62.94 |
-| Curved flare band, finger-jointed on both edges | 1 | 507.824 × 306.984mm |
+| Curved flare band, finger-jointed on both edges | 1 | 507.368 × 306.074mm |
 
 The sheet is 444.077 × 484.599mm and every part sits inside it, with no geometry hanging
 off the page.
