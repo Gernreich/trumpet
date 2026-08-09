@@ -31,7 +31,7 @@ Measured out of the file, not copied from whatever drew it:
 | Its central hole | 1 | 116.3mm across flats, R 62.94 |
 | Curved flare band, finger-jointed both edges | 1 | 507.8 × 307.0mm |
 
-The sheet is **534.6 × 478.6mm** and every part sits inside it. The plate is the same
+The sheet is **444.1 × 484.6mm** and every part sits inside it. The plate is the same
 geometry as the torus's: rim at apothem 86.149, hole at 58.149, and the same joint phase,
 so a panel cut for the torus mates with this plate too.
 

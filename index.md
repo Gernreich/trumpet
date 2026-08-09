@@ -34,7 +34,7 @@ read off them. Hue and sequence are unchanged, and the cut file keeps the exact 
 <td align="center"><a href="octagonal-trumpet.svg"><img src="previews/octagonal-trumpet.svg" alt="The cut sheet: one finger-jointed octagonal plate with a central hole and sixteen violet lines across its wall, beside a long curved finger-jointed band that forms the flare" width="620"></a></td>
 </tr>
 <tr>
-<td align="center"><sub>octagonal-trumpet.svg · 534.6 × 478.6mm sheet</sub></td>
+<td align="center"><sub>octagonal-trumpet.svg · 444.1 × 484.6mm sheet</sub></td>
 </tr>
 </table>
 </div>
@@ -49,11 +49,13 @@ Measured out of the file itself:
 | Its central hole | 1 | 116.298mm across flats — R 62.94 |
 | Curved flare band, finger-jointed on both edges | 1 | 507.824 × 306.984mm |
 
-The sheet is 534.637 × 478.599mm and every part sits inside it, with no geometry hanging
+The sheet is 444.077 × 484.599mm and every part sits inside it, with no geometry hanging
 off the page.
 
-**The plate is the torus's plate.** Rim at apothem 86.149, hole at 58.149, and the same
-joint phase along every face — so the side panels cut for the torus mate with this plate
+**The plate is the torus's plate.** Rim at apothem 86.149, hole at 58.149, hole concentric
+with the rim to within 0.001mm, and the same joint phase along every face. Checked against
+the torus's own R 59.693 run, `verify.js` reports **COMPLEMENTARY ✓** — the plate's tabs
+land in the panel's notches — so the side panels cut for the torus mate with this plate
 too, and a dry-fit done for one is a dry-fit done for both.
 
 ## Colour is the cut order
