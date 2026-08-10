@@ -55,7 +55,7 @@ off the page.
 **The plate is the torus's plate.** Rim at apothem 86.149, hole at 58.149, hole concentric
 with the rim to within 0.001mm, and the same joint phase along every face. Checked against
 the torus's own R 59.693 run with
-[its verifier](https://github.com/Gernreich/torus-octagonal/blob/main/verify.js), the result
+[its verifier](https://github.com/Gernreich/torus-octagonal/blob/main/verify_torus.js), the result
 is **COMPLEMENTARY ✓** — the plate's tabs land in the panel's notches — so the side panels cut for the torus mate with this plate
 too, and a dry-fit done for one is a dry-fit done for both.
 
