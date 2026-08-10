@@ -1,11 +1,11 @@
 # Octagonal trumpet
 
-The trumpet form of the [octagonal torus](https://github.com/Gernreich/octagonal-torus) —
+The trumpet form of the [octagonal torus](https://github.com/Gernreich/torus-octagonal) —
 a flaring octagonal horn built on the same 25 × 25mm channel and the same R 90 plate, cut
 from 3mm Baltic birch plywood. Output is millimetre-true — `1 user unit = 1mm` with a
 physical `width`/`height` — so it prints and cuts at real size.
 
-**[Read the writeup](https://gernreich.github.io/octagonal-trumpet/)**
+**[Read the writeup](https://gernreich.github.io/trumpet-octagonal/)**
 
 <p>
 <img src="previews/octagonal-trumpet.svg" alt="The cut sheet: one finger-jointed octagonal plate with a central hole and violet skip lines across its wall, beside a long curved finger-jointed band that forms the flare" width="620">
@@ -19,7 +19,7 @@ light ground. The cut file keeps the exact values.*
 Built for **[LaserMadeMusic](https://www.youtube.com/@LaserMadeMusic)**, where the cutting
 and the playing are shown.
 
-**[Download everything as a ZIP](https://github.com/Gernreich/octagonal-trumpet/archive/refs/heads/main.zip)**
+**[Download everything as a ZIP](https://github.com/Gernreich/trumpet-octagonal/archive/refs/heads/main.zip)**
 
 ## What is on the sheet
 
