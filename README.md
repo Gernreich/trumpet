@@ -11,6 +11,9 @@ and SVG writer.
 **[Read the writeup](https://gernreich.github.io/bore-generator/)** — the same text as this
 page, set for reading, with a table of contents.
 
+**[The rest of the build files](https://gernreich.github.io/)** — every instrument,
+generator and tool, indexed.
+
 Split out of `octomino-snakes`, which enumerated and classified the 369 octominoes and is
 now archived and private. The bore toolchain kept growing after that work finished, and a
 live instrument should not depend on a frozen repository to rebuild its own parts.

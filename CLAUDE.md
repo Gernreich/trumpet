@@ -87,3 +87,16 @@ stages — blue engraves the section number, black cuts.
 Output lands in other people's repositories. `--write` rewrites **every** file in
 the directory it is given, so ask before pointing it at one that has cut files in
 it, and never at a directory holding hand-nested or hand-edited work.
+
+## Publishing
+
+Pages deploys from `main` through `.github/workflows/pages.yml`, keyed per commit.
+`index.html` is `README.md` rendered by `md2html.py` and committed, not built on the
+server, so a stale `index.html` publishes stale content — regenerate it after editing the
+README, and read the audit before pushing:
+
+```sh
+G=../lasermade-tools
+python3 $G/md2html.py README.md index.html
+python3 $G/doc-audit.py README.md --html index.html
+```
