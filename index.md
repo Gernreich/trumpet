@@ -2,7 +2,7 @@
 
 The trumpet form of the **[octagonal torus](https://gernreich.github.io/torus-octagonal/)**:
 the same 25 × 25mm square channel and the same R 90 octagonal plate, opened out into a
-flare instead of closed into a ring. Cut from 3mm Baltic birch plywood,
+curve instead of closed into a ring. Cut from 3mm Baltic birch plywood,
 millimetre-true at `1 user unit = 1mm`, so it prints and cuts at real size.
 
 The torus writeup describes the cut that turns one into the other. This is the result as
@@ -13,7 +13,7 @@ its own sheet.
 - **[Everything as a ZIP](https://github.com/Gernreich/trumpet-octagonal/archive/refs/heads/main.zip)**
   — the cut file and this page.
 - **[Repository](https://github.com/Gernreich/trumpet-octagonal)** — if you want to change
-  the flare or the plate.
+  the curve or the plate.
 - Or click the picture below to download the cut file.
 
 Released under CC0 1.0 — do what you like with it, no attribution needed. Built for
@@ -31,7 +31,7 @@ read off them. Hue and sequence are unchanged, and the cut file keeps the exact 
 <div class="tw">
 <table>
 <tr>
-<td align="center"><a href="octagonal-trumpet.svg"><img src="previews/octagonal-trumpet.svg" alt="The cut sheet: one finger-jointed octagonal plate with a central hole and sixteen violet lines across its wall, beside a long curved finger-jointed band that forms the flare" width="620"></a></td>
+<td align="center"><a href="octagonal-trumpet.svg"><img src="previews/octagonal-trumpet.svg" alt="The cut sheet: one finger-jointed octagonal plate with a central hole and sixteen violet lines across its wall, beside a long curved finger-jointed band that forms the curved bore" width="620"></a></td>
 </tr>
 <tr>
 <td align="center"><sub>octagonal-trumpet.svg · 444.1 × 484.6mm sheet</sub></td>
@@ -47,7 +47,7 @@ Measured out of the file itself:
 |---|---|---|
 | Octagonal plate, finger-jointed rim | 1 | 172.298mm across flats — R 90 |
 | Its central hole | 1 | 116.298mm across flats — R 62.94 |
-| Curved flare band, finger-jointed on both edges | 1 | 507.368 × 306.074mm |
+| Curved bore band, finger-jointed on both edges | 1 | 507.368 × 306.074mm |
 
 The sheet is 444.077 × 484.599mm and every part sits inside it, with no geometry hanging
 off the page.
@@ -69,7 +69,7 @@ to engrave.
 | | Colour | What | Why then |
 |---|---|---|---|
 | 1 | **orange `#ff8000`** | the plate's central hole | cut while the plate is still held by the sheet |
-| 2 | **black `#000000`** | the plate rim and the flare band | frees them, so they go last |
+| 2 | **black `#000000`** | the plate rim and the bore band | frees them, so they go last |
 
 Holes before rims is the whole of the rule here: once the black rim is through, the plate
 is loose, and anything still to be cut inside it will move.
@@ -92,11 +92,11 @@ cut it**, and leave the rest violet.
 
 **Cut this in 3mm Baltic birch plywood.** That is what it is built in, and the void-free
 core earns its place at the finger joints: a void landing in a tooth that has to carry the
-flare is a break waiting to happen.
+curve is a break waiting to happen.
 
 **Grain direction is a real choice here**, because the band curves. Run the face grain
 along its length and it bends more willingly; run it across and the band resists and holds
-its shape harder. Neither is wrong — they give different flares, and it is worth cutting
+its shape harder. Neither is wrong — they give different curves, and it is worth cutting
 one of each before deciding.
 
 **Dry-fit before committing a sheet.** The plate's tabs around the hole should drop into

@@ -1,14 +1,14 @@
 # Octagonal trumpet
 
 The trumpet form of the [octagonal torus](https://github.com/Gernreich/torus-octagonal) —
-an octagonal flare built on the same 25 × 25mm channel and the same R 90 plate, cut
+a curved octagonal bore built on the same 25 × 25mm channel and the same R 90 plate, cut
 from 3mm Baltic birch plywood. Output is millimetre-true — `1 user unit = 1mm` with a
 physical `width`/`height` — so it prints and cuts at real size.
 
 **[Read the writeup](https://gernreich.github.io/trumpet-octagonal/)**
 
 <p>
-<img src="previews/octagonal-trumpet.svg" alt="The cut sheet: one finger-jointed octagonal plate with a central hole and violet skip lines across its wall, beside a long curved finger-jointed band that forms the flare" width="620">
+<img src="previews/octagonal-trumpet.svg" alt="The cut sheet: one finger-jointed octagonal plate with a central hole and violet skip lines across its wall, beside a long curved finger-jointed band that forms the curved bore" width="620">
 </p>
 
 *Click the picture to download the cut file. It is a display rendering — the cut file
@@ -29,7 +29,7 @@ Measured out of the file, not copied from whatever drew it:
 |---|---|---|
 | Octagonal plate, finger-jointed rim | 1 | 172.3mm across flats, R 90 |
 | Its central hole | 1 | 116.3mm across flats, R 62.94 |
-| Curved flare band, finger-jointed both edges | 1 | 507.4 × 306.1mm |
+| Curved bore band, finger-jointed both edges | 1 | 507.4 × 306.1mm |
 
 The sheet is **444.1 × 484.6mm** and every part sits inside it. The plate is the same
 geometry as the torus's: rim at apothem 86.149, hole at 58.149, and the same joint phase,
@@ -44,7 +44,7 @@ repository. This sheet uses two of the four stages, and there is nothing to engr
 | | Colour | What | Why then |
 |---|---|---|---|
 | 1 | **orange `#ff8000`** | the plate's central hole | while the plate is still held by the sheet |
-| 2 | **black `#000000`** | the plate rim and the flare band | frees them, so they go last |
+| 2 | **black `#000000`** | the plate rim and the bore band | frees them, so they go last |
 
 Give both an explicit operation. A per-colour job silently skips any colour you leave
 unmapped.
@@ -57,11 +57,11 @@ green to cut it. Leave the colour unmapped, or delete it.
 ## Before you cut
 
 **Cut this in 3mm Baltic birch plywood** — what it is built in, and the void-free core
-matters at the finger joints, where a void lands in a tooth that has to carry the flare.
+matters at the finger joints, where a void lands in a tooth that has to carry the curve.
 
 The band curves, so **grain direction is a real choice**: run the face grain along its
 length and it bends more willingly, across and it resists. Neither is wrong; they give
-different flares.
+different curves.
 
 ## Files
 
