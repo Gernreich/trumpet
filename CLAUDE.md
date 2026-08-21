@@ -10,7 +10,8 @@ sibling repositories this **is** a software project — it ships no cut files of
 its own, only the thing that makes them.
 
 It produces the bore in **`trumpet-coiled`**. Split out of
-**`../../octomino-snakes`**, which enumerated the 369 octominoes and is archived;
+**`../../octomino-snakes`**, which enumerated the 369 octominoes and is archived and
+private;
 a live instrument should not depend on a frozen repository to rebuild its parts.
 
 Read `README.md` first. It is 447 lines and carries the geometry — why an elbow's

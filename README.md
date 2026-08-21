@@ -8,10 +8,9 @@ cut files, and checks them before you cut. It is what produces the bore in
 It is not standalone — Boxes.py provides the finger joints, burn compensation
 and SVG writer.
 
-Split out of [octomino-snakes](https://github.com/Gernreich/octomino-snakes),
-which enumerated and classified the 369 octominoes and is now archived. The bore
-toolchain kept growing after that work finished, and a live instrument should not
-depend on a frozen repository to rebuild its own parts.
+Split out of `octomino-snakes`, which enumerated and classified the 369 octominoes and is
+now archived and private. The bore toolchain kept growing after that work finished, and a
+live instrument should not depend on a frozen repository to rebuild its own parts.
 
 ## Install
 
