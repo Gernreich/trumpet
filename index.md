@@ -2,7 +2,7 @@
 
 The trumpet form of the **[octagonal torus](https://gernreich.github.io/torus-octagonal/)**:
 the same 25 × 25mm square channel and the same R 90 octagonal plate, opened out into a
-flaring horn instead of closed into a ring. Cut from 3mm Baltic birch plywood,
+flare instead of closed into a ring. Cut from 3mm Baltic birch plywood,
 millimetre-true at `1 user unit = 1mm`, so it prints and cuts at real size.
 
 The torus writeup describes the cut that turns one into the other. This is the result as

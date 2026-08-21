@@ -1,7 +1,7 @@
 # Octagonal trumpet
 
 The trumpet form of the [octagonal torus](https://github.com/Gernreich/torus-octagonal) —
-a flaring octagonal horn built on the same 25 × 25mm channel and the same R 90 plate, cut
+an octagonal flare built on the same 25 × 25mm channel and the same R 90 plate, cut
 from 3mm Baltic birch plywood. Output is millimetre-true — `1 user unit = 1mm` with a
 physical `width`/`height` — so it prints and cuts at real size.
 
