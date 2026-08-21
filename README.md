@@ -16,6 +16,11 @@ draws a hairline on no background, which a browser shows almost invisibly. Green
 and cyan are darkened in the picture; at full strength they are too pale to read against a
 light ground. The cut file keeps the exact values.*
 
+The **bell** and the **mouthpiece** that finish this trumpet are in
+**[trumpet-parts](https://github.com/Gernreich/trumpet-parts)**, shared with the
+[coiled trumpet](https://github.com/Gernreich/trumpet-coiled) — both are built on this same
+25 × 25mm channel, so the same parts fit either.
+
 Built for **[LaserMadeMusic](https://www.youtube.com/@LaserMadeMusic)**, where the cutting
 and the playing are shown.
 

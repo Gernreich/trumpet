@@ -14,6 +14,8 @@ its own sheet.
   — the cut file and this page.
 - **[Repository](https://github.com/Gernreich/trumpet-octagonal)** — if you want to change
   the curve or the plate.
+- **[trumpet-parts](https://github.com/Gernreich/trumpet-parts)** — the bell and the
+  mouthpiece, shared with the coiled trumpet and built on this same 25 × 25mm channel.
 - Or click the picture below to download the cut file.
 
 Released under CC0 1.0 — do what you like with it, no attribution needed. Built for
