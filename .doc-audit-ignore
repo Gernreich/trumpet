@@ -1,0 +1,11 @@
+# Boxes.py is the external generator at https://github.com/florianfesti/boxes -
+# a tool this one installs into, never a file here.
+
+Boxes.py
+
+# Output names used in the example commands. They are what you get when you run
+# the line above them, not files kept in the repository.
+
+out.svg
+straight1.svg
+straight1_lapW.svg
