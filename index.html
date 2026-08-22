@@ -158,6 +158,7 @@ cp /path/to/bore-generator/snakebox.py boxes/generators/
 <p><code>bore_split.py</code> turns a bore written as a walk along its centreline into the pieces that build it. <code>bore_render.py</code> draws the same walk in 3D so you can check it before cutting.</p>
 <pre><code>python3 bore_split.py "N N1 E2 S3 U2 N1 N"
 python3 bore_split.py "W D3 E4 N" --write ../../test</code></pre>
+<p>Turn them around: <a href="examples/notation_example.html"><code>N N1 E2 S3 U2 N1 N</code></a> · <a href="examples/three_block_example.html"><code>W D3 E4 N</code></a></p>
 <p>Both need <code>SNAKEBOX_BOXES</code> pointing at a Boxes.py checkout with <code>snakebox.py</code> installed, unless yours is at <code>~/boxes</code>. The report needs neither.</p>
 <h3 id="the-notation">The notation</h3>
 <p>Facing north, east is on your right. <code>N S</code> away / toward you, <code>E W</code> east / west, <code>U D</code> up / down.</p>
@@ -170,7 +171,7 @@ python3 bore_split.py "W D3 E4 N" --write ../../test</code></pre>
 <p>Every SnakeBox piece is flat: its cells lie on a 2D grid, one block thick. A bore is three-dimensional only because pieces are rolled relative to each other at the joints. So <strong>one piece can hold any run of blocks that stays in a single plane</strong>, however many times it turns, and only a change of plane forces a joint.</p>
 <p>A piece is one flat slab, so its <strong>cells</strong> must share a constant coordinate — that axis is the plane normal. Each opening is then one of two kinds:</p>
 <ul><li><strong>rim</strong> — the bore arrives along the plane and the opening sits on the edge of the slab, opposite its neighbouring cell. An end block that bends cannot have one, because its opening would land on a side face.</li><li><strong>port</strong> — the bore arrives along the plane normal, straight through a face. One plate <strong>stops a cell short</strong> rather than being perforated, leaving that cell's face open (<code>--port_in</code> / <code>--port_out</code>, and <code>--port_mirror</code> to choose which of the two plates). The plate is only as wide as the bore — it sits between the side walls — so a bore-sized hole would sever it.</li></ul>
-<p>A port is what lets a change of plane happen inside a piece instead of forcing a separate elbow. <code>U U2 E2 S2 U2 U</code> takes three pieces without one and <strong>two</strong> with it, because blocks 5-9 share a constant x and only their entry leaves that plane.</p>
+<p>A port is what lets a change of plane happen inside a piece instead of forcing a separate elbow. <a href="examples/test_bore.html"><code>U U2 E2 S2 U2 U</code></a> takes three pieces without one and <strong>two</strong> with it, because blocks 5-9 share a constant x and only their entry leaves that plane.</p>
 <p>The splitter takes the <strong>fewest</strong> legal pieces, as a shortest path over block positions. Scanning greedily from the left is not enough: it pulls a straight into the group behind it and then strands the following bend on its own, when that same straight could have begun the next piece and carried the bend inside it. On the bore below that greedy choice cost two extra pieces — <code>U U2 E2 S2 U2 U</code> splits into three, not five.</p>
 <p>The plane comes from the directions a piece travels through, not from which coordinates happen to stay constant: a piece whose cells lie on a line has two constant axes, and only one of them is the plane you want.</p>
 <pre><code>E E10 S3          14 blocks, 1 piece    east then south: one horizontal plane
@@ -178,6 +179,7 @@ E E10 U3          14 blocks, 1 piece    east then up:    one vertical plane
 W D3 E4 N          8 blocks, 3 pieces   E1  B1  E2
 U U2 E2 S2 U2 U    9 blocks, 3 pieces   B1  E1  B2   (two Ls and an elbow)
 N N1 E2 S3 U2 N1 N 10 blocks, 2 pieces  B1  B2</code></pre>
+<p>The last three, to turn around: <a href="examples/three_block_example.html"><code>W D3 E4 N</code></a> · <a href="examples/test_bore.html"><code>U U2 E2 S2 U2 U</code></a> · <a href="examples/notation_example.html"><code>N N1 E2 S3 U2 N1 N</code></a></p>
 <p>An L is one piece no matter how long its legs, because it never leaves its plane. An earlier version cut a piece at every elbow; the last example was nine pieces under that rule, three under greedy coplanar runs, and two now.</p>
 <p>Fewer pieces is not free. The lap that closes the inside of a bend has to land on a wall, and a straight beside an elbow can be rolled to provide one while a bend cannot. Merging that straight into a neighbouring L can therefore leave an elbow with no neighbour able to carry the tongue; the splitter reports which piece, and leaves that corner open.</p>
 <p>Pieces are named for what they are: <code>straight&lt;n&gt;.svg</code>, the two elbows above, and <code>bend_&lt;path&gt;.svg</code> for a multi-block piece that turns, where <code>&lt;path&gt;</code> is the <code>--path</code> string it is cut from.</p>

@@ -273,6 +273,9 @@ python3 bore_split.py "N N1 E2 S3 U2 N1 N"
 python3 bore_split.py "W D3 E4 N" --write ../../test
 ```
 
+Turn them around: [`N N1 E2 S3 U2 N1 N`](examples/notation_example.html) ·
+[`W D3 E4 N`](examples/three_block_example.html)
+
 Both need `SNAKEBOX_BOXES` pointing at a Boxes.py checkout with `snakebox.py`
 installed, unless yours is at `~/boxes`. The report needs neither.
 
@@ -324,8 +327,8 @@ that axis is the plane normal. Each opening is then one of two kinds:
   between the side walls — so a bore-sized hole would sever it.
 
 A port is what lets a change of plane happen inside a piece instead of forcing a
-separate elbow. `U U2 E2 S2 U2 U` takes three pieces without one and **two**
-with it, because blocks 5-9 share a constant x and only their entry leaves that
+separate elbow. [`U U2 E2 S2 U2 U`](examples/test_bore.html) takes three pieces without
+one and **two** with it, because blocks 5-9 share a constant x and only their entry leaves that
 plane.
 
 The splitter takes the **fewest** legal pieces, as a shortest path over block
@@ -346,6 +349,10 @@ W D3 E4 N          8 blocks, 3 pieces   E1  B1  E2
 U U2 E2 S2 U2 U    9 blocks, 3 pieces   B1  E1  B2   (two Ls and an elbow)
 N N1 E2 S3 U2 N1 N 10 blocks, 2 pieces  B1  B2
 ```
+
+The last three, to turn around: [`W D3 E4 N`](examples/three_block_example.html) ·
+[`U U2 E2 S2 U2 U`](examples/test_bore.html) ·
+[`N N1 E2 S3 U2 N1 N`](examples/notation_example.html)
 
 An L is one piece no matter how long its legs, because it never leaves its
 plane. An earlier version cut a piece at every elbow; the last example was nine
