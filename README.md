@@ -211,9 +211,9 @@ The middle one costs four elbows because of the windows it forms, not the fragme
 
 | window | axes | middle | cost |
 | --- | --- | ---: | --- |
-| `U4 W1 N2` | three axes | 1 | an elbow |
-| `W1 N2 E1` | a fold | 2 | fine |
-| `N2 E1 U4` | three axes | 1 | an elbow |
+| [`U4 W1 N2`](pages/window_U4W1N2.html) | three axes | 1 | an elbow |
+| [`W1 N2 E1`](pages/fragment_alone.html) | a fold | 2 | fine |
+| [`N2 E1 U4`](pages/window_N2E1U4.html) | three axes | 1 | an elbow |
 
 W1 N2 E1 is a fold and free in itself - W and E are both the x axis. What costs
 is the W1 and the E1 each being the middle of their own window, where the terms
@@ -329,38 +329,40 @@ Four layers, and the first three are automatic:
 `regress.py` runs the gate over every design in the repository, which is the
 only way any of this stays honest.
 
-### Why Minecraft will not catch a crossing
+### The build is the check; the notation is what goes wrong
 
-Building the walk in Minecraft first is a good habit and it cannot check it. Nothing
-there requires a tunnel to be a single unbranching path, so nothing there can object
-when it stops being one — it has no notion of a bore, and so no notion of a bore
-being wrong.
+Building the bore in Minecraft first is the check, not a rehearsal for one. You build it
+floating in open space, knowing you are building a bore, and a section running into one
+you laid down earlier is plainly visible while you are standing in it. **A build that
+looks right is evidence the bore works.**
 
-[`N N3 U3 W5 N10 E5 S8 W3 S3 N12 N`](doubled_walk/doubled_walk.html) is the example —
-that page draws it under Minecraft's rules rather than the bore's, with every doubled
-cell lit up, since a walk this one is refused cannot open in the ordinary viewer.
-Walked permissively it places
-fifty-three blocks into forty-eight cells: five land where a block already is, and the
-`S3 N12` at the end is a 180 that retraces its own last three blocks.
+What goes wrong afterwards is writing it down. A walk is a long string of letters and
+numbers transcribed from something you built by eye, and one wrong letter is enough —
+which is a job a human is bad at and a script is good at. So: **trust the build, and let
+the script check the notation.**
 
-**Check the notation, not the build.** A walk is a long string of letters and numbers
-describing something laid out by eye, and one wrong letter is enough. Read it back off
-the page rather than off your memory of the build.
+[`N N3 U3 W5 N10 E5 S8 W3 S3 N12 N`](doubled_walk/doubled_walk.html) is the example. It
+was refused, and the build it came from was fine — the fault was a single letter in the
+transcription, an `S3` where the build turned `D3`, and no amount of adjusting the
+*lengths* fixed it because the fault was a direction. Read the walk back off the page
+rather than off your memory of the build.
 
-The reason it is fatal here and harmless there is what the cells are for. In
-Minecraft they are scenery. In a bore they are the air path, and a cell filled
-twice is a junction - the air arrives with two ways out. There is no box section
-with an opening in four sides, so the crossing cannot be cut at all.
+Walked permissively it places fifty-three blocks into forty-eight cells: five land where
+a block already is, and the `S3 N12` at the end is a 180 that retraces its own last
+three blocks. That is what a crossing costs. A cell entered twice is a junction — the
+air arrives with two ways out — and there is no box section with an opening in four
+sides, so it cannot be cut at all.
 
-`mcwalk.py` draws a walk under Minecraft's rules instead of the bore's, and
-lights up every cell that got filled more than once:
+`mcwalk.py` draws a refused walk under Minecraft's permissive rules instead of the
+bore's, and lights up every cell entered more than once, which the ordinary viewer
+cannot do because it will not open a walk that crosses itself:
 
     cd ../GIT/bore-generator
     python3 mcwalk.py "N N3 U3 W5 N10 E5 S8 W3 S3 N12 N" \
         --out ../../test/doubled_walk/doubled_walk.html --title "..."
 
-Use it when a walk is refused and the build looked fine. The step slider is the
-tell: scrub it and watch *placed* keep climbing while *cells filled* stalls.
+The step slider is the tell: scrub it and watch *placed* keep climbing while *cells
+filled* stalls — that gap is where the transcription went wrong.
 
 ## Before cutting
 
