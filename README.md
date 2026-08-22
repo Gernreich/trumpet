@@ -8,6 +8,7 @@ cut files, and checks them before you cut. It is what produces the bore in
 It is not standalone — Boxes.py provides the finger joints, burn compensation
 and SVG writer.
 
+<!-- readme-only -->
 **[Read the writeup](https://gernreich.github.io/bore-generator/)** — the same text as this
 page, set for reading, with a table of contents.
 
