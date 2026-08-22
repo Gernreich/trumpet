@@ -1,0 +1,28 @@
+# The generator lives in the sibling repository ../GIT/bore-generator. These are
+# named in the commands here and are not files in this one.
+
+bore_split.py
+bore_render.py
+check.py
+assemble.py
+nest.py
+viewer.py
+mcwalk.py
+regress.py
+
+# Output of those commands, written when you run them rather than kept here.
+
+nest.svg
+dn.svg
+again.html
+test_bore.html
+helix_rise1.html
+helix_rise2.html
+helix_side6.html
+
+# Named in "The pictures" only to say they are missing. They were lost before this
+# directory became a repository.
+
+bore_UU2E2S2U2U.png
+bore_tunnel.png
+DR1F_assembly_guide.png

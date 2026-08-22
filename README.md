@@ -1,9 +1,19 @@
-# test
+# Bore designs
 
-The trumpet's cut files, plus the pictures and notes. The SVGs regenerate
-byte-identical from the walk, so the walk and the generator are the real
-source — but they are kept here so there is something to send to the machine
-without running anything.
+Every bore that has been worked out, built out into cut files and a viewer page and kept.
+This is the corpus **[bore-generator](https://github.com/Gernreich/bore-generator)**
+regresses against: `regress.py` runs the full gate over these, which is the only reason any
+of it stays honest.
+
+**[Read the writeup](https://gernreich.github.io/bore-designs/)** — the same text as this
+page, set for reading, with a table of contents.
+
+**[The rest of the build files](https://gernreich.github.io/)** — every instrument,
+generator and tool, indexed.
+
+The SVGs regenerate byte-identical from the walk, so the walk and the generator are the
+real source — but they are kept here so there is something to send to the machine without
+running anything.
 
 The nested sheets are not kept: they assume a full sheet of material, and
 partly cut boards do not work that way. `nest.py` still produces them if a
@@ -61,8 +71,10 @@ The one thing no check can settle is **which** of the two plates was flattened:
 they are the same shape mirrored, and which ends up facing the elbow depends on
 how Boxes lays the mirrored copy out. It is derived rather than measured. Dry
 fit section 1 to section 2 before cutting the rest — if it is the wrong way
-round you will find a tab with nowhere to go, and it is a one-word change. Nested, the lot is two sheets. Sections 2 and 7
-are the same shape but are cut separately so each carries its own number.
+round you will find a tab with nowhere to go, and it is a one-word change.
+
+Nested, the lot is two sheets. Sections 2 and 7 are the same shape but are cut
+separately so each carries its own number.
 
 Sections 2, 5 and 7 are one-cell elbows, which is where the bore changes plane.
 Each leaves its 3 x 3 x 25 mm corner open on the inside of the bend — sealed
@@ -72,8 +84,8 @@ than a leak.
 **No ports.** A port opens one face plate so a change of plane can happen inside
 a piece, which would make this five sections rather than eight. It is not used:
 the plate it opens leaves that cell's walls supported on one side, with their
-fingers facing nothing, and it failed to assemble four times. `bore_split.py
---ports` still turns it on; what remains is suppressing the fingers on the
+fingers facing nothing, and it failed to assemble four times.
+`bore_split.py --ports` still turns it on; what remains is suppressing the fingers on the
 missing-plate side over the port cell.
 
 `trumpet_bore.png` is the assembled bore from six angles, coloured by section.
@@ -111,10 +123,10 @@ as a single-block elbow. With none - adjacent turns - both are.
 The turn that is not stranded becomes the corner of an **L**, and two Ls in
 place of an elbow is both fewer files and fewer parts:
 
-    N N4 U1 E4 E   straight elbow elbow straight   2 elbows  10 blocks, 16 parts
-    N N4 U2 E4 E   straight elbow L                1 elbow   11 blocks, 14 parts
-    N N4 U3 E4 E   L L                             0 elbows  12 blocks, 12 parts
-    N N4 U4 E4 E   L L                             0 elbows  13 blocks, 12 parts
+    N N4 U1 E4 E   straight, elbow, elbow, straight   2 elbows  10 blocks, 16 parts
+    N N4 U2 E4 E   straight, elbow, L                 1 elbow   11 blocks, 14 parts
+    N N4 U3 E4 E   L, L                               0 elbows  12 blocks, 12 parts
+    N N4 U4 E4 E   L, L                               0 elbows  13 blocks, 12 parts
 
 ### Writing it
 
@@ -283,16 +295,19 @@ only way any of this stays honest.
 
 ### Why Minecraft will not catch a crossing
 
-Building the walk in Minecraft first is a good habit and it cannot tell you the
-one thing you most want to know. Minecraft fills cells. Placing a block in a
-cell that is already full is a no-op - no warning, no sound, nothing - so a walk
-that runs back through itself still comes out a single connected tunnel that
-looks exactly right from every angle.
+Building the walk in Minecraft first is a good habit and it cannot check it. Nothing
+there requires a tunnel to be a single unbranching path, so nothing there can object
+when it stops being one — it has no notion of a bore, and so no notion of a bore
+being wrong.
 
-`N N3 U3 W5 N10 E5 S8 W3 S3 N12 N` is the example. Fifty-three blocks go down;
-forty-eight cells end up full. Five blocks landed in an occupied cell, and the
-`S3 N12` at the end is a 180 that retraces its own last three blocks. On screen:
-a clean flat spiral.
+`N N3 U3 W5 N10 E5 S8 W3 S3 N12 N` is the example. Walked permissively it places
+fifty-three blocks into forty-eight cells: five land where a block already is, and the
+`S3 N12` at the end is a 180 that retraces its own last three blocks.
+
+**How a walk like that actually arises is transcription, not building.** That one came
+from typing `S3` where the build turned `D3`, and every attempt to fix it by changing
+the *lengths* failed, because the fault was a direction. Read the walk back off the
+page rather than off your memory of the build.
 
 The reason it is fatal here and harmless there is what the cells are for. In
 Minecraft they are scenery. In a bore they are the air path, and a cell filled
@@ -411,8 +426,22 @@ two cannot drift apart. For a walk you are only looking at:
 
 ## The pictures
 
-`trumpet_bore.png` — the trumpet assembled, six angles, coloured by section.
-`bore_UU2E2S2U2U.png` — the nine-block test bore `U U2 E2 S2 U2 U`, used to
-shake the splitter out. `notation_explained.png` and `bore_tunnel.png`
-illustrate the notation. `DR1F_assembly_guide.png` is from the early three-block
-`D R1 F` exercise.
+<p>
+<img src="notation_explained.png" alt="A diagram of the walk notation: the entry letter, then each term as a direction and a distance in blocks" width="620">
+</p>
+
+*The notation, laid out.*
+
+<p>
+<img src="first_trumpet/trumpet_bore.png" alt="The first trumpet bore assembled, shown from six angles and coloured by section" width="620">
+</p>
+
+*The first trumpet, six angles, coloured by section.*
+
+Three more pictures were named here and are not in the repository —
+`bore_UU2E2S2U2U.png` of the test bore, `bore_tunnel.png` of the notation, and
+`DR1F_assembly_guide.png` from the early `D R1 F` exercise. They were lost before this
+directory became a repository; the references are removed rather than left pointing at
+nothing.
+
+Released under [CC0 1.0](LICENSE).
