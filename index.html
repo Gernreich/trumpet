@@ -70,6 +70,9 @@ letter-spacing:.01em}
 tbody tr:last-child td{border-bottom:0}
 tbody tr:hover{background:color-mix(in srgb,var(--thbg) 45%,transparent)}
 td code,th code{white-space:nowrap}
+/* A walk inside a link is one token: breaking it mid-walk put "N" at the end of one
+   line and "N5 U" at the start of the next, which reads as two things. */
+a code{white-space:nowrap}
 .tog{position:fixed;top:14px;right:14px;z-index:9;background:var(--card);color:var(--mut);
 border:1px solid var(--line);border-radius:7px;padding:6px 11px;font-size:12.5px;cursor:pointer}
 .tog:hover{color:var(--accent)}
@@ -91,10 +94,12 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <p><strong><a href="https://gernreich.github.io/">The rest of the build files</a></strong> — every instrument, generator and tool, indexed.</p>
 <p>Split out of <code>octomino-snakes</code>, which enumerated and classified the 369 octominoes and is now archived and private. The bore toolchain kept growing after that work finished, and a live instrument should not depend on a frozen repository to rebuild its own parts.</p>
 <h2 id="install">Install</h2>
-<pre><code>git clone --depth 1 https://github.com/florianfesti/boxes.git
-cd boxes
+<p><code>bore_split.py</code> looks for Boxes.py at <code>~/boxes</code> and its interpreter at <code>~/boxes/venv/bin/python</code>, so cloning there needs no configuration; <code>SNAKEBOX_BOXES</code> and <code>SNAKEBOX_PY</code> override both.</p>
+<pre><code>git clone --depth 1 https://github.com/florianfesti/boxes.git ~/boxes
+cd ~/boxes
 python3 -m venv venv &amp;&amp; ./venv/bin/pip install -r requirements.txt
 cp /path/to/bore-generator/snakebox.py boxes/generators/
+./venv/bin/pip install numpy scipy shapely   # for check.py and nest.py
 ./venv/bin/python scripts/boxes SnakeBox --path=RRRRRRR --output=out.svg</code></pre>
 <p><code>SnakeBox</code> then also appears in the local web UI (<code>scripts/boxesserver</code>) under <em>Misc</em>.</p>
 <h2 id="usage">Usage</h2>
@@ -193,7 +198,9 @@ N N1 E2 S3 U2 N1 N 10 blocks, 2 pieces  B1  B2</code></pre>
 <h3 id="openings">Openings</h3>
 <p>The entry hole faces backwards along the way you travel, so the two openings end up opposite each other exactly when the entry and exit <strong>headings match</strong>. A bore that enters heading north and leaves heading north has openings on opposing faces; one that leaves east does not.</p>
 <h2 id="supporting-scripts">Supporting scripts</h2>
-<p>Plain Python 3, no dependencies beyond the standard library.</p>
+<p>Python 3. Most are standard library only; <code>check.py</code> needs <strong>shapely</strong> and <code>nest.py</code> needs <strong>numpy</strong> and <strong>scipy</strong>. Installing them into the Boxes.py venv means one interpreter runs everything and no environment variables are needed:</p>
+<pre><code>~/boxes/venv/bin/pip install numpy scipy shapely
+~/boxes/venv/bin/python bore_split.py "N N4 U3 E4 U3 S4 U3 W4 U3 N4 N" --write DIR</code></pre>
 <div class='tw'><table><thead><tr><th>Script</th><th>Does</th></tr></thead><tbody><tr><td><code>bore_split.py</code></td><td>turns a bore in the notation above into per-piece cut files</td></tr><tr><td><code>bore_render.py</code></td><td>draws a bore in 3D, coloured by piece, joints marked</td></tr><tr><td><code>check.py</code></td><td>runs every check on a bore's parts and sheets before cutting</td></tr><tr><td><code>assemble.py</code></td><td>folds a section up as a solid and tests whether its bore is sealed</td></tr><tr><td><code>nest.py</code></td><td>packs a bore's parts onto sheets four ways and reports the best</td></tr><tr><td><code>piece_render.py</code></td><td>draws one piece from six angles, each face coloured by the part it is</td></tr><tr><td><code>viewer.py</code></td><td>writes a bore as a page you can turn around with the mouse</td></tr><tr><td><code>mcwalk.py</code></td><td>draws a walk under Minecraft's rules, lighting up any cell filled twice</td></tr><tr><td><code>hilbert.py</code></td><td>emits a Hilbert cube as a walk</td></tr><tr><td><code>regress.py</code></td><td>runs the gate over every design in <code>walks/</code> and the design library</td></tr><tr><td><code>svgpath.py</code></td><td>reads the point list back out of an SVG path</td></tr></tbody></table></div>
 <p><code>bore_split.py</code> writes to <code>../../test</code> by default — the design library, kept outside every repository. Override it with an explicit path to <code>--write</code>.</p>
 <h2 id="walks"><code>walks/</code></h2>

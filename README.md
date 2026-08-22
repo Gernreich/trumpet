@@ -21,11 +21,16 @@ live instrument should not depend on a frozen repository to rebuild its own part
 
 ## Install
 
+`bore_split.py` looks for Boxes.py at `~/boxes` and its interpreter at
+`~/boxes/venv/bin/python`, so cloning there needs no configuration; `SNAKEBOX_BOXES`
+and `SNAKEBOX_PY` override both.
+
 ```sh
-git clone --depth 1 https://github.com/florianfesti/boxes.git
-cd boxes
+git clone --depth 1 https://github.com/florianfesti/boxes.git ~/boxes
+cd ~/boxes
 python3 -m venv venv && ./venv/bin/pip install -r requirements.txt
 cp /path/to/bore-generator/snakebox.py boxes/generators/
+./venv/bin/pip install numpy scipy shapely   # for check.py and nest.py
 ./venv/bin/python scripts/boxes SnakeBox --path=RRRRRRR --output=out.svg
 ```
 
@@ -419,7 +424,14 @@ opposing faces; one that leaves east does not.
 
 ## Supporting scripts
 
-Plain Python 3, no dependencies beyond the standard library.
+Python 3. Most are standard library only; `check.py` needs **shapely** and `nest.py`
+needs **numpy** and **scipy**. Installing them into the Boxes.py venv means one
+interpreter runs everything and no environment variables are needed:
+
+```sh
+~/boxes/venv/bin/pip install numpy scipy shapely
+~/boxes/venv/bin/python bore_split.py "N N4 U3 E4 U3 S4 U3 W4 U3 N4 N" --write DIR
+```
 
 | Script | Does |
 |---|---|
