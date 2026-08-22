@@ -70,11 +70,12 @@ only two, the turn is a fold and costs nothing at any spacing.
 
 **A walk that revisits a cell is refused.** The cells are the air path, so a cell
 filled twice is a junction with two ways out and no box section has an opening in
-four sides. Minecraft cannot catch this — filling an occupied cell there is a
-no-op, so a bore that runs back through itself still builds into a connected
-tunnel that looks right. `mcwalk.py` draws a walk under Minecraft's rules and
-lights up every cell filled more than once; reach for it when a walk is refused
-and the build looked fine.
+four sides. **Trust the build and suspect the transcription**: the design is laid
+out in Minecraft floating in open space, where a section running into an earlier
+one is plainly visible, so a refusal usually means the walk was written down
+wrong — and a wrong direction before a wrong length. `mcwalk.py` draws a refused
+walk under permissive rules and lights up every cell entered more than once,
+which the ordinary viewer cannot do.
 
 ## Colour is the cut order
 
