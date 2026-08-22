@@ -12,6 +12,13 @@ page, set for reading, with a table of contents.
 **[The rest of the build files](https://gernreich.github.io/)** — every instrument,
 generator and tool, indexed.
 
+**The bore being built is the coiled trumpet:**
+[`N N3 U6 W5 N10 E5 D3 S8 W3 D3 N12 N`](pages/coiled_trumpet.html) — 59 blocks, 1829 mm,
+8 sections, **no elbows anywhere**. Its cut files and writeup are in
+[trumpet-coiled](https://github.com/Gernreich/trumpet-coiled). Everything below is how
+that design was arrived at, starting from a first trumpet that used elbows and worked out
+what they cost.
+
 The SVGs regenerate byte-identical from the walk, so the walk and the generator are the
 real source — but they are kept here so there is something to send to the machine without
 running anything.
@@ -33,7 +40,11 @@ python3 bore_render.py "$W"                                   # the 3D view
 python3 check.py "$W" --files ../../test/first_trumpet        # cut nothing until it passes
 ```
 
-## The trumpet bore
+## The first trumpet bore
+
+The design this all started from, and **not** the one being built — it turns with elbows,
+which is what the rest of this page goes on to price. Compare it against the
+[coiled trumpet](pages/coiled_trumpet.html), which does the same job with none.
 
 [`N N10 U2 W2 S7 U2 E4 N9 W2 D2 N4 N`](first_trumpet/first_trumpet.html) — 45 blocks,
 1395 mm of centreline. **Every walk on this page is a link**: follow one and the bore
@@ -238,7 +249,8 @@ costs. An elbow's opening frame has three sides rather than four, and that
 missing side propagates into the pieces either side of it:
 
 What an elbow costs, counted across the designs here. **Flats, tongues and voids track
-elbows exactly** — the last two designs have none of any of them:
+elbows exactly** — every design with no elbows has none of any of them, and the design
+being built is one of those:
 
 | design | elbows | flats | tongues | voids | parts |
 | --- | ---: | ---: | ---: | ---: | ---: |
@@ -248,6 +260,7 @@ elbows exactly** — the last two designs have none of any of them:
 | [hilbert snorkel](hilbert_snorkel.html) | 24 | 26 | 20 | 4 | 260 |
 | [wide telescope](wide_telescope/wide_telescope.html) | **0** | 0 | 0 | 0 | 72 |
 | [metre spring](metre_spring/metre_spring.html) | **0** | 0 | 0 | 0 | 36 |
+| [**coiled trumpet**](pages/coiled_trumpet.html) — the one being built | **0** | 0 | 0 | 0 | 50 |
 
 A **flat** is a plate whose coupling was dropped because it faced an elbow's
 missing side: no tab, no notch, nothing to locate against. Two smooth faces
