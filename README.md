@@ -84,8 +84,7 @@ than a leak.
 **No ports.** A port opens one face plate so a change of plane can happen inside
 a piece, which would make this five sections rather than eight. It is not used:
 the plate it opens leaves that cell's walls supported on one side, with their
-fingers facing nothing, and it failed to assemble four times.
-`bore_split.py --ports` still turns it on; what remains is suppressing the fingers on the
+fingers facing nothing. `bore_split.py --ports` still turns it on; what remains is suppressing the fingers on the
 missing-plate side over the port cell.
 
 `trumpet_bore.png` is the assembled bore from six angles, coloured by section.
@@ -304,10 +303,9 @@ being wrong.
 fifty-three blocks into forty-eight cells: five land where a block already is, and the
 `S3 N12` at the end is a 180 that retraces its own last three blocks.
 
-**How a walk like that actually arises is transcription, not building.** That one came
-from typing `S3` where the build turned `D3`, and every attempt to fix it by changing
-the *lengths* failed, because the fault was a direction. Read the walk back off the
-page rather than off your memory of the build.
+**Check the notation, not the build.** A walk is a long string of letters and numbers
+describing something laid out by eye, and one wrong letter is enough. Read it back off
+the page rather than off your memory of the build.
 
 The reason it is fatal here and harmless there is what the cells are for. In
 Minecraft they are scenery. In a bore they are the air path, and a cell filled
@@ -336,9 +334,9 @@ was cut and thrown away:
 | the two plates are one part mirrored | a plate drawn a cell short, its fingers 2 mm out of phase |
 | no wall finger left unengaged | section 5's closed-end wall, hanging off one plate |
 | both sides agree on bore and tab size | an elbow tab sitting 1.5 mm off the centreline |
-| seam has no port | the joint that failed four times |
+| seam has no port | a port opening a face that carries a joint |
 | sheet fits the bed | a nested sheet 2 mm over |
-| no two parts overlap | 12 pairs cut through each other by a nesting bug |
+| no two parts overlap | parts sharing a cut line on a nested sheet |
 | engraving on material | labels placed in the notch of an L-shaped plate |
 | the section closes round its bore | a port, or any face left open |
 | the joint is closed | an end frame not backed by material |
@@ -452,11 +450,5 @@ server, so it goes stale silently unless it is regenerated after every edit.
 </p>
 
 *The first trumpet, six angles, coloured by section.*
-
-Three more pictures were named here and are not in the repository —
-`bore_UU2E2S2U2U.png` of the test bore, `bore_tunnel.png` of the notation, and
-`DR1F_assembly_guide.png` from the early `D R1 F` exercise. They were lost before this
-directory became a repository; the references are removed rather than left pointing at
-nothing.
 
 Released under [CC0 1.0](LICENSE).
