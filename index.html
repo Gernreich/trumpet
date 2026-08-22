@@ -83,7 +83,7 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <body>
 <button class="tog" type="button">theme</button>
 <div class="wrap">
-<nav><b>Contents</b><a class="l1" href="#bore-designs">Bore designs</a><a class="l2" href="#the-trumpet-bore">The trumpet bore</a><a class="l2" href="#when-a-turn-costs-a-section">When a turn costs a section</a><a class="l2" href="#how-big-a-piece-can-be">How big a piece can be</a><a class="l2" href="#what-a-walk-is-checked-for">What a walk is checked for</a><a class="l2" href="#before-cutting">Before cutting</a><a class="l2" href="#turning-one-around">Turning one around</a><a class="l2" href="#the-pictures">The pictures</a></nav>
+<nav><b>Contents</b><a class="l1" href="#bore-designs">Bore designs</a><a class="l2" href="#the-trumpet-bore">The trumpet bore</a><a class="l2" href="#when-a-turn-costs-a-section">When a turn costs a section</a><a class="l2" href="#how-big-a-piece-can-be">How big a piece can be</a><a class="l2" href="#what-a-walk-is-checked-for">What a walk is checked for</a><a class="l2" href="#before-cutting">Before cutting</a><a class="l2" href="#turning-one-around">Turning one around</a><a class="l2" href="#loose-pages">Loose pages</a><a class="l2" href="#the-pictures">The pictures</a></nav>
 <main>
 <h1 id="bore-designs">Bore designs</h1>
 <p>Every bore that has been worked out, built out into cut files and a viewer page and kept. This is the corpus <strong><a href="https://github.com/Gernreich/bore-generator">bore-generator</a></strong> regresses against: <code>regress.py</code> runs the full gate over these, which is the only reason any of it stays honest.</p>
@@ -188,6 +188,10 @@ python3 check.py "$W" --files ../test             # 234 checks, cut nothing unti
 <p>python3 bore_split.py --write out ../test/telescope_spiral/telescope_spiral.html python3 check.py ../test/tightest_coil.html python3 viewer.py walks/small_hook.txt --out again.html</p>
 <p><code>bore_split.py --write DIR</code> writes the page along with the cut files, so the two cannot drift apart. For a walk you are only looking at:</p>
 <p>python3 viewer.py "&lt;walk&gt;" --out ../test/&lt;name&gt;.html --title "&lt;Name&gt; Bore"</p>
+<h2 id="loose-pages">Loose pages</h2>
+<p>Three walks that got a viewer but never got cut. Each is a self-contained page — the walk is baked into it, so <code>bore_split.py</code> will read the cut files back out of any of them. All three are in <code>bore-generator/walks/</code> as well.</p>
+<div class='tw'><table><thead><tr><th></th><th>walk</th><th>why it is kept</th></tr></thead><tbody><tr><td><code>three_block_turn.html</code></td><td><code>E E8 U3 S8 S</code></td><td>the three-block minimum on its own: two long runs and the shortest leg that still turns without an elbow</td></tr><tr><td><code>hook_check.html</code></td><td><code>U U3 W3 N2 E1 E</code></td><td>the smallest walk that ends on a single block, which is where the splitter used to strand a turn</td></tr><tr><td><code>hilbert_snorkel.html</code></td><td>a Hilbert cube with an eight-block riser</td><td>the densest walk here, with the exit taken up and clear of the cube</td></tr></tbody></table></div>
+<p><code>index.html</code> is this README rendered by <code>md2html.py</code> and committed, not built on the server, so it goes stale silently unless it is regenerated after every edit.</p>
 <h2 id="the-pictures">The pictures</h2>
 <p>
 <img src="notation_explained.png" alt="A diagram of the walk notation: the entry letter, then each term as a direction and a distance in blocks" width="620">

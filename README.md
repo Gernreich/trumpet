@@ -424,6 +424,21 @@ two cannot drift apart. For a walk you are only looking at:
 
     python3 viewer.py "<walk>" --out ../test/<name>.html --title "<Name> Bore"
 
+## Loose pages
+
+Three walks that got a viewer but never got cut. Each is a self-contained page — the
+walk is baked into it, so `bore_split.py` will read the cut files back out of any of
+them. All three are in `bore-generator/walks/` as well.
+
+| | walk | why it is kept |
+| --- | --- | --- |
+| `three_block_turn.html` | `E E8 U3 S8 S` | the three-block minimum on its own: two long runs and the shortest leg that still turns without an elbow |
+| `hook_check.html` | `U U3 W3 N2 E1 E` | the smallest walk that ends on a single block, which is where the splitter used to strand a turn |
+| `hilbert_snorkel.html` | a Hilbert cube with an eight-block riser | the densest walk here, with the exit taken up and clear of the cube |
+
+`index.html` is this README rendered by `md2html.py` and committed, not built on the
+server, so it goes stale silently unless it is regenerated after every edit.
+
 ## The pictures
 
 <p>
