@@ -91,14 +91,15 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <p><strong><a href="https://gernreich.github.io/">The rest of the build files</a></strong> — every instrument, generator and tool, indexed.</p>
 <p>The SVGs regenerate byte-identical from the walk, so the walk and the generator are the real source — but they are kept here so there is something to send to the machine without running anything.</p>
 <p>The nested sheets are not kept: they assume a full sheet of material, and partly cut boards do not work that way. <code>nest.py</code> still produces them if a whole sheet ever comes up.</p>
-<pre><code>cd ../generator
+<p>The walk it is all built from, and <a href="first_trumpet/first_trumpet.html">the bore to turn around</a>:</p>
+<pre><code>cd ../GIT/bore-generator
 W="N N10 U2 W2 S7 U2 E4 N9 W2 D2 N4 N"
 
-python3 bore_split.py --write ../test "$W"        # the eight sections
-python3 nest.py "$W" --out ../test/nest.svg       # the same parts nested
-python3 nest.py "$W" --deepnest ../test/dn.svg    # input for Deepnest/SVGnest
-python3 bore_render.py "$W"                       # the 3D view
-python3 check.py "$W" --files ../test             # 234 checks, cut nothing until it passes</code></pre>
+python3 bore_split.py --write ../../test/first_trumpet "$W"   # the eight sections
+python3 nest.py "$W" --out ../../test/nest.svg                # the same parts nested
+python3 nest.py "$W" --deepnest ../../test/dn.svg             # for Deepnest/SVGnest
+python3 bore_render.py "$W"                                   # the 3D view
+python3 check.py "$W" --files ../../test/first_trumpet        # cut nothing until it passes</code></pre>
 <h2 id="the-trumpet-bore">The trumpet bore</h2>
 <pre><code>N N10 U2 W2 S7 U2 E4 N9 W2 D2 N4 N     45 blocks, 1395 mm of centreline</code></pre>
 <p>Read off a Minecraft model coloured by direction — yellow north, grey south, blue east, red west, orange up, green down, each block coloured by the way you travelled to reach it. 45 blocks matches the count recorded for the earlier build in <code>trumpet-curved</code>.</p>
@@ -118,16 +119,20 @@ python3 check.py "$W" --files ../test             # 234 checks, cut nothing unti
 <p>Everything about how a design splits follows from that.</p>
 <p><strong>Folding is free.</strong> Two turns in a row that use only two axes - north to up, then up to north again - stay in one plane and share a piece, however tightly they are packed:</p>
 <p>N N3 U1 N3 U1 N3 N     y and z only    1 section, 0 elbows N N3 U2 N3 U2 N3 N     y and z only    1 section, 0 elbows N N3 U3 N3 U3 N3 N     y and z only    1 section, 0 elbows</p>
+<p>Turn them around: <a href="pages/fold_u1.html">U1</a> · <a href="pages/fold_u2.html">U2</a> · <a href="pages/fold_u3.html">U3</a></p>
 <p><strong>Coiling costs three blocks a turn.</strong> Two turns in a row that reach a third axis - north to up, then up to east - leave the plane, so the piece breaks between them and each turn needs a straight block of its own:</p>
 <p>N N3 U1 E3 U1 S3 S     all three axes  7 sections, 4 elbows N N3 U2 E3 U2 S3 S     all three axes  5 sections, 2 elbows N N3 U3 E3 U3 S3 S     all three axes  3 sections, 0 elbows</p>
+<p>Turn them around: <a href="pages/coil_u1.html">U1</a> · <a href="pages/coil_u2.html">U2</a> · <a href="pages/coil_u3.html">U3</a></p>
 <p>Three blocks apart is the threshold: two straights between the turns, one for each. With one straight they fight over it and one turn is stranded on its own as a single-block elbow. With none - adjacent turns - both are.</p>
 <p>The turn that is not stranded becomes the corner of an <strong>L</strong>, and two Ls in place of an elbow is both fewer files and fewer parts:</p>
 <p>N N4 U1 E4 E   straight, elbow, elbow, straight   2 elbows  10 blocks, 16 parts N N4 U2 E4 E   straight, elbow, L                 1 elbow   11 blocks, 14 parts N N4 U3 E4 E   L, L                               0 elbows  12 blocks, 12 parts N N4 U4 E4 E   L, L                               0 elbows  13 blocks, 12 parts</p>
+<p>Turn them around: <a href="pages/two_ls_u1.html">U1</a> · <a href="pages/two_ls_u2.html">U2</a> · <a href="pages/two_ls_u3.html">U3</a> · <a href="pages/two_ls_u4.html">U4</a></p>
 <h3 id="writing-it">Writing it</h3>
 <p>Mid-walk, two Ls meeting is three consecutive terms on three different axes with <strong>3 in the middle</strong>:</p>
 <p>... E4 U3 S4 ...        east, up, south ... W4 N3 E6 ...        west, north, east ... S9 E3 U5 ...        south, east, up</p>
 <p>The outer numbers can be anything - 1, 4, 9, it makes no difference. Only the middle one has to be 3, because that is the leg the two pieces divide between them; the legs either side are already there and each supplies an arm for free. On its own, from a standing start, the same figure is six blocks:</p>
 <p>E E1 U3 S1 S</p>
+<p><a href="pages/six_block_turn.html">Turn it around.</a></p>
 <p>block  travels  turns        piece  role 1      E                     1    arm 2      U      E -&gt; U         1    corner 3      U                     1    arm 4      U                     2    arm 5      S      U -&gt; S         2    corner 6      S                     2    arm</p>
 <p>The seam always falls inside the three-block leg, one block to the piece behind and two to the piece ahead.</p>
 <p>Three is the number that is always safe rather than the number always needed, and what decides it is whether the three terms name three different axes.</p>
@@ -138,6 +143,7 @@ python3 check.py "$W" --files ../test             # 234 checks, cut nothing unti
 <p>W W1 N2 E1 E           on its own, one 5-block bend, no elbows U U4 W1 N2 E1 U4 U     the same fragment in a walk, 7 sections, 4 elbows</p>
 <p>U4 W1 N2   three axes  middle=1  costs an elbow W1 N2 E1   a fold      middle=2  fine N2 E1 U4   three axes  middle=1  costs an elbow</p>
 <p>U U4 W3 N2 E3 U4 U     the two ones widened, 3 sections, no elbows</p>
+<p>Turn them around: <a href="pages/fragment_alone.html">on its own</a> · <a href="pages/fragment_in_walk.html">in a walk</a> · <a href="pages/fragment_widened.html">widened</a></p>
 <p>W1 N2 E1 is a fold and free in itself - W and E are both the x axis. What costs is the W1 and the E1 each being the middle of their own window, where the terms either side reach a third axis.</p>
 <p>An L needs a straight block running out to each of its two ends - that is what gives the piece the flat end faces its neighbours couple to - so two turns can never share one straight between them. Whichever piece claims it, the other ends on a bending block, and a bending block cannot open on the rim. Adjacent turns therefore have no arrangement of Ls at all; that is geometry, not the splitter being careful.</p>
 <p>Note that this is the opposite trade from re-splitting a walk that is already written. Adding a block to move two turns apart buys an L and pays for itself; re-splitting the same blocks to avoid an elbow costs about two parts. The first changes the walk, the second only changes where the seams fall.</p>
@@ -162,7 +168,7 @@ python3 check.py "$W" --files ../test             # 234 checks, cut nothing unti
 <p><code>regress.py</code> runs the gate over every design in the repository, which is the only way any of this stays honest.</p>
 <h3 id="why-minecraft-will-not-catch-a-crossing">Why Minecraft will not catch a crossing</h3>
 <p>Building the walk in Minecraft first is a good habit and it cannot check it. Nothing there requires a tunnel to be a single unbranching path, so nothing there can object when it stops being one — it has no notion of a bore, and so no notion of a bore being wrong.</p>
-<p><code>N N3 U3 W5 N10 E5 S8 W3 S3 N12 N</code> is the example. Walked permissively it places fifty-three blocks into forty-eight cells: five land where a block already is, and the <code>S3 N12</code> at the end is a 180 that retraces its own last three blocks.</p>
+<p><code>N N3 U3 W5 N10 E5 S8 W3 S3 N12 N</code> is the example, and <a href="doubled_walk/doubled_walk.html">the page for it</a> draws it under Minecraft's rules with every doubled cell lit up. Walked permissively it places fifty-three blocks into forty-eight cells: five land where a block already is, and the <code>S3 N12</code> at the end is a 180 that retraces its own last three blocks.</p>
 <p><strong>Check the notation, not the build.</strong> A walk is a long string of letters and numbers describing something laid out by eye, and one wrong letter is enough. Read it back off the page rather than off your memory of the build.</p>
 <p>The reason it is fatal here and harmless there is what the cells are for. In Minecraft they are scenery. In a bore they are the air path, and a cell filled twice is a junction - the air arrives with two ways out. There is no box section with an opening in four sides, so the crossing cannot be cut at all.</p>
 <p><code>mcwalk.py</code> draws a walk under Minecraft's rules instead of the bore's, and lights up every cell that got filled more than once:</p>

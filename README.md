@@ -19,15 +19,17 @@ The nested sheets are not kept: they assume a full sheet of material, and
 partly cut boards do not work that way. `nest.py` still produces them if a
 whole sheet ever comes up.
 
+The walk it is all built from, and [the bore to turn around](first_trumpet/first_trumpet.html):
+
 ```sh
-cd ../generator
+cd ../GIT/bore-generator
 W="N N10 U2 W2 S7 U2 E4 N9 W2 D2 N4 N"
 
-python3 bore_split.py --write ../test "$W"        # the eight sections
-python3 nest.py "$W" --out ../test/nest.svg       # the same parts nested
-python3 nest.py "$W" --deepnest ../test/dn.svg    # input for Deepnest/SVGnest
-python3 bore_render.py "$W"                       # the 3D view
-python3 check.py "$W" --files ../test             # 234 checks, cut nothing until it passes
+python3 bore_split.py --write ../../test/first_trumpet "$W"   # the eight sections
+python3 nest.py "$W" --out ../../test/nest.svg                # the same parts nested
+python3 nest.py "$W" --deepnest ../../test/dn.svg             # for Deepnest/SVGnest
+python3 bore_render.py "$W"                                   # the 3D view
+python3 check.py "$W" --files ../../test/first_trumpet        # cut nothing until it passes
 ```
 
 ## The trumpet bore
@@ -107,6 +109,8 @@ they are packed:
     N N3 U2 N3 U2 N3 N     y and z only    1 section, 0 elbows
     N N3 U3 N3 U3 N3 N     y and z only    1 section, 0 elbows
 
+Turn them around: [U1](pages/fold_u1.html) · [U2](pages/fold_u2.html) · [U3](pages/fold_u3.html)
+
 **Coiling costs three blocks a turn.** Two turns in a row that reach a third
 axis - north to up, then up to east - leave the plane, so the piece breaks
 between them and each turn needs a straight block of its own:
@@ -114,6 +118,8 @@ between them and each turn needs a straight block of its own:
     N N3 U1 E3 U1 S3 S     all three axes  7 sections, 4 elbows
     N N3 U2 E3 U2 S3 S     all three axes  5 sections, 2 elbows
     N N3 U3 E3 U3 S3 S     all three axes  3 sections, 0 elbows
+
+Turn them around: [U1](pages/coil_u1.html) · [U2](pages/coil_u2.html) · [U3](pages/coil_u3.html)
 
 Three blocks apart is the threshold: two straights between the turns, one for
 each. With one straight they fight over it and one turn is stranded on its own
@@ -126,6 +132,8 @@ place of an elbow is both fewer files and fewer parts:
     N N4 U2 E4 E   straight, elbow, L                 1 elbow   11 blocks, 14 parts
     N N4 U3 E4 E   L, L                               0 elbows  12 blocks, 12 parts
     N N4 U4 E4 E   L, L                               0 elbows  13 blocks, 12 parts
+
+Turn them around: [U1](pages/two_ls_u1.html) · [U2](pages/two_ls_u2.html) · [U3](pages/two_ls_u3.html) · [U4](pages/two_ls_u4.html)
 
 ### Writing it
 
@@ -142,6 +150,8 @@ them; the legs either side are already there and each supplies an arm for
 free. On its own, from a standing start, the same figure is six blocks:
 
     E E1 U3 S1 S
+
+[Turn it around.](pages/six_block_turn.html)
 
     block  travels  turns        piece  role
       1      E                     1    arm
@@ -184,6 +194,8 @@ windows it forms with its neighbours:
         N2 E1 U4   three axes  middle=1  costs an elbow
 
     U U4 W3 N2 E3 U4 U     the two ones widened, 3 sections, no elbows
+
+Turn them around: [on its own](pages/fragment_alone.html) · [in a walk](pages/fragment_in_walk.html) · [widened](pages/fragment_widened.html)
 
 W1 N2 E1 is a fold and free in itself - W and E are both the x axis. What costs
 is the W1 and the E1 each being the middle of their own window, where the terms
@@ -299,7 +311,9 @@ there requires a tunnel to be a single unbranching path, so nothing there can ob
 when it stops being one — it has no notion of a bore, and so no notion of a bore
 being wrong.
 
-`N N3 U3 W5 N10 E5 S8 W3 S3 N12 N` is the example. Walked permissively it places
+`N N3 U3 W5 N10 E5 S8 W3 S3 N12 N` is the example, and
+[the page for it](doubled_walk/doubled_walk.html) draws it under Minecraft's rules with
+every doubled cell lit up. Walked permissively it places
 fifty-three blocks into forty-eight cells: five land where a block already is, and the
 `S3 N12` at the end is a 180 that retraces its own last three blocks.
 
