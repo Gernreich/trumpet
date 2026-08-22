@@ -5,6 +5,7 @@ This is the corpus **[bore-generator](https://github.com/Gernreich/bore-generato
 regresses against: `regress.py` runs the full gate over these, which is the only reason any
 of it stays honest.
 
+<!-- readme-only -->
 **[Read the writeup](https://gernreich.github.io/bore-designs/)** — the same text as this
 page, set for reading, with a table of contents.
 
