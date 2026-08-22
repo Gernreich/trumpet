@@ -336,6 +336,15 @@ floating in open space, knowing you are building a bore, and a section running i
 you laid down earlier is plainly visible while you are standing in it. **A build that
 looks right is evidence the bore works.**
 
+<p>
+<img src="minecraft/bore_in_glass_1.png" alt="A bore built in Minecraft from translucent glass blocks, floating in open sky: two long parallel runs joined at one end, with solid coloured blocks marking where the bore changes direction" width="440">
+<img src="minecraft/bore_in_glass_2.png" alt="The same bore from a second angle, showing the short link between the two long runs and the ends where the bore turns" width="380">
+</p>
+
+*The same bore from two angles. Glass for the straight runs, a solid colour at every turn —
+and nothing else in frame, which is what makes a section running into an earlier one
+obvious rather than something you have to look for.*
+
 What goes wrong afterwards is writing it down. A walk is a long string of letters and
 numbers transcribed from something you built by eye, and one wrong letter is enough —
 which is a job a human is bad at and a script is good at. So: **trust the build, and let
