@@ -35,14 +35,14 @@ python3 check.py "$W" --files ../../test/first_trumpet        # cut nothing unti
 
 ## The trumpet bore
 
-```
-N N10 U2 W2 S7 U2 E4 N9 W2 D2 N4 N     45 blocks, 1395 mm of centreline
-```
+[`N N10 U2 W2 S7 U2 E4 N9 W2 D2 N4 N`](first_trumpet/first_trumpet.html) — 45 blocks,
+1395 mm of centreline. **Every walk on this page is a link**: follow one and the bore
+opens in a page you can turn around with the mouse, colour by direction or by section,
+and step through block by block.
 
 Read off a Minecraft model coloured by direction — yellow north, grey south,
 blue east, red west, orange up, green down, each block coloured by the way you
-travelled to reach it. 45 blocks matches the count recorded for the earlier
-build in `trumpet-curved`.
+travelled to reach it.
 
 Eight sections, numbered along the bore from the mouthpiece. Every part is
 engraved with its section number and nothing else, about 1.7 mm tall — enough
@@ -90,8 +90,6 @@ the plate it opens leaves that cell's walls supported on one side, with their
 fingers facing nothing. `bore_split.py --ports` still turns it on; what remains is suppressing the fingers on the
 missing-plate side over the port cell.
 
-`trumpet_bore.png` is the assembled bore from six angles, coloured by section.
-
 ## When a turn costs a section
 
 A piece is cut as a flat snake and its opening sits on the rim, opposite the
@@ -106,21 +104,21 @@ Everything about how a design splits follows from that.
 then up to north again - stay in one plane and share a piece, however tightly
 they are packed:
 
-    N N3 U1 N3 U1 N3 N     y and z only    1 section, 0 elbows
-    N N3 U2 N3 U2 N3 N     y and z only    1 section, 0 elbows
-    N N3 U3 N3 U3 N3 N     y and z only    1 section, 0 elbows
-
-Turn them around: [U1](pages/fold_u1.html) · [U2](pages/fold_u2.html) · [U3](pages/fold_u3.html)
+| walk | axes | cost |
+| --- | --- | --- |
+| [`N N3 U1 N3 U1 N3 N`](pages/fold_u1.html) | y and z only | 1 section, 0 elbows |
+| [`N N3 U2 N3 U2 N3 N`](pages/fold_u2.html) | y and z only | 1 section, 0 elbows |
+| [`N N3 U3 N3 U3 N3 N`](pages/fold_u3.html) | y and z only | 1 section, 0 elbows |
 
 **Coiling costs three blocks a turn.** Two turns in a row that reach a third
 axis - north to up, then up to east - leave the plane, so the piece breaks
 between them and each turn needs a straight block of its own:
 
-    N N3 U1 E3 U1 S3 S     all three axes  7 sections, 4 elbows
-    N N3 U2 E3 U2 S3 S     all three axes  5 sections, 2 elbows
-    N N3 U3 E3 U3 S3 S     all three axes  3 sections, 0 elbows
-
-Turn them around: [U1](pages/coil_u1.html) · [U2](pages/coil_u2.html) · [U3](pages/coil_u3.html)
+| walk | axes | cost |
+| --- | --- | --- |
+| [`N N3 U1 E3 U1 S3 S`](pages/coil_u1.html) | all three axes | 7 sections, 4 elbows |
+| [`N N3 U2 E3 U2 S3 S`](pages/coil_u2.html) | all three axes | 5 sections, 2 elbows |
+| [`N N3 U3 E3 U3 S3 S`](pages/coil_u3.html) | all three axes | 3 sections, 0 elbows |
 
 Three blocks apart is the threshold: two straights between the turns, one for
 each. With one straight they fight over it and one turn is stranded on its own
@@ -129,30 +127,33 @@ as a single-block elbow. With none - adjacent turns - both are.
 The turn that is not stranded becomes the corner of an **L**, and two Ls in
 place of an elbow is both fewer files and fewer parts:
 
-    N N4 U1 E4 E   straight, elbow, elbow, straight   2 elbows  10 blocks, 16 parts
-    N N4 U2 E4 E   straight, elbow, L                 1 elbow   11 blocks, 14 parts
-    N N4 U3 E4 E   L, L                               0 elbows  12 blocks, 12 parts
-    N N4 U4 E4 E   L, L                               0 elbows  13 blocks, 12 parts
-
-Turn them around: [U1](pages/two_ls_u1.html) · [U2](pages/two_ls_u2.html) · [U3](pages/two_ls_u3.html) · [U4](pages/two_ls_u4.html)
+| walk | pieces | elbows | blocks | parts |
+| --- | --- | ---: | ---: | ---: |
+| [`N N4 U1 E4 E`](pages/two_ls_u1.html) | straight, elbow, elbow, straight | 2 | 10 | 16 |
+| [`N N4 U2 E4 E`](pages/two_ls_u2.html) | straight, elbow, L | 1 | 11 | 14 |
+| [`N N4 U3 E4 E`](pages/two_ls_u3.html) | L, L | 0 | 12 | 12 |
+| [`N N4 U4 E4 E`](pages/two_ls_u4.html) | L, L | 0 | 13 | 12 |
 
 ### Writing it
 
 Mid-walk, two Ls meeting is three consecutive terms on three different axes
 with **3 in the middle**:
 
-    ... E4 U3 S4 ...        east, up, south
-    ... W4 N3 E6 ...        west, north, east
-    ... S9 E3 U5 ...        south, east, up
+| fragment | axes |
+| --- | --- |
+| [`... E4 U3 S4 ...`](pages/mid_E4U3S4.html) | east, up, south |
+| [`... W4 N3 E6 ...`](pages/mid_W4N3E6.html) | west, north, east |
+| [`... S9 E3 U5 ...`](pages/mid_S9E3U5.html) | south, east, up |
+
+Each link opens the fragment inside a complete walk, since a fragment on its own has
+no way in or out.
 
 The outer numbers can be anything - 1, 4, 9, it makes no difference. Only the
 middle one has to be 3, because that is the leg the two pieces divide between
 them; the legs either side are already there and each supplies an arm for
 free. On its own, from a standing start, the same figure is six blocks:
 
-    E E1 U3 S1 S
-
-[Turn it around.](pages/six_block_turn.html)
+[`E E1 U3 S1 S`](pages/six_block_turn.html)
 
     block  travels  turns        piece  role
       1      E                     1    arm
@@ -168,11 +169,13 @@ and two to the piece ahead.
 Three is the number that is always safe rather than the number always needed,
 and what decides it is whether the three terms name three different axes.
 
-    ... W9 N2 U9 ...    x, z, y - all different    1 elbow, in every context
-    ... W9 N3 U9 ...                               0 elbows, two 11-block Ls
-    ... U5 W4 N2 E6 ...  two turns only            0 elbows, the search has slack
+| fragment | why | cost |
+| --- | --- | --- |
+| [`... W9 N2 U9 ...`](pages/unlucky_W9N2U9.html) | x, z, y — all different | **1 elbow**, in every context |
+| [`... W9 N3 U9 ...`](pages/fixed_W9N3U9.html) | the middle widened to 3 | 0 elbows, two 11-block Ls |
+| [`... U5 W4 N2 E6 ...`](pages/slack_U5W4N2E6.html) | two turns only | 0 elbows, the search has slack |
 
-`W9 N2 U9` is the unlucky shape: both turns leave the plane, so they need an arm
+[`W9 N2 U9`](pages/unlucky_W9N2U9.html) is the unlucky shape: both turns leave the plane, so they need an arm
 each, and the two-block leg has one straight block to give. One turn takes it,
 the other is left bare. The nine-block legs either side do not help - the
 problem is between the turns, not outside them - and no context rescued it:
@@ -187,16 +190,19 @@ Apply that to **every** window of three terms, not the one you happen to be
 looking at. A fragment can be blameless and still cost elbows through the
 windows it forms with its neighbours:
 
-    W W1 N2 E1 E           on its own, one 5-block bend, no elbows
-    U U4 W1 N2 E1 U4 U     the same fragment in a walk, 7 sections, 4 elbows
+| walk | what it is | cost |
+| --- | --- | --- |
+| [`W W1 N2 E1 E`](pages/fragment_alone.html) | the fragment on its own | one 5-block bend, no elbows |
+| [`U U4 W1 N2 E1 U4 U`](pages/fragment_in_walk.html) | the same fragment in a walk | 7 sections, **4 elbows** |
+| [`U U4 W3 N2 E3 U4 U`](pages/fragment_widened.html) | the two ones widened | 3 sections, no elbows |
 
-        U4 W1 N2   three axes  middle=1  costs an elbow
-        W1 N2 E1   a fold      middle=2  fine
-        N2 E1 U4   three axes  middle=1  costs an elbow
+The middle one costs four elbows because of the windows it forms, not the fragment:
 
-    U U4 W3 N2 E3 U4 U     the two ones widened, 3 sections, no elbows
-
-Turn them around: [on its own](pages/fragment_alone.html) · [in a walk](pages/fragment_in_walk.html) · [widened](pages/fragment_widened.html)
+| window | axes | middle | cost |
+| --- | --- | ---: | --- |
+| `U4 W1 N2` | three axes | 1 | an elbow |
+| `W1 N2 E1` | a fold | 2 | fine |
+| `N2 E1 U4` | three axes | 1 | an elbow |
 
 W1 N2 E1 is a fold and free in itself - W and E are both the x axis. What costs
 is the W1 and the E1 each being the middle of their own window, where the terms
@@ -231,13 +237,17 @@ It is still the right setting, because the part count is not what an elbow
 costs. An elbow's opening frame has three sides rather than four, and that
 missing side propagates into the pieces either side of it:
 
-    design             elbows   flats  tongues  voids  parts
-    first trumpet          3       6        0      3     44
-    spiral trumpet         3       5        1      2     68
-    telescope spiral      11      18        2      9    106
-    hilbert snorkel       24      26       20      4    260
-    wide telescope         0       0        0      0     72
-    metre spring           0       0        0      0     36
+What an elbow costs, counted across the designs here. **Flats, tongues and voids track
+elbows exactly** — the last two designs have none of any of them:
+
+| design | elbows | flats | tongues | voids | parts |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| [first trumpet](first_trumpet/first_trumpet.html) | 3 | 6 | 0 | 3 | 44 |
+| [spiral trumpet](spiral_trumpet/spiral_trumpet.html) | 3 | 5 | 1 | 2 | 68 |
+| [telescope spiral](telescope_spiral/telescope_spiral.html) | 11 | 18 | 2 | 9 | 106 |
+| [hilbert snorkel](hilbert_snorkel.html) | 24 | 26 | 20 | 4 | 260 |
+| [wide telescope](wide_telescope/wide_telescope.html) | **0** | 0 | 0 | 0 | 72 |
+| [metre spring](metre_spring/metre_spring.html) | **0** | 0 | 0 | 0 | 36 |
 
 A **flat** is a plate whose coupling was dropped because it faced an elbow's
 missing side: no tab, no notch, nothing to locate against. Two smooth faces
@@ -254,8 +264,9 @@ square in mid-air is not a close trade.
 Two other ways a turn becomes an elbow:
 
 * **A turn in the last block of the bore.** There is nothing after it to make
-  it interior, so it is always its own piece. Ending `N5 U` rather than `N5 U1`
-  costs a file for that reason.
+  it interior, so it is always its own piece. [`N N5 U`](pages/last_block_turn.html)
+  is 6 blocks in **2** pieces; [`N N5 U1 U`](pages/last_block_straight.html) is 7
+  blocks in **1**. One block further along the bore costs a file fewer.
 * **A bed split** landing on a turn, if the piece would otherwise be too big.
 
 Which is why the designs here come out so differently. The switchback ramp
@@ -312,9 +323,10 @@ there requires a tunnel to be a single unbranching path, so nothing there can ob
 when it stops being one — it has no notion of a bore, and so no notion of a bore
 being wrong.
 
-`N N3 U3 W5 N10 E5 S8 W3 S3 N12 N` is the example, and
-[the page for it](doubled_walk/doubled_walk.html) draws it under Minecraft's rules with
-every doubled cell lit up. Walked permissively it places
+[`N N3 U3 W5 N10 E5 S8 W3 S3 N12 N`](doubled_walk/doubled_walk.html) is the example —
+that page draws it under Minecraft's rules rather than the bore's, with every doubled
+cell lit up, since a walk this one is refused cannot open in the ordinary viewer.
+Walked permissively it places
 fifty-three blocks into forty-eight cells: five land where a block already is, and the
 `S3 N12` at the end is a 180 that retraces its own last three blocks.
 
@@ -330,8 +342,9 @@ with an opening in four sides, so the crossing cannot be cut at all.
 `mcwalk.py` draws a walk under Minecraft's rules instead of the bore's, and
 lights up every cell that got filled more than once:
 
+    cd ../GIT/bore-generator
     python3 mcwalk.py "N N3 U3 W5 N10 E5 S8 W3 S3 N12 N" \
-        --out ../test/doubled_walk/doubled_walk.html --title "..."
+        --out ../../test/doubled_walk/doubled_walk.html --title "..."
 
 Use it when a walk is refused and the build looked fine. The step slider is the
 tell: scrub it and watch *placed* keep climbing while *cells filled* stalls.
@@ -418,9 +431,10 @@ The walks with no cut files sit loose in `test/`:
     stepped_coil.html      40 blocks    six loops marching diagonally, 26 sections
     switchback_ramp.html   91 blocks    eight hairpins climbing, 17 sections, no elbows
 
-The last two are worth reading together. The stepped coil is `U1 W1 S2 E2` six
-times over and costs 116 parts for 40 blocks; the switchback ramp is the same
-idea with every leg widened, `U2 W3 S3 E3`, and costs 132 parts for 91. Same
+The last two are worth reading together. The [stepped coil](stepped_coil.html) is
+`U1 W1 S2 E2` six times over and costs 116 parts for 40 blocks; the
+[switchback ramp](switchback_ramp.html) is the same idea with every leg widened,
+`U2 W3 S3 E3`, and costs 132 parts for 91. Same
 family, less than half the parts per block, because a leg of one block forces
 a standalone elbow and a leg of three does not.
 
@@ -443,27 +457,18 @@ Three walks that got a viewer but never got cut. Each is a self-contained page �
 walk is baked into it, so `bore_split.py` will read the cut files back out of any of
 them. All three are in `bore-generator/walks/` as well.
 
-| | walk | why it is kept |
-| --- | --- | --- |
-| `three_block_turn.html` | `E E8 U3 S8 S` | the three-block minimum on its own: two long runs and the shortest leg that still turns without an elbow |
-| `hook_check.html` | `U U3 W3 N2 E1 E` | the smallest walk that ends on a single block, which is where the splitter used to strand a turn |
-| `hilbert_snorkel.html` | a Hilbert cube with an eight-block riser | the densest walk here, with the exit taken up and clear of the cube |
+| walk | why it is kept |
+| --- | --- |
+| [`E E8 U3 S8 S`](three_block_turn.html) | the three-block minimum on its own: two long runs and the shortest leg that still turns without an elbow |
+| [`U U3 W3 N2 E1 E`](hook_check.html) | the smallest walk that ends on a single block, which is where the splitter used to strand a turn |
+| [a Hilbert cube with an eight-block riser](hilbert_snorkel.html) | the densest walk here, with the exit taken up and clear of the cube |
+
+The snorkel's walk is 60 terms and does not fit a table cell; it is on
+[its own page](hilbert_snorkel.html), and in full here:
+
+    U U4 E2 D2 S2 U2 W2 D2 S4 E2 N2 U2 S2 W2 N2 U2 S2 U2 N2 E2 S2 D2 N4 W2 U2 E2 N2 W2 D2 E6 U2 W2 S2 E2 D2 W2 S4 U2 N2 E2 S2 D2 N2 D2 S2 W2 N2 D2 S2 E2 N4 U2 W2 D2 N2 U2 E2 D2 E1 U8
 
 `index.html` is this README rendered by `md2html.py` and committed, not built on the
 server, so it goes stale silently unless it is regenerated after every edit.
-
-## The pictures
-
-<p>
-<img src="notation_explained.png" alt="A diagram of the walk notation: the entry letter, then each term as a direction and a distance in blocks" width="620">
-</p>
-
-*The notation, laid out.*
-
-<p>
-<img src="first_trumpet/trumpet_bore.png" alt="The first trumpet bore assembled, shown from six angles and coloured by section" width="620">
-</p>
-
-*The first trumpet, six angles, coloured by section.*
 
 Released under [CC0 1.0](LICENSE).
