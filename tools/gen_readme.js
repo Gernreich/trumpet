@@ -27,21 +27,32 @@ const totalFailed = Object.values(checks).reduce((a, c) => a + c.failed, 0);
 const tbl = (flag) => cp.execSync(`node ${JSON.stringify(path.join(__dirname,'table.js'))} --md ${flag}`,
                                   { encoding: 'utf8' }).trim();
 const best  = f => rows.slice().sort((a, b) => f(a) - f(b))[0];
-const yours = rows.find(r => r.name === 'staircase_coil');
+// The walk this started from, found through derived.txt rather than by name:
+// standardising renamed every coil.
+const derived = Object.fromEntries(
+  fs.readFileSync(path.join(root,'derived.txt'),'utf8').split('\n')
+    .map(l => l.replace(/#.*/,'').trim()).filter(Boolean)
+    .map(l => { const [n, ...src] = l.split(/\s+/); return [n, src]; }));
+const yours = rows.find(r => (derived[r.name] || []).includes('staircase_coil')) || rows[0];
 const box   = best(r => r.m.vol);
 const rise  = best(r => r.m.risePer360);
 const tube  = best(r => r.m.blocksPer360);
-const pcs   = best(r => r.p.pieces);
-const dist  = best(r => r.p.distinct);
+const pcs   = best(r => r.p.innerPieces);
+const dist  = best(r => r.p.interiorDistinct);
 const calm  = best(r => r.m.turnsPerMetre);
 const clean = rows.filter(r => r.m.touching === 0).sort((a,b) => a.m.vol - b.m.vol)[0];
 const plateBest = rows.slice().sort((a,b) => b.p.meanPlate - a.p.meanPlate)[0];
+// picked from the data, not named: standardising renamed every coil
+const fewestShapes = rows.slice().sort((a,b) => a.p.interiorDistinct - b.p.interiorDistinct)[0];
+const thinnest = rows.slice().sort((a,b) => (a.m.cross[0]*a.m.cross[1]) - (b.m.cross[0]*b.m.cross[1]))[0];
+const fattest  = rows.slice().sort((a,b) => (b.m.cross[0]*b.m.cross[1]) - (a.m.cross[0]*a.m.cross[1]))[0];
+const worstEnds = rows.slice().sort((a,b) => (b.p.distinct - b.p.interiorDistinct) - (a.p.distinct - a.p.interiorDistinct))[0];
 const L = r => `[\`${r.name}\`](pages/${r.name}.html)`;
 const { rows: srows, R: SR } = require('./score.js');
 const { results: minres } = require('./minimal.js');
 const minimal = minres.filter(r => r.saving === 0).map(r => r.name);
 const slackiest = minres.slice().sort((a, b) => b.saving - a.saving)[0];
-const stair = minres.find(r => r.name === 'staircase_coil');
+const stair = minres.find(r => r.name === yours.name) || minres[0];
 const { MEANS: SM } = require('./score.js');
 const wins = SM.map(M => srows.slice().sort((a,b) => SR[M.k].get(a.name) - SR[M.k].get(b.name))[0].name);
 const tally = {}; for (const w of wins) tally[w] = (tally[w] || 0) + 1;
@@ -66,6 +77,33 @@ than a page of HTML source.
 **[The rest of the build files](https://gernreich.github.io/)** — every instrument,
 generator and tool, indexed.
 
+## Standardised
+
+Every coil here is in the same orientation, so two coils differ only where they really
+differ:
+
+* **forward is north** for all of them, and each walk opens on a north term
+* **counter-clockwise**, seen looking along the bore from the mouth
+* **whole periods only**, as many as fit within three times the longest period
+  (48 x 3 = 144 blocks)
+* **one block in, one block out**, and no partial period between them
+
+A bore opens at both ends, so the first and last piece cannot be removed — they are
+bounded by the mouth and the exit rather than by a neighbour, and the notation says as
+much: the first term is only the way you came in. What is standardised is that every
+walk has exactly one of each, and the judged metrics ignore them regardless.
+
+Standardising collapsed 30 walks into ${rows.length}: several that looked different were the same
+coil in another orientation, and [\`derived.txt\`](derived.txt) records which. The hand
+reduction of the staircase coil, the tool's reduction of it, and the extension of the
+hand reduction all turn out to be one coil.
+
+**The one cost.** Whole periods of different lengths cannot all reach 144, so the bores
+run ${Math.min(...rows.map(r=>r.full.blocks))} to ${Math.max(...rows.map(r=>r.full.blocks))} blocks — ${Math.min(...rows.map(r=>r.full.mm))}mm to ${Math.max(...rows.map(r=>r.full.mm))}mm, a spread of ${((Math.max(...rows.map(r=>r.full.mm))/Math.min(...rows.map(r=>r.full.mm))-1)*100).toFixed(0)}%. That is much wider
+than the 1.6% the set used to hold, and it flatters the shorter coils on every measure
+of size: a 127-block coil has less tube to put anywhere. Read the box column with the
+blocks column beside it.
+
 ## Shape and cost
 
 ${tbl('--shape')}
@@ -76,20 +114,16 @@ box, smallest first.
 **The bore's mouth and exit are not judged.** Every design has them, no design chooses
 them, and they are the two pieces that never join the rhythm — so every column here
 except blocks and mm is measured on the interior, the pieces in between. It is not a
-cosmetic change: the ends stick out of the envelope they bracket. \`staircase_coil\`
-measures ${rows.find(r=>r.name==='staircase_coil').m.vol} rather than ${rows.find(r=>r.name==='staircase_coil').full.vol}, and \`coil_2x2_146\` needs ${rows.find(r=>r.name==='coil_2x2_146').p.interiorDistinct} shapes rather than
-${rows.find(r=>r.name==='coil_2x2_146').p.distinct}. Blocks and mm still describe the whole bore, because that is what the bore is.
+cosmetic change: the ends stick out of the envelope they bracket. \`${worstEnds.name}\` needs ${worstEnds.p.interiorDistinct} shapes
+rather than ${worstEnds.p.distinct}, the difference being end pieces alone. Blocks and mm still describe the whole bore, because that is what the bore is.
 
 **Cross-section** is the envelope with the coil axis taken out — how fat the coil is,
-which is what decides whether it fits inside anything. It is not implied by the box:
-${L(rows.find(r => r.name === 'coil_2x2_146'))} and ${L(rows.find(r => r.name === 'coil_4x7_20'))}
-are within 5% of each other on box and are ${rows.find(r=>r.name==='coil_2x2_146').m.cross.join('x')} and
-${rows.find(r=>r.name==='coil_4x7_20').m.cross.join('x')} in section.
+which is what decides whether it fits inside anything. It is not implied by the box: ${L(thinnest)} is
+${thinnest.m.cross.join('x')} in section and ${L(fattest)} is ${fattest.m.cross.join('x')}, and the box does not say so.
 
 **Distinct** is how many different piece shapes the cut list holds. A coil built by
 repeating one period needs only a handful, however long it runs: ${dist.name} is
-${dist.p.pieces} pieces cut from ${dist.p.distinct} shapes. The staircase coil needs
-${yours.p.distinct}. That is files to check and parts to tell apart on the bench, and it
+${dist.p.pieces} pieces cut from ${dist.p.distinct} shapes. The widest needs ${rows.slice().sort((a,b)=>b.p.interiorDistinct-a.p.interiorDistinct)[0].p.interiorDistinct}. That is files to check and parts to tell apart on the bench, and it
 does not show up in the piece count at all.
 
 **Rhythm** is how many pieces you lay before the cut list starts over, and how many
@@ -97,8 +131,8 @@ times it recurs. It is descriptive, not scored: across coils built by repeating 
 it barely varies — ${rows.filter(r => r.p.rhythm === 4).length} of the ${rows.length} here are a 4-piece rhythm — and a near-constant metric
 in a mean only dilutes the ones that discriminate. It is worth knowing at the bench all
 the same, and it is not the same thing as **distinct**: the two rank the set alike in
-only 6 of ${rows.length} places. \`coil_3x3_53_2\` is ${rows.find(r=>r.name==='coil_3x3_53_2').p.interiorDistinct} shapes laid in a 4-piece cycle, repeated
-${rows.find(r=>r.name==='coil_3x3_53_2').p.repeats.toFixed(1)} times, plus a one-off end.
+only 6 of ${rows.length} places. \`${fewestShapes.name}\` is ${fewestShapes.p.interiorDistinct} shapes laid in a
+${fewestShapes.p.rhythm}-piece cycle repeated ${fewestShapes.p.repeats.toFixed(1)} times, between the two end pieces.
 
 **Mean plate** is the average bounding box a piece is cut from, in mm2 — the
 laser-cutting number. Fewer, larger parts means less weeding, less sorting and fewer
@@ -108,9 +142,17 @@ them. \`${plateBest.name}\` averages ${Math.round(plateBest.p.meanPlate).toLocal
 Average *blocks* per piece was the other reading of the same idea and is not used: the
 block count varies by only ${((Math.max(...rows.map(r=>r.m.blocks))/Math.min(...rows.map(r=>r.m.blocks))-1)*100).toFixed(1)}% across the set, so blocks-per-piece is very nearly the
 reciprocal of the piece count and ranks the set the same way in 15 of ${rows.length} places. Plate
-area is not redundant: \`coil_3x3_53_2\`, \`coil_3x9_18\` and \`coil_4x8_18\` all split into
-35 pieces and cannot be told apart by blocks-per-piece at all, while their mean plates
-are ${[ 'coil_3x3_53_2','coil_4x8_18','coil_3x9_18' ].map(n => Math.round(rows.find(r=>r.name===n).p.meanPlate).toLocaleString('en-US')).join(', ')} mm2.
+area is not redundant: ${(() => {
+  const byPieces = {};
+  for (const r of rows) (byPieces[r.p.innerPieces] ||= []).push(r);
+  const tie = Object.values(byPieces).filter(g => g.length > 1)
+    .sort((a,b) => b.length - a.length)[0];
+  if (!tie) return 'coils that tie on piece count still differ on it';
+  return tie.map(r => '\`' + r.name + '\`').join(', ') + ' all split into ' +
+    tie[0].p.innerPieces + ' pieces and cannot be told apart by blocks-per-piece at all, ' +
+    'while their mean plates are ' +
+    tie.map(r => Math.round(r.p.meanPlate).toLocaleString('en-US')).join(', ') + ' mm2';
+})()}.
 
 It is a bounding box, not the cut outline — an L-shaped piece leaves its corner behind
 — so it measures the size of the part, not the material consumed.
@@ -154,13 +196,13 @@ so a coil that runs east is measured against east.
 
 No single spiral wins, because the measures disagree.
 
-| | winner | against the staircase coil |
+| | winner | against the walk this started from |
 | --- | --- | --- |
 | smallest box | ${L(box)} — ${box.m.vol} | ${yours.m.vol}, so ${(yours.m.vol/box.m.vol).toFixed(2)}x larger |
 | tightest spiral (least rise per turn) | ${L(rise)} — ${Math.round(rise.m.riseMMPer360)}mm | ${Math.round(yours.m.riseMMPer360)}mm, so ${(yours.m.risePer360/rise.m.risePer360).toFixed(1)}x slacker |
 | least tube per turn | ${L(tube)} — ${tube.m.blocksPer360.toFixed(1)} blk | ${yours.m.blocksPer360.toFixed(1)} blk, within ${((yours.m.blocksPer360/tube.m.blocksPer360-1)*100).toFixed(0)}% |
-| fewest pieces | ${L(pcs)} — ${pcs.p.pieces} | ${yours.p.pieces} |
-| fewest distinct shapes | ${L(dist)} — ${dist.p.distinct} | ${yours.p.distinct} |
+| fewest pieces | ${L(pcs)} — ${pcs.p.innerPieces} | ${yours.p.innerPieces} |
+| fewest distinct shapes | ${L(dist)} — ${dist.p.interiorDistinct} | ${yours.p.interiorDistinct} |
 | largest average plate | ${L(plateBest)} — ${Math.round(plateBest.p.meanPlate).toLocaleString('en-US')} mm2 | ${Math.round(yours.p.meanPlate).toLocaleString('en-US')} mm2 |
 | calmest bore (fewest turns/m) | ${L(calm)} — ${calm.m.turnsPerMetre.toFixed(1)} | ${yours.m.turnsPerMetre.toFixed(1)} |
 | smallest box with no shared wall | ${L(clean)} — ${clean.m.vol} | ${yours.m.vol}, also ${yours.m.touching} shared |
@@ -185,8 +227,9 @@ it disagrees with the box often enough to change which coil you would build.
 
 ## Every block load-bearing
 
-\`coil_5x5_28\` was derived from \`staircase_coil\` by removing blocks wherever one could
-go without introducing an elbow, and \`coil_5x5_55\` is that walk at comparable length.
+The staircase coil was reduced by hand — blocks removed wherever one could go without
+introducing an elbow — and that reduction is in this set. (The names below predate
+standardising, which renamed every coil; [\`derived.txt\`](derived.txt) maps them.)
 \`tools/minimal.js\` checks the claim: a term's floor is 3 in a coil window, 2 in a
 hairpin, 1 in a step, and a walk whose every term sits on its floor cannot be shortened
 at all.
@@ -194,8 +237,9 @@ at all.
     node tools/minimal.js            # every walk
     node tools/minimal.js --terms    # and which terms have slack
 
-The staircase coil has ${stair.saving} terms with slack, every one a hairpin sitting at 3 where 2
-would do — and the derived walk has **none**. The reduction was exhaustive.
+Before it was reduced, the staircase coil had 16 terms with slack, every one a hairpin
+sitting at 3 where 2 would do, and the reduction left **none**. It was exhaustive: the
+tool later reproduced it exactly, and standardising then showed the two to be one coil.
 
 It also says something about the search. Only **${minimal.length} of ${minres.length}** walks here are minimal:
 ${minimal.map(n => '\`' + n + '\`').join(', ')}. The search enumerated periods with legs up to
@@ -213,8 +257,8 @@ through \`bore_split.py\`.
 enumerate rather than apply, because **coiling is global and the elbow rule is local**.
 A period coils only if it closes: drifting on one axis and returning to where it started
 on the other two. Shorten one leg and not its opposite and the period stops closing, so
-the walk wanders off diagonally instead of coiling. Taken naively, \`coil_3x3_47\` goes
-from a box of 423 to **10,452** — still elbow-free, no longer a coil.
+the walk wanders off diagonally instead of coiling. Taken naively, one coil went from a
+box of 423 to **10,452** — still elbow-free, no longer a coil.
 
 Keeping only the reductions that still close and still wind a whole number of turns, 14
 of the ${minres.length} walks reduce. What that buys:
@@ -226,17 +270,16 @@ of the ${minres.length} walks reduce. What that buys:
 | touching reduced | 2 |
 | touching increased | 6 |
 
-And **nothing it produces beats what was already here.** The smallest box is still
-\`coil_3x3_47\` at 423 against the reduced field's 462; the smallest walls-free is still
-\`coil_3x3_53\` at 477 against 522.
+And **nothing it produced beat what was already there**: the smallest box stayed at 423
+against the reduced field's 462, and the smallest walls-free at 477 against 522.
 
 That is the point worth keeping. Shortening a leg reduces how far the coil advances per
 turn, so the same tube buys more revolutions in a fatter, shorter package — a different
 design, not a better one. Every block being load-bearing is a property, not a virtue.
 
-One thing the pass did find: \`coil_3x9_18\`, \`coil_4x7_20\`, \`coil_4x8_18\` and
-\`coil_5x7_18\` all reduce to **the same walk**, \`E2 S3 U1 S3 W2 N3 U1 N3\`. Four results
-the search reported as distinct are one design wearing four amounts of slack.
+One thing the pass did find: four results the search reported as distinct all reduce to
+**the same walk**, \`E2 S3 U1 S3 W2 N3 U1 N3\` — one design wearing four amounts of slack.
+Standardising later found more of the same, and \`derived.txt\` records every merge.
 
 The reduced walks are kept, named \`*_min\`, with their sources recorded in
 [\`derived.txt\`](derived.txt). They are in the scoring like anything else, so the
@@ -318,11 +361,11 @@ rule.**
     node tools/gen_readme.js     # this file
     python3 ../lasermade-tools/md2html.py README.md index.html    # the published page
 
-    node tools/spiral_metrics.js "$(cat walks/coil_3x3_47.txt)"   # measure one walk
+    node tools/spiral_metrics.js "$(cat walks/${rows[0].name}.txt)"   # measure one walk
 
     cd ../bore-generator         # rebuild a viewer page
-    ~/boxes/venv/bin/python viewer.py "$(cat ../spirals/walks/coil_3x3_47.txt)" \\
-        --out ../spirals/pages/coil_3x3_47.html --title "Coil 3x3 47"
+    ~/boxes/venv/bin/python viewer.py "$(cat ../spirals/walks/${rows[0].name}.txt)" \\
+        --out ../spirals/pages/${rows[0].name}.html --title "${rows[0].name.replace(/_/g,' ')}"
 
 ## What has not been done
 

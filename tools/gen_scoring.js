@@ -28,6 +28,10 @@ for (const f of firsts) tally[f.win] = (tally[f.win] || 0) + 1;
 const top = Object.entries(tally).sort((a, b) => b[1] - a[1])[0];
 
 const two = swing[0], three = swing[1];
+// picked from the data: standardising renamed every coil, so nothing is named by hand
+const polar = swing.slice(0, 3).map(x => x.n);
+const thin = rows.slice().sort((a,b) =>
+  (a.v.crossArea) - (b.v.crossArea))[0];
 const md = `# Scoring
 
 Seven metrics, one touching count, and every common mean, so the ranking can be
@@ -109,16 +113,17 @@ and **${two.worst}** under another — a swing of ${two.swing} places in a field
 
 | spiral | worst single input | harmonic | contraharmonic |
 | --- | --- | ---: | ---: |
-${['coil_2x2_146','staircase_coil','coil_3x3_53_2'].map(n => {
+${[...polar, rows.slice().sort((a,b)=>R.harm.get(a.name)-R.harm.get(b.name))[0].name]
+  .filter((n,i,a) => a.indexOf(n) === i).slice(0,3).map(n => {
   const w = weak(n);
   return `| \`${n}\` | ${w.l} = ${w.x.toFixed(3)} | #${R.harm.get(n)} | #${R.contra.get(n)} |`;
 }).join('\n')}
 
-\`coil_2x2_146\` has the slackest pitch in the set and a 2x2 cross-section: one input at
-the floor, another at the ceiling. The harmonic mean reads it as disqualified, the
-contraharmonic as the best thing here. Both are arithmetically correct; they are
-answering different questions. The staircase coil is the same shape of argument, its
-weak spot being ${weak('staircase_coil').l}.
+\`${two.n}\` is the clearest case: one input on the floor and another at the ceiling.
+The mean that punishes weak spots reads it as disqualified; the mean that rewards strong
+ones reads it as the best thing here. Both are arithmetically correct — they are
+answering different questions. \`${three.n}\` is the same shape of argument, its weak spot
+being ${weak(three.n).l}.
 
 Harmonic and contraharmonic agree on **${agree('harm','contra')}** of ${rows.length} placings — they are as opposed as
 two means of the same numbers can be. Harmonic and geometric agree on ${agree('harm','geo')}, which is
@@ -164,8 +169,8 @@ The winner here survives all three, so nothing practical turns on it — but the
 below the top is meaningless under iteration, and should not be read.
 
 One more cost: a cut on composite score removes whatever is best at a single thing,
-because a composite is a compromise. \`coil_2x2_146\` is the only 2x2 cross-section in
-the set and does not survive round 0 of ${iter.filter(r => !r.log[0].before.includes('coil_2x2_146')).length} of the ${iter.length} runs.
+because a composite is a compromise. \`${thin.name}\` has the narrowest cross-section in
+the set and does not survive round 0 of ${iter.filter(r => !r.log[0].before.includes(thin.name)).length} of the ${iter.length} runs.
 
     node tools/iterate.js        # the numbers above
 `;
