@@ -97,3 +97,35 @@ If a weak spot is genuinely fatal — a shared wall that will leak, a coil too f
 the body — use the harmonic mean, or filter and then rank. If the design is allowed one
 bad number in exchange for a very good one, use quadratic or cubic. The arithmetic mean
 is the choice that declines to say.
+
+## Ranking once, not repeatedly
+
+A tempting variant is to rank, cut the bottom half, and re-rank the survivors. Do not.
+
+* **harmonic, min-max (what SCORING.md uses)** — survivors reordered 7/9, 5/5, 0/3, 0/2 over the rounds (12 moves in total)
+* **geometric, min-max** — survivors reordered 6/9, 2/5, 0/3, 0/2 over the rounds (8 moves in total)
+* **geometric, pure ratio-to-best** — survivors reordered 0/9, 0/5, 0/3, 0/2 over the rounds (0 moves in total)
+
+The first two reorder coils that did not change, purely because other coils left the
+set. `coil_3x3_50` places 3rd of 18 and 1st of the surviving 9; `coil_3x3_53_2`
+places 1st and then 4th. Nothing about either was measured again.
+
+The cause is that min-max reads its lo and hi off whoever is present, so dropping
+alternatives rescales every metric by a different factor. That is an
+independence-of-irrelevant-alternatives failure, and it is the reason to cut on a
+property fixed in advance — touching > 0, or a cross-section that will not fit —
+rather than on composite score.
+
+The other end of it is just as decisive. Under a pure ratio-to-best normalization with
+a geometric mean, nothing depends on which coils are present, and the whole procedure
+is a **no-op: 0 moves in every round**. So iterating either changes the order for a
+reason that has nothing to do with the coils, or changes nothing at all.
+
+The winner here survives all three, so nothing practical turns on it — but the order
+below the top is meaningless under iteration, and should not be read.
+
+One more cost: a cut on composite score removes whatever is best at a single thing,
+because a composite is a compromise. `coil_2x2_146` is the only 2x2 cross-section in
+the set and does not survive round 0 of 2 of the 3 runs.
+
+    node tools/iterate.js        # the numbers above

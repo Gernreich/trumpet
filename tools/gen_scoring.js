@@ -2,6 +2,7 @@
 // Regenerate SCORING.md. Every number comes from tools/score.js.
 const fs = require('fs'), path = require('path'), cp = require('child_process');
 const { rows, METRICS, MEANS, R, inputs, TOUCH_WEIGHT, EPS } = require('./score.js');
+const { results: iter } = require('./iterate.js');
 const root = path.join(__dirname, '..');
 
 const table = cp.execSync(`node ${JSON.stringify(path.join(__dirname,'score.js'))} --md`,
@@ -102,6 +103,38 @@ If a weak spot is genuinely fatal — a shared wall that will leak, a coil too f
 the body — use the harmonic mean, or filter and then rank. If the design is allowed one
 bad number in exchange for a very good one, use quadratic or cubic. The arithmetic mean
 is the choice that declines to say.
+
+## Ranking once, not repeatedly
+
+A tempting variant is to rank, cut the bottom half, and re-rank the survivors. Do not.
+
+${iter.map(r => `* **${r.label}** — survivors reordered ` +
+  r.log.filter(l => l.to > 1).map(l => `${l.moved}/${l.to}`).join(', ') +
+  ` over the rounds (${r.log.reduce((a,l) => a + l.moved, 0)} moves in total)`).join('\n')}
+
+The first two reorder coils that did not change, purely because other coils left the
+set. \`${iter[0].log[0].before[2]}\` places 3rd of ${rows.length} and 1st of the surviving 9; \`${iter[0].log[0].before[0]}\`
+places 1st and then 4th. Nothing about either was measured again.
+
+The cause is that min-max reads its lo and hi off whoever is present, so dropping
+alternatives rescales every metric by a different factor. That is an
+independence-of-irrelevant-alternatives failure, and it is the reason to cut on a
+property fixed in advance — touching > 0, or a cross-section that will not fit —
+rather than on composite score.
+
+The other end of it is just as decisive. Under a pure ratio-to-best normalization with
+a geometric mean, nothing depends on which coils are present, and the whole procedure
+is a **no-op: 0 moves in every round**. So iterating either changes the order for a
+reason that has nothing to do with the coils, or changes nothing at all.
+
+The winner here survives all three, so nothing practical turns on it — but the order
+below the top is meaningless under iteration, and should not be read.
+
+One more cost: a cut on composite score removes whatever is best at a single thing,
+because a composite is a compromise. \`coil_2x2_146\` is the only 2x2 cross-section in
+the set and does not survive round 0 of ${iter.filter(r => !r.log[0].before.includes('coil_2x2_146')).length} of the ${iter.length} runs.
+
+    node tools/iterate.js        # the numbers above
 `;
 fs.writeFileSync(path.join(root, 'SCORING.md'), md);
 console.log('SCORING.md written,', md.split('\n').length, 'lines');

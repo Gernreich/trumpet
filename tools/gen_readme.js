@@ -141,7 +141,12 @@ cubic, median, midrange, contraharmonic — and reports what the choice of mean 
 the answer. It does a great deal: \`coil_2x2_146\` places 1st under one and 17th under
 another. ${unanimous}
 
+It also covers why to rank once rather than rank, cut and re-rank: with a
+set-relative normalization the survivors of a cut come out in a different order
+than they went in, having not been measured again.
+
     node tools/score.js          # the scoring table
+    node tools/iterate.js        # what cutting and re-ranking does to it
     node tools/gen_scoring.js    # SCORING.md
 
 ## The gate
