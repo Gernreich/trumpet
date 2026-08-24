@@ -1,112 +1,107 @@
 #!/usr/bin/env node
 // Regenerate SCORING.md. Every number comes from tools/score.js.
 const fs = require('fs'), path = require('path'), cp = require('child_process');
-const { rows, METRICS, R } = require('./score.js');
+const { rows, METRICS, MEANS, R, inputs, TOUCH_WEIGHT, EPS } = require('./score.js');
 const root = path.join(__dirname, '..');
 
 const table = cp.execSync(`node ${JSON.stringify(path.join(__dirname,'score.js'))} --md`,
-                          { encoding: 'utf8' }).trim().split('\n').filter(l => l.startsWith('|')).join('\n');
+  { encoding: 'utf8' }).trim().split('\n').filter(l => l.startsWith('|')).join('\n');
 
-const touch = rows.filter(r => r.v.touching > 0);
-const byScore   = touch.slice().sort((a,b) => b.geoRaw - a.geoRaw).map(r => r.name);
-const byQuality = touch.slice().sort((a,b) => Math.abs(b.geoRaw) - Math.abs(a.geoRaw)).map(r => r.name);
-let mirror = 0;
-for (let i = 0; i < touch.length; i++) if (byScore[i] === byQuality[touch.length-1-i]) mirror++;
+const swing = rows.map(r => {
+  const rk = MEANS.map(M => R[M.k].get(r.name));
+  return { n: r.name, best: Math.min(...rk), worst: Math.max(...rk),
+           swing: Math.max(...rk) - Math.min(...rk) };
+}).sort((a, b) => b.swing - a.swing);
 
-const spread = key => {
-  const a = rows.map(r => r[key]);
-  const full = Math.max(...a) - Math.min(...a);
-  const clean = rows.filter(r => !r.v.touching).map(r => r[key]);
-  const within = Math.max(...clean) - Math.min(...clean);
-  return { full, within, pct: 100 * (1 - within / full) };
+const weak = name => {
+  const v = inputs(rows.find(r => r.name === name)).map(i => ({ l: i.label, x: i.x }))
+    .sort((a, b) => a.x - b.x);
+  return v[0];
 };
-const sRaw = spread('addRaw'), sNorm = spread('addNorm');
-let sameRatio = 0, movedNorm = 0;
-for (const r of rows){
-  if (R.geoRaw.get(r.name) === R.geoRatio.get(r.name)) sameRatio++;
-  if (R.geoRaw.get(r.name) !== R.geoNorm.get(r.name)) movedNorm++;
-}
-const winners = ['geoRaw','addRaw','geoNorm','addNorm','geoFix','addFix']
-  .map(k => rows.slice().sort((a,b) => (R[k].get(a.name) - R[k].get(b.name)))[0].name);
-const unanimous = winners.every(w => w === winners[0]) ? winners[0] : null;
+const agree = (a, b) => rows.filter(r => R[a].get(r.name) === R[b].get(r.name)).length;
 
+const firsts = MEANS.map(M => ({ mean: M.label,
+  win: rows.slice().sort((x, y) => R[M.k].get(x.name) - R[M.k].get(y.name))[0].name }));
+const tally = {};
+for (const f of firsts) tally[f.win] = (tally[f.win] || 0) + 1;
+const top = Object.entries(tally).sort((a, b) => b[1] - a[1])[0];
+
+const two = swing[0], three = swing[1];
 const md = `# Scoring
 
-Eight metrics, four ways of combining them, and a touching flag folded in as
-specified: **-1 / +1** as a factor in the geometric mean, **-100 / +100** as a term
-in the additive one. Regenerate with \`node tools/gen_scoring.js\`; the table comes
-straight out of \`tools/score.js\`.
+Seven metrics, one touching count, and every common mean, so the ranking can be
+read against the thing that produced it. Regenerate with \`node tools/gen_scoring.js\`.
 
-## The metrics scored
+## What is scored
 
 ${METRICS.map(M => `* **${M.label}** — ${M.dir === 'lo' ? 'less' : 'more'} is better`).join('\n')}
-* **touching** — the flag, handled separately
+* **touching** — carried the same way as the rest, at weight ${TOUCH_WEIGHT}
 
-A mean cannot tell a cost from a benefit, so every metric is first oriented so that
-bigger is better. In the raw columns that means taking the reciprocal of the
-less-is-better ones; in the normalized columns the normalization does it.
+Each is normalized to (0,1] with 1 the best in the set, oriented so bigger is
+better, and floored at ${EPS} so that one worst-in-set value cannot zero a product.
+Touching is not a special case: a graded penalty on the same scale, weighted, which
+is what \`geo fix\` and \`add fix\` were doing and is now what every mean sees.
 
-## The four scorings, and two repairs
+**\`blocks/360\` is deliberately gone.** It is anti-correlated with turns/m by
+construction — a tighter spiral has to turn more often — so carrying both let them
+cancel, and made the composite quieter about coiling than the columns themselves are.
+
+## The means
+
+| mean | order *p* | what it rewards |
+| --- | :-: | --- |
+| harmonic | -1 | punishes the weakest input hardest |
+| geometric | 0 | |
+| arithmetic | 1 | |
+| quadratic (RMS) | 2 | |
+| cubic | 3 | rewards the strongest input hardest |
+| median | — | ignores both extremes |
+| midrange | — | only the extremes |
+| contraharmonic | — | rewards the strongest harder still |
+
+The first five are the power mean of order *p*, which increases with *p*, so for
+every spiral **harmonic ≤ geometric ≤ arithmetic ≤ quadratic ≤ cubic**. Verified here
+on all ${rows.length}. What changes with *p* is not the size of the score but how much a single
+bad metric is allowed to sink it.
+
+## The table
 
 ${table}
 
-\`geo fix\` and \`add fix\` are the same intent without the traps below.
+## Choosing a mean is choosing how much a weak spot counts
 
-## Can each metric be normalized?
+That choice is worth more than any metric in it. ${two.n} ranks **${two.best}** under one mean
+and **${two.worst}** under another — a swing of ${two.swing} places in a field of ${rows.length}. ${three.n} swings ${three.swing}.
 
-Yes — and for the additive mean it is not optional. Raw box volume runs in the
-hundreds while turns/m runs about 10 to 14, so an unnormalized sum is very nearly a
-ranking by box volume alone. Two normalizations are worth separating:
+| spiral | worst single input | harmonic | contraharmonic |
+| --- | --- | ---: | ---: |
+${['coil_2x2_146','staircase_coil','coil_3x3_53_2'].map(n => {
+  const w = weak(n);
+  return `| \`${n}\` | ${w.l} = ${w.x.toFixed(3)} | #${R.harm.get(n)} | #${R.contra.get(n)} |`;
+}).join('\n')}
 
-**Ratio to best** (\`best / x\` for less-is-better) is a pure per-metric rescaling into
-(0,1]. **It cannot change a geometric-mean ranking at all** — scaling metric *i* by
-*cᵢ* multiplies every spiral's score by the same (∏cᵢ)^(1/n). Measured here: ${sameRatio}/${rows.length}
-ranks identical to raw.
+\`coil_2x2_146\` has the slackest pitch in the set and a 2x2 cross-section: one input at
+the floor, another at the ceiling. The harmonic mean reads it as disqualified, the
+contraharmonic as the best thing here. Both are arithmetically correct; they are
+answering different questions. The staircase coil is the same shape of argument, its
+weak spot being ${weak('staircase_coil').l}.
 
-**Min-max** ((x−min)/(max−min)) shifts as well as scales, and a shift is not
-scale-invariant, so it does change the geometric ranking — ${movedNorm}/${rows.length} ranks move. It also
-sends the worst value in each metric to zero, which annihilates a product, so the
-floor here is ${0.01} rather than 0.
+Harmonic and contraharmonic agree on **${agree('harm','contra')}** of ${rows.length} placings — they are as opposed as
+two means of the same numbers can be. Harmonic and geometric agree on ${agree('harm','geo')}, which is
+why the geometric mean is the usual choice when no weak spot should be forgiven but
+outright disqualification is too strong.
 
-So: normalize for the additive mean because you must; for the geometric mean, know
-that a pure rescale buys nothing and a min-max is a real change of question.
+## What survives
 
-## Three things the specified scheme does
+\`${top[0]}\` comes first under **${top[1]} of the ${MEANS.length} means**, and the reason is visible in the
+table above: its worst input is ${weak(top[0]).x.toFixed(3)}, where every other contender has something
+at ${EPS}. It does not win by being outstanding anywhere. It wins by having nothing to
+punish, which is the one way to be robust to the choice of mean.
 
-**1. In a geometric mean, -1 does not penalize — it flips the sign, and inverts the
-order it is applied to.** Magnitude is the quality; the negative sign then sorts the
-largest magnitude last. Among the ${touch.length} touching spirals, ranking by score and ranking by
-|score| are exact mirrors in **${mirror}/${touch.length}** positions. The best touching coil is ranked the
-worst touching coil. A multiplicative penalty has to be a factor *below one*: 1 is
-the identity, so "+1 for clean" correctly does nothing, but its opposite is 0.5, not
--1.
-
-**2. It depends on how many metrics are in the mean.** With ${METRICS.length} metrics plus the flag
-there are ${METRICS.length + 1} values — odd, so a negative product has a real root. Drop one metric
-and there are ${METRICS.length}, and every touching spiral scores \`NaN\`: no real even root of a
-negative number. The score is one metric away from undefined.
-
-**3. ±100 is not a weight, it is a verdict.** It accounts for **${sRaw.pct.toFixed(1)}%** of the raw score
-range and **${sNorm.pct.toFixed(1)}%** of the normalized one — the full spread is ${sNorm.full.toFixed(2)} and everything the
-other ${METRICS.length} metrics do fits in ${sNorm.within.toFixed(2)} of it. That is a filter written as a mean. If
-touching really is disqualifying, filtering on it is clearer and says so; if it is
-merely bad, it wants a weight you can turn.
-
-\`add fix\` puts touching on the same 0..1 scale as the rest with an explicit weight of
-3, and \`geo fix\` uses a factor of 1/(1+touching) — positive, graded by how much contact
-there is, and indifferent to how many metrics sit beside it.
-
-## What survives all six
-
-${unanimous
- ? `**${unanimous}** comes first under every one of the six scorings — literal and repaired, raw and normalized. When a ranking is that indifferent to the scheme, the scheme is not what is deciding it.`
- : `No spiral wins every scoring; the winners are ${[...new Set(winners)].join(', ')}.`}
-
-The repairs do move things. Under the literal scheme every touching spiral sorts below
-every clean one, so ${rows.filter(r=>!r.v.touching).length} clean coils take the top ${rows.filter(r=>!r.v.touching).length} places. Under \`geo fix\` and
-\`add fix\`, \`coil_3x3_50\` and \`coil_3x3_47\` climb into the top four on the strength of
-everything else — a graded penalty lets a coil be good enough elsewhere to be worth
-the contact, and a verdict never does.
+If a weak spot is genuinely fatal — a shared wall that will leak, a coil too fat for
+the body — use the harmonic mean, or filter and then rank. If the design is allowed one
+bad number in exchange for a very good one, use quadratic or cubic. The arithmetic mean
+is the choice that declines to say.
 `;
 fs.writeFileSync(path.join(root, 'SCORING.md'), md);
 console.log('SCORING.md written,', md.split('\n').length, 'lines');

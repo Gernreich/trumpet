@@ -130,9 +130,11 @@ it disagrees with the box often enough to change which coil you would build.
 
 ## Scoring them against each other
 
-[**SCORING.md**](SCORING.md) combines the eight metrics into a single ranking six
-ways — geometric and additive mean, raw and normalized, plus a repaired pair — and
-reports what each way does to the answer. `coil_3x3_53_2` comes first under all six.
+[**SCORING.md**](SCORING.md) combines seven of the metrics and the touching count into
+a single ranking under every common mean — harmonic, geometric, arithmetic, quadratic,
+cubic, median, midrange, contraharmonic — and reports what the choice of mean does to
+the answer. It does a great deal: `coil_2x2_146` places 1st under one and 17th under
+another. `coil_3x3_53_2` comes first under 6 of the 8 means. `
 
     node tools/score.js          # the scoring table
     node tools/gen_scoring.js    # SCORING.md

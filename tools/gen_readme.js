@@ -35,9 +35,11 @@ const calm  = best(r => r.m.turnsPerMetre);
 const clean = rows.filter(r => r.m.touching === 0).sort((a,b) => a.m.vol - b.m.vol)[0];
 const L = r => `[\`${r.name}\`](pages/${r.name}.html)`;
 const { rows: srows, R: SR } = require('./score.js');
-const wins = ['geoRaw','addRaw','geoNorm','addNorm','geoFix','addFix']
-  .map(k => srows.slice().sort((a,b) => SR[k].get(a.name) - SR[k].get(b.name))[0].name);
-const unanimous = wins.every(w => w === wins[0]) ? wins[0] : wins.join(', ');
+const { MEANS: SM } = require('./score.js');
+const wins = SM.map(M => srows.slice().sort((a,b) => SR[M.k].get(a.name) - SR[M.k].get(b.name))[0].name);
+const tally = {}; for (const w of wins) tally[w] = (tally[w] || 0) + 1;
+const [bestName, bestN] = Object.entries(tally).sort((a,b) => b[1] - a[1])[0];
+const unanimous = `${bestName}\` comes first under ${bestN} of the ${SM.length} means. \``;
 
 const md = `# Spirals
 
@@ -133,9 +135,11 @@ it disagrees with the box often enough to change which coil you would build.
 
 ## Scoring them against each other
 
-[**SCORING.md**](SCORING.md) combines the eight metrics into a single ranking six
-ways — geometric and additive mean, raw and normalized, plus a repaired pair — and
-reports what each way does to the answer. \`${unanimous}\` comes first under all six.
+[**SCORING.md**](SCORING.md) combines seven of the metrics and the touching count into
+a single ranking under every common mean — harmonic, geometric, arithmetic, quadratic,
+cubic, median, midrange, contraharmonic — and reports what the choice of mean does to
+the answer. It does a great deal: \`coil_2x2_146\` places 1st under one and 17th under
+another. \`${unanimous}
 
     node tools/score.js          # the scoring table
     node tools/gen_scoring.js    # SCORING.md
