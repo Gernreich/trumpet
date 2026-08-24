@@ -363,6 +363,33 @@
   "minPlate": 4225,
   "totalPlate": 125580
  },
+ "coil_5x5_55": {
+  "pieces": 51,
+  "kinds": {
+   "bend": 51
+  },
+  "elbows": 0,
+  "distinct": 10,
+  "shapes": [
+   "bend_DDDL",
+   "bend_DL",
+   "bend_DLLU",
+   "bend_DR",
+   "bend_LD",
+   "bend_LUUR",
+   "bend_RD",
+   "bend_RDDD",
+   "bend_RDDL",
+   "bend_URRD"
+  ],
+  "rhythm": 12,
+  "repeats": 4.083333333333333,
+  "interiorDistinct": 8,
+  "meanPlate": 5054.705882352941,
+  "maxPlate": 8255,
+  "minPlate": 4225,
+  "totalPlate": 257790
+ },
  "coil_5x7_18": {
   "pieces": 35,
   "kinds": {

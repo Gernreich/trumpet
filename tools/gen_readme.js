@@ -253,8 +253,8 @@ rule.**
 **No cut files.** These are walks, viewers and gate results; nothing here has been split to
 SVG or nested. \`bore_split.py --write DIR\` will do it.
 
-The block counts are not equal — they run ${Math.min(...rows.map(r=>r.m.blocks))} to ${Math.max(...rows.map(r=>r.m.blocks))}, so the bore lengths run
-${Math.min(...rows.map(r=>r.m.mm))}mm to ${Math.max(...rows.map(r=>r.m.mm))}mm. A period is repeated to about the right length and then trimmed
+The block counts are not equal — the scored ones run ${Math.min(...rows.map(r=>r.m.blocks))} to ${Math.max(...rows.map(r=>r.m.blocks))}, so their bore lengths
+run ${Math.min(...rows.map(r=>r.m.mm))}mm to ${Math.max(...rows.map(r=>r.m.mm))}mm, a spread of ${((Math.max(...rows.map(r=>r.m.mm))/Math.min(...rows.map(r=>r.m.mm))-1)*100).toFixed(1)}%. A period is repeated to about the right length and then trimmed
 to wherever the tail comes out elbow-free, so these are the same bore only to within a few
 blocks. For comparing packing that is fine; for comparing *bores* it is not, and the length
 would have to be pinned first.
