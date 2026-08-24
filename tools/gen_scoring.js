@@ -38,10 +38,33 @@ read against the thing that produced it. Regenerate with \`node tools/gen_scorin
 ${METRICS.map(M => `* **${M.label}** — ${M.dir === 'lo' ? 'less' : 'more'} is better`).join('\n')}
 * **touching** — carried the same way as the rest, at weight ${TOUCH_WEIGHT}
 
-Each is normalized to (0,1] with 1 the best in the set, oriented so bigger is
+The metrics are normalized to (0,1] with 1 the best in the set, oriented so bigger is
 better, and floored at ${EPS} so that one worst-in-set value cannot zero a product.
-Touching is not a special case: a graded penalty on the same scale, weighted, which
-is what \`geo fix\` and \`add fix\` were doing and is now what every mean sees.
+
+**Touching is treated differently, on purpose.** A wall the bore shares with itself is
+visible in the finished instrument, so it is the heaviest input here at weight ${TOUCH_WEIGHT},
+and it is penalized convexly — **1/(1+t)** — rather than fading linearly. The step from
+no contact to any contact is far larger than any step after it: 0 contacts scores 1.000,
+8 contacts 0.111, 20 contacts 0.048. Nothing but a clean coil can score 1.
+
+That form is also absolute where a linear fade against the set maximum is not. Dropping
+the worst coil would move everyone else's touching term under a linear fade; under
+1/(1+t) it moves nothing.
+
+Override the weight with \`SPIRAL_TOUCH_WEIGHT=8 node tools/score.js\`.
+
+### A heavy weight is a preference, not a guarantee
+
+Weighting touching at ${TOUCH_WEIGHT} does not stop a coil with contact from beating a clean one.
+Under the harmonic mean the first coil *with* touching places **3rd**, above **6** coils
+that have none — because each of those has some other metric sitting on the ${EPS} floor,
+and the harmonic mean punishes that harder than it punishes 8 contacts.
+
+If no touching walls is a *requirement* rather than a preference, filter:
+
+    node tools/score.js --clean      # ranks only the coils with no touching walls
+
+which is the same advice as everywhere else here — cut on the property, then rank.
 
 **\`blocks/360\` is deliberately gone.** It is anti-correlated with turns/m by
 construction — a tighter spiral has to turn more often — so carrying both let them
@@ -56,7 +79,7 @@ cancel, and made the composite quieter about coiling than the columns themselves
 | arithmetic | 1 | |
 | quadratic (RMS) | 2 | |
 | cubic | 3 | rewards the strongest input hardest |
-| median | — | ignores both extremes |
+| median | — | ignores both extremes; see the caveat below |
 | midrange | — | only the extremes |
 | contraharmonic | — | rewards the strongest harder still |
 
@@ -68,6 +91,11 @@ bad metric is allowed to sink it.
 ## The table
 
 ${table}
+
+**The median does not survive the weighting.** It is an order statistic, and weight is
+applied by repetition, so touching occupies ${TOUCH_WEIGHT} of the ${METRICS.length + TOUCH_WEIGHT} values and can simply *be*
+the median. ${rows.filter(r => Math.abs(r.median - 1) < 1e-9).length} coils tie at exactly 1.0000. Read the median column knowing that;
+the power means do not have this problem.
 
 ## Choosing a mean is choosing how much a weak spot counts
 

@@ -26,7 +26,16 @@ const METRICS = [
   { k: 'longestStraight', dir: 'hi', label: 'longest str'  },
   { k: 'meanPlate',       dir: 'hi', label: 'mean plate'   },
 ];
-const TOUCH_WEIGHT = 3;
+// Touching walls are an aesthetic requirement, not just a cost: the bore passing
+// itself is visible in the finished instrument. So it is weighted heaviest of
+// anything here, and penalized convexly -- 1/(1+t) rather than a linear fade --
+// so that the step from none to some is much larger than any later step. Zero
+// contacts scores a flat 1.0 and nothing else can.
+//
+// 1/(1+t) is also absolute where a linear fade against the set maximum is not:
+// dropping the worst coil does not move everyone else's touching term.
+const TOUCH_WEIGHT = +(process.env.SPIRAL_TOUCH_WEIGHT || 5);
+const CLEAN_ONLY = process.argv.includes('--clean');
 const EPS = 0.01;              // a floor, so one worst-in-set value cannot zero a product
 
 const rows = fs.readdirSync(path.join(root, 'walks')).filter(f => f.endsWith('.txt'))
@@ -47,8 +56,6 @@ for (const M of METRICS) {
   const xs = rows.map(r => r.v[M.k]);
   lo[M.k] = Math.min(...xs); hi[M.k] = Math.max(...xs);
 }
-const maxTouch = Math.max(...rows.map(r => r.v.touching));
-
 // Every input on one scale: (0,1], 1 = best. Touching included the same way
 // rather than as a special case, so each mean sees the same numbers.
 function inputs(r) {
@@ -58,8 +65,7 @@ function inputs(r) {
     const good = M.dir === 'lo' ? 1 - t : t;
     return { x: EPS + (1 - EPS) * good, w: 1, label: M.label };
   });
-  const tn = maxTouch ? 1 - r.v.touching / maxTouch : 1;
-  out.push({ x: EPS + (1 - EPS) * tn, w: TOUCH_WEIGHT, label: 'touching' });
+  out.push({ x: 1 / (1 + r.v.touching), w: TOUCH_WEIGHT, label: 'touching' });
   return out;
 }
 
@@ -101,14 +107,19 @@ for (const r of rows) {
   const v = inputs(r);
   for (const M of MEANS) r[M.k] = M.f(v);
 }
+// --clean ranks only the coils with no touching walls at all, for when "none"
+// is a requirement rather than a preference. Note the normalization above is
+// computed over the whole set either way, so this filters the field, it does
+// not rescale it -- see tools/iterate.js for why that distinction matters.
+const shown = CLEAN_ONLY ? rows.filter(r => r.v.touching === 0) : rows;
 const R = {};
 for (const M of MEANS) {
-  const s = rows.slice().sort((a, b) => b[M.k] - a[M.k]);
+  const s = shown.slice().sort((a, b) => b[M.k] - a[M.k]);
   R[M.k] = new Map(s.map((r, i) => [r.name, i + 1]));
 }
 
 const head = ['spiral', 'touch', ...MEANS.flatMap(M => [M.label, '#'])];
-const body = rows.slice().sort((a, b) => R.geo.get(a.name) - R.geo.get(b.name))
+const body = shown.slice().sort((a, b) => R.geo.get(a.name) - R.geo.get(b.name))
   .map(r => [r.name, String(r.v.touching),
              ...MEANS.flatMap(M => [r[M.k].toFixed(4), String(R[M.k].get(r.name))])]);
 
@@ -123,4 +134,4 @@ if (require.main === module) {
     for (const b of body) console.log(b.map((v, i) => v.padEnd(w[i])).join('  '));
   }
 }
-module.exports = { rows, METRICS, MEANS, R, inputs, TOUCH_WEIGHT, EPS };
+module.exports = { rows, shown, METRICS, MEANS, R, inputs, TOUCH_WEIGHT, EPS };

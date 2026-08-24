@@ -13,12 +13,35 @@ read against the thing that produced it. Regenerate with `node tools/gen_scoring
 * **turns/m** — less is better
 * **longest str** — more is better
 * **mean plate** — more is better
-* **touching** — carried the same way as the rest, at weight 3
+* **touching** — carried the same way as the rest, at weight 5
 
-Each is normalized to (0,1] with 1 the best in the set, oriented so bigger is
+The metrics are normalized to (0,1] with 1 the best in the set, oriented so bigger is
 better, and floored at 0.01 so that one worst-in-set value cannot zero a product.
-Touching is not a special case: a graded penalty on the same scale, weighted, which
-is what `geo fix` and `add fix` were doing and is now what every mean sees.
+
+**Touching is treated differently, on purpose.** A wall the bore shares with itself is
+visible in the finished instrument, so it is the heaviest input here at weight 5,
+and it is penalized convexly — **1/(1+t)** — rather than fading linearly. The step from
+no contact to any contact is far larger than any step after it: 0 contacts scores 1.000,
+8 contacts 0.111, 20 contacts 0.048. Nothing but a clean coil can score 1.
+
+That form is also absolute where a linear fade against the set maximum is not. Dropping
+the worst coil would move everyone else's touching term under a linear fade; under
+1/(1+t) it moves nothing.
+
+Override the weight with `SPIRAL_TOUCH_WEIGHT=8 node tools/score.js`.
+
+### A heavy weight is a preference, not a guarantee
+
+Weighting touching at 5 does not stop a coil with contact from beating a clean one.
+Under the harmonic mean the first coil *with* touching places **3rd**, above **6** coils
+that have none — because each of those has some other metric sitting on the 0.01 floor,
+and the harmonic mean punishes that harder than it punishes 8 contacts.
+
+If no touching walls is a *requirement* rather than a preference, filter:
+
+    node tools/score.js --clean      # ranks only the coils with no touching walls
+
+which is the same advice as everywhere else here — cut on the property, then rank.
 
 **`blocks/360` is deliberately gone.** It is anti-correlated with turns/m by
 construction — a tighter spiral has to turn more often — so carrying both let them
@@ -33,7 +56,7 @@ cancel, and made the composite quieter about coiling than the columns themselves
 | arithmetic | 1 | |
 | quadratic (RMS) | 2 | |
 | cubic | 3 | rewards the strongest input hardest |
-| median | — | ignores both extremes |
+| median | — | ignores both extremes; see the caveat below |
 | midrange | — | only the extremes |
 | contraharmonic | — | rewards the strongest harder still |
 
@@ -46,34 +69,39 @@ bad metric is allowed to sink it.
 
 | spiral | touch | harmonic | # | geometric | # | arithmetic | # | quadratic | # | cubic | # | median | # | midrange | # | contraharmonic | # |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| coil_3x3_53_2 | 0 | 0.8605 | 1 | 0.8718 | 1 | 0.8822 | 1 | 0.8916 | 1 | 0.9000 | 1 | 0.8958 | 1 | 0.8053 | 2 | 0.9011 | 3 |
-| coil_3x3_53 | 0 | 0.8140 | 2 | 0.8274 | 2 | 0.8404 | 2 | 0.8528 | 2 | 0.8643 | 2 | 0.8625 | 2 | 0.8120 | 1 | 0.8653 | 4 |
-| coil_3x3_50 | 8 | 0.7066 | 3 | 0.7204 | 3 | 0.7348 | 3 | 0.7495 | 3 | 0.7643 | 7 | 0.6959 | 7 | 0.7629 | 4 | 0.7646 | 13 |
-| coil_3x3_47 | 8 | 0.6983 | 4 | 0.7114 | 4 | 0.7260 | 4 | 0.7416 | 5 | 0.7580 | 8 | 0.6948 | 8 | 0.7708 | 3 | 0.7576 | 14 |
-| coil_4x9_17 | 14 | 0.4161 | 6 | 0.5405 | 5 | 0.6463 | 5 | 0.7199 | 7 | 0.7693 | 6 | 0.6700 | 12 | 0.5600 | 9 | 0.8020 | 9 |
-| coil_3x9_18 | 16 | 0.4304 | 5 | 0.5332 | 6 | 0.6317 | 7 | 0.7030 | 9 | 0.7503 | 10 | 0.7983 | 3 | 0.6040 | 5 | 0.7824 | 11 |
-| coil_4x8_18 | 16 | 0.4007 | 7 | 0.5012 | 7 | 0.6039 | 9 | 0.6799 | 11 | 0.7304 | 13 | 0.7047 | 6 | 0.6040 | 6 | 0.7656 | 12 |
-| coil_5x7_18 | 16 | 0.3586 | 8 | 0.4591 | 8 | 0.5648 | 10 | 0.6456 | 14 | 0.7012 | 15 | 0.6005 | 14 | 0.5737 | 8 | 0.7380 | 15 |
-| coil_3x8_20 | 17 | 0.3463 | 9 | 0.4468 | 9 | 0.5493 | 12 | 0.6288 | 16 | 0.6864 | 16 | 0.5861 | 15 | 0.5793 | 7 | 0.7198 | 16 |
-| coil_5x8_17 | 14 | 0.0930 | 10 | 0.4308 | 10 | 0.6432 | 6 | 0.7340 | 6 | 0.7901 | 4 | 0.6700 | 13 | 0.5050 | 15 | 0.8376 | 6 |
-| coil_3x4_74 | 0 | 0.0753 | 12 | 0.2904 | 11 | 0.5488 | 13 | 0.6723 | 13 | 0.7359 | 12 | 0.6700 | 11 | 0.5050 | 13 | 0.8235 | 8 |
-| staircase_coil | 0 | 0.0484 | 14 | 0.2771 | 12 | 0.6124 | 8 | 0.7439 | 4 | 0.8062 | 3 | 0.7678 | 4 | 0.5050 | 16 | 0.9037 | 2 |
-| coil_3x4_78 | 0 | 0.0497 | 13 | 0.2554 | 13 | 0.5161 | 16 | 0.6397 | 15 | 0.7120 | 14 | 0.5447 | 16 | 0.5050 | 14 | 0.7930 | 10 |
-| coil_4x7_20 | 18 | 0.0781 | 11 | 0.2495 | 14 | 0.4152 | 17 | 0.5154 | 17 | 0.5817 | 18 | 0.3400 | 17 | 0.5022 | 17 | 0.6397 | 18 |
-| coil_3x4_73 | 0 | 0.0457 | 15 | 0.2354 | 15 | 0.5432 | 14 | 0.6725 | 12 | 0.7361 | 11 | 0.6700 | 10 | 0.5050 | 11 | 0.8327 | 7 |
-| coil_3x4_73_2 | 0 | 0.0441 | 16 | 0.2330 | 16 | 0.5571 | 11 | 0.6891 | 10 | 0.7516 | 9 | 0.7263 | 5 | 0.5050 | 12 | 0.8523 | 5 |
-| coil_2x2_146 | 0 | 0.0334 | 17 | 0.1786 | 17 | 0.5376 | 15 | 0.7068 | 8 | 0.7854 | 5 | 0.6893 | 9 | 0.5050 | 10 | 0.9294 | 1 |
-| coil_3x7_22 | 20 | 0.0262 | 18 | 0.1145 | 18 | 0.3604 | 18 | 0.5069 | 18 | 0.5942 | 17 | 0.3302 | 18 | 0.5019 | 18 | 0.7131 | 17 |
+| coil_3x3_53_2 | 0 | 0.8794 | 1 | 0.8904 | 1 | 0.9003 | 1 | 0.9091 | 1 | 0.9168 | 1 | 1.0000 | 2 | 0.8053 | 2 | 0.9180 | 3 |
+| coil_3x3_53 | 0 | 0.8380 | 2 | 0.8519 | 2 | 0.8649 | 2 | 0.8770 | 2 | 0.8880 | 2 | 0.8958 | 4 | 0.8120 | 1 | 0.8893 | 4 |
+| coil_3x3_50 | 8 | 0.2338 | 3 | 0.3656 | 3 | 0.5251 | 9 | 0.6292 | 12 | 0.6892 | 13 | 0.6948 | 8 | 0.5556 | 4 | 0.7540 | 14 |
+| coil_3x3_47 | 8 | 0.2330 | 4 | 0.3617 | 4 | 0.5176 | 10 | 0.6212 | 13 | 0.6827 | 14 | 0.6700 | 9 | 0.5556 | 3 | 0.7456 | 15 |
+| coil_3x4_74 | 0 | 0.0878 | 10 | 0.3513 | 5 | 0.6182 | 5 | 0.7323 | 7 | 0.7890 | 7 | 0.7377 | 6 | 0.5050 | 13 | 0.8674 | 8 |
+| staircase_coil | 0 | 0.0567 | 15 | 0.3376 | 6 | 0.6721 | 3 | 0.7887 | 3 | 0.8421 | 3 | 1.0000 | 3 | 0.5050 | 16 | 0.9257 | 2 |
+| coil_3x4_78 | 0 | 0.0582 | 13 | 0.3151 | 7 | 0.5906 | 8 | 0.7072 | 8 | 0.7715 | 8 | 0.6700 | 10 | 0.5050 | 14 | 0.8469 | 9 |
+| coil_3x4_73 | 0 | 0.0536 | 16 | 0.2941 | 8 | 0.6135 | 6 | 0.7325 | 6 | 0.7891 | 6 | 0.7263 | 7 | 0.5050 | 11 | 0.8747 | 6 |
+| coil_3x4_73_2 | 0 | 0.0517 | 17 | 0.2915 | 9 | 0.6252 | 4 | 0.7454 | 5 | 0.8005 | 5 | 0.7800 | 5 | 0.5050 | 12 | 0.8887 | 5 |
+| coil_3x9_18 | 16 | 0.1352 | 6 | 0.2838 | 10 | 0.5091 | 11 | 0.6399 | 11 | 0.7083 | 11 | 0.6197 | 13 | 0.5294 | 6 | 0.8044 | 11 |
+| coil_4x9_17 | 14 | 0.1418 | 5 | 0.2754 | 11 | 0.5017 | 12 | 0.6469 | 10 | 0.7235 | 10 | 0.6353 | 11 | 0.5333 | 5 | 0.8343 | 10 |
+| coil_4x8_18 | 16 | 0.1326 | 7 | 0.2693 | 12 | 0.4856 | 14 | 0.6185 | 14 | 0.6895 | 12 | 0.6251 | 12 | 0.5294 | 7 | 0.7878 | 12 |
+| coil_3x8_20 | 17 | 0.1264 | 9 | 0.2545 | 13 | 0.4496 | 16 | 0.5744 | 16 | 0.6486 | 16 | 0.4500 | 16 | 0.5278 | 9 | 0.7339 | 16 |
+| coil_5x7_18 | 16 | 0.1284 | 8 | 0.2501 | 14 | 0.4526 | 15 | 0.5866 | 15 | 0.6617 | 15 | 0.5332 | 14 | 0.5294 | 8 | 0.7602 | 13 |
+| coil_2x2_146 | 0 | 0.0393 | 18 | 0.2328 | 15 | 0.6087 | 7 | 0.7593 | 4 | 0.8261 | 4 | 1.0000 | 1 | 0.5050 | 10 | 0.9473 | 1 |
+| coil_5x8_17 | 14 | 0.0708 | 11 | 0.2273 | 16 | 0.4990 | 13 | 0.6601 | 9 | 0.7434 | 9 | 0.5040 | 15 | 0.5050 | 15 | 0.8733 | 7 |
+| coil_4x7_20 | 18 | 0.0624 | 12 | 0.1660 | 17 | 0.3464 | 17 | 0.4723 | 17 | 0.5499 | 18 | 0.3120 | 17 | 0.5022 | 17 | 0.6439 | 18 |
+| coil_3x7_22 | 20 | 0.0578 | 14 | 0.1434 | 18 | 0.3209 | 18 | 0.4672 | 18 | 0.5621 | 17 | 0.1135 | 18 | 0.5019 | 18 | 0.6802 | 17 |
+
+**The median does not survive the weighting.** It is an order statistic, and weight is
+applied by repetition, so touching occupies 5 of the 13 values and can simply *be*
+the median. 3 coils tie at exactly 1.0000. Read the median column knowing that;
+the power means do not have this problem.
 
 ## Choosing a mean is choosing how much a weak spot counts
 
 That choice is worth more than any metric in it. coil_2x2_146 ranks **1** under one mean
-and **17** under another — a swing of 16 places in a field of 18. staircase_coil swings 14.
+and **18** under another — a swing of 17 places in a field of 18. staircase_coil swings 14.
 
 | spiral | worst single input | harmonic | contraharmonic |
 | --- | --- | ---: | ---: |
-| `coil_2x2_146` | rise/360 = 0.010 | #17 | #1 |
-| `staircase_coil` | distinct = 0.010 | #14 | #2 |
+| `coil_2x2_146` | rise/360 = 0.010 | #18 | #1 |
+| `staircase_coil` | distinct = 0.010 | #15 | #2 |
 | `coil_3x3_53_2` | rise/360 = 0.611 | #1 | #3 |
 
 `coil_2x2_146` has the slackest pitch in the set and a 2x2 cross-section: one input at
@@ -83,13 +111,13 @@ answering different questions. The staircase coil is the same shape of argument,
 weak spot being distinct.
 
 Harmonic and contraharmonic agree on **0** of 18 placings — they are as opposed as
-two means of the same numbers can be. Harmonic and geometric agree on 13, which is
+two means of the same numbers can be. Harmonic and geometric agree on 4, which is
 why the geometric mean is the usual choice when no weak spot should be forgiven but
 outright disqualification is too strong.
 
 ## What survives
 
-`coil_3x3_53_2` comes first under **6 of the 8 means**, and the reason is visible in the
+`coil_3x3_53_2` comes first under **5 of the 8 means**, and the reason is visible in the
 table above: its worst input is 0.611, where every other contender has something
 at 0.01. It does not win by being outstanding anywhere. It wins by having nothing to
 punish, which is the one way to be robust to the choice of mean.
@@ -103,8 +131,8 @@ is the choice that declines to say.
 
 A tempting variant is to rank, cut the bottom half, and re-rank the survivors. Do not.
 
-* **harmonic, min-max (what SCORING.md uses)** — survivors reordered 7/9, 4/5, 2/3, 0/2 over the rounds (13 moves in total)
-* **geometric, min-max** — survivors reordered 5/9, 2/5, 0/3, 0/2 over the rounds (7 moves in total)
+* **harmonic, min-max (what SCORING.md uses)** — survivors reordered 7/9, 5/5, 3/3, 0/2 over the rounds (15 moves in total)
+* **geometric, min-max** — survivors reordered 4/9, 0/5, 0/3, 0/2 over the rounds (4 moves in total)
 * **geometric, pure ratio-to-best** — survivors reordered 0/9, 0/5, 0/3, 0/2 over the rounds (0 moves in total)
 
 The first two reorder coils that did not change, purely because other coils left the

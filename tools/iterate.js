@@ -25,7 +25,6 @@ function score(set, mode, meanKind) {
     const xs = set.map(r => r.v[M.k]);
     lo[M.k] = Math.min(...xs); hi[M.k] = Math.max(...xs);
   }
-  const maxT = Math.max(...set.map(r => r.v.touching));
   return set.map(r => {
     const vals = [];
     for (const M of METRICS) {
@@ -38,9 +37,10 @@ function score(set, mode, meanKind) {
         vals.push({ x: M.dir === 'lo' ? lo[M.k] / r.v[M.k] : r.v[M.k] / hi[M.k], w: 1 });
       }
     }
-    vals.push(mode === 'minmax'
-      ? { x: EPS + (1 - EPS) * (maxT ? 1 - r.v.touching / maxT : 1), w: TOUCH_WEIGHT }
-      : { x: 1 / (1 + r.v.touching), w: 1 });
+    // The touching term is the same in both modes and in score.js: 1/(1+t) is
+    // absolute, so it is not the thing that moves when the set shrinks. What
+    // moves is the min-max metrics above, which is exactly the point being made.
+    vals.push({ x: 1 / (1 + r.v.touching), w: mode === 'minmax' ? TOUCH_WEIGHT : 1 });
     const W = vals.reduce((a, v) => a + v.w, 0);
     const s = meanKind === 'harm'
       ? W / vals.reduce((a, v) => a + v.w / v.x, 0)

@@ -74,6 +74,10 @@ two runs of the tube sharing a wall. `bore_split.py` warns about them, and they 
 version of "density" that has a consequence: where the bore passes itself, that one wall
 is all that separates the two passages.
 
+Because a shared wall shows in the finished instrument, it is the heaviest input in the
+scoring and is penalized convexly — 1/(1+t), so no contact scores 1.000 and eight
+contacts 0.111. `node tools/score.js --clean` ranks only the coils that have none.
+
 It is also the one packing number that is *not* implied by the box. [`coil_3x3_47`](pages/coil_3x3_47.html) has the
 smallest box in the set and 8 shared walls; [`coil_3x3_53`](pages/coil_3x3_53.html) is
 13% larger and has **none**. If a shared wall
@@ -158,7 +162,7 @@ it disagrees with the box often enough to change which coil you would build.
 a single ranking under every common mean — harmonic, geometric, arithmetic, quadratic,
 cubic, median, midrange, contraharmonic — and reports what the choice of mean does to
 the answer. It does a great deal: `coil_2x2_146` places 1st under one and 17th under
-another. `coil_3x3_53_2` comes first under 6 of the 8 means.
+another. `coil_3x3_53_2` comes first under 5 of the 8 means.
 
 It also covers why to rank once rather than rank, cut and re-rank: with a
 set-relative normalization the survivors of a cut come out in a different order

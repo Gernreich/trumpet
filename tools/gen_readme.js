@@ -99,6 +99,10 @@ two runs of the tube sharing a wall. \`bore_split.py\` warns about them, and the
 version of "density" that has a consequence: where the bore passes itself, that one wall
 is all that separates the two passages.
 
+Because a shared wall shows in the finished instrument, it is the heaviest input in the
+scoring and is penalized convexly — 1/(1+t), so no contact scores 1.000 and eight
+contacts 0.111. \`node tools/score.js --clean\` ranks only the coils that have none.
+
 It is also the one packing number that is *not* implied by the box. ${L(box)} has the
 smallest box in the set and ${box.m.touching} shared walls; ${L(clean)} is
 ${((clean.m.vol/box.m.vol - 1) * 100).toFixed(0)}% larger and has **none**. If a shared wall
