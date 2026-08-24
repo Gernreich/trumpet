@@ -38,6 +38,10 @@ const clean = rows.filter(r => r.m.touching === 0).sort((a,b) => a.m.vol - b.m.v
 const plateBest = rows.slice().sort((a,b) => b.p.meanPlate - a.p.meanPlate)[0];
 const L = r => `[\`${r.name}\`](pages/${r.name}.html)`;
 const { rows: srows, R: SR } = require('./score.js');
+const { results: minres } = require('./minimal.js');
+const minimal = minres.filter(r => r.saving === 0).map(r => r.name);
+const slackiest = minres.slice().sort((a, b) => b.saving - a.saving)[0];
+const stair = minres.find(r => r.name === 'staircase_coil');
 const { MEANS: SM } = require('./score.js');
 const wins = SM.map(M => srows.slice().sort((a,b) => SR[M.k].get(a.name) - SR[M.k].get(b.name))[0].name);
 const tally = {}; for (const w of wins) tally[w] = (tally[w] || 0) + 1;
@@ -178,6 +182,30 @@ one. It would earn its place only in comparing walks of genuinely different leng
 **Touching** is the metric density was reaching for. It answers the question density
 sounds like it answers — how hard is this bore packed against itself — and unlike density
 it disagrees with the box often enough to change which coil you would build.
+
+## Every block load-bearing
+
+\`coil_5x5_28\` was derived from \`staircase_coil\` by removing blocks wherever one could
+go without introducing an elbow, and \`coil_5x5_55\` is that walk at comparable length.
+\`tools/minimal.js\` checks the claim: a term's floor is 3 in a coil window, 2 in a
+hairpin, 1 in a step, and a walk whose every term sits on its floor cannot be shortened
+at all.
+
+    node tools/minimal.js            # every walk
+    node tools/minimal.js --terms    # and which terms have slack
+
+The staircase coil has ${stair.saving} terms with slack, every one a hairpin sitting at 3 where 2
+would do — and the derived walk has **none**. The reduction was exhaustive.
+
+It also says something about the search. Only **${minimal.length} of ${minres.length}** walks here are minimal:
+${minimal.map(n => '\`' + n + '\`').join(', ')}. The search enumerated periods with legs up to
+4 and never asked whether a leg was longer than it had to be, so most of what it found
+carries slack — \`${slackiest.name}\` could lose ${slackiest.saving} blocks. Two of the ${minimal.length} minimal walks are
+the two that were reduced by hand.
+
+Removing slack is not automatically safe. The rule is local, and a shortened walk can
+run into itself or start touching, so what the tool reports are candidates to put back
+through \`bore_split.py\`.
 
 ## Walks kept but not scored
 
