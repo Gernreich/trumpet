@@ -30,15 +30,33 @@ for (const f of fs.readdirSync(path.join(root, 'walks')).filter(f => f.endsWith(
     if (m) kinds[m[1]] = (kinds[m[1]] || 0) + 1;
   }
   // a cut-list entry is NN_<kind>_<shape>.svg; the shape is what makes it distinct
-  const shapes = new Set();
-  for (const m of res.matchAll(/^\s+\d+\s+\d+_(\S+)\.svg/gm)) shapes.add(m[1]);
+  const seq = [...res.matchAll(/^\s+\d+\s+\d+_(\S+)\.svg/gm)].map(m => m[1]);
+  const shapes = new Set(seq);
+  // The rhythm: how many pieces you lay before the sequence starts over. The
+  // first and last piece are the bore's mouth and exit and are one-offs, so the
+  // repeat that matters is the interior one. Descriptive, not scored -- across a
+  // set of periodic coils it barely varies, and a near-constant metric in a mean
+  // only dilutes the ones that discriminate.
+  const interior = seq.slice(1, -1);
+  const period = (a) => {
+    for (let p = 1; p <= a.length; p++) {
+      let ok = true;
+      for (let i = 0; i + p < a.length; i++) if (a[i] !== a[i + p]) { ok = false; break; }
+      if (ok) return p;
+    }
+    return a.length;
+  };
+  const rhythm = interior.length ? period(interior) : 0;
   const areas = plates.map(p => p.mm2);
   out[name] = { pieces, kinds, elbows: kinds.elbow || 0,
                 distinct: shapes.size, shapes: [...shapes].sort(),
+                rhythm, repeats: rhythm ? interior.length / rhythm : 0,
+                interiorDistinct: new Set(interior).size,
                 meanPlate: areas.reduce((a, x) => a + x, 0) / areas.length,
                 maxPlate: Math.max(...areas), minPlate: Math.min(...areas),
                 totalPlate: areas.reduce((a, x) => a + x, 0) };
   console.log(name.padEnd(18), pieces + ' pieces', String(shapes.size) + ' distinct',
+              'rhythm ' + out[name].rhythm + ' x' + out[name].repeats.toFixed(1),
               'mean plate ' + Math.round(out[name].meanPlate) + ' mm2',
               'elbows ' + (kinds.elbow || 0));
 }

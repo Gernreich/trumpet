@@ -79,6 +79,14 @@ ${dist.p.pieces} pieces cut from ${dist.p.distinct} shapes. The staircase coil n
 ${yours.p.distinct}. That is files to check and parts to tell apart on the bench, and it
 does not show up in the piece count at all.
 
+**Rhythm** is how many pieces you lay before the cut list starts over, and how many
+times it recurs. It is descriptive, not scored: across coils built by repeating a period
+it barely varies — ${rows.filter(r => r.p.rhythm === 4).length} of the ${rows.length} here are a 4-piece rhythm — and a near-constant metric
+in a mean only dilutes the ones that discriminate. It is worth knowing at the bench all
+the same, and it is not the same thing as **distinct**: the two rank the set alike in
+only 6 of ${rows.length} places. \`coil_3x3_53_2\` is ${rows.find(r=>r.name==='coil_3x3_53_2').p.interiorDistinct} shapes laid in a 4-piece cycle, repeated
+${rows.find(r=>r.name==='coil_3x3_53_2').p.repeats.toFixed(1)} times, plus a one-off end.
+
 **Mean plate** is the average bounding box a piece is cut from, in mm2 — the
 laser-cutting number. Fewer, larger parts means less weeding, less sorting and fewer
 fingers to align, and it is the size of the part in your hand rather than the count of
@@ -161,6 +169,14 @@ one. It would earn its place only in comparing walks of genuinely different leng
 **Touching** is the metric density was reaching for. It answers the question density
 sounds like it answers — how hard is this bore packed against itself — and unlike density
 it disagrees with the box often enough to change which coil you would build.
+
+## Walks kept but not scored
+
+The scoring normalizes every metric across the set, so a walk of a different length does
+not merely rank oddly — it rescales everyone else. Those walks live in the repository and
+in the tables, below a rule, and are listed in [\`unscored.txt\`](unscored.txt) with the
+reason. Their rate metrics — blocks/360, rise/360, turns/m, touching — stay comparable
+and are still worth reading.
 
 ## Scoring them against each other
 

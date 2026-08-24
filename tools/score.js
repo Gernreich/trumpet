@@ -38,7 +38,16 @@ const TOUCH_WEIGHT = +(process.env.SPIRAL_TOUCH_WEIGHT || 5);
 const CLEAN_ONLY = process.argv.includes('--clean');
 const EPS = 0.01;              // a floor, so one worst-in-set value cannot zero a product
 
+// Walks listed in unscored.txt stay in the repository but out of the composite.
+// The normalization is computed across the set, so a walk of a different length
+// does not just rank oddly, it rescales everyone else.
+const UNSCORED = new Set(
+  (fs.existsSync(path.join(root, 'unscored.txt'))
+    ? fs.readFileSync(path.join(root, 'unscored.txt'), 'utf8') : '')
+  .split('\n').map(l => l.replace(/#.*/, '').trim()).filter(Boolean));
+
 const rows = fs.readdirSync(path.join(root, 'walks')).filter(f => f.endsWith('.txt'))
+  .filter(f => !UNSCORED.has(f.replace(/\.txt$/, '')))
   .map(f => {
     const name = f.replace(/\.txt$/, '');
     const m = metrics(fs.readFileSync(path.join(root, 'walks', f), 'utf8').trim());

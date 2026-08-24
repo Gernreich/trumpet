@@ -1,0 +1,9 @@
+# Walks kept here but left out of the composite scoring, and why.
+#
+# The scoring normalizes each metric across the set, so a walk of a different
+# length does not merely rank oddly -- it rescales everyone else. coil_5x5_28 is
+# 2852mm against the others' 5983-6076, and its 24 pieces would drag the piece
+# range down from 32 and make every other coil's piece score worse for no reason
+# it earned. Rate metrics (blocks/360, rise/360, turns/m, touching) stay
+# comparable and are still reported.
+coil_5x5_28

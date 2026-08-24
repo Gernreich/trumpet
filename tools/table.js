@@ -8,6 +8,10 @@ const md   = process.argv.includes('--md');
 const want = process.argv.includes('--shape') ? 'shape'
            : process.argv.includes('--rot')   ? 'rot' : 'all';
 
+const UNSCORED = new Set(
+  (fs.existsSync(path.join(root, 'unscored.txt'))
+    ? fs.readFileSync(path.join(root, 'unscored.txt'), 'utf8') : '')
+  .split('\n').map(l => l.replace(/#.*/, '').trim()).filter(Boolean));
 let parts = {};
 try { parts = JSON.parse(fs.readFileSync(path.join(root, 'parts.json'), 'utf8')); } catch (e) {}
 
@@ -19,18 +23,21 @@ const rows = fs.readdirSync(path.join(root, 'walks'))
              p: parts[name] || {} };
   })
   .sort((a, b) => a.m.vol - b.m.vol);
+const scored   = rows.filter(r => !UNSCORED.has(r.name));
+const unscored = rows.filter(r =>  UNSCORED.has(r.name));
 
 const link = r => md ? `[\`${r.name}\`](pages/${r.name}.html)` : r.name;
 
 const TABLES = {
   shape: {
     head: ['spiral', 'blocks', 'mm', 'envelope', 'box', 'cross-section', 'along axis',
-           'pieces', 'distinct', 'mean plate mm2', 'touching'],
-    align:['---', '---:', '---:', '---', '---:', '---', '---:', '---:', '---:', '---:', '---:'],
+           'pieces', 'distinct', 'rhythm', 'mean plate mm2', 'touching'],
+    align:['---', '---:', '---:', '---', '---:', '---', '---:', '---:', '---:', '---:', '---:', '---:'],
     row: r => [link(r), r.m.blocks, r.m.mm, r.m.size.join(' x '), r.m.vol,
                r.m.cross.join(' x ') + ' blk / ' + r.m.crossMM.join(' x ') + ' mm',
                r.m.axisLen + ' / ' + r.m.axisLenMM + ' mm',
                r.p.pieces ?? '-', r.p.distinct ?? '-',
+               r.p.rhythm ? r.p.rhythm + ' x' + r.p.repeats.toFixed(1) : '-',
                r.p.meanPlate ? Math.round(r.p.meanPlate) : '-', r.m.touching]
   },
   rot: {
@@ -46,9 +53,9 @@ const TABLES = {
   }
 };
 
-function emit(key){
+function emit(key, set){
   const t = TABLES[key];
-  const body = rows.map(r => t.row(r).map(String));
+  const body = (set || scored).map(r => t.row(r).map(String));
   if (md) {
     console.log('| ' + t.head.join(' | ') + ' |');
     console.log('| ' + t.align.join(' | ') + ' |');
@@ -60,3 +67,11 @@ function emit(key){
   }
 }
 if (want === 'all'){ emit('shape'); console.log(); emit('rot'); } else emit(want);
+if (unscored.length && want !== 'rot') {
+  console.log(md ? '\nNot scored (see `unscored.txt`):\n' : '\nnot scored:');
+  emit('shape', unscored);
+}
+if (unscored.length && want === 'rot') {
+  console.log(md ? '\nNot scored (see `unscored.txt`):\n' : '\nnot scored:');
+  emit('rot', unscored);
+}

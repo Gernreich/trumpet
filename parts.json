@@ -12,6 +12,9 @@
    "bend_DLDD",
    "bend_DRD"
   ],
+  "rhythm": 4,
+  "repeats": 11.5,
+  "interiorDistinct": 2,
   "meanPlate": 6323.958333333333,
   "maxPlate": 8255,
   "minPlate": 6240,
@@ -32,6 +35,9 @@
    "bend_RUUL",
    "bend_RUUR"
   ],
+  "rhythm": 4,
+  "repeats": 8.75,
+  "interiorDistinct": 4,
   "meanPlate": 8437.648648648648,
   "maxPlate": 12192,
   "minPlate": 4225,
@@ -51,6 +57,9 @@
    "bend_RDDL",
    "bend_RUUR"
   ],
+  "rhythm": 4,
+  "repeats": 8.75,
+  "interiorDistinct": 3,
   "meanPlate": 8357.216216216217,
   "maxPlate": 9216,
   "minPlate": 4225,
@@ -71,6 +80,9 @@
    "bend_RRDDR",
    "bend_RUUL"
   ],
+  "rhythm": 4,
+  "repeats": 8.5,
+  "interiorDistinct": 4,
   "meanPlate": 8856.055555555555,
   "maxPlate": 12192,
   "minPlate": 4225,
@@ -89,6 +101,9 @@
    "bend_DLLD",
    "bend_UURRD"
   ],
+  "rhythm": 4,
+  "repeats": 8.25,
+  "interiorDistinct": 3,
   "meanPlate": 9301.028571428571,
   "maxPlate": 12192,
   "minPlate": 9216,
@@ -109,6 +124,9 @@
    "bend_RUUR",
    "bend_UL"
   ],
+  "rhythm": 4,
+  "repeats": 11.75,
+  "interiorDistinct": 4,
   "meanPlate": 5899.632653061224,
   "maxPlate": 9216,
   "minPlate": 4225,
@@ -128,6 +146,9 @@
    "bend_RU",
    "bend_RUUL"
   ],
+  "rhythm": 4,
+  "repeats": 11.75,
+  "interiorDistinct": 4,
   "meanPlate": 5838.897959183673,
   "maxPlate": 9216,
   "minPlate": 4225,
@@ -148,6 +169,9 @@
    "bend_LDD",
    "bend_ULLD"
   ],
+  "rhythm": 4,
+  "repeats": 11.5,
+  "interiorDistinct": 4,
   "meanPlate": 6080.479166666667,
   "maxPlate": 12192,
   "minPlate": 4225,
@@ -168,6 +192,9 @@
    "bend_ULULU",
    "bend_UR"
   ],
+  "rhythm": 4,
+  "repeats": 10.75,
+  "interiorDistinct": 4,
   "meanPlate": 6842.0888888888885,
   "maxPlate": 12192,
   "minPlate": 4225,
@@ -188,6 +215,9 @@
    "bend_ULLD",
    "bend_URU"
   ],
+  "rhythm": 4,
+  "repeats": 10.25,
+  "interiorDistinct": 4,
   "meanPlate": 6262.3488372093025,
   "maxPlate": 9216,
   "minPlate": 4225,
@@ -208,6 +238,9 @@
    "bend_RRUULL",
    "bend_RUR"
   ],
+  "rhythm": 4,
+  "repeats": 9.25,
+  "interiorDistinct": 4,
   "meanPlate": 7638.179487179487,
   "maxPlate": 9216,
   "minPlate": 4225,
@@ -227,6 +260,9 @@
    "bend_UULLD",
    "bend_UURU"
   ],
+  "rhythm": 4,
+  "repeats": 8.25,
+  "interiorDistinct": 4,
   "meanPlate": 8834.257142857143,
   "maxPlate": 12192,
   "minPlate": 8255,
@@ -247,6 +283,9 @@
    "bend_ULLLD",
    "bend_URU"
   ],
+  "rhythm": 4,
+  "repeats": 9.25,
+  "interiorDistinct": 4,
   "meanPlate": 7270.948717948718,
   "maxPlate": 12192,
   "minPlate": 4225,
@@ -266,6 +305,9 @@
    "bend_URU",
    "bend_UULLLD"
   ],
+  "rhythm": 4,
+  "repeats": 8.25,
+  "interiorDistinct": 4,
   "meanPlate": 8861.714285714286,
   "maxPlate": 12192,
   "minPlate": 6240,
@@ -286,10 +328,40 @@
    "bend_RRUR",
    "bend_RRUUUL"
   ],
+  "rhythm": 4,
+  "repeats": 7.75,
+  "interiorDistinct": 4,
   "meanPlate": 10012.60606060606,
   "maxPlate": 12192,
   "minPlate": 6240,
   "totalPlate": 330416
+ },
+ "coil_5x5_28": {
+  "pieces": 24,
+  "kinds": {
+   "bend": 24
+  },
+  "elbows": 0,
+  "distinct": 10,
+  "shapes": [
+   "bend_DDDL",
+   "bend_DL",
+   "bend_DLLU",
+   "bend_DR",
+   "bend_LD",
+   "bend_LDDD",
+   "bend_LUUR",
+   "bend_RD",
+   "bend_RDDL",
+   "bend_URRD"
+  ],
+  "rhythm": 12,
+  "repeats": 1.8333333333333333,
+  "interiorDistinct": 8,
+  "meanPlate": 5232.5,
+  "maxPlate": 8255,
+  "minPlate": 4225,
+  "totalPlate": 125580
  },
  "coil_5x7_18": {
   "pieces": 35,
@@ -306,6 +378,9 @@
    "bend_ULLLLD",
    "bend_URU"
   ],
+  "rhythm": 4,
+  "repeats": 8.25,
+  "interiorDistinct": 4,
   "meanPlate": 8394.942857142858,
   "maxPlate": 15168,
   "minPlate": 6240,
@@ -326,6 +401,9 @@
    "bend_UULLLLD",
    "bend_UULLLLDD"
   ],
+  "rhythm": 4,
+  "repeats": 7.5,
+  "interiorDistinct": 4,
   "meanPlate": 10766.96875,
   "maxPlate": 15168,
   "minPlate": 6240,
@@ -350,6 +428,9 @@
    "bend_RDDDL",
    "bend_URRRD"
   ],
+  "rhythm": 12,
+  "repeats": 3.8333333333333335,
+  "interiorDistinct": 8,
   "meanPlate": 5736.25,
   "maxPlate": 8255,
   "minPlate": 4225,
