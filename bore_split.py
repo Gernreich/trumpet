@@ -1099,22 +1099,30 @@ def main(text, outdir=None):
 
 
 if __name__ == '__main__':
+    # Run as a script this file is __main__, and check.py's `import bore_split`
+    # loads it a second time as a separate module with its own globals. Setting a
+    # switch on __main__ therefore set it for the writer and not for the gate:
+    # `--ports --write` wrote ported cut files and then gated the unported design,
+    # reporting 226 checks and 0 failed on parts nothing had looked at. Everything
+    # below runs on the imported copy so there is one set of globals.
+    import bore_split as B
+
     a = sys.argv[1:]
-    d = OUTDIR
+    d = B.OUTDIR
     if '--flat' in a:
         a.remove('--flat')
-        globals()['FLAT'] = True
+        B.FLAT = True
     if '--ports' in a:
         a.remove('--ports')
-        globals()['ALLOW_PORTS'] = True
+        B.ALLOW_PORTS = True
     if '--fewest-pieces' in a:
         a.remove('--fewest-pieces')
-        globals()['FEWEST_ELBOWS'] = False
+        B.FEWEST_ELBOWS = False
     if '--no-write' in a:
         a.remove('--no-write'); d = None
     if '--write' in a:
         i = a.index('--write'); d = a[i+1]; a = a[:i] + a[i+2:]
     try:
-        main(walk_text(' '.join(a)) if a else 'D R1 F', d)
+        B.main(B.walk_text(' '.join(a)) if a else 'D R1 F', d)
     except ValueError as e:
         print(f'error: {e}'); sys.exit(1)

@@ -42,6 +42,16 @@ supplies the finger joints, burn compensation and SVG writer. `bore_split.py`
 shells out to it. Point `SNAKEBOX_BOXES` at the checkout and `SNAKEBOX_PY` at
 its venv python.
 
+## The switches must reach the gate
+
+`--ports`, `--flat` and `--fewest-pieces` are module globals. Run as a script this file
+is `__main__`, and `check.py`'s `import bore_split` loads it a second time with its own
+globals — so setting a switch on `__main__` set it for the writer and not for the gate.
+`--ports --write` wrote ported cut files, gated the *unported* design, and reported
+226 checks and 0 failed on parts nothing had looked at. The `__main__` block now
+delegates to the imported module so there is one set of globals. If another switch is
+added, set it on `B`, not on `globals()`.
+
 ## Never regenerate what you cannot check
 
 `regress.py` runs the full gate over every design in `walks/` and the design
