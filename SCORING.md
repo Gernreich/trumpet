@@ -5,9 +5,9 @@ read against the thing that produced it. Regenerate with `node tools/gen_scoring
 
 ## What is scored
 
-* **box** — less is better
+* **box/block** — less is better
 * **cross area** — less is better
-* **pieces** — less is better
+* **pieces/block** — less is better
 * **distinct** — less is better
 * **rise/360** — less is better
 * **turns/m** — less is better
@@ -74,62 +74,62 @@ bad metric is allowed to sink it.
 
 | spiral | touch | harmonic | # | geometric | # | arithmetic | # | quadratic | # | cubic | # | median | # | midrange | # | contraharmonic | # |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| coil_3x3_38 | 0 | 0.8751 | 1 | 0.8866 | 1 | 0.8972 | 2 | 0.9066 | 2 | 0.9150 | 2 | 1.0000 | 2 | 0.8205 | 1 | 0.9162 | 3 |
-| coil_3x3_42 | 0 | 0.8712 | 2 | 0.8864 | 2 | 0.8990 | 1 | 0.9093 | 1 | 0.9178 | 1 | 1.0000 | 3 | 0.7653 | 2 | 0.9197 | 2 |
-| coil_3x3_44_2 | 0 | 0.1127 | 10 | 0.5756 | 3 | 0.7656 | 3 | 0.8143 | 3 | 0.8411 | 3 | 0.8464 | 5 | 0.5050 | 12 | 0.8661 | 7 |
-| coil_3x3_47 | 0 | 0.1125 | 11 | 0.5690 | 4 | 0.7576 | 4 | 0.8075 | 4 | 0.8355 | 4 | 0.8350 | 6 | 0.5050 | 13 | 0.8606 | 8 |
-| coil_3x3_44 | 0 | 0.1124 | 12 | 0.5656 | 5 | 0.7521 | 5 | 0.8015 | 5 | 0.8298 | 6 | 0.8464 | 4 | 0.5050 | 11 | 0.8542 | 11 |
-| coil_3x3_36 | 4 | 0.3715 | 3 | 0.4749 | 6 | 0.5876 | 13 | 0.6732 | 15 | 0.7302 | 16 | 0.6410 | 19 | 0.6000 | 3 | 0.7713 | 20 |
-| coil_3x4_58 | 0 | 0.1058 | 13 | 0.4450 | 7 | 0.6368 | 10 | 0.7215 | 12 | 0.7757 | 13 | 0.6700 | 14 | 0.5050 | 18 | 0.8175 | 15 |
-| coil_3x3_33 | 5 | 0.3252 | 4 | 0.4430 | 8 | 0.5747 | 14 | 0.6692 | 17 | 0.7287 | 17 | 0.6700 | 13 | 0.5833 | 4 | 0.7794 | 19 |
-| coil_3x4_56 | 0 | 0.1005 | 14 | 0.4289 | 9 | 0.6539 | 8 | 0.7440 | 10 | 0.7935 | 10 | 0.7582 | 9 | 0.5050 | 14 | 0.8464 | 13 |
-| coil_3x4_56_4 | 0 | 0.1005 | 15 | 0.4289 | 10 | 0.6539 | 9 | 0.7440 | 11 | 0.7935 | 11 | 0.7582 | 10 | 0.5050 | 17 | 0.8464 | 14 |
-| coil_3x4_56_2 | 0 | 0.0596 | 20 | 0.3668 | 11 | 0.6549 | 6 | 0.7487 | 8 | 0.7967 | 8 | 0.7525 | 11 | 0.5050 | 15 | 0.8559 | 9 |
-| coil_3x4_56_3 | 0 | 0.0596 | 21 | 0.3668 | 12 | 0.6549 | 7 | 0.7487 | 9 | 0.7967 | 9 | 0.7525 | 12 | 0.5050 | 16 | 0.8559 | 10 |
-| coil_3x9_14 | 9 | 0.2130 | 5 | 0.3508 | 13 | 0.5331 | 17 | 0.6547 | 18 | 0.7247 | 18 | 0.6644 | 17 | 0.5500 | 5 | 0.8041 | 16 |
-| coil_4x8_14 | 9 | 0.2072 | 6 | 0.3367 | 14 | 0.5177 | 19 | 0.6430 | 19 | 0.7151 | 19 | 0.6700 | 15 | 0.5500 | 6 | 0.7986 | 17 |
-| coil_4x9_14 | 9 | 0.1961 | 8 | 0.3292 | 15 | 0.5332 | 16 | 0.6725 | 16 | 0.7489 | 15 | 0.6700 | 16 | 0.5500 | 7 | 0.8482 | 12 |
-| coil_5x7_14 | 9 | 0.1983 | 7 | 0.3188 | 16 | 0.4972 | 20 | 0.6255 | 20 | 0.7006 | 20 | 0.5825 | 20 | 0.5500 | 8 | 0.7868 | 18 |
-| coil_4x4_38 | 0 | 0.0567 | 22 | 0.3174 | 17 | 0.6343 | 11 | 0.7548 | 7 | 0.8127 | 7 | 0.8067 | 7 | 0.5050 | 21 | 0.8983 | 5 |
-| coil_3x8_16 | 11 | 0.1805 | 9 | 0.3069 | 18 | 0.4762 | 21 | 0.5903 | 21 | 0.6598 | 21 | 0.4927 | 21 | 0.5417 | 9 | 0.7317 | 21 |
-| coil_5x8_14 | 9 | 0.0823 | 16 | 0.2712 | 19 | 0.5247 | 18 | 0.6743 | 14 | 0.7539 | 14 | 0.6416 | 18 | 0.5050 | 24 | 0.8665 | 6 |
-| coil_2x2_110 | 0 | 0.0315 | 23 | 0.2127 | 20 | 0.6187 | 12 | 0.7667 | 6 | 0.8310 | 5 | 1.0000 | 1 | 0.5050 | 10 | 0.9501 | 1 |
-| coil_4x7_16 | 11 | 0.0755 | 17 | 0.2060 | 21 | 0.3779 | 22 | 0.4968 | 22 | 0.5717 | 22 | 0.3400 | 22 | 0.5050 | 22 | 0.6531 | 22 |
-| coil_5x5_38 | 0 | 0.0309 | 24 | 0.1830 | 22 | 0.5524 | 15 | 0.7077 | 13 | 0.7793 | 12 | 0.8067 | 8 | 0.5050 | 23 | 0.9066 | 4 |
-| coil_3x7_18 | 13 | 0.0701 | 18 | 0.1766 | 23 | 0.3366 | 23 | 0.4669 | 23 | 0.5568 | 23 | 0.2390 | 23 | 0.5050 | 19 | 0.6476 | 23 |
-| coil_3x7_18_2 | 13 | 0.0701 | 19 | 0.1766 | 24 | 0.3366 | 24 | 0.4669 | 24 | 0.5568 | 24 | 0.2390 | 24 | 0.5050 | 20 | 0.6476 | 24 |
+| coil_3x3_51 | 0 | 0.8866 | 1 | 0.8948 | 1 | 0.9024 | 1 | 0.9092 | 1 | 0.9154 | 1 | 0.9399 | 2 | 0.8225 | 1 | 0.9161 | 2 |
+| coil_3x3_54 | 0 | 0.8505 | 2 | 0.8655 | 2 | 0.8786 | 2 | 0.8900 | 2 | 0.8999 | 2 | 0.9137 | 3 | 0.7757 | 2 | 0.9016 | 4 |
+| coil_3x3_56_2 | 0 | 0.1128 | 11 | 0.5791 | 3 | 0.7705 | 3 | 0.8192 | 3 | 0.8458 | 3 | 0.8625 | 5 | 0.5050 | 12 | 0.8710 | 7 |
+| coil_3x3_56 | 0 | 0.1128 | 10 | 0.5788 | 4 | 0.7698 | 4 | 0.8185 | 4 | 0.8451 | 4 | 0.8625 | 4 | 0.5050 | 11 | 0.8703 | 8 |
+| coil_3x3_59 | 0 | 0.1124 | 12 | 0.5645 | 5 | 0.7518 | 5 | 0.8022 | 5 | 0.8311 | 6 | 0.8625 | 6 | 0.5050 | 13 | 0.8560 | 10 |
+| coil_3x4_68 | 0 | 0.1063 | 13 | 0.4727 | 6 | 0.6786 | 6 | 0.7560 | 8 | 0.8000 | 8 | 0.7525 | 11 | 0.5050 | 14 | 0.8423 | 11 |
+| coil_3x4_68_4 | 0 | 0.1063 | 14 | 0.4727 | 7 | 0.6786 | 7 | 0.7560 | 9 | 0.8000 | 9 | 0.7525 | 12 | 0.5050 | 17 | 0.8423 | 12 |
+| coil_3x4_68_2 | 0 | 0.1057 | 16 | 0.4635 | 8 | 0.6696 | 8 | 0.7499 | 10 | 0.7960 | 10 | 0.7571 | 9 | 0.5050 | 15 | 0.8398 | 13 |
+| coil_3x4_68_3 | 0 | 0.1057 | 17 | 0.4635 | 9 | 0.6696 | 9 | 0.7499 | 11 | 0.7960 | 11 | 0.7571 | 10 | 0.5050 | 16 | 0.8398 | 14 |
+| coil_3x4_79 | 0 | 0.1060 | 15 | 0.4472 | 10 | 0.6390 | 12 | 0.7232 | 12 | 0.7769 | 13 | 0.6700 | 15 | 0.5050 | 18 | 0.8186 | 15 |
+| coil_3x3_47 | 7 | 0.2585 | 3 | 0.3881 | 11 | 0.5395 | 15 | 0.6399 | 17 | 0.6988 | 18 | 0.6700 | 14 | 0.5625 | 3 | 0.7590 | 20 |
+| coil_3x3_48 | 8 | 0.2364 | 4 | 0.3775 | 12 | 0.5476 | 13 | 0.6547 | 16 | 0.7141 | 16 | 0.7235 | 13 | 0.5556 | 4 | 0.7827 | 17 |
+| coil_4x4_50 | 0 | 0.0583 | 22 | 0.3433 | 13 | 0.6506 | 10 | 0.7617 | 7 | 0.8163 | 7 | 0.8058 | 7 | 0.5050 | 21 | 0.8917 | 5 |
+| coil_3x9_18 | 13 | 0.1601 | 5 | 0.3051 | 14 | 0.5125 | 18 | 0.6395 | 18 | 0.7084 | 17 | 0.6644 | 18 | 0.5357 | 5 | 0.7979 | 16 |
+| coil_4x9_18 | 13 | 0.1509 | 8 | 0.2916 | 15 | 0.5283 | 16 | 0.6780 | 15 | 0.7550 | 15 | 0.6700 | 16 | 0.5357 | 7 | 0.8701 | 9 |
+| coil_4x8_18 | 13 | 0.1566 | 6 | 0.2903 | 16 | 0.4907 | 19 | 0.6194 | 19 | 0.6901 | 19 | 0.6475 | 19 | 0.5357 | 6 | 0.7820 | 18 |
+| coil_5x7_18 | 13 | 0.1517 | 7 | 0.2773 | 17 | 0.4768 | 20 | 0.6093 | 20 | 0.6824 | 20 | 0.5825 | 20 | 0.5357 | 8 | 0.7786 | 19 |
+| coil_3x8_20 | 15 | 0.1414 | 9 | 0.2766 | 18 | 0.4738 | 21 | 0.5974 | 21 | 0.6691 | 21 | 0.4927 | 21 | 0.5313 | 9 | 0.7532 | 21 |
+| coil_2x2_134 | 0 | 0.0410 | 23 | 0.2721 | 19 | 0.6412 | 11 | 0.7756 | 6 | 0.8372 | 5 | 1.0000 | 1 | 0.5050 | 10 | 0.9382 | 1 |
+| coil_5x8_18 | 13 | 0.0731 | 18 | 0.2406 | 20 | 0.5204 | 17 | 0.6796 | 14 | 0.7592 | 14 | 0.6700 | 17 | 0.5050 | 24 | 0.8876 | 6 |
+| coil_4x7_20 | 15 | 0.0677 | 19 | 0.1859 | 21 | 0.3760 | 22 | 0.5053 | 22 | 0.5831 | 22 | 0.3400 | 22 | 0.5050 | 22 | 0.6789 | 24 |
+| coil_3x7_22 | 17 | 0.0635 | 20 | 0.1657 | 22 | 0.3469 | 23 | 0.4862 | 23 | 0.5772 | 23 | 0.2390 | 23 | 0.5050 | 19 | 0.6813 | 22 |
+| coil_3x7_22_2 | 17 | 0.0635 | 21 | 0.1657 | 23 | 0.3469 | 24 | 0.4862 | 24 | 0.5772 | 24 | 0.2390 | 24 | 0.5050 | 20 | 0.6813 | 23 |
+| coil_5x5_50 | 0 | 0.0255 | 24 | 0.1542 | 24 | 0.5460 | 14 | 0.7071 | 13 | 0.7792 | 12 | 0.8058 | 8 | 0.5050 | 23 | 0.9158 | 3 |
 
 **The median does not survive the weighting.** It is an order statistic, and weight is
 applied by repetition, so touching occupies 5 of the 13 values and can simply *be*
-the median. 3 coils tie at exactly 1.0000. Read the median column knowing that;
+the median. 1 coils tie at exactly 1.0000. Read the median column knowing that;
 the power means do not have this problem.
 
 ## Choosing a mean is choosing how much a weak spot counts
 
-That choice is worth more than any metric in it. coil_2x2_110 ranks **1** under one mean
-and **23** under another — a swing of 22 places in a field of 24. coil_5x5_38 swings 20.
+That choice is worth more than any metric in it. coil_2x2_134 ranks **1** under one mean
+and **23** under another — a swing of 22 places in a field of 24. coil_5x5_50 swings 21.
 
 | spiral | worst single input | harmonic | contraharmonic |
 | --- | --- | ---: | ---: |
-| `coil_2x2_110` | pieces = 0.010 | #23 | #1 |
-| `coil_5x5_38` | box = 0.010 | #24 | #4 |
-| `coil_5x8_14` | cross area = 0.010 | #16 | #6 |
+| `coil_2x2_134` | rise/360 = 0.010 | #23 | #1 |
+| `coil_5x5_50` | box/block = 0.010 | #24 | #3 |
+| `coil_5x8_18` | cross area = 0.010 | #18 | #6 |
 
-`coil_2x2_110` is the clearest case: one input on the floor and another at the ceiling.
+`coil_2x2_134` is the clearest case: one input on the floor and another at the ceiling.
 The mean that punishes weak spots reads it as disqualified; the mean that rewards strong
 ones reads it as the best thing here. Both are arithmetically correct — they are
-answering different questions. `coil_5x5_38` is the same shape of argument, its weak spot
-being box.
+answering different questions. `coil_5x5_50` is the same shape of argument, its weak spot
+being box/block.
 
 Harmonic and contraharmonic agree on **1** of 24 placings — they are as opposed as
-two means of the same numbers can be. Harmonic and geometric agree on 2, which is
+two means of the same numbers can be. Harmonic and geometric agree on 3, which is
 why the geometric mean is the usual choice when no weak spot should be forgiven but
 outright disqualification is too strong.
 
 ## What survives
 
-`coil_3x3_38` comes first under **3 of the 8 means**, and the reason is visible in the
-table above: its worst input is 0.641, where every other contender has something
+`coil_3x3_51` comes first under **6 of the 8 means**, and the reason is visible in the
+table above: its worst input is 0.645, where every other contender has something
 at 0.01. It does not win by being outstanding anywhere. It wins by having nothing to
 punish, which is the one way to be robust to the choice of mean.
 
@@ -142,12 +142,12 @@ is the choice that declines to say.
 
 A tempting variant is to rank, cut the bottom half, and re-rank the survivors. Do not.
 
-* **harmonic, min-max (what SCORING.md uses)** — survivors reordered 6/12, 5/6, 2/3, 0/2 over the rounds (13 moves in total)
-* **geometric, min-max** — survivors reordered 10/12, 5/6, 0/3, 0/2 over the rounds (15 moves in total)
+* **harmonic, min-max (what SCORING.md uses)** — survivors reordered 8/12, 5/6, 2/3, 0/2 over the rounds (15 moves in total)
+* **geometric, min-max** — survivors reordered 10/12, 3/6, 0/3, 0/2 over the rounds (13 moves in total)
 * **geometric, pure ratio-to-best** — survivors reordered 0/12, 0/6, 0/3, 0/2 over the rounds (0 moves in total)
 
 The first two reorder coils that did not change, purely because other coils left the
-set. `coil_3x3_36` places 3rd of 24 and 1st of the surviving 9; `coil_3x3_38`
+set. `coil_3x3_47` places 3rd of 24 and 1st of the surviving 9; `coil_3x3_51`
 places 1st and then 4th. Nothing about either was measured again.
 
 The cause is that min-max reads its lo and hi off whoever is present, so dropping
@@ -165,7 +165,7 @@ The winner here survives all three, so nothing practical turns on it — but the
 below the top is meaningless under iteration, and should not be read.
 
 One more cost: a cut on composite score removes whatever is best at a single thing,
-because a composite is a compromise. `coil_2x2_110` has the narrowest cross-section in
+because a composite is a compromise. `coil_2x2_134` has the narrowest cross-section in
 the set and does not survive round 0 of 2 of the 3 runs.
 
     node tools/iterate.js        # the numbers above

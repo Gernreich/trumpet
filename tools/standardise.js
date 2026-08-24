@@ -4,7 +4,7 @@
 //
 //   forward   north for all of them, and the walk opens on a north term
 //   rotation  counter-clockwise seen looking along the bore from the mouth
-//   length    whole periods only, as many as fit within 3 x the longest period
+//   length    whole periods only, the count that lands nearest a common target
 //   ends      one block in, one block out, and no partial period between them
 //
 // A bore opens at both ends, so the first and last piece cannot be got rid of:
@@ -91,9 +91,23 @@ for (const f of fs.readdirSync(path.join(root,'walks')).filter(f => f.endsWith('
   src.push({ name, walk, per });
 }
 const known = src.filter(s => s.per);
-const longest = Math.max(...known.map(s => blocksOf(s.per)));
-const LIMIT = longest * 3;
-console.log('longest period ' + longest + ' blocks; repeats bounded by 3x that = ' + LIMIT + ' blocks\n');
+// Whole periods of different lengths cannot all reach the same total, so the
+// target is chosen rather than assumed: the one that makes the tube lengths as
+// alike as possible while the bore stays a plausible size. Capping instead --
+// "as many as fit under a limit" -- is worse, because it truncates the
+// long-period coils hardest and every one of them lands below every short-period
+// one. Nearest-to-target has no such lean.
+const PERIODS = [...new Set(known.map(s => blocksOf(s.per)))];
+const lengthsFor = L => PERIODS.map(p => Math.max(1, Math.round(L / p)) * p);
+let TARGET = null, bestSpread = Infinity;
+for (let L = 120; L <= 220; L++){                       // 3.7m to 6.8m of tube
+  const len = lengthsFor(L);
+  const spread = Math.max(...len) / Math.min(...len) - 1;
+  if (spread < bestSpread - 1e-12){ bestSpread = spread; TARGET = L; }
+}
+const span = lengthsFor(TARGET);
+console.log('target ' + TARGET + ' blocks, chosen to minimise the spread: lengths ' +
+  Math.min(...span) + '-' + Math.max(...span) + ', ' + (bestSpread*100).toFixed(1) + '%\n');
 
 const out = [];
 for (const s of src){
@@ -105,7 +119,7 @@ for (const s of src){
   }
   const o = orient(per);
   if (!o){ console.log(s.name.padEnd(20) + 'could not orient'); continue; }
-  const pb = blocksOf(o), k = Math.floor(LIMIT / pb);
+  const pb = blocksOf(o), k = Math.max(1, Math.round(TARGET / pb));
   const body = Array.from({length:k}, () => o.map(m => m.d + m.n).join(' ')).join(' ');
   const walk = 'N ' + body + ' ' + o[o.length-1].d;
   const r = split(walk);
@@ -121,4 +135,4 @@ console.log('\n' + out.length + ' standardised, ' + byWalk.size + ' distinct');
 for (const [w, names] of byWalk) if (names.length > 1) console.log('  same coil: ' + names.join(', '));
 if (WRITE) fs.writeFileSync(path.join(root,'standardised.json'),
   JSON.stringify([...byWalk].map(([walk,names]) => ({ walk, names })), null, 1));
-module.exports = { out, byWalk, LIMIT };
+module.exports = { out, byWalk, TARGET };

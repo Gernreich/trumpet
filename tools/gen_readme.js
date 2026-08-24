@@ -84,8 +84,7 @@ differ:
 
 * **forward is north** for all of them, and each walk opens on a north term
 * **counter-clockwise**, seen looking along the bore from the mouth
-* **whole periods only**, as many as fit within three times the longest period
-  (48 x 3 = 144 blocks)
+* **whole periods only** — the repeat count that lands nearest a common target
 * **one block in, one block out**, and no partial period between them
 
 A bore opens at both ends, so the first and last piece cannot be removed — they are
@@ -98,11 +97,27 @@ coil in another orientation, and [\`derived.txt\`](derived.txt) records which. T
 reduction of the staircase coil, the tool's reduction of it, and the extension of the
 hand reduction all turn out to be one coil.
 
-**The one cost.** Whole periods of different lengths cannot all reach 144, so the bores
-run ${Math.min(...rows.map(r=>r.full.blocks))} to ${Math.max(...rows.map(r=>r.full.blocks))} blocks — ${Math.min(...rows.map(r=>r.full.mm))}mm to ${Math.max(...rows.map(r=>r.full.mm))}mm, a spread of ${((Math.max(...rows.map(r=>r.full.mm))/Math.min(...rows.map(r=>r.full.mm))-1)*100).toFixed(0)}%. That is much wider
-than the 1.6% the set used to hold, and it flatters the shorter coils on every measure
-of size: a 127-block coil has less tube to put anywhere. Read the box column with the
-blocks column beside it.
+### The length rule, and why it is not a cap
+
+Whole periods of different lengths cannot all reach the same total, so some rule has to
+choose the repeat counts. The first one tried — as many periods as fit under a limit —
+is the wrong shape: it truncates the long-period coils hardest, so every one of them
+lands below every short-period one, and the bores ran ${''}126 to 144 blocks, a 14.3% spread.
+
+The target is now chosen rather than assumed. \`tools/standardise.js\` searches bore
+lengths from 120 to 220 blocks for the one that makes the tube lengths most alike, takes
+the **nearest** whole-period count to it rather than the largest that fits, and lands on
+${''}180: bores of ${Math.min(...rows.map(r=>r.full.blocks))} to ${Math.max(...rows.map(r=>r.full.blocks))} blocks, ${Math.min(...rows.map(r=>r.full.mm))}mm to ${Math.max(...rows.map(r=>r.full.mm))}mm, a spread of ${((Math.max(...rows.map(r=>r.full.blocks))/Math.min(...rows.map(r=>r.full.blocks))-1)*100).toFixed(1)}%.
+
+That is as close as this set can get at a plausible size. Squeezing the spread below 10%
+needs a seven-metre bore and below 5% needs twelve, which is not a trumpet.
+
+So the residual is handled where it actually bites, in the scoring: **box and piece count
+are scored per block**, because both grow with tube and comparing them absolutely would
+hand the shorter coils an advantage they did nothing to earn. Over this set piece count
+correlates 0.63 with block count. Cross-section, mean plate, distinct shapes and the
+rates are length-independent already; touching stays an absolute count, because the
+requirement is none of it at any length.
 
 ## Shape and cost
 

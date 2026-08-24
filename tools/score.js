@@ -16,10 +16,17 @@ const root = path.join(__dirname, '..');
 const md = process.argv.includes('--md');
 const parts = JSON.parse(fs.readFileSync(path.join(root, 'parts.json'), 'utf8'));
 
+// Two of these are scored per block rather than absolutely. Whole periods of
+// different lengths cannot all reach the same total, so the bores differ by about
+// 9% -- and box and piece count both grow with tube, so comparing them absolutely
+// hands the shorter coils an advantage they did nothing to earn. Measured over
+// this set, piece count correlates 0.63 with block count. Cross-section, mean
+// plate, distinct shapes and the rates are length-independent already, and
+// touching stays absolute because the requirement is none of it, at any length.
 const METRICS = [
-  { k: 'vol',             dir: 'lo', label: 'box'          },
+  { k: 'volPerBlock',     dir: 'lo', label: 'box/block'    },
   { k: 'crossArea',       dir: 'lo', label: 'cross area'   },
-  { k: 'pieces',          dir: 'lo', label: 'pieces'       },
+  { k: 'piecesPerBlock',  dir: 'lo', label: 'pieces/block' },
   { k: 'distinct',        dir: 'lo', label: 'distinct'     },
   { k: 'risePer360',      dir: 'lo', label: 'rise/360'     },
   { k: 'turnsPerMetre',   dir: 'lo', label: 'turns/m'      },
@@ -58,6 +65,8 @@ const rows = fs.readdirSync(path.join(root, 'walks')).filter(f => f.endsWith('.t
     const m = metrics(walk, p.interiorBlocks);
     return { name, m, full: metrics(walk), v: {
       vol: m.vol, crossArea: m.cross[0] * m.cross[1],
+      volPerBlock: m.vol / m.blocks,
+      piecesPerBlock: p.innerPieces / m.blocks,
       pieces: p.innerPieces, distinct: p.interiorDistinct,
       risePer360: m.risePer360, turnsPerMetre: m.turnsPerMetre,
       longestStraight: m.longestStraight, meanPlate: p.meanPlate,
