@@ -25,12 +25,13 @@ const link = r => md ? `[\`${r.name}\`](pages/${r.name}.html)` : r.name;
 const TABLES = {
   shape: {
     head: ['spiral', 'blocks', 'mm', 'envelope', 'box', 'cross-section', 'along axis',
-           'pieces', 'distinct', 'touching'],
-    align:['---', '---:', '---:', '---', '---:', '---', '---:', '---:', '---:', '---:'],
+           'pieces', 'distinct', 'mean plate mm2', 'touching'],
+    align:['---', '---:', '---:', '---', '---:', '---', '---:', '---:', '---:', '---:', '---:'],
     row: r => [link(r), r.m.blocks, r.m.mm, r.m.size.join(' x '), r.m.vol,
                r.m.cross.join(' x ') + ' blk / ' + r.m.crossMM.join(' x ') + ' mm',
                r.m.axisLen + ' / ' + r.m.axisLenMM + ' mm',
-               r.p.pieces ?? '-', r.p.distinct ?? '-', r.m.touching]
+               r.p.pieces ?? '-', r.p.distinct ?? '-',
+               r.p.meanPlate ? Math.round(r.p.meanPlate) : '-', r.m.touching]
   },
   rot: {
     head: ['spiral', 'axis', 'rotation', 'turns', 'blocks/360', 'rise/360 blk / mm',

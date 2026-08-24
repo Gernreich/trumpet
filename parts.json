@@ -11,7 +11,11 @@
    "bend_DLD",
    "bend_DLDD",
    "bend_DRD"
-  ]
+  ],
+  "meanPlate": 6323.958333333333,
+  "maxPlate": 8255,
+  "minPlate": 6240,
+  "totalPlate": 303550
  },
  "coil_3x3_47": {
   "pieces": 37,
@@ -27,7 +31,11 @@
    "bend_RDDRR",
    "bend_RUUL",
    "bend_RUUR"
-  ]
+  ],
+  "meanPlate": 8437.648648648648,
+  "maxPlate": 12192,
+  "minPlate": 4225,
+  "totalPlate": 312193
  },
  "coil_3x3_50": {
   "pieces": 37,
@@ -42,7 +50,11 @@
    "bend_LLDDRR",
    "bend_RDDL",
    "bend_RUUR"
-  ]
+  ],
+  "meanPlate": 8357.216216216217,
+  "maxPlate": 9216,
+  "minPlate": 4225,
+  "totalPlate": 309217
  },
  "coil_3x3_53": {
   "pieces": 36,
@@ -58,7 +70,11 @@
    "bend_RDDR",
    "bend_RRDDR",
    "bend_RUUL"
-  ]
+  ],
+  "meanPlate": 8856.055555555555,
+  "maxPlate": 12192,
+  "minPlate": 4225,
+  "totalPlate": 318818
  },
  "coil_3x3_53_2": {
   "pieces": 35,
@@ -72,7 +88,11 @@
    "bend_DDRRU",
    "bend_DLLD",
    "bend_UURRD"
-  ]
+  ],
+  "meanPlate": 9301.028571428571,
+  "maxPlate": 12192,
+  "minPlate": 9216,
+  "totalPlate": 325536
  },
  "coil_3x4_73": {
   "pieces": 49,
@@ -88,7 +108,11 @@
    "bend_RU",
    "bend_RUUR",
    "bend_UL"
-  ]
+  ],
+  "meanPlate": 5899.632653061224,
+  "maxPlate": 9216,
+  "minPlate": 4225,
+  "totalPlate": 289082
  },
  "coil_3x4_73_2": {
   "pieces": 49,
@@ -103,7 +127,11 @@
    "bend_RDDR",
    "bend_RU",
    "bend_RUUL"
-  ]
+  ],
+  "meanPlate": 5838.897959183673,
+  "maxPlate": 9216,
+  "minPlate": 4225,
+  "totalPlate": 286106
  },
  "coil_3x4_74": {
   "pieces": 48,
@@ -119,7 +147,11 @@
    "bend_LD",
    "bend_LDD",
    "bend_ULLD"
-  ]
+  ],
+  "meanPlate": 6080.479166666667,
+  "maxPlate": 12192,
+  "minPlate": 4225,
+  "totalPlate": 291863
  },
  "coil_3x4_78": {
   "pieces": 45,
@@ -135,7 +167,11 @@
    "bend_RD",
    "bend_ULULU",
    "bend_UR"
-  ]
+  ],
+  "meanPlate": 6842.0888888888885,
+  "maxPlate": 12192,
+  "minPlate": 4225,
+  "totalPlate": 307894
  },
  "coil_3x7_22": {
   "pieces": 43,
@@ -151,7 +187,11 @@
    "bend_UL",
    "bend_ULLD",
    "bend_URU"
-  ]
+  ],
+  "meanPlate": 6262.3488372093025,
+  "maxPlate": 9216,
+  "minPlate": 4225,
+  "totalPlate": 269281
  },
  "coil_3x8_20": {
   "pieces": 39,
@@ -167,7 +207,11 @@
    "bend_RRUUL",
    "bend_RRUULL",
    "bend_RUR"
-  ]
+  ],
+  "meanPlate": 7638.179487179487,
+  "maxPlate": 9216,
+  "minPlate": 4225,
+  "totalPlate": 297889
  },
  "coil_3x9_18": {
   "pieces": 35,
@@ -182,7 +226,11 @@
    "bend_DDRRU",
    "bend_UULLD",
    "bend_UURU"
-  ]
+  ],
+  "meanPlate": 8834.257142857143,
+  "maxPlate": 12192,
+  "minPlate": 8255,
+  "totalPlate": 309199
  },
  "coil_4x7_20": {
   "pieces": 39,
@@ -198,7 +246,11 @@
    "bend_UL",
    "bend_ULLLD",
    "bend_URU"
-  ]
+  ],
+  "meanPlate": 7270.948717948718,
+  "maxPlate": 12192,
+  "minPlate": 4225,
+  "totalPlate": 283567
  },
  "coil_4x8_18": {
   "pieces": 35,
@@ -213,7 +265,11 @@
    "bend_DRRRU",
    "bend_URU",
    "bend_UULLLD"
-  ]
+  ],
+  "meanPlate": 8861.714285714286,
+  "maxPlate": 12192,
+  "minPlate": 6240,
+  "totalPlate": 310160
  },
  "coil_4x9_17": {
   "pieces": 33,
@@ -229,7 +285,11 @@
    "bend_LLUL",
    "bend_RRUR",
    "bend_RRUUUL"
-  ]
+  ],
+  "meanPlate": 10012.60606060606,
+  "maxPlate": 12192,
+  "minPlate": 6240,
+  "totalPlate": 330416
  },
  "coil_5x7_18": {
   "pieces": 35,
@@ -245,7 +305,11 @@
    "bend_ULLL",
    "bend_ULLLLD",
    "bend_URU"
-  ]
+  ],
+  "meanPlate": 8394.942857142858,
+  "maxPlate": 15168,
+  "minPlate": 6240,
+  "totalPlate": 293823
  },
  "coil_5x8_17": {
   "pieces": 32,
@@ -261,7 +325,11 @@
    "bend_URU",
    "bend_UULLLLD",
    "bend_UULLLLDD"
-  ]
+  ],
+  "meanPlate": 10766.96875,
+  "maxPlate": 15168,
+  "minPlate": 6240,
+  "totalPlate": 344543
  },
  "staircase_coil": {
   "pieces": 48,
@@ -281,6 +349,10 @@
    "bend_RD",
    "bend_RDDDL",
    "bend_URRRD"
-  ]
+  ],
+  "meanPlate": 5736.25,
+  "maxPlate": 8255,
+  "minPlate": 4225,
+  "totalPlate": 275340
  }
 }

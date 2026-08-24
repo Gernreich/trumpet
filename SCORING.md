@@ -12,6 +12,7 @@ read against the thing that produced it. Regenerate with `node tools/gen_scoring
 * **rise/360** — less is better
 * **turns/m** — less is better
 * **longest str** — more is better
+* **mean plate** — more is better
 * **touching** — carried the same way as the rest, at weight 3
 
 Each is normalized to (0,1] with 1 the best in the set, oriented so bigger is
@@ -45,24 +46,24 @@ bad metric is allowed to sink it.
 
 | spiral | touch | harmonic | # | geometric | # | arithmetic | # | quadratic | # | cubic | # | median | # | midrange | # | contraharmonic | # |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| coil_3x3_53_2 | 0 | 0.8789 | 1 | 0.8897 | 1 | 0.8992 | 1 | 0.9076 | 1 | 0.9149 | 1 | 0.9479 | 1 | 0.8053 | 2 | 0.9160 | 2 |
-| coil_3x3_53 | 0 | 0.8396 | 2 | 0.8511 | 2 | 0.8620 | 2 | 0.8724 | 2 | 0.8819 | 2 | 0.8791 | 3 | 0.8188 | 1 | 0.8828 | 4 |
-| coil_3x3_50 | 8 | 0.7317 | 3 | 0.7434 | 3 | 0.7557 | 3 | 0.7683 | 4 | 0.7811 | 5 | 0.7023 | 9 | 0.8020 | 4 | 0.7812 | 12 |
-| coil_3x3_47 | 8 | 0.7191 | 4 | 0.7311 | 4 | 0.7444 | 4 | 0.7587 | 5 | 0.7737 | 7 | 0.6953 | 11 | 0.8020 | 3 | 0.7733 | 14 |
-| coil_3x9_18 | 16 | 0.4176 | 5 | 0.5252 | 5 | 0.6329 | 6 | 0.7108 | 8 | 0.7610 | 9 | 0.8118 | 5 | 0.6040 | 5 | 0.7983 | 10 |
-| coil_4x9_17 | 14 | 0.3958 | 6 | 0.5165 | 6 | 0.6258 | 7 | 0.7054 | 9 | 0.7601 | 10 | 0.6526 | 12 | 0.5600 | 9 | 0.7952 | 11 |
-| coil_4x8_18 | 16 | 0.3868 | 7 | 0.4903 | 7 | 0.6017 | 10 | 0.6852 | 13 | 0.7394 | 13 | 0.7515 | 7 | 0.6040 | 6 | 0.7802 | 13 |
-| coil_3x8_20 | 17 | 0.3429 | 9 | 0.4536 | 8 | 0.5658 | 15 | 0.6482 | 16 | 0.7048 | 16 | 0.5892 | 15 | 0.5793 | 7 | 0.7426 | 16 |
-| coil_5x7_18 | 16 | 0.3472 | 8 | 0.4523 | 9 | 0.5680 | 14 | 0.6558 | 15 | 0.7141 | 15 | 0.6353 | 13 | 0.5737 | 8 | 0.7572 | 15 |
-| coil_5x8_17 | 14 | 0.0853 | 10 | 0.3960 | 10 | 0.6075 | 9 | 0.7018 | 12 | 0.7621 | 8 | 0.5870 | 16 | 0.5050 | 15 | 0.8108 | 9 |
-| staircase_coil | 0 | 0.0786 | 11 | 0.3863 | 11 | 0.6727 | 5 | 0.7802 | 3 | 0.8322 | 3 | 0.8839 | 2 | 0.5050 | 16 | 0.9050 | 3 |
-| coil_3x4_74 | 0 | 0.0751 | 12 | 0.3313 | 12 | 0.5959 | 11 | 0.7047 | 11 | 0.7597 | 12 | 0.7038 | 8 | 0.5050 | 13 | 0.8333 | 7 |
-| coil_3x4_73_2 | 0 | 0.0462 | 14 | 0.2858 | 13 | 0.6098 | 8 | 0.7226 | 7 | 0.7758 | 6 | 0.7532 | 6 | 0.5050 | 12 | 0.8564 | 5 |
-| coil_3x4_73 | 0 | 0.0461 | 15 | 0.2796 | 14 | 0.5933 | 12 | 0.7052 | 10 | 0.7599 | 11 | 0.6982 | 10 | 0.5050 | 11 | 0.8384 | 6 |
-| coil_3x4_78 | 0 | 0.0461 | 16 | 0.2584 | 15 | 0.5450 | 16 | 0.6671 | 14 | 0.7342 | 14 | 0.6073 | 14 | 0.5050 | 14 | 0.8166 | 8 |
-| coil_4x7_20 | 18 | 0.0726 | 13 | 0.2440 | 16 | 0.4255 | 17 | 0.5315 | 17 | 0.5976 | 18 | 0.4630 | 17 | 0.5022 | 17 | 0.6637 | 18 |
-| coil_2x2_146 | 0 | 0.0311 | 17 | 0.1850 | 17 | 0.5788 | 13 | 0.7403 | 6 | 0.8107 | 4 | 0.8446 | 4 | 0.5050 | 10 | 0.9469 | 1 |
-| coil_3x7_22 | 20 | 0.0243 | 18 | 0.1146 | 18 | 0.3851 | 18 | 0.5305 | 18 | 0.6133 | 17 | 0.3448 | 18 | 0.5019 | 18 | 0.7308 | 17 |
+| coil_3x3_53_2 | 0 | 0.8605 | 1 | 0.8718 | 1 | 0.8822 | 1 | 0.8916 | 1 | 0.9000 | 1 | 0.8958 | 1 | 0.8053 | 2 | 0.9011 | 3 |
+| coil_3x3_53 | 0 | 0.8140 | 2 | 0.8274 | 2 | 0.8404 | 2 | 0.8528 | 2 | 0.8643 | 2 | 0.8625 | 2 | 0.8120 | 1 | 0.8653 | 4 |
+| coil_3x3_50 | 8 | 0.7066 | 3 | 0.7204 | 3 | 0.7348 | 3 | 0.7495 | 3 | 0.7643 | 7 | 0.6959 | 7 | 0.7629 | 4 | 0.7646 | 13 |
+| coil_3x3_47 | 8 | 0.6983 | 4 | 0.7114 | 4 | 0.7260 | 4 | 0.7416 | 5 | 0.7580 | 8 | 0.6948 | 8 | 0.7708 | 3 | 0.7576 | 14 |
+| coil_4x9_17 | 14 | 0.4161 | 6 | 0.5405 | 5 | 0.6463 | 5 | 0.7199 | 7 | 0.7693 | 6 | 0.6700 | 12 | 0.5600 | 9 | 0.8020 | 9 |
+| coil_3x9_18 | 16 | 0.4304 | 5 | 0.5332 | 6 | 0.6317 | 7 | 0.7030 | 9 | 0.7503 | 10 | 0.7983 | 3 | 0.6040 | 5 | 0.7824 | 11 |
+| coil_4x8_18 | 16 | 0.4007 | 7 | 0.5012 | 7 | 0.6039 | 9 | 0.6799 | 11 | 0.7304 | 13 | 0.7047 | 6 | 0.6040 | 6 | 0.7656 | 12 |
+| coil_5x7_18 | 16 | 0.3586 | 8 | 0.4591 | 8 | 0.5648 | 10 | 0.6456 | 14 | 0.7012 | 15 | 0.6005 | 14 | 0.5737 | 8 | 0.7380 | 15 |
+| coil_3x8_20 | 17 | 0.3463 | 9 | 0.4468 | 9 | 0.5493 | 12 | 0.6288 | 16 | 0.6864 | 16 | 0.5861 | 15 | 0.5793 | 7 | 0.7198 | 16 |
+| coil_5x8_17 | 14 | 0.0930 | 10 | 0.4308 | 10 | 0.6432 | 6 | 0.7340 | 6 | 0.7901 | 4 | 0.6700 | 13 | 0.5050 | 15 | 0.8376 | 6 |
+| coil_3x4_74 | 0 | 0.0753 | 12 | 0.2904 | 11 | 0.5488 | 13 | 0.6723 | 13 | 0.7359 | 12 | 0.6700 | 11 | 0.5050 | 13 | 0.8235 | 8 |
+| staircase_coil | 0 | 0.0484 | 14 | 0.2771 | 12 | 0.6124 | 8 | 0.7439 | 4 | 0.8062 | 3 | 0.7678 | 4 | 0.5050 | 16 | 0.9037 | 2 |
+| coil_3x4_78 | 0 | 0.0497 | 13 | 0.2554 | 13 | 0.5161 | 16 | 0.6397 | 15 | 0.7120 | 14 | 0.5447 | 16 | 0.5050 | 14 | 0.7930 | 10 |
+| coil_4x7_20 | 18 | 0.0781 | 11 | 0.2495 | 14 | 0.4152 | 17 | 0.5154 | 17 | 0.5817 | 18 | 0.3400 | 17 | 0.5022 | 17 | 0.6397 | 18 |
+| coil_3x4_73 | 0 | 0.0457 | 15 | 0.2354 | 15 | 0.5432 | 14 | 0.6725 | 12 | 0.7361 | 11 | 0.6700 | 10 | 0.5050 | 11 | 0.8327 | 7 |
+| coil_3x4_73_2 | 0 | 0.0441 | 16 | 0.2330 | 16 | 0.5571 | 11 | 0.6891 | 10 | 0.7516 | 9 | 0.7263 | 5 | 0.5050 | 12 | 0.8523 | 5 |
+| coil_2x2_146 | 0 | 0.0334 | 17 | 0.1786 | 17 | 0.5376 | 15 | 0.7068 | 8 | 0.7854 | 5 | 0.6893 | 9 | 0.5050 | 10 | 0.9294 | 1 |
+| coil_3x7_22 | 20 | 0.0262 | 18 | 0.1145 | 18 | 0.3604 | 18 | 0.5069 | 18 | 0.5942 | 17 | 0.3302 | 18 | 0.5019 | 18 | 0.7131 | 17 |
 
 ## Choosing a mean is choosing how much a weak spot counts
 
@@ -72,8 +73,8 @@ and **17** under another — a swing of 16 places in a field of 18. staircase_co
 | spiral | worst single input | harmonic | contraharmonic |
 | --- | --- | ---: | ---: |
 | `coil_2x2_146` | rise/360 = 0.010 | #17 | #1 |
-| `staircase_coil` | distinct = 0.010 | #11 | #3 |
-| `coil_3x3_53_2` | rise/360 = 0.611 | #1 | #2 |
+| `staircase_coil` | distinct = 0.010 | #14 | #2 |
+| `coil_3x3_53_2` | rise/360 = 0.611 | #1 | #3 |
 
 `coil_2x2_146` has the slackest pitch in the set and a 2x2 cross-section: one input at
 the floor, another at the ceiling. The harmonic mean reads it as disqualified, the
@@ -82,7 +83,7 @@ answering different questions. The staircase coil is the same shape of argument,
 weak spot being distinct.
 
 Harmonic and contraharmonic agree on **0** of 18 placings — they are as opposed as
-two means of the same numbers can be. Harmonic and geometric agree on 12, which is
+two means of the same numbers can be. Harmonic and geometric agree on 13, which is
 why the geometric mean is the usual choice when no weak spot should be forgiven but
 outright disqualification is too strong.
 
@@ -102,8 +103,8 @@ is the choice that declines to say.
 
 A tempting variant is to rank, cut the bottom half, and re-rank the survivors. Do not.
 
-* **harmonic, min-max (what SCORING.md uses)** — survivors reordered 7/9, 5/5, 0/3, 0/2 over the rounds (12 moves in total)
-* **geometric, min-max** — survivors reordered 6/9, 2/5, 0/3, 0/2 over the rounds (8 moves in total)
+* **harmonic, min-max (what SCORING.md uses)** — survivors reordered 7/9, 4/5, 2/3, 0/2 over the rounds (13 moves in total)
+* **geometric, min-max** — survivors reordered 5/9, 2/5, 0/3, 0/2 over the rounds (7 moves in total)
 * **geometric, pure ratio-to-best** — survivors reordered 0/9, 0/5, 0/3, 0/2 over the rounds (0 moves in total)
 
 The first two reorder coils that did not change, purely because other coils left the

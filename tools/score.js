@@ -24,6 +24,7 @@ const METRICS = [
   { k: 'risePer360',      dir: 'lo', label: 'rise/360'     },
   { k: 'turnsPerMetre',   dir: 'lo', label: 'turns/m'      },
   { k: 'longestStraight', dir: 'hi', label: 'longest str'  },
+  { k: 'meanPlate',       dir: 'hi', label: 'mean plate'   },
 ];
 const TOUCH_WEIGHT = 3;
 const EPS = 0.01;              // a floor, so one worst-in-set value cannot zero a product
@@ -37,7 +38,8 @@ const rows = fs.readdirSync(path.join(root, 'walks')).filter(f => f.endsWith('.t
       vol: m.vol, crossArea: m.cross[0] * m.cross[1],
       pieces: p.pieces, distinct: p.distinct,
       risePer360: m.risePer360, turnsPerMetre: m.turnsPerMetre,
-      longestStraight: m.longestStraight, touching: m.touching } };
+      longestStraight: m.longestStraight, meanPlate: p.meanPlate,
+      touching: m.touching } };
   });
 
 const lo = {}, hi = {};

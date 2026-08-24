@@ -33,6 +33,7 @@ const pcs   = best(r => r.p.pieces);
 const dist  = best(r => r.p.distinct);
 const calm  = best(r => r.m.turnsPerMetre);
 const clean = rows.filter(r => r.m.touching === 0).sort((a,b) => a.m.vol - b.m.vol)[0];
+const plateBest = rows.slice().sort((a,b) => b.p.meanPlate - a.p.meanPlate)[0];
 const L = r => `[\`${r.name}\`](pages/${r.name}.html)`;
 const { rows: srows, R: SR } = require('./score.js');
 const { MEANS: SM } = require('./score.js');
@@ -78,6 +79,21 @@ ${dist.p.pieces} pieces cut from ${dist.p.distinct} shapes. The staircase coil n
 ${yours.p.distinct}. That is files to check and parts to tell apart on the bench, and it
 does not show up in the piece count at all.
 
+**Mean plate** is the average bounding box a piece is cut from, in mm2 — the
+laser-cutting number. Fewer, larger parts means less weeding, less sorting and fewer
+fingers to align, and it is the size of the part in your hand rather than the count of
+them. \`${plateBest.name}\` averages ${Math.round(plateBest.p.meanPlate).toLocaleString('en-US')} mm2 against \`${yours.name}\`'s ${Math.round(yours.p.meanPlate).toLocaleString('en-US')}.
+
+Average *blocks* per piece was the other reading of the same idea and is not used: the
+block count varies by only ${((Math.max(...rows.map(r=>r.m.blocks))/Math.min(...rows.map(r=>r.m.blocks))-1)*100).toFixed(1)}% across the set, so blocks-per-piece is very nearly the
+reciprocal of the piece count and ranks the set the same way in 15 of ${rows.length} places. Plate
+area is not redundant: \`coil_3x3_53_2\`, \`coil_3x9_18\` and \`coil_4x8_18\` all split into
+35 pieces and cannot be told apart by blocks-per-piece at all, while their mean plates
+are ${[ 'coil_3x3_53_2','coil_4x8_18','coil_3x9_18' ].map(n => Math.round(rows.find(r=>r.name===n).p.meanPlate).toLocaleString('en-US')).join(', ')} mm2.
+
+It is a bounding box, not the cut outline — an L-shaped piece leaves its corner behind
+— so it measures the size of the part, not the material consumed.
+
 **Touching** counts blocks that sit face to face without being joined along the bore —
 two runs of the tube sharing a wall. \`bore_split.py\` warns about them, and they are the
 version of "density" that has a consequence: where the bore passes itself, that one wall
@@ -120,6 +136,7 @@ No single spiral wins, because the measures disagree.
 | least tube per turn | ${L(tube)} — ${tube.m.blocksPer360.toFixed(1)} blk | ${yours.m.blocksPer360.toFixed(1)} blk, within ${((yours.m.blocksPer360/tube.m.blocksPer360-1)*100).toFixed(0)}% |
 | fewest pieces | ${L(pcs)} — ${pcs.p.pieces} | ${yours.p.pieces} |
 | fewest distinct shapes | ${L(dist)} — ${dist.p.distinct} | ${yours.p.distinct} |
+| largest average plate | ${L(plateBest)} — ${Math.round(plateBest.p.meanPlate).toLocaleString('en-US')} mm2 | ${Math.round(yours.p.meanPlate).toLocaleString('en-US')} mm2 |
 | calmest bore (fewest turns/m) | ${L(calm)} — ${calm.m.turnsPerMetre.toFixed(1)} | ${yours.m.turnsPerMetre.toFixed(1)} |
 | smallest box with no shared wall | ${L(clean)} — ${clean.m.vol} | ${yours.m.vol}, also ${yours.m.touching} shared |
 
