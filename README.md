@@ -128,6 +128,15 @@ one. It would earn its place only in comparing walks of genuinely different leng
 sounds like it answers — how hard is this bore packed against itself — and unlike density
 it disagrees with the box often enough to change which coil you would build.
 
+## Scoring them against each other
+
+[**SCORING.md**](SCORING.md) combines the eight metrics into a single ranking six
+ways — geometric and additive mean, raw and normalized, plus a repaired pair — and
+reports what each way does to the answer. `coil_3x3_53_2` comes first under all six.
+
+    node tools/score.js          # the scoring table
+    node tools/gen_scoring.js    # SCORING.md
+
 ## The gate
 
 Every walk here has been through `check.py` — the parts, the sections, the seams, and a

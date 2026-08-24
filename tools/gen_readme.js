@@ -34,6 +34,10 @@ const dist  = best(r => r.p.distinct);
 const calm  = best(r => r.m.turnsPerMetre);
 const clean = rows.filter(r => r.m.touching === 0).sort((a,b) => a.m.vol - b.m.vol)[0];
 const L = r => `[\`${r.name}\`](pages/${r.name}.html)`;
+const { rows: srows, R: SR } = require('./score.js');
+const wins = ['geoRaw','addRaw','geoNorm','addNorm','geoFix','addFix']
+  .map(k => srows.slice().sort((a,b) => SR[k].get(a.name) - SR[k].get(b.name))[0].name);
+const unanimous = wins.every(w => w === wins[0]) ? wins[0] : wins.join(', ');
 
 const md = `# Spirals
 
@@ -126,6 +130,15 @@ one. It would earn its place only in comparing walks of genuinely different leng
 **Touching** is the metric density was reaching for. It answers the question density
 sounds like it answers — how hard is this bore packed against itself — and unlike density
 it disagrees with the box often enough to change which coil you would build.
+
+## Scoring them against each other
+
+[**SCORING.md**](SCORING.md) combines the eight metrics into a single ranking six
+ways — geometric and additive mean, raw and normalized, plus a repaired pair — and
+reports what each way does to the answer. \`${unanimous}\` comes first under all six.
+
+    node tools/score.js          # the scoring table
+    node tools/gen_scoring.js    # SCORING.md
 
 ## The gate
 
