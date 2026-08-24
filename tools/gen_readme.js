@@ -28,6 +28,13 @@ const totalFailed = Object.values(checks).reduce((a, c) => a + c.failed, 0);
 const tbl = (flag) => cp.execSync(`node ${JSON.stringify(path.join(__dirname,'table.js'))} --md ${flag}`,
                                   { encoding: 'utf8' }).trim();
 const best  = f => rows.slice().sort((a, b) => f(a) - f(b))[0];
+// Ties were being hidden: sorting and taking the first credits one coil and drops
+// the others that matched it exactly. List them all.
+const allBest = (f, eps = 1e-9) => {
+  const s = rows.slice().sort((a, b) => f(a) - f(b));
+  return s.filter(r => Math.abs(f(r) - f(s[0])) < eps);
+};
+const names = list => list.map(L).join(', ');
 // The walk this started from, found through derived.txt rather than by name:
 // standardising renamed every coil.
 const derived = Object.fromEntries(
@@ -250,17 +257,22 @@ No single spiral wins, because the measures disagree.
 | --- | --- | --- |
 | smallest box | ${L(box)} — ${box.m.vol} | ${yours.m.vol}, so ${(yours.m.vol/box.m.vol).toFixed(2)}x larger |
 | tightest spiral (least rise per turn) | ${L(rise)} — ${Math.round(rise.m.riseMMPer360)}mm | ${Math.round(yours.m.riseMMPer360)}mm, so ${(yours.m.risePer360/rise.m.risePer360).toFixed(1)}x slacker |
-| least tube per turn | ${L(tube)} — ${tube.m.blocksPer360.toFixed(1)} blk | ${yours.m.blocksPer360.toFixed(1)} blk, within ${((yours.m.blocksPer360/tube.m.blocksPer360-1)*100).toFixed(0)}% |
+| least tube per turn | ${names(allBest(r => r.m.blocksPer360))} — ${tube.m.blocksPer360.toFixed(1)} blk | ${yours.m.blocksPer360.toFixed(1)} blk, within ${((yours.m.blocksPer360/tube.m.blocksPer360-1)*100).toFixed(0)}% |
 | fewest pieces | ${L(pcs)} — ${pcs.p.innerPieces} | ${yours.p.innerPieces} |
 | fewest distinct shapes | ${L(dist)} — ${dist.p.interiorDistinct} | ${yours.p.interiorDistinct} |
 | largest average plate | ${L(plateBest)} — ${Math.round(plateBest.p.meanPlate).toLocaleString('en-US')} mm2 | ${Math.round(yours.p.meanPlate).toLocaleString('en-US')} mm2 |
-| calmest bore (fewest turns/m) | ${L(calm)} — ${calm.m.turnsPerMetre.toFixed(1)} | ${yours.m.turnsPerMetre.toFixed(1)} |
+| calmest bore (fewest turns/m) | ${names(allBest(r => r.m.turnsPerMetre))} — ${calm.m.turnsPerMetre.toFixed(2)} | ${yours.m.turnsPerMetre.toFixed(2)} |
 | smallest box with no shared wall | ${L(clean)} — ${clean.m.vol} | ${yours.m.vol}, also ${yours.m.touching} shared |
 
-The staircase coil loses on packing and wins, or nearly wins, on the two that bear on how
-the thing sounds: it spends the least tube per revolution of almost anything here, and it
-turns the air the fewest times per metre. **Packing tighter costs bends**, and bends are
-the thing a bore notices.
+The two staircase coils — \`${yours.name}\` as submitted and \`${rows.find(r=>(derived[r.name]||[]).includes('coil_5x5_28'))?.name || 'its reduction'}\` reduced — lose the
+packing categories outright and win the turning ones. The reduction spends **less tube per
+revolution than anything else here**, and the original is tied for the fewest turns per
+metre. They are ${rows.length===0?'':'last and second-to-last'} on box per block, on pieces per block and on distinct shapes.
+
+That is not a split verdict so much as one fact seen twice: **packing tighter costs
+bends**, and bends are what a bore notices. A coil that turns economically is a coil that
+does not fold itself into a small box, and every category above is downstream of that
+choice.
 
 ## A metric deliberately left out
 

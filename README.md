@@ -214,13 +214,18 @@ No single spiral wins, because the measures disagree.
 | fewest pieces | [`coil_3x9_18`](pages/coil_3x9_18.html) — 30 | 45 |
 | fewest distinct shapes | [`coil_2x2_134`](pages/coil_2x2_134.html) — 2 | 8 |
 | largest average plate | [`coil_5x8_18`](pages/coil_5x8_18.html) — 10,704 mm2 | 5,568 mm2 |
-| calmest bore (fewest turns/m) | [`coil_4x9_18`](pages/coil_4x9_18.html) — 10.8 | 10.8 |
+| calmest bore (fewest turns/m) | [`coil_4x9_18`](pages/coil_4x9_18.html), [`coil_5x8_18`](pages/coil_5x8_18.html), [`coil_4x4_50`](pages/coil_4x4_50.html) — 10.75 | 10.75 |
 | smallest box with no shared wall | [`coil_3x3_54`](pages/coil_3x3_54.html) — 441 | 736, also 0 shared |
 
-The staircase coil loses on packing and wins, or nearly wins, on the two that bear on how
-the thing sounds: it spends the least tube per revolution of almost anything here, and it
-turns the air the fewest times per metre. **Packing tighter costs bends**, and bends are
-the thing a bore notices.
+The two staircase coils — `coil_4x4_50` as submitted and `coil_5x5_50` reduced — lose the
+packing categories outright and win the turning ones. The reduction spends **less tube per
+revolution than anything else here**, and the original is tied for the fewest turns per
+metre. They are last and second-to-last on box per block, on pieces per block and on distinct shapes.
+
+That is not a split verdict so much as one fact seen twice: **packing tighter costs
+bends**, and bends are what a bore notices. A coil that turns economically is a coil that
+does not fold itself into a small box, and every category above is downstream of that
+choice.
 
 ## A metric deliberately left out
 
