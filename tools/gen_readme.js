@@ -238,6 +238,11 @@ One thing the pass did find: \`coil_3x9_18\`, \`coil_4x7_20\`, \`coil_4x8_18\` a
 \`coil_5x7_18\` all reduce to **the same walk**, \`E2 S3 U1 S3 W2 N3 U1 N3\`. Four results
 the search reported as distinct are one design wearing four amounts of slack.
 
+The reduced walks are kept, named \`*_min\`, with their sources recorded in
+[\`derived.txt\`](derived.txt). They are in the scoring like anything else, so the
+composite is now over a set that contains both a design and its own reduction — worth
+remembering when reading a rank, since the normalization is across whatever is present.
+
     node tools/reduce.js             # the pass
     node tools/reduce.js --write     # and reduced.json
 

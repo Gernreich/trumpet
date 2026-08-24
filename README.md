@@ -5,7 +5,7 @@ numbers that say how hard each one spirals and what each one costs to build. Eve
 here splits with **no elbows** — every turn folds into a piece as an L, none is stranded
 as a single-block piece of its own — and every one passes the full gate.
 
-The one this started from is [`staircase_coil`](pages/staircase_coil.html); the other 19 came out of an
+The one this started from is [`staircase_coil`](pages/staircase_coil.html); the other 29 came out of an
 exhaustive search for something tighter.
 
 <!-- readme-only -->
@@ -22,11 +22,17 @@ generator and tool, indexed.
 | --- | ---: | ---: | --- | ---: | --- | ---: | ---: | ---: | ---: | ---: | ---: |
 | [`coil_3x3_47`](pages/coil_3x3_47.html) | 193 | 5983 | 46 x 3 x 3 | 414 | 3 x 3 blk / 93 x 93 mm | 46 / 1426 mm | 35 | 4 | 4 x8.8 | 8451 | 8 |
 | [`coil_3x3_50`](pages/coil_3x3_50.html) | 193 | 5983 | 49 x 3 x 3 | 441 | 3 x 3 blk / 93 x 93 mm | 49 / 1519 mm | 35 | 3 | 4 x8.8 | 8451 | 7 |
+| [`coil_3x7_23_min`](pages/coil_3x7_23_min.html) | 194 | 6014 | 7 x 21 x 3 | 441 | 3 x 7 blk / 93 x 217 mm | 21 / 651 mm | 41 | 4 | 4 x10.3 | 6240 | 18 |
 | [`coil_3x7_22`](pages/coil_3x7_22.html) | 193 | 5983 | 3 x 22 x 7 | 462 | 3 x 7 blk / 93 x 217 mm | 22 / 682 mm | 41 | 4 | 4 x10.3 | 6240 | 19 |
+| [`coil_3x7_22_min`](pages/coil_3x7_22_min.html) | 193 | 5983 | 3 x 22 x 7 | 462 | 3 x 7 blk / 93 x 217 mm | 22 / 682 mm | 41 | 4 | 4 x10.3 | 6240 | 19 |
 | [`coil_3x3_53`](pages/coil_3x3_53.html) | 193 | 5983 | 53 x 3 x 3 | 477 | 3 x 3 blk / 93 x 93 mm | 53 / 1643 mm | 34 | 4 | 4 x8.5 | 9128 | 0 |
 | [`coil_3x3_53_2`](pages/coil_3x3_53_2.html) | 194 | 6014 | 3 x 3 x 53 | 477 | 3 x 3 blk / 93 x 93 mm | 53 / 1643 mm | 33 | 3 | 4 x8.3 | 9216 | 0 |
 | [`coil_3x8_20`](pages/coil_3x8_20.html) | 194 | 6014 | 8 x 20 x 3 | 480 | 3 x 8 blk / 93 x 248 mm | 20 / 620 mm | 37 | 4 | 4 x9.3 | 7688 | 17 |
 | [`coil_3x9_18`](pages/coil_3x9_18.html) | 194 | 6014 | 3 x 18 x 9 | 486 | 3 x 9 blk / 93 x 279 mm | 18 / 558 mm | 33 | 4 | 4 x8.3 | 8721 | 15 |
+| [`coil_3x3_64_min`](pages/coil_3x3_64_min.html) | 194 | 6014 | 57 x 3 x 3 | 513 | 3 x 3 blk / 93 x 93 mm | 57 / 1767 mm | 37 | 3 | 4 x9.3 | 7768 | 0 |
+| [`coil_3x3_58_min`](pages/coil_3x3_58_min.html) | 194 | 6014 | 58 x 3 x 3 | 522 | 3 x 3 blk / 93 x 93 mm | 58 / 1798 mm | 37 | 3 | 4 x9.3 | 7688 | 0 |
+| [`coil_3x3_59_min`](pages/coil_3x3_59_min.html) | 194 | 6014 | 3 x 3 x 58 | 522 | 3 x 3 blk / 93 x 93 mm | 58 / 1798 mm | 37 | 3 | 4 x9.3 | 7688 | 0 |
+| [`coil_3x3_61_min`](pages/coil_3x3_61_min.html) | 194 | 6014 | 58 x 3 x 3 | 522 | 3 x 3 blk / 93 x 93 mm | 58 / 1798 mm | 37 | 4 | 4 x9.3 | 7688 | 0 |
 | [`coil_2x2_146`](pages/coil_2x2_146.html) | 194 | 6014 | 2 x 2 x 138 | 552 | 2 x 2 blk / 62 x 62 mm | 138 / 4278 mm | 46 | 2 | 4 x11.5 | 6240 | 0 |
 | [`coil_4x7_20`](pages/coil_4x7_20.html) | 194 | 6014 | 4 x 20 x 7 | 560 | 4 x 7 blk / 124 x 217 mm | 20 / 620 mm | 37 | 4 | 4 x9.3 | 7220 | 17 |
 | [`coil_4x8_18`](pages/coil_4x8_18.html) | 194 | 6014 | 4 x 18 x 8 | 576 | 4 x 8 blk / 124 x 248 mm | 18 / 558 mm | 33 | 4 | 4 x8.3 | 8660 | 15 |
@@ -34,11 +40,15 @@ generator and tool, indexed.
 | [`coil_5x7_18`](pages/coil_5x7_18.html) | 193 | 5983 | 5 x 18 x 7 | 630 | 5 x 7 blk / 155 x 217 mm | 18 / 558 mm | 33 | 4 | 4 x8.3 | 8194 | 15 |
 | [`coil_5x8_17`](pages/coil_5x8_17.html) | 194 | 6014 | 16 x 5 x 8 | 640 | 5 x 8 blk / 155 x 248 mm | 16 / 496 mm | 30 | 4 | 4 x7.5 | 10704 | 13 |
 | [`staircase_coil`](pages/staircase_coil.html) | 196 | 6076 | 4 x 4 x 46 | 736 | 4 x 4 blk / 124 x 124 mm | 46 / 1426 mm | 46 | 8 | 12 x3.8 | 5627 | 0 |
+| [`coil_3x4_74_min`](pages/coil_3x4_74_min.html) | 194 | 6014 | 67 x 4 x 3 | 804 | 3 x 4 blk / 93 x 124 mm | 67 / 2077 mm | 46 | 4 | 4 x11.5 | 5944 | 0 |
 | [`coil_3x4_73_2`](pages/coil_3x4_73_2.html) | 193 | 5983 | 69 x 4 x 3 | 828 | 3 x 4 blk / 93 x 124 mm | 69 / 2139 mm | 47 | 4 | 4 x11.8 | 5908 | 0 |
+| [`coil_3x4_73_min_2`](pages/coil_3x4_73_min_2.html) | 193 | 5983 | 3 x 4 x 69 | 828 | 3 x 4 blk / 93 x 124 mm | 69 / 2139 mm | 47 | 4 | 4 x11.8 | 5908 | 0 |
 | [`coil_3x4_74`](pages/coil_3x4_74.html) | 194 | 6014 | 3 x 4 x 69 | 828 | 3 x 4 blk / 93 x 124 mm | 69 / 2139 mm | 46 | 4 | 4 x11.5 | 5944 | 0 |
+| [`coil_3x4_73_min`](pages/coil_3x4_73_min.html) | 194 | 6014 | 4 x 72 x 3 | 864 | 3 x 4 blk / 93 x 124 mm | 72 / 2232 mm | 46 | 4 | 4 x11.5 | 6009 | 0 |
 | [`coil_3x4_73`](pages/coil_3x4_73.html) | 193 | 5983 | 4 x 73 x 3 | 876 | 3 x 4 blk / 93 x 124 mm | 73 / 2263 mm | 47 | 4 | 4 x11.8 | 5971 | 0 |
 | [`coil_3x4_78`](pages/coil_3x4_78.html) | 194 | 6014 | 3 x 78 x 4 | 936 | 3 x 4 blk / 93 x 124 mm | 78 / 2418 mm | 43 | 4 | 4 x10.8 | 6732 | 0 |
 | [`coil_5x5_55`](pages/coil_5x5_55.html) | 191 | 5921 | 5 x 5 x 49 | 1225 | 5 x 5 blk / 155 x 155 mm | 49 / 1519 mm | 49 | 8 | 12 x4.1 | 4924 | 0 |
+| [`coil_5x5_52_min`](pages/coil_5x5_52_min.html) | 194 | 6014 | 5 x 5 x 52 | 1300 | 5 x 5 blk / 155 x 155 mm | 52 / 1612 mm | 50 | 8 | 12 x4.2 | 4870 | 0 |
 
 Not scored (see `unscored.txt`):
 
@@ -70,10 +80,10 @@ does not show up in the piece count at all.
 
 **Rhythm** is how many pieces you lay before the cut list starts over, and how many
 times it recurs. It is descriptive, not scored: across coils built by repeating a period
-it barely varies — 17 of the 20 here are a 4-piece rhythm — and a near-constant metric
+it barely varies — 26 of the 30 here are a 4-piece rhythm — and a near-constant metric
 in a mean only dilutes the ones that discriminate. It is worth knowing at the bench all
 the same, and it is not the same thing as **distinct**: the two rank the set alike in
-only 6 of 20 places. `coil_3x3_53_2` is 3 shapes laid in a 4-piece cycle, repeated
+only 6 of 30 places. `coil_3x3_53_2` is 3 shapes laid in a 4-piece cycle, repeated
 8.3 times, plus a one-off end.
 
 **Mean plate** is the average bounding box a piece is cut from, in mm2 — the
@@ -83,7 +93,7 @@ them. `coil_5x8_17` averages 10,704 mm2 against `staircase_coil`'s 5,627.
 
 Average *blocks* per piece was the other reading of the same idea and is not used: the
 block count varies by only 128.0% across the set, so blocks-per-piece is very nearly the
-reciprocal of the piece count and ranks the set the same way in 15 of 20 places. Plate
+reciprocal of the piece count and ranks the set the same way in 15 of 30 places. Plate
 area is not redundant: `coil_3x3_53_2`, `coil_3x9_18` and `coil_4x8_18` all split into
 35 pieces and cannot be told apart by blocks-per-piece at all, while their mean plates
 are 9,216, 8,660, 8,721 mm2.
@@ -111,11 +121,17 @@ is something to avoid, the smallest box is not the one to build.
 | --- | :-: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | [`coil_3x3_47`](pages/coil_3x3_47.html) | E | 3060 | 8.50 | 21.6 | 4.82 / 150 | 16.6 | 70 | 12.3 | 4 blk / 124 mm |
 | [`coil_3x3_50`](pages/coil_3x3_50.html) | E | 3060 | 8.50 | 21.5 | 5.65 / 175 | 16.7 | 70 | 12.3 | 4 blk / 124 mm |
+| [`coil_3x7_23_min`](pages/coil_3x7_23_min.html) | U | 3780 | 10.50 | 17.6 | 1.90 / 59 | 20.4 | 82 | 14.3 | 3 blk / 93 mm |
 | [`coil_3x7_22`](pages/coil_3x7_22.html) | U | 3600 | 10.00 | 18.4 | 2.10 / 65 | 19.6 | 82 | 14.4 | 3 blk / 93 mm |
+| [`coil_3x7_22_min`](pages/coil_3x7_22_min.html) | U | 3600 | 10.00 | 18.4 | 2.10 / 65 | 19.6 | 82 | 14.4 | 3 blk / 93 mm |
 | [`coil_3x3_53`](pages/coil_3x3_53.html) | E | 2970 | 8.25 | 22.7 | 5.58 / 173 | 15.9 | 68 | 11.7 | 4 blk / 124 mm |
 | [`coil_3x3_53_2`](pages/coil_3x3_53_2.html) | N | 2880 | 8.00 | 22.8 | 5.63 / 174 | 15.8 | 66 | 11.7 | 4 blk / 124 mm |
 | [`coil_3x8_20`](pages/coil_3x8_20.html) | U | 3240 | 9.00 | 20.4 | 2.11 / 65 | 17.6 | 74 | 13.0 | 4 blk / 124 mm |
 | [`coil_3x9_18`](pages/coil_3x9_18.html) | U | 2880 | 8.00 | 22.6 | 2.13 / 66 | 15.9 | 66 | 11.8 | 4 blk / 124 mm |
+| [`coil_3x3_64_min`](pages/coil_3x3_64_min.html) | E | 3240 | 9.00 | 20.6 | 6.22 / 193 | 17.5 | 74 | 12.9 | 3 blk / 93 mm |
+| [`coil_3x3_58_min`](pages/coil_3x3_58_min.html) | E | 3240 | 9.00 | 20.6 | 5.78 / 179 | 17.5 | 74 | 12.9 | 3 blk / 93 mm |
+| [`coil_3x3_59_min`](pages/coil_3x3_59_min.html) | N | 3240 | 9.00 | 20.6 | 5.78 / 179 | 17.5 | 74 | 12.9 | 3 blk / 93 mm |
+| [`coil_3x3_61_min`](pages/coil_3x3_61_min.html) | E | 3240 | 9.00 | 20.6 | 6.22 / 193 | 17.5 | 74 | 12.9 | 3 blk / 93 mm |
 | [`coil_2x2_146`](pages/coil_2x2_146.html) | N | 4050 | 11.25 | 16.4 | 12.18 / 378 | 22.0 | 92 | 16.1 | 3 blk / 93 mm |
 | [`coil_4x7_20`](pages/coil_4x7_20.html) | U | 3240 | 9.00 | 20.4 | 2.11 / 65 | 17.6 | 74 | 13.0 | 3 blk / 93 mm |
 | [`coil_4x8_18`](pages/coil_4x8_18.html) | U | 2880 | 8.00 | 22.5 | 2.13 / 66 | 16.0 | 66 | 11.8 | 4 blk / 124 mm |
@@ -123,11 +139,15 @@ is something to avoid, the smallest box is not the one to build.
 | [`coil_5x7_18`](pages/coil_5x7_18.html) | U | 2880 | 8.00 | 22.5 | 2.13 / 66 | 16.0 | 66 | 11.8 | 4 blk / 124 mm |
 | [`coil_5x8_17`](pages/coil_5x8_17.html) | E | 2700 | 7.50 | 24.0 | 2.00 / 62 | 15.0 | 60 | 10.8 | 4 blk / 124 mm |
 | [`staircase_coil`](pages/staircase_coil.html) | N | 4230 | 11.75 | 15.8 | 3.83 / 119 | 22.7 | 62 | 10.8 | 3 blk / 93 mm |
+| [`coil_3x4_74_min`](pages/coil_3x4_74_min.html) | E | 4140 | 11.50 | 16.0 | 5.74 / 178 | 22.5 | 69 | 12.1 | 3 blk / 93 mm |
 | [`coil_3x4_73_2`](pages/coil_3x4_73_2.html) | E | 4140 | 11.50 | 16.3 | 5.91 / 183 | 22.1 | 70 | 12.1 | 3 blk / 93 mm |
+| [`coil_3x4_73_min_2`](pages/coil_3x4_73_min_2.html) | N | 4140 | 11.50 | 16.3 | 5.91 / 183 | 22.1 | 70 | 12.1 | 3 blk / 93 mm |
 | [`coil_3x4_74`](pages/coil_3x4_74.html) | N | 4140 | 11.50 | 16.0 | 5.91 / 183 | 22.5 | 69 | 12.1 | 3 blk / 93 mm |
+| [`coil_3x4_73_min`](pages/coil_3x4_73_min.html) | U | 4050 | 11.25 | 16.4 | 6.31 / 196 | 22.0 | 69 | 12.1 | 3 blk / 93 mm |
 | [`coil_3x4_73`](pages/coil_3x4_73.html) | U | 4140 | 11.50 | 16.3 | 6.26 / 194 | 22.1 | 70 | 12.1 | 3 blk / 93 mm |
 | [`coil_3x4_78`](pages/coil_3x4_78.html) | U | 3780 | 10.50 | 17.3 | 7.33 / 227 | 20.8 | 86 | 15.2 | 3 blk / 93 mm |
 | [`coil_5x5_55`](pages/coil_5x5_55.html) | N | 4500 | 12.50 | 14.5 | 3.84 / 119 | 24.9 | 66 | 11.8 | 3 blk / 93 mm |
+| [`coil_5x5_52_min`](pages/coil_5x5_52_min.html) | N | 4410 | 12.25 | 14.9 | 4.16 / 129 | 24.2 | 66 | 11.7 | 3 blk / 93 mm |
 
 Not scored (see `unscored.txt`):
 
@@ -159,7 +179,7 @@ No single spiral wins, because the measures disagree.
 | | winner | against the staircase coil |
 | --- | --- | --- |
 | smallest box | [`coil_3x3_47`](pages/coil_3x3_47.html) — 414 | 736, so 1.78x larger |
-| tightest spiral (least rise per turn) | [`coil_5x8_17`](pages/coil_5x8_17.html) — 62mm | 119mm, so 1.9x slacker |
+| tightest spiral (least rise per turn) | [`coil_3x7_23_min`](pages/coil_3x7_23_min.html) — 59mm | 119mm, so 2.0x slacker |
 | least tube per turn | [`coil_5x5_28`](pages/coil_5x5_28.html) — 14.3 blk | 15.8 blk, within 11% |
 | fewest pieces | [`coil_5x5_28`](pages/coil_5x5_28.html) — 24 | 48 |
 | fewest distinct shapes | [`coil_3x3_53_2`](pages/coil_3x3_53_2.html) — 4 | 10 |
@@ -176,8 +196,8 @@ the thing a bore notices.
 
 Fill density — blocks over box volume — was tried and dropped. At a fixed tube length it
 is not independent of the box: blocks is near enough constant, so density is just the
-reciprocal of box volume rescaled. Ranking these 20 spirals by density puts them in the
-same order as ranking by box in 16 of 20 positions, and the two that swap are a tie at
+reciprocal of box volume rescaled. Ranking these 30 spirals by density puts them in the
+same order as ranking by box in 16 of 30 positions, and the two that swap are a tie at
 477 broken by a one-block difference in length. It reads like a second opinion and is not
 one. It would earn its place only in comparing walks of genuinely different lengths.
 
@@ -199,10 +219,10 @@ at all.
 The staircase coil has 16 terms with slack, every one a hairpin sitting at 3 where 2
 would do — and the derived walk has **none**. The reduction was exhaustive.
 
-It also says something about the search. Only **5 of 20** walks here are minimal:
-`coil_2x2_146`, `coil_3x4_78`, `coil_3x7_22`, `coil_5x5_28`, `coil_5x5_55`. The search enumerated periods with legs up to
+It also says something about the search. Only **8 of 30** walks here are minimal:
+`coil_2x2_146`, `coil_3x4_78`, `coil_3x7_22`, `coil_3x7_22_min`, `coil_3x7_23_min`, `coil_5x5_28`, `coil_5x5_52_min`, `coil_5x5_55`. The search enumerated periods with legs up to
 4 and never asked whether a leg was longer than it had to be, so most of what it found
-carries slack — `coil_5x8_17` could lose 48 blocks. Two of the 5 minimal walks are
+carries slack — `coil_5x8_17` could lose 48 blocks. Two of the 8 minimal walks are
 the two that were reduced by hand.
 
 Removing slack is not automatically safe. The rule is local, and a shortened walk can
@@ -219,7 +239,7 @@ the walk wanders off diagonally instead of coiling. Taken naively, `coil_3x3_47`
 from a box of 423 to **10,452** — still elbow-free, no longer a coil.
 
 Keeping only the reductions that still close and still wind a whole number of turns, 14
-of the 20 walks reduce. What that buys:
+of the 30 walks reduce. What that buys:
 
 | | |
 | --- | ---: |
@@ -239,6 +259,11 @@ design, not a better one. Every block being load-bearing is a property, not a vi
 One thing the pass did find: `coil_3x9_18`, `coil_4x7_20`, `coil_4x8_18` and
 `coil_5x7_18` all reduce to **the same walk**, `E2 S3 U1 S3 W2 N3 U1 N3`. Four results
 the search reported as distinct are one design wearing four amounts of slack.
+
+The reduced walks are kept, named `*_min`, with their sources recorded in
+[`derived.txt`](derived.txt). They are in the scoring like anything else, so the
+composite is now over a set that contains both a design and its own reduction — worth
+remembering when reading a rank, since the normalization is across whatever is present.
 
     node tools/reduce.js             # the pass
     node tools/reduce.js --write     # and reduced.json
@@ -271,7 +296,7 @@ than they went in, having not been measured again.
 
 Every walk here has been through `check.py` — the parts, the sections, the seams, and a
 voxel model of the assembled bore flooded from the outside to prove it is one sealed
-passage. **26,044 checks across 20 spirals, 0 failed.** The per-walk output is
+passage. **40,252 checks across 30 spirals, 0 failed.** The per-walk output is
 in `checks/`.
 
     node tools/run_checks.sh     # re-run the gate over every walk

@@ -1,0 +1,22 @@
+# Walks derived from others, and how.
+#
+# The *_min walks are the reduction pass of tools/reduce.js: every leg taken to
+# its floor, keeping only reductions that still close laterally and still wind a
+# whole number of turns, then rebuilt at comparable length and re-checked. Where
+# several sources share a line, they all reduce to that same walk.
+#
+# name                source(s)
+coil_3x3_58_min       coil_3x3_53
+coil_3x3_59_min       coil_3x3_53_2
+coil_3x3_61_min       coil_3x3_47
+coil_3x3_64_min       coil_3x3_50
+coil_3x4_73_min       coil_3x4_73
+coil_3x4_73_min_2     coil_3x4_74
+coil_3x4_74_min       coil_3x4_73_2
+coil_3x7_22_min       coil_3x9_18 coil_4x7_20 coil_4x8_18 coil_5x7_18
+coil_3x7_23_min       coil_3x8_20 coil_4x9_17
+coil_5x5_52_min       staircase_coil
+
+# and the hand reduction this all started from:
+coil_5x5_28           staircase_coil   # reduced by hand, before the tool existed
+coil_5x5_55           coil_5x5_28      # the same walk at comparable length

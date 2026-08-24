@@ -134,6 +134,115 @@
   "minPlate": 9216,
   "totalPlate": 304128
  },
+ "coil_3x3_58_min": {
+  "pieces": 39,
+  "kinds": {
+   "bend": 39
+  },
+  "elbows": 0,
+  "interiorBlocks": [
+   7,
+   191
+  ],
+  "innerPieces": 37,
+  "distinct": 5,
+  "shapes": [
+   "bend_LUUR",
+   "bend_RD",
+   "bend_RDDR",
+   "bend_RRUUL",
+   "bend_RUUL"
+  ],
+  "rhythm": 4,
+  "repeats": 9.25,
+  "interiorDistinct": 3,
+  "meanPlate": 7687.783783783784,
+  "maxPlate": 9216,
+  "minPlate": 6240,
+  "totalPlate": 284448
+ },
+ "coil_3x3_59_min": {
+  "pieces": 39,
+  "kinds": {
+   "bend": 39
+  },
+  "elbows": 0,
+  "interiorBlocks": [
+   4,
+   188
+  ],
+  "innerPieces": 37,
+  "distinct": 5,
+  "shapes": [
+   "bend_DLLD",
+   "bend_DLLDD",
+   "bend_DRRU",
+   "bend_RU",
+   "bend_URRD"
+  ],
+  "rhythm": 4,
+  "repeats": 9.25,
+  "interiorDistinct": 3,
+  "meanPlate": 7687.783783783784,
+  "maxPlate": 9216,
+  "minPlate": 6240,
+  "totalPlate": 284448
+ },
+ "coil_3x3_61_min": {
+  "pieces": 39,
+  "kinds": {
+   "bend": 39
+  },
+  "elbows": 0,
+  "interiorBlocks": [
+   7,
+   191
+  ],
+  "innerPieces": 37,
+  "distinct": 6,
+  "shapes": [
+   "bend_LD",
+   "bend_LDDR",
+   "bend_RDDR",
+   "bend_RRUUR",
+   "bend_RUUL",
+   "bend_RUUR"
+  ],
+  "rhythm": 4,
+  "repeats": 9.25,
+  "interiorDistinct": 4,
+  "meanPlate": 7687.783783783784,
+  "maxPlate": 9216,
+  "minPlate": 6240,
+  "totalPlate": 284448
+ },
+ "coil_3x3_64_min": {
+  "pieces": 39,
+  "kinds": {
+   "bend": 39
+  },
+  "elbows": 0,
+  "interiorBlocks": [
+   7,
+   191
+  ],
+  "innerPieces": 37,
+  "distinct": 5,
+  "shapes": [
+   "bend_LDDR",
+   "bend_RD",
+   "bend_RDDL",
+   "bend_RRUUR",
+   "bend_RUUR"
+  ],
+  "rhythm": 4,
+  "repeats": 9.25,
+  "interiorDistinct": 3,
+  "meanPlate": 7768.216216216216,
+  "maxPlate": 9216,
+  "minPlate": 6240,
+  "totalPlate": 287424
+ },
  "coil_3x4_73": {
   "pieces": 49,
   "kinds": {
@@ -189,6 +298,61 @@
   "minPlate": 4225,
   "totalPlate": 277656
  },
+ "coil_3x4_73_min": {
+  "pieces": 48,
+  "kinds": {
+   "bend": 48
+  },
+  "elbows": 0,
+  "interiorBlocks": [
+   5,
+   188
+  ],
+  "innerPieces": 46,
+  "distinct": 6,
+  "shapes": [
+   "bend_LDDR",
+   "bend_LDDRR",
+   "bend_RRU",
+   "bend_RU",
+   "bend_RUUR",
+   "bend_UL"
+  ],
+  "rhythm": 4,
+  "repeats": 11.5,
+  "interiorDistinct": 4,
+  "meanPlate": 6008.847826086957,
+  "maxPlate": 9216,
+  "minPlate": 4225,
+  "totalPlate": 276407
+ },
+ "coil_3x4_73_min_2": {
+  "pieces": 49,
+  "kinds": {
+   "bend": 49
+  },
+  "elbows": 0,
+  "interiorBlocks": [
+   4,
+   190
+  ],
+  "innerPieces": 47,
+  "distinct": 5,
+  "shapes": [
+   "bend_DR",
+   "bend_DRRD",
+   "bend_LD",
+   "bend_RD",
+   "bend_ULLD"
+  ],
+  "rhythm": 4,
+  "repeats": 11.75,
+  "interiorDistinct": 4,
+  "meanPlate": 5907.574468085107,
+  "maxPlate": 9216,
+  "minPlate": 4225,
+  "totalPlate": 277656
+ },
  "coil_3x4_74": {
   "pieces": 48,
   "kinds": {
@@ -208,6 +372,34 @@
    "bend_LD",
    "bend_LDD",
    "bend_ULLD"
+  ],
+  "rhythm": 4,
+  "repeats": 11.5,
+  "interiorDistinct": 4,
+  "meanPlate": 5944.152173913043,
+  "maxPlate": 9216,
+  "minPlate": 4225,
+  "totalPlate": 273431
+ },
+ "coil_3x4_74_min": {
+  "pieces": 48,
+  "kinds": {
+   "bend": 48
+  },
+  "elbows": 0,
+  "interiorBlocks": [
+   5,
+   188
+  ],
+  "innerPieces": 46,
+  "distinct": 6,
+  "shapes": [
+   "bend_DR",
+   "bend_RDDR",
+   "bend_RDDRR",
+   "bend_RRU",
+   "bend_RU",
+   "bend_RUUL"
   ],
   "rhythm": 4,
   "repeats": 11.5,
@@ -264,6 +456,61 @@
    "bend_UL",
    "bend_ULLD",
    "bend_URU"
+  ],
+  "rhythm": 4,
+  "repeats": 10.25,
+  "interiorDistinct": 4,
+  "meanPlate": 6240,
+  "maxPlate": 6240,
+  "minPlate": 6240,
+  "totalPlate": 255840
+ },
+ "coil_3x7_22_min": {
+  "pieces": 43,
+  "kinds": {
+   "bend": 43
+  },
+  "elbows": 0,
+  "interiorBlocks": [
+   4,
+   187
+  ],
+  "innerPieces": 41,
+  "distinct": 6,
+  "shapes": [
+   "bend_DRD",
+   "bend_DRRU",
+   "bend_RU",
+   "bend_ULLD",
+   "bend_ULLDD",
+   "bend_URU"
+  ],
+  "rhythm": 4,
+  "repeats": 10.25,
+  "interiorDistinct": 4,
+  "meanPlate": 6240,
+  "maxPlate": 6240,
+  "minPlate": 6240,
+  "totalPlate": 255840
+ },
+ "coil_3x7_23_min": {
+  "pieces": 43,
+  "kinds": {
+   "bend": 43
+  },
+  "elbows": 0,
+  "interiorBlocks": [
+   6,
+   190
+  ],
+  "innerPieces": 41,
+  "distinct": 5,
+  "shapes": [
+   "bend_LDDR",
+   "bend_LUL",
+   "bend_RRUR",
+   "bend_RUR",
+   "bend_RUUL"
   ],
   "rhythm": 4,
   "repeats": 10.25,
@@ -442,6 +689,38 @@
   "maxPlate": 6240,
   "minPlate": 4225,
   "totalPlate": 109070
+ },
+ "coil_5x5_52_min": {
+  "pieces": 52,
+  "kinds": {
+   "bend": 52
+  },
+  "elbows": 0,
+  "interiorBlocks": [
+   7,
+   188
+  ],
+  "innerPieces": 50,
+  "distinct": 10,
+  "shapes": [
+   "bend_DL",
+   "bend_DLLU",
+   "bend_DLLUU",
+   "bend_DR",
+   "bend_LD",
+   "bend_LLUUR",
+   "bend_LUUR",
+   "bend_RD",
+   "bend_RDDL",
+   "bend_URRD"
+  ],
+  "rhythm": 12,
+  "repeats": 4.166666666666667,
+  "interiorDistinct": 8,
+  "meanPlate": 4869.8,
+  "maxPlate": 6240,
+  "minPlate": 4225,
+  "totalPlate": 243490
  },
  "coil_5x5_55": {
   "pieces": 51,
