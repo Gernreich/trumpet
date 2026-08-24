@@ -39,7 +39,7 @@ const { MEANS: SM } = require('./score.js');
 const wins = SM.map(M => srows.slice().sort((a,b) => SR[M.k].get(a.name) - SR[M.k].get(b.name))[0].name);
 const tally = {}; for (const w of wins) tally[w] = (tally[w] || 0) + 1;
 const [bestName, bestN] = Object.entries(tally).sort((a,b) => b[1] - a[1])[0];
-const unanimous = `${bestName}\` comes first under ${bestN} of the ${SM.length} means. \``;
+const unanimous = `\`${bestName}\` comes first under ${bestN} of the ${SM.length} means.`;
 
 const md = `# Spirals
 
@@ -139,7 +139,7 @@ it disagrees with the box often enough to change which coil you would build.
 a single ranking under every common mean — harmonic, geometric, arithmetic, quadratic,
 cubic, median, midrange, contraharmonic — and reports what the choice of mean does to
 the answer. It does a great deal: \`coil_2x2_146\` places 1st under one and 17th under
-another. \`${unanimous}
+another. ${unanimous}
 
     node tools/score.js          # the scoring table
     node tools/gen_scoring.js    # SCORING.md
