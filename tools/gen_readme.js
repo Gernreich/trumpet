@@ -51,6 +51,14 @@ as a single-block piece of its own — and every one passes the full gate.
 The one this started from is ${L(yours)}; the other ${rows.length - 1} came out of an
 exhaustive search for something tighter.
 
+<!-- readme-only -->
+**[Read it as a page](https://gernreich.github.io/spirals/)** — the same text set for
+reading, and the only place the viewer links below open a model you can turn rather
+than a page of HTML source.
+
+**[The rest of the build files](https://gernreich.github.io/)** — every instrument,
+generator and tool, indexed.
+
 ## Shape and cost
 
 ${tbl('--shape')}
@@ -189,10 +197,13 @@ rule.**
 
 ## Regenerating
 
+    tools/build.sh               # all of the below, in order
+
     node tools/parts.js          # piece counts and distinct shapes -> parts.json
     node tools/table.js          # both tables, plain text
     node tools/table.js --md     # the same as markdown
     node tools/gen_readme.js     # this file
+    python3 ../lasermade-tools/md2html.py README.md index.html    # the published page
 
     node tools/spiral_metrics.js "$(cat walks/coil_3x3_47.txt)"   # measure one walk
 

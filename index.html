@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Spirals</title>
+<style>
+:root{--bg:#fbfbfa;--fg:#1a1c1e;--mut:#5b6067;--line:#e2e4e7;--card:#fff;--accent:#1d4ed8;
+--codebg:#f4f5f7;--thbg:#f0f1f3;--mark:#fff8c4}
+@media (prefers-color-scheme:dark){:root{--bg:#15171a;--fg:#e6e8ea;--mut:#9aa1a9;--line:#2b2f34;
+--card:#1b1e22;--accent:#7aa2f7;--codebg:#22262b;--thbg:#23272c;--mark:#4a411c}}
+:root[data-theme=dark]{--bg:#15171a;--fg:#e6e8ea;--mut:#9aa1a9;--line:#2b2f34;--card:#1b1e22;
+--accent:#7aa2f7;--codebg:#22262b;--thbg:#23272c;--mark:#4a411c}
+:root[data-theme=light]{--bg:#fbfbfa;--fg:#1a1c1e;--mut:#5b6067;--line:#e2e4e7;--card:#fff;
+--accent:#1d4ed8;--codebg:#f4f5f7;--thbg:#f0f1f3;--mark:#fff8c4}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+font:16px/1.62 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+-webkit-text-size-adjust:100%}
+.wrap{display:grid;grid-template-columns:250px minmax(0,1fr);gap:44px;max-width:1180px;
+margin:0 auto;padding:40px 28px 96px}
+nav{position:sticky;top:28px;align-self:start;max-height:calc(100vh - 56px);overflow:auto;
+border-right:1px solid var(--line);padding-right:16px;font-size:13.5px;line-height:1.45}
+nav b{display:block;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--mut);
+margin:0 0 12px}
+nav a{display:block;color:var(--mut);text-decoration:none;padding:3px 0;border-radius:4px}
+nav a:hover{color:var(--accent)}
+nav a.l1{color:var(--fg);font-weight:640;margin-top:11px}
+nav a.l2{padding-left:12px}
+main{min-width:0}
+h1{font-size:1.62rem;line-height:1.25;letter-spacing:-.015em;margin:2.4em 0 .5em;
+padding-bottom:.32em;border-bottom:2px solid var(--line)}
+main>h1:first-child{margin-top:0;border-bottom:none;font-size:1.95rem}
+h2{font-size:1.16rem;margin:2em 0 .5em;letter-spacing:-.01em}
+h3{font-size:1.02rem;font-weight:650;margin:1.7em 0 .45em}
+p{margin:.85em 0}
+ul,ol{margin:.85em 0;padding-left:1.35em}
+li{margin:.3em 0}
+hr{border:0;border-top:1px solid var(--line);margin:2.6em 0}
+figure{margin:1.6em 0}
+/* A paragraph holding two or more images is a gallery. Left to inline layout they
+   wrap at whatever fits, which put three bells on one row and the fourth alone
+   underneath - directly above the caption, so it read as the caption for that one
+   picture rather than for the set. Flex lets them share the row instead. */
+p:has(img + img){display:flex;flex-wrap:wrap;gap:10px;align-items:flex-start;
+justify-content:center}
+p:has(img + img) img{flex:1 1 140px;min-width:0;width:auto;max-width:100%;height:auto;
+border:1px solid var(--line);border-radius:10px}
+figure svg,figure img{display:block;width:100%;max-width:100%;height:auto;
+border:1px solid var(--line);border-radius:10px}
+a{color:var(--accent)}
+code{font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+background:var(--codebg);padding:.1em .32em;border-radius:4px;
+border:1px solid color-mix(in srgb,var(--line) 70%,transparent)}
+pre{background:var(--codebg);border:1px solid var(--line);border-radius:9px;
+padding:14px 16px;overflow-x:auto;margin:1.1em 0}
+pre code{background:none;border:0;padding:0;font-size:12.8px;line-height:1.62;white-space:pre}
+blockquote{margin:1.15em 0;padding:.7em 1.1em;border-left:4px solid var(--accent);
+background:var(--codebg);border-radius:0 7px 7px 0}
+blockquote p{margin:0}
+.tw{overflow-x:auto;margin:1.15em 0;border:1px solid var(--line);border-radius:9px;
+background:var(--card)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:8px 13px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+/* honour align="center" on gallery cells: a presentation attribute loses to any
+   CSS rule, so the line above would silently left-align every thumbnail caption */
+td[align=center],th[align=center]{text-align:center}
+th{background:var(--thbg);font-weight:630;white-space:nowrap;font-size:13px;
+letter-spacing:.01em}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover{background:color-mix(in srgb,var(--thbg) 45%,transparent)}
+td code,th code{white-space:nowrap}
+/* A walk inside a link is one token: breaking it mid-walk put "N" at the end of one
+   line and "N5 U" at the start of the next, which reads as two things. */
+a code{white-space:nowrap}
+.tog{position:fixed;top:14px;right:14px;z-index:9;background:var(--card);color:var(--mut);
+border:1px solid var(--line);border-radius:7px;padding:6px 11px;font-size:12.5px;cursor:pointer}
+.tog:hover{color:var(--accent)}
+@media (max-width:900px){.wrap{grid-template-columns:1fr;gap:20px;padding:26px 18px 72px}
+nav{position:static;max-height:none;border-right:0;border-bottom:1px solid var(--line);
+padding:0 0 16px;columns:2;column-gap:20px}}
+@media print{nav,.tog{display:none}.wrap{display:block;max-width:none;padding:0}
+pre,.tw{break-inside:avoid}h1{break-after:avoid}}
+</style>
+</head>
+<body>
+<button class="tog" type="button">theme</button>
+<div class="wrap">
+<nav><b>Contents</b><a class="l1" href="#spirals">Spirals</a><a class="l2" href="#shape-and-cost">Shape and cost</a><a class="l2" href="#rotation">Rotation</a><a class="l2" href="#what-wins-what">What wins what</a><a class="l2" href="#a-metric-deliberately-left-out">A metric deliberately left out</a><a class="l2" href="#scoring-them-against-each-other">Scoring them against each other</a><a class="l2" href="#the-gate">The gate</a><a class="l2" href="#how-they-were-found">How they were found</a><a class="l2" href="#regenerating">Regenerating</a><a class="l2" href="#what-has-not-been-done">What has not been done</a></nav>
+<main>
+<h1 id="spirals">Spirals</h1>
+<p>Coiling bore walks that turn about an axis while advancing along it, collected with the numbers that say how hard each one spirals and what each one costs to build. Every walk here splits with <strong>no elbows</strong> — every turn folds into a piece as an L, none is stranded as a single-block piece of its own — and every one passes the full gate.</p>
+<p>The one this started from is <a href="pages/staircase_coil.html"><code>staircase_coil</code></a>; the other 17 came out of an exhaustive search for something tighter.</p>
+<p><strong><a href="https://gernreich.github.io/">The rest of the build files</a></strong> — every instrument, generator and tool, indexed.</p>
+<h2 id="shape-and-cost">Shape and cost</h2>
+<div class='tw'><table><thead><tr><th>spiral</th><th>blocks</th><th>mm</th><th>envelope</th><th>box</th><th>cross-section</th><th>along axis</th><th>pieces</th><th>distinct</th><th>touching</th></tr></thead><tbody><tr><td><a href="pages/coil_3x3_47.html"><code>coil_3x3_47</code></a></td><td>193</td><td>5983</td><td>47 x 3 x 3</td><td>423</td><td>3 x 3 blk / 93 x 93 mm</td><td>47 / 1457 mm</td><td>37</td><td>6</td><td>8</td></tr><tr><td><a href="pages/coil_3x3_50.html"><code>coil_3x3_50</code></a></td><td>193</td><td>5983</td><td>50 x 3 x 3</td><td>450</td><td>3 x 3 blk / 93 x 93 mm</td><td>50 / 1550 mm</td><td>37</td><td>5</td><td>8</td></tr><tr><td><a href="pages/coil_3x7_22.html"><code>coil_3x7_22</code></a></td><td>193</td><td>5983</td><td>3 x 22 x 7</td><td>462</td><td>3 x 7 blk / 93 x 217 mm</td><td>22 / 682 mm</td><td>43</td><td>6</td><td>20</td></tr><tr><td><a href="pages/coil_3x3_53.html"><code>coil_3x3_53</code></a></td><td>193</td><td>5983</td><td>53 x 3 x 3</td><td>477</td><td>3 x 3 blk / 93 x 93 mm</td><td>53 / 1643 mm</td><td>36</td><td>6</td><td>0</td></tr><tr><td><a href="pages/coil_3x3_53_2.html"><code>coil_3x3_53_2</code></a></td><td>194</td><td>6014</td><td>3 x 3 x 53</td><td>477</td><td>3 x 3 blk / 93 x 93 mm</td><td>53 / 1643 mm</td><td>35</td><td>4</td><td>0</td></tr><tr><td><a href="pages/coil_3x8_20.html"><code>coil_3x8_20</code></a></td><td>194</td><td>6014</td><td>8 x 20 x 3</td><td>480</td><td>3 x 8 blk / 93 x 248 mm</td><td>20 / 620 mm</td><td>39</td><td>6</td><td>17</td></tr><tr><td><a href="pages/coil_3x9_18.html"><code>coil_3x9_18</code></a></td><td>194</td><td>6014</td><td>3 x 18 x 9</td><td>486</td><td>3 x 9 blk / 93 x 279 mm</td><td>18 / 558 mm</td><td>35</td><td>5</td><td>16</td></tr><tr><td><a href="pages/coil_4x7_20.html"><code>coil_4x7_20</code></a></td><td>194</td><td>6014</td><td>4 x 20 x 7</td><td>560</td><td>4 x 7 blk / 124 x 217 mm</td><td>20 / 620 mm</td><td>39</td><td>6</td><td>18</td></tr><tr><td><a href="pages/coil_4x8_18.html"><code>coil_4x8_18</code></a></td><td>194</td><td>6014</td><td>4 x 18 x 8</td><td>576</td><td>4 x 8 blk / 124 x 248 mm</td><td>18 / 558 mm</td><td>35</td><td>5</td><td>16</td></tr><tr><td><a href="pages/coil_2x2_146.html"><code>coil_2x2_146</code></a></td><td>194</td><td>6014</td><td>2 x 2 x 146</td><td>584</td><td>2 x 2 blk / 62 x 62 mm</td><td>146 / 4526 mm</td><td>48</td><td>4</td><td>0</td></tr><tr><td><a href="pages/coil_4x9_17.html"><code>coil_4x9_17</code></a></td><td>194</td><td>6014</td><td>9 x 17 x 4</td><td>612</td><td>4 x 9 blk / 124 x 279 mm</td><td>17 / 527 mm</td><td>33</td><td>6</td><td>14</td></tr><tr><td><a href="pages/coil_5x7_18.html"><code>coil_5x7_18</code></a></td><td>193</td><td>5983</td><td>5 x 18 x 7</td><td>630</td><td>5 x 7 blk / 155 x 217 mm</td><td>18 / 558 mm</td><td>35</td><td>6</td><td>16</td></tr><tr><td><a href="pages/coil_5x8_17.html"><code>coil_5x8_17</code></a></td><td>194</td><td>6014</td><td>17 x 5 x 8</td><td>680</td><td>5 x 8 blk / 155 x 248 mm</td><td>17 / 527 mm</td><td>32</td><td>6</td><td>14</td></tr><tr><td><a href="pages/staircase_coil.html"><code>staircase_coil</code></a></td><td>196</td><td>6076</td><td>4 x 4 x 52</td><td>832</td><td>4 x 4 blk / 124 x 124 mm</td><td>52 / 1612 mm</td><td>48</td><td>10</td><td>0</td></tr><tr><td><a href="pages/coil_3x4_73.html"><code>coil_3x4_73</code></a></td><td>193</td><td>5983</td><td>4 x 73 x 3</td><td>876</td><td>3 x 4 blk / 93 x 124 mm</td><td>73 / 2263 mm</td><td>49</td><td>6</td><td>0</td></tr><tr><td><a href="pages/coil_3x4_73_2.html"><code>coil_3x4_73_2</code></a></td><td>193</td><td>5983</td><td>73 x 4 x 3</td><td>876</td><td>3 x 4 blk / 93 x 124 mm</td><td>73 / 2263 mm</td><td>49</td><td>5</td><td>0</td></tr><tr><td><a href="pages/coil_3x4_74.html"><code>coil_3x4_74</code></a></td><td>194</td><td>6014</td><td>3 x 4 x 74</td><td>888</td><td>3 x 4 blk / 93 x 124 mm</td><td>74 / 2294 mm</td><td>48</td><td>6</td><td>0</td></tr><tr><td><a href="pages/coil_3x4_78.html"><code>coil_3x4_78</code></a></td><td>194</td><td>6014</td><td>3 x 78 x 4</td><td>936</td><td>3 x 4 blk / 93 x 124 mm</td><td>78 / 2418 mm</td><td>45</td><td>6</td><td>0</td></tr></tbody></table></div>
+<p>Envelope, box and cross-section are in blocks; a block is 31mm of centreline. Sorted by box, smallest first.</p>
+<p><strong>Cross-section</strong> is the envelope with the coil axis taken out — how fat the coil is, which is what decides whether it fits inside anything. It is not implied by the box: <a href="pages/coil_2x2_146.html"><code>coil_2x2_146</code></a> and <a href="pages/coil_4x7_20.html"><code>coil_4x7_20</code></a> are within 5% of each other on box and are 2x2 and 4x7 in section.</p>
+<p><strong>Distinct</strong> is how many different piece shapes the cut list holds. A coil built by repeating one period needs only a handful, however long it runs: coil_3x3_53_2 is 35 pieces cut from 4 shapes. The staircase coil needs</p>
+<ol><li>That is files to check and parts to tell apart on the bench, and it</li></ol>
+<p>does not show up in the piece count at all.</p>
+<p><strong>Touching</strong> counts blocks that sit face to face without being joined along the bore — two runs of the tube sharing a wall. <code>bore_split.py</code> warns about them, and they are the version of "density" that has a consequence: where the bore passes itself, that one wall is all that separates the two passages.</p>
+<p>It is also the one packing number that is <em>not</em> implied by the box. <a href="pages/coil_3x3_47.html"><code>coil_3x3_47</code></a> has the smallest box in the set and 8 shared walls; <a href="pages/coil_3x3_53.html"><code>coil_3x3_53</code></a> is 13% larger and has <strong>none</strong>. If a shared wall is something to avoid, the smallest box is not the one to build.</p>
+<h2 id="rotation">Rotation</h2>
+<div class='tw'><table><thead><tr><th>spiral</th><th>axis</th><th>rotation</th><th>turns</th><th>blocks/360</th><th>rise/360 blk / mm</th><th>deg/block</th><th>90deg turns</th><th>turns/m</th><th>longest straight</th></tr></thead><tbody><tr><td><a href="pages/coil_3x3_47.html"><code>coil_3x3_47</code></a></td><td>E</td><td>3240</td><td>9.00</td><td>21.4</td><td>5.11 / 158</td><td>16.8</td><td>73</td><td>12.2</td><td>4 blk / 124 mm</td></tr><tr><td><a href="pages/coil_3x3_50.html"><code>coil_3x3_50</code></a></td><td>E</td><td>3240</td><td>9.00</td><td>21.4</td><td>5.11 / 158</td><td>16.8</td><td>73</td><td>12.2</td><td>4 blk / 124 mm</td></tr><tr><td><a href="pages/coil_3x7_22.html"><code>coil_3x7_22</code></a></td><td>U</td><td>3870</td><td>10.75</td><td>18.0</td><td>1.95 / 61</td><td>20.1</td><td>85</td><td>14.2</td><td>3 blk / 93 mm</td></tr><tr><td><a href="pages/coil_3x3_53.html"><code>coil_3x3_53</code></a></td><td>E</td><td>3150</td><td>8.75</td><td>22.1</td><td>5.71 / 177</td><td>16.3</td><td>70</td><td>11.7</td><td>4 blk / 124 mm</td></tr><tr><td><a href="pages/coil_3x3_53_2.html"><code>coil_3x3_53_2</code></a></td><td>N</td><td>3060</td><td>8.50</td><td>22.8</td><td>6.00 / 186</td><td>15.8</td><td>70</td><td>11.6</td><td>4 blk / 124 mm</td></tr><tr><td><a href="pages/coil_3x8_20.html"><code>coil_3x8_20</code></a></td><td>U</td><td>3510</td><td>9.75</td><td>19.9</td><td>1.95 / 60</td><td>18.1</td><td>77</td><td>12.8</td><td>4 blk / 124 mm</td></tr><tr><td><a href="pages/coil_3x9_18.html"><code>coil_3x9_18</code></a></td><td>U</td><td>3240</td><td>9.00</td><td>21.6</td><td>1.89 / 59</td><td>16.7</td><td>70</td><td>11.6</td><td>4 blk / 124 mm</td></tr><tr><td><a href="pages/coil_4x7_20.html"><code>coil_4x7_20</code></a></td><td>U</td><td>3510</td><td>9.75</td><td>19.9</td><td>1.95 / 60</td><td>18.1</td><td>77</td><td>12.8</td><td>3 blk / 93 mm</td></tr><tr><td><a href="pages/coil_4x8_18.html"><code>coil_4x8_18</code></a></td><td>U</td><td>3240</td><td>9.00</td><td>21.6</td><td>1.89 / 59</td><td>16.7</td><td>70</td><td>11.6</td><td>4 blk / 124 mm</td></tr><tr><td><a href="pages/coil_2x2_146.html"><code>coil_2x2_146</code></a></td><td>N</td><td>4230</td><td>11.75</td><td>16.5</td><td>12.34 / 383</td><td>21.8</td><td>96</td><td>16.0</td><td>3 blk / 93 mm</td></tr><tr><td><a href="pages/coil_4x9_17.html"><code>coil_4x9_17</code></a></td><td>U</td><td>2880</td><td>8.00</td><td>24.3</td><td>2.00 / 62</td><td>14.8</td><td>64</td><td>10.6</td><td>4 blk / 124 mm</td></tr><tr><td><a href="pages/coil_5x7_18.html"><code>coil_5x7_18</code></a></td><td>U</td><td>3150</td><td>8.75</td><td>22.1</td><td>1.94 / 60</td><td>16.3</td><td>69</td><td>11.5</td><td>4 blk / 124 mm</td></tr><tr><td><a href="pages/coil_5x8_17.html"><code>coil_5x8_17</code></a></td><td>E</td><td>2880</td><td>8.00</td><td>24.3</td><td>2.00 / 62</td><td>14.8</td><td>64</td><td>10.6</td><td>4 blk / 124 mm</td></tr><tr><td><a href="pages/staircase_coil.html"><code>staircase_coil</code></a></td><td>N</td><td>4230</td><td>11.75</td><td>16.7</td><td>4.34 / 135</td><td>21.6</td><td>64</td><td>10.5</td><td>4 blk / 124 mm</td></tr><tr><td><a href="pages/coil_3x4_73.html"><code>coil_3x4_73</code></a></td><td>U</td><td>4320</td><td>12.00</td><td>16.1</td><td>6.00 / 186</td><td>22.4</td><td>72</td><td>12.0</td><td>3 blk / 93 mm</td></tr><tr><td><a href="pages/coil_3x4_73_2.html"><code>coil_3x4_73_2</code></a></td><td>E</td><td>4320</td><td>12.00</td><td>16.1</td><td>6.00 / 186</td><td>22.4</td><td>72</td><td>12.0</td><td>3 blk / 93 mm</td></tr><tr><td><a href="pages/coil_3x4_74.html"><code>coil_3x4_74</code></a></td><td>N</td><td>4230</td><td>11.75</td><td>16.5</td><td>6.21 / 193</td><td>21.8</td><td>72</td><td>12.0</td><td>3 blk / 93 mm</td></tr><tr><td><a href="pages/coil_3x4_78.html"><code>coil_3x4_78</code></a></td><td>U</td><td>4140</td><td>11.50</td><td>16.9</td><td>6.70 / 208</td><td>21.3</td><td>90</td><td>15.0</td><td>3 blk / 93 mm</td></tr></tbody></table></div>
+<p>A coil turns about one axis while travelling down it. Drop that axis and what is left — the lateral projection — is what rotates, and on a cubic lattice it can only turn in ninety degree steps, so the winding is counted in quarter turns and multiplied up. Steps along the coil axis project to nothing and are skipped: they are advance, not rotation.</p>
+<ul><li><strong>Rotation</strong> — the whole turn end to end, in degrees.</li><li><strong>Blocks / 360</strong> — tube spent on one revolution. Lower is a tighter spiral.</li><li><strong>Rise / 360</strong> — how far down its axis the coil travels to come back round. The pitch.</li><li><strong>Deg / block</strong> — the same, per block, averaged.</li><li><strong>90deg turns</strong>, <strong>turns/m</strong> — how often the air is asked to turn a corner. The tube length is nearly the same for all of these, so this is what separates them acoustically, and it is the one number here that argues <em>against</em> packing tighter.</li><li><strong>Longest straight</strong> — the longest run without a turn.</li></ul>
+<p><strong>Axis</strong> is the direction the coil advances; the search was free to build about any axis, so a coil that runs east is measured against east.</p>
+<h2 id="what-wins-what">What wins what</h2>
+<p>No single spiral wins, because the measures disagree.</p>
+<div class='tw'><table><thead><tr><th></th><th>winner</th><th>against the staircase coil</th></tr></thead><tbody><tr><td>smallest box</td><td><a href="pages/coil_3x3_47.html"><code>coil_3x3_47</code></a> — 423</td><td>832, so 1.97x larger</td></tr><tr><td>tightest spiral (least rise per turn)</td><td><a href="pages/coil_3x9_18.html"><code>coil_3x9_18</code></a> — 59mm</td><td>135mm, so 2.3x slacker</td></tr><tr><td>least tube per turn</td><td><a href="pages/coil_3x4_73.html"><code>coil_3x4_73</code></a> — 16.1 blk</td><td>16.7 blk, within 4%</td></tr><tr><td>fewest pieces</td><td><a href="pages/coil_5x8_17.html"><code>coil_5x8_17</code></a> — 32</td><td>48</td></tr><tr><td>fewest distinct shapes</td><td><a href="pages/coil_3x3_53_2.html"><code>coil_3x3_53_2</code></a> — 4</td><td>10</td></tr><tr><td>calmest bore (fewest turns/m)</td><td><a href="pages/staircase_coil.html"><code>staircase_coil</code></a> — 10.5</td><td>10.5</td></tr><tr><td>smallest box with no shared wall</td><td><a href="pages/coil_3x3_53.html"><code>coil_3x3_53</code></a> — 477</td><td>832, also 0 shared</td></tr></tbody></table></div>
+<p>The staircase coil loses on packing and wins, or nearly wins, on the two that bear on how the thing sounds: it spends the least tube per revolution of almost anything here, and it turns the air the fewest times per metre. <strong>Packing tighter costs bends</strong>, and bends are the thing a bore notices.</p>
+<h2 id="a-metric-deliberately-left-out">A metric deliberately left out</h2>
+<p>Fill density — blocks over box volume — was tried and dropped. At a fixed tube length it is not independent of the box: blocks is near enough constant, so density is just the reciprocal of box volume rescaled. Ranking these 18 spirals by density puts them in the same order as ranking by box in 16 of 18 positions, and the two that swap are a tie at 477 broken by a one-block difference in length. It reads like a second opinion and is not one. It would earn its place only in comparing walks of genuinely different lengths.</p>
+<p><strong>Touching</strong> is the metric density was reaching for. It answers the question density sounds like it answers — how hard is this bore packed against itself — and unlike density it disagrees with the box often enough to change which coil you would build.</p>
+<h2 id="scoring-them-against-each-other">Scoring them against each other</h2>
+<p><a href="SCORING.html"><strong>SCORING.md</strong></a> combines seven of the metrics and the touching count into a single ranking under every common mean — harmonic, geometric, arithmetic, quadratic, cubic, median, midrange, contraharmonic — and reports what the choice of mean does to the answer. It does a great deal: <code>coil_2x2_146</code> places 1st under one and 17th under another. <code>coil_3x3_53_2</code> comes first under 6 of the 8 means.</p>
+<p>It also covers why to rank once rather than rank, cut and re-rank: with a set-relative normalization the survivors of a cut come out in a different order than they went in, having not been measured again.</p>
+<pre><code>node tools/score.js          # the scoring table
+node tools/iterate.js        # what cutting and re-ranking does to it
+node tools/gen_scoring.js    # SCORING.md</code></pre>
+<h2 id="the-gate">The gate</h2>
+<p>Every walk here has been through <code>check.py</code> — the parts, the sections, the seams, and a voxel model of the assembled bore flooded from the outside to prove it is one sealed passage. <strong>23,802 checks across 18 spirals, 0 failed.</strong> The per-walk output is in <code>checks/</code>.</p>
+<pre><code>node tools/run_checks.sh     # re-run the gate over every walk</code></pre>
+<p><code>check.py</code> needs shapely, numpy and scipy, which live in the Boxes.py venv — run it with <code>~/boxes/venv/bin/python</code>, as <code>../bore-generator/README.md</code> says. The system python3 does not have them.</p>
+<h2 id="how-they-were-found">How they were found</h2>
+<p><code>tools/search_spirals.js</code> walks every periodic term sequence up to eight terms with legs up to four blocks, keeping those that never reverse, return to the same lateral position each period so the thing coils rather than drifts, wind a whole number of turns per period, stay self-avoiding when repeated, and satisfy the elbow-free rule.</p>
+<p>That rule, for a window of three consecutive terms — outer A, middle m, outer C:</p>
+<div class='tw'><table><thead><tr><th>A and C</th><th></th><th>middle term</th></tr></thead><tbody><tr><td>same axis, same direction</td><td>a step</td><td>&gt;= 1</td></tr><tr><td>same axis, opposite direction</td><td>a hairpin</td><td>&gt;= 2</td></tr><tr><td>different axes</td><td>a coil</td><td>&gt;= 3</td></tr></tbody></table></div>
+<p>The bore-designs README states only the third case and calls the other two "a fold ... as tight as you like". That holds for steps and not for hairpins: <code>U3 N1 D3</code> costs two elbows and <code>U3 N2 D3</code> costs none. The three cases were read off <code>bore_split.py</code> by probing it.</p>
+<p><code>tools/mknotation.js</code> repeats a period to length and writes it in the bore notation, trimming the tail so the last block is not mid-turn — a turn in the last block has nothing after it to make it interior, so it is always its own piece. Then every candidate goes through the splitter, and only zero-elbow walks are kept. <strong>The splitter decides, not the rule.</strong></p>
+<h2 id="regenerating">Regenerating</h2>
+<pre><code>tools/build.sh               # all of the below, in order
+
+node tools/parts.js          # piece counts and distinct shapes -&gt; parts.json
+node tools/table.js          # both tables, plain text
+node tools/table.js --md     # the same as markdown
+node tools/gen_readme.js     # this file
+python3 ../lasermade-tools/md2html.py README.md index.html    # the published page
+
+node tools/spiral_metrics.js "$(cat walks/coil_3x3_47.txt)"   # measure one walk
+
+cd ../bore-generator         # rebuild a viewer page
+~/boxes/venv/bin/python viewer.py "$(cat ../spirals/walks/coil_3x3_47.txt)" \
+    --out ../spirals/pages/coil_3x3_47.html --title "Coil 3x3 47"</code></pre>
+<h2 id="what-has-not-been-done">What has not been done</h2>
+<p><strong>No cut files.</strong> These are walks, viewers and gate results; nothing here has been split to SVG or nested. <code>bore_split.py --write DIR</code> will do it.</p>
+<p>The block counts are not equal — they run 193 to 196, so the bore lengths run 5983mm to 6076mm. A period is repeated to about the right length and then trimmed to wherever the tail comes out elbow-free, so these are the same bore only to within a few blocks. For comparing packing that is fine; for comparing <em>bores</em> it is not, and the length would have to be pinned first.</p>
+<p>Released under <a href="LICENSE">CC0 1.0</a>.</p>
+</main>
+</div>
+<script>
+var r=document.documentElement,b=document.querySelector('.tog');
+function set(t){r.setAttribute('data-theme',t);try{localStorage.setItem('ctg-theme',t)}catch(e){}
+b.textContent=t==='dark'?'\u2600 light':'\u263e dark';}
+var saved=null;try{saved=localStorage.getItem('ctg-theme')}catch(e){}
+set(saved||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'));
+b.addEventListener('click',function(){set(r.getAttribute('data-theme')==='dark'?'light':'dark')});
+</script>
+</body>
+</html>

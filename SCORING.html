@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Scoring</title>
+<style>
+:root{--bg:#fbfbfa;--fg:#1a1c1e;--mut:#5b6067;--line:#e2e4e7;--card:#fff;--accent:#1d4ed8;
+--codebg:#f4f5f7;--thbg:#f0f1f3;--mark:#fff8c4}
+@media (prefers-color-scheme:dark){:root{--bg:#15171a;--fg:#e6e8ea;--mut:#9aa1a9;--line:#2b2f34;
+--card:#1b1e22;--accent:#7aa2f7;--codebg:#22262b;--thbg:#23272c;--mark:#4a411c}}
+:root[data-theme=dark]{--bg:#15171a;--fg:#e6e8ea;--mut:#9aa1a9;--line:#2b2f34;--card:#1b1e22;
+--accent:#7aa2f7;--codebg:#22262b;--thbg:#23272c;--mark:#4a411c}
+:root[data-theme=light]{--bg:#fbfbfa;--fg:#1a1c1e;--mut:#5b6067;--line:#e2e4e7;--card:#fff;
+--accent:#1d4ed8;--codebg:#f4f5f7;--thbg:#f0f1f3;--mark:#fff8c4}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+font:16px/1.62 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+-webkit-text-size-adjust:100%}
+.wrap{display:grid;grid-template-columns:250px minmax(0,1fr);gap:44px;max-width:1180px;
+margin:0 auto;padding:40px 28px 96px}
+nav{position:sticky;top:28px;align-self:start;max-height:calc(100vh - 56px);overflow:auto;
+border-right:1px solid var(--line);padding-right:16px;font-size:13.5px;line-height:1.45}
+nav b{display:block;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--mut);
+margin:0 0 12px}
+nav a{display:block;color:var(--mut);text-decoration:none;padding:3px 0;border-radius:4px}
+nav a:hover{color:var(--accent)}
+nav a.l1{color:var(--fg);font-weight:640;margin-top:11px}
+nav a.l2{padding-left:12px}
+main{min-width:0}
+h1{font-size:1.62rem;line-height:1.25;letter-spacing:-.015em;margin:2.4em 0 .5em;
+padding-bottom:.32em;border-bottom:2px solid var(--line)}
+main>h1:first-child{margin-top:0;border-bottom:none;font-size:1.95rem}
+h2{font-size:1.16rem;margin:2em 0 .5em;letter-spacing:-.01em}
+h3{font-size:1.02rem;font-weight:650;margin:1.7em 0 .45em}
+p{margin:.85em 0}
+ul,ol{margin:.85em 0;padding-left:1.35em}
+li{margin:.3em 0}
+hr{border:0;border-top:1px solid var(--line);margin:2.6em 0}
+figure{margin:1.6em 0}
+/* A paragraph holding two or more images is a gallery. Left to inline layout they
+   wrap at whatever fits, which put three bells on one row and the fourth alone
+   underneath - directly above the caption, so it read as the caption for that one
+   picture rather than for the set. Flex lets them share the row instead. */
+p:has(img + img){display:flex;flex-wrap:wrap;gap:10px;align-items:flex-start;
+justify-content:center}
+p:has(img + img) img{flex:1 1 140px;min-width:0;width:auto;max-width:100%;height:auto;
+border:1px solid var(--line);border-radius:10px}
+figure svg,figure img{display:block;width:100%;max-width:100%;height:auto;
+border:1px solid var(--line);border-radius:10px}
+a{color:var(--accent)}
+code{font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+background:var(--codebg);padding:.1em .32em;border-radius:4px;
+border:1px solid color-mix(in srgb,var(--line) 70%,transparent)}
+pre{background:var(--codebg);border:1px solid var(--line);border-radius:9px;
+padding:14px 16px;overflow-x:auto;margin:1.1em 0}
+pre code{background:none;border:0;padding:0;font-size:12.8px;line-height:1.62;white-space:pre}
+blockquote{margin:1.15em 0;padding:.7em 1.1em;border-left:4px solid var(--accent);
+background:var(--codebg);border-radius:0 7px 7px 0}
+blockquote p{margin:0}
+.tw{overflow-x:auto;margin:1.15em 0;border:1px solid var(--line);border-radius:9px;
+background:var(--card)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:8px 13px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+/* honour align="center" on gallery cells: a presentation attribute loses to any
+   CSS rule, so the line above would silently left-align every thumbnail caption */
+td[align=center],th[align=center]{text-align:center}
+th{background:var(--thbg);font-weight:630;white-space:nowrap;font-size:13px;
+letter-spacing:.01em}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover{background:color-mix(in srgb,var(--thbg) 45%,transparent)}
+td code,th code{white-space:nowrap}
+/* A walk inside a link is one token: breaking it mid-walk put "N" at the end of one
+   line and "N5 U" at the start of the next, which reads as two things. */
+a code{white-space:nowrap}
+.tog{position:fixed;top:14px;right:14px;z-index:9;background:var(--card);color:var(--mut);
+border:1px solid var(--line);border-radius:7px;padding:6px 11px;font-size:12.5px;cursor:pointer}
+.tog:hover{color:var(--accent)}
+@media (max-width:900px){.wrap{grid-template-columns:1fr;gap:20px;padding:26px 18px 72px}
+nav{position:static;max-height:none;border-right:0;border-bottom:1px solid var(--line);
+padding:0 0 16px;columns:2;column-gap:20px}}
+@media print{nav,.tog{display:none}.wrap{display:block;max-width:none;padding:0}
+pre,.tw{break-inside:avoid}h1{break-after:avoid}}
+</style>
+</head>
+<body>
+<button class="tog" type="button">theme</button>
+<div class="wrap">
+<nav><b>Contents</b><a class="l1" href="#scoring">Scoring</a><a class="l2" href="#what-is-scored">What is scored</a><a class="l2" href="#the-means">The means</a><a class="l2" href="#the-table">The table</a><a class="l2" href="#choosing-a-mean-is-choosing-how-much-a-weak-spot-counts">Choosing a mean is choosing how much a weak spot counts</a><a class="l2" href="#what-survives">What survives</a><a class="l2" href="#ranking-once-not-repeatedly">Ranking once, not repeatedly</a></nav>
+<main>
+<h1 id="scoring">Scoring</h1>
+<p>Seven metrics, one touching count, and every common mean, so the ranking can be read against the thing that produced it. Regenerate with <code>node tools/gen_scoring.js</code>.</p>
+<h2 id="what-is-scored">What is scored</h2>
+<ul><li><strong>box</strong> — less is better</li><li><strong>cross area</strong> — less is better</li><li><strong>pieces</strong> — less is better</li><li><strong>distinct</strong> — less is better</li><li><strong>rise/360</strong> — less is better</li><li><strong>turns/m</strong> — less is better</li><li><strong>longest str</strong> — more is better</li><li><strong>touching</strong> — carried the same way as the rest, at weight 3</li></ul>
+<p>Each is normalized to (0,1] with 1 the best in the set, oriented so bigger is better, and floored at 0.01 so that one worst-in-set value cannot zero a product. Touching is not a special case: a graded penalty on the same scale, weighted, which is what <code>geo fix</code> and <code>add fix</code> were doing and is now what every mean sees.</p>
+<p><strong><code>blocks/360</code> is deliberately gone.</strong> It is anti-correlated with turns/m by construction — a tighter spiral has to turn more often — so carrying both let them cancel, and made the composite quieter about coiling than the columns themselves are.</p>
+<h2 id="the-means">The means</h2>
+<div class='tw'><table><thead><tr><th>mean</th><th>order <em>p</em></th><th>what it rewards</th></tr></thead><tbody><tr><td>harmonic</td><td>-1</td><td>punishes the weakest input hardest</td></tr><tr><td>geometric</td><td>0</td><td></td></tr><tr><td>arithmetic</td><td>1</td><td></td></tr><tr><td>quadratic (RMS)</td><td>2</td><td></td></tr><tr><td>cubic</td><td>3</td><td>rewards the strongest input hardest</td></tr><tr><td>median</td><td>—</td><td>ignores both extremes</td></tr><tr><td>midrange</td><td>—</td><td>only the extremes</td></tr><tr><td>contraharmonic</td><td>—</td><td>rewards the strongest harder still</td></tr></tbody></table></div>
+<p>The first five are the power mean of order <em>p</em>, which increases with <em>p</em>, so for every spiral <strong>harmonic ≤ geometric ≤ arithmetic ≤ quadratic ≤ cubic</strong>. Verified here on all 18. What changes with <em>p</em> is not the size of the score but how much a single bad metric is allowed to sink it.</p>
+<h2 id="the-table">The table</h2>
+<div class='tw'><table><thead><tr><th>spiral</th><th>touch</th><th>harmonic</th><th>#</th><th>geometric</th><th>#</th><th>arithmetic</th><th>#</th><th>quadratic</th><th>#</th><th>cubic</th><th>#</th><th>median</th><th>#</th><th>midrange</th><th>#</th><th>contraharmonic</th><th>#</th></tr></thead><tbody><tr><td>coil_3x3_53_2</td><td>0</td><td>0.8789</td><td>1</td><td>0.8897</td><td>1</td><td>0.8992</td><td>1</td><td>0.9076</td><td>1</td><td>0.9149</td><td>1</td><td>0.9479</td><td>1</td><td>0.8053</td><td>2</td><td>0.9160</td><td>2</td></tr><tr><td>coil_3x3_53</td><td>0</td><td>0.8396</td><td>2</td><td>0.8511</td><td>2</td><td>0.8620</td><td>2</td><td>0.8724</td><td>2</td><td>0.8819</td><td>2</td><td>0.8791</td><td>3</td><td>0.8188</td><td>1</td><td>0.8828</td><td>4</td></tr><tr><td>coil_3x3_50</td><td>8</td><td>0.7317</td><td>3</td><td>0.7434</td><td>3</td><td>0.7557</td><td>3</td><td>0.7683</td><td>4</td><td>0.7811</td><td>5</td><td>0.7023</td><td>9</td><td>0.8020</td><td>4</td><td>0.7812</td><td>12</td></tr><tr><td>coil_3x3_47</td><td>8</td><td>0.7191</td><td>4</td><td>0.7311</td><td>4</td><td>0.7444</td><td>4</td><td>0.7587</td><td>5</td><td>0.7737</td><td>7</td><td>0.6953</td><td>11</td><td>0.8020</td><td>3</td><td>0.7733</td><td>14</td></tr><tr><td>coil_3x9_18</td><td>16</td><td>0.4176</td><td>5</td><td>0.5252</td><td>5</td><td>0.6329</td><td>6</td><td>0.7108</td><td>8</td><td>0.7610</td><td>9</td><td>0.8118</td><td>5</td><td>0.6040</td><td>5</td><td>0.7983</td><td>10</td></tr><tr><td>coil_4x9_17</td><td>14</td><td>0.3958</td><td>6</td><td>0.5165</td><td>6</td><td>0.6258</td><td>7</td><td>0.7054</td><td>9</td><td>0.7601</td><td>10</td><td>0.6526</td><td>12</td><td>0.5600</td><td>9</td><td>0.7952</td><td>11</td></tr><tr><td>coil_4x8_18</td><td>16</td><td>0.3868</td><td>7</td><td>0.4903</td><td>7</td><td>0.6017</td><td>10</td><td>0.6852</td><td>13</td><td>0.7394</td><td>13</td><td>0.7515</td><td>7</td><td>0.6040</td><td>6</td><td>0.7802</td><td>13</td></tr><tr><td>coil_3x8_20</td><td>17</td><td>0.3429</td><td>9</td><td>0.4536</td><td>8</td><td>0.5658</td><td>15</td><td>0.6482</td><td>16</td><td>0.7048</td><td>16</td><td>0.5892</td><td>15</td><td>0.5793</td><td>7</td><td>0.7426</td><td>16</td></tr><tr><td>coil_5x7_18</td><td>16</td><td>0.3472</td><td>8</td><td>0.4523</td><td>9</td><td>0.5680</td><td>14</td><td>0.6558</td><td>15</td><td>0.7141</td><td>15</td><td>0.6353</td><td>13</td><td>0.5737</td><td>8</td><td>0.7572</td><td>15</td></tr><tr><td>coil_5x8_17</td><td>14</td><td>0.0853</td><td>10</td><td>0.3960</td><td>10</td><td>0.6075</td><td>9</td><td>0.7018</td><td>12</td><td>0.7621</td><td>8</td><td>0.5870</td><td>16</td><td>0.5050</td><td>15</td><td>0.8108</td><td>9</td></tr><tr><td>staircase_coil</td><td>0</td><td>0.0786</td><td>11</td><td>0.3863</td><td>11</td><td>0.6727</td><td>5</td><td>0.7802</td><td>3</td><td>0.8322</td><td>3</td><td>0.8839</td><td>2</td><td>0.5050</td><td>16</td><td>0.9050</td><td>3</td></tr><tr><td>coil_3x4_74</td><td>0</td><td>0.0751</td><td>12</td><td>0.3313</td><td>12</td><td>0.5959</td><td>11</td><td>0.7047</td><td>11</td><td>0.7597</td><td>12</td><td>0.7038</td><td>8</td><td>0.5050</td><td>13</td><td>0.8333</td><td>7</td></tr><tr><td>coil_3x4_73_2</td><td>0</td><td>0.0462</td><td>14</td><td>0.2858</td><td>13</td><td>0.6098</td><td>8</td><td>0.7226</td><td>7</td><td>0.7758</td><td>6</td><td>0.7532</td><td>6</td><td>0.5050</td><td>12</td><td>0.8564</td><td>5</td></tr><tr><td>coil_3x4_73</td><td>0</td><td>0.0461</td><td>15</td><td>0.2796</td><td>14</td><td>0.5933</td><td>12</td><td>0.7052</td><td>10</td><td>0.7599</td><td>11</td><td>0.6982</td><td>10</td><td>0.5050</td><td>11</td><td>0.8384</td><td>6</td></tr><tr><td>coil_3x4_78</td><td>0</td><td>0.0461</td><td>16</td><td>0.2584</td><td>15</td><td>0.5450</td><td>16</td><td>0.6671</td><td>14</td><td>0.7342</td><td>14</td><td>0.6073</td><td>14</td><td>0.5050</td><td>14</td><td>0.8166</td><td>8</td></tr><tr><td>coil_4x7_20</td><td>18</td><td>0.0726</td><td>13</td><td>0.2440</td><td>16</td><td>0.4255</td><td>17</td><td>0.5315</td><td>17</td><td>0.5976</td><td>18</td><td>0.4630</td><td>17</td><td>0.5022</td><td>17</td><td>0.6637</td><td>18</td></tr><tr><td>coil_2x2_146</td><td>0</td><td>0.0311</td><td>17</td><td>0.1850</td><td>17</td><td>0.5788</td><td>13</td><td>0.7403</td><td>6</td><td>0.8107</td><td>4</td><td>0.8446</td><td>4</td><td>0.5050</td><td>10</td><td>0.9469</td><td>1</td></tr><tr><td>coil_3x7_22</td><td>20</td><td>0.0243</td><td>18</td><td>0.1146</td><td>18</td><td>0.3851</td><td>18</td><td>0.5305</td><td>18</td><td>0.6133</td><td>17</td><td>0.3448</td><td>18</td><td>0.5019</td><td>18</td><td>0.7308</td><td>17</td></tr></tbody></table></div>
+<h2 id="choosing-a-mean-is-choosing-how-much-a-weak-spot-counts">Choosing a mean is choosing how much a weak spot counts</h2>
+<p>That choice is worth more than any metric in it. coil_2x2_146 ranks <strong>1</strong> under one mean and <strong>17</strong> under another — a swing of 16 places in a field of 18. staircase_coil swings 14.</p>
+<div class='tw'><table><thead><tr><th>spiral</th><th>worst single input</th><th>harmonic</th><th>contraharmonic</th></tr></thead><tbody><tr><td><code>coil_2x2_146</code></td><td>rise/360 = 0.010</td><td>#17</td><td>#1</td></tr><tr><td><code>staircase_coil</code></td><td>distinct = 0.010</td><td>#11</td><td>#3</td></tr><tr><td><code>coil_3x3_53_2</code></td><td>rise/360 = 0.611</td><td>#1</td><td>#2</td></tr></tbody></table></div>
+<p><code>coil_2x2_146</code> has the slackest pitch in the set and a 2x2 cross-section: one input at the floor, another at the ceiling. The harmonic mean reads it as disqualified, the contraharmonic as the best thing here. Both are arithmetically correct; they are answering different questions. The staircase coil is the same shape of argument, its weak spot being distinct.</p>
+<p>Harmonic and contraharmonic agree on <strong>0</strong> of 18 placings — they are as opposed as two means of the same numbers can be. Harmonic and geometric agree on 12, which is why the geometric mean is the usual choice when no weak spot should be forgiven but outright disqualification is too strong.</p>
+<h2 id="what-survives">What survives</h2>
+<p><code>coil_3x3_53_2</code> comes first under <strong>6 of the 8 means</strong>, and the reason is visible in the table above: its worst input is 0.611, where every other contender has something at 0.01. It does not win by being outstanding anywhere. It wins by having nothing to punish, which is the one way to be robust to the choice of mean.</p>
+<p>If a weak spot is genuinely fatal — a shared wall that will leak, a coil too fat for the body — use the harmonic mean, or filter and then rank. If the design is allowed one bad number in exchange for a very good one, use quadratic or cubic. The arithmetic mean is the choice that declines to say.</p>
+<h2 id="ranking-once-not-repeatedly">Ranking once, not repeatedly</h2>
+<p>A tempting variant is to rank, cut the bottom half, and re-rank the survivors. Do not.</p>
+<ul><li><strong>harmonic, min-max (what SCORING.md uses)</strong> — survivors reordered 7/9, 5/5, 0/3, 0/2 over the rounds (12 moves in total)</li><li><strong>geometric, min-max</strong> — survivors reordered 6/9, 2/5, 0/3, 0/2 over the rounds (8 moves in total)</li><li><strong>geometric, pure ratio-to-best</strong> — survivors reordered 0/9, 0/5, 0/3, 0/2 over the rounds (0 moves in total)</li></ul>
+<p>The first two reorder coils that did not change, purely because other coils left the set. <code>coil_3x3_50</code> places 3rd of 18 and 1st of the surviving 9; <code>coil_3x3_53_2</code> places 1st and then 4th. Nothing about either was measured again.</p>
+<p>The cause is that min-max reads its lo and hi off whoever is present, so dropping alternatives rescales every metric by a different factor. That is an independence-of-irrelevant-alternatives failure, and it is the reason to cut on a property fixed in advance — touching &gt; 0, or a cross-section that will not fit — rather than on composite score.</p>
+<p>The other end of it is just as decisive. Under a pure ratio-to-best normalization with a geometric mean, nothing depends on which coils are present, and the whole procedure is a <strong>no-op: 0 moves in every round</strong>. So iterating either changes the order for a reason that has nothing to do with the coils, or changes nothing at all.</p>
+<p>The winner here survives all three, so nothing practical turns on it — but the order below the top is meaningless under iteration, and should not be read.</p>
+<p>One more cost: a cut on composite score removes whatever is best at a single thing, because a composite is a compromise. <code>coil_2x2_146</code> is the only 2x2 cross-section in the set and does not survive round 0 of 2 of the 3 runs.</p>
+<pre><code>node tools/iterate.js        # the numbers above</code></pre>
+</main>
+</div>
+<script>
+var r=document.documentElement,b=document.querySelector('.tog');
+function set(t){r.setAttribute('data-theme',t);try{localStorage.setItem('ctg-theme',t)}catch(e){}
+b.textContent=t==='dark'?'\u2600 light':'\u263e dark';}
+var saved=null;try{saved=localStorage.getItem('ctg-theme')}catch(e){}
+set(saved||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'));
+b.addEventListener('click',function(){set(r.getAttribute('data-theme')==='dark'?'light':'dark')});
+</script>
+</body>
+</html>
