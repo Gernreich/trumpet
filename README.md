@@ -69,25 +69,25 @@ requirement is none of it at any length.
 
 ## Shape and cost
 
-| spiral | blocks | mm | envelope | box | cross-section | along axis | pieces | distinct | rhythm | mean plate mm2 | touching |
-| --- | ---: | ---: | --- | ---: | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| [`coil_3x3_51`](pages/coil_3x3_51.html) | 190 | 5890 | 3 x 3 x 46 | 414 | 3 x 3 blk / 93 x 93 mm | 46 / 1426 mm | 34 | 4 | 4 x8.5 | 8428 | 7 |
-| [`coil_3x7_22`](pages/coil_3x7_22.html) | 181 | 5611 | 3 x 7 x 20 | 420 | 3 x 7 blk / 93 x 217 mm | 20 / 620 mm | 38 | 4 | 4 x9.5 | 6240 | 17 |
-| [`coil_3x8_20`](pages/coil_3x8_20.html) | 181 | 5611 | 3 x 8 x 18 | 432 | 3 x 8 blk / 93 x 248 mm | 18 / 558 mm | 34 | 4 | 4 x8.5 | 7728 | 15 |
-| [`coil_3x9_18`](pages/coil_3x9_18.html) | 177 | 5487 | 3 x 9 x 16 | 432 | 3 x 9 blk / 93 x 279 mm | 16 / 496 mm | 30 | 4 | 4 x7.5 | 8736 | 13 |
-| [`coil_3x3_54`](pages/coil_3x3_54.html) | 177 | 5487 | 3 x 3 x 49 | 441 | 3 x 3 blk / 93 x 93 mm | 49 / 1519 mm | 30 | 4 | 4 x7.5 | 9216 | 0 |
-| [`coil_3x3_54_2`](pages/coil_3x3_54_2.html) | 177 | 5487 | 3 x 3 x 49 | 441 | 3 x 3 blk / 93 x 93 mm | 49 / 1519 mm | 30 | 4 | 4 x7.5 | 9216 | 0 |
-| [`coil_3x3_59`](pages/coil_3x3_59.html) | 181 | 5611 | 3 x 3 x 54 | 486 | 3 x 3 blk / 93 x 93 mm | 54 / 1674 mm | 34 | 4 | 4 x8.5 | 7728 | 0 |
-| [`coil_2x2_134`](pages/coil_2x2_134.html) | 177 | 5487 | 2 x 2 x 126 | 504 | 2 x 2 blk / 62 x 62 mm | 126 / 3906 mm | 42 | 2 | 4 x10.5 | 6240 | 0 |
-| [`coil_4x7_20`](pages/coil_4x7_20.html) | 181 | 5611 | 4 x 7 x 18 | 504 | 4 x 7 blk / 124 x 217 mm | 18 / 558 mm | 34 | 4 | 4 x8.5 | 7248 | 15 |
-| [`coil_4x8_18`](pages/coil_4x8_18.html) | 177 | 5487 | 4 x 8 x 16 | 512 | 4 x 8 blk / 124 x 248 mm | 16 / 496 mm | 30 | 4 | 4 x7.5 | 8636 | 13 |
-| [`coil_5x7_18`](pages/coil_5x7_18.html) | 177 | 5487 | 5 x 7 x 16 | 560 | 5 x 7 blk / 155 x 217 mm | 16 / 496 mm | 30 | 4 | 4 x7.5 | 8255 | 13 |
-| [`coil_4x9_18`](pages/coil_4x9_18.html) | 193 | 5983 | 4 x 9 x 16 | 576 | 4 x 9 blk / 124 x 279 mm | 16 / 496 mm | 30 | 4 | 4 x7.5 | 10224 | 13 |
-| [`coil_5x8_18`](pages/coil_5x8_18.html) | 193 | 5983 | 5 x 8 x 16 | 640 | 5 x 8 blk / 155 x 248 mm | 16 / 496 mm | 30 | 4 | 4 x7.5 | 10704 | 13 |
-| [`coil_4x4_50`](pages/coil_4x4_50.html) | 193 | 5983 | 4 x 4 x 46 | 736 | 4 x 4 blk / 124 x 124 mm | 46 / 1426 mm | 45 | 8 | 12 x3.8 | 5568 | 0 |
-| [`coil_3x4_68`](pages/coil_3x4_68.html) | 177 | 5487 | 4 x 3 x 63 | 756 | 3 x 4 blk / 93 x 124 mm | 63 / 1953 mm | 41 | 4 | 4 x10.3 | 5934 | 0 |
-| [`coil_3x4_79`](pages/coil_3x4_79.html) | 188 | 5828 | 4 x 3 x 73 | 876 | 3 x 4 blk / 93 x 124 mm | 73 / 2263 mm | 43 | 4 | 4 x10.8 | 6593 | 0 |
-| [`coil_5x5_50`](pages/coil_5x5_50.html) | 177 | 5487 | 5 x 5 x 46 | 1150 | 5 x 5 blk / 155 x 155 mm | 46 / 1426 mm | 45 | 8 | 12 x3.8 | 4897 | 0 |
+| spiral | blocks | mm | envelope | box | cross-section | along axis | pieces | distinct | period | rhythm | mean plate mm2 | touching |
+| --- | ---: | ---: | --- | ---: | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| [`coil_3x3_51`](pages/coil_3x3_51.html) | 190 | 5890 | 3 x 3 x 46 | 414 | 3 x 3 blk / 93 x 93 mm | 46 / 1426 mm | 34 | 4 | 8 tm / 21 blk | 4 x8.5 | 8428 | 7 |
+| [`coil_3x7_22`](pages/coil_3x7_22.html) | 181 | 5611 | 3 x 7 x 20 | 420 | 3 x 7 blk / 93 x 217 mm | 20 / 620 mm | 38 | 4 | 8 tm / 18 blk | 4 x9.5 | 6240 | 17 |
+| [`coil_3x8_20`](pages/coil_3x8_20.html) | 181 | 5611 | 3 x 8 x 18 | 432 | 3 x 8 blk / 93 x 248 mm | 18 / 558 mm | 34 | 4 | 8 tm / 20 blk | 4 x8.5 | 7728 | 15 |
+| [`coil_3x9_18`](pages/coil_3x9_18.html) | 177 | 5487 | 3 x 9 x 16 | 432 | 3 x 9 blk / 93 x 279 mm | 16 / 496 mm | 30 | 4 | 8 tm / 22 blk | 4 x7.5 | 8736 | 13 |
+| [`coil_3x3_54`](pages/coil_3x3_54.html) | 177 | 5487 | 3 x 3 x 49 | 441 | 3 x 3 blk / 93 x 93 mm | 49 / 1519 mm | 30 | 4 | 8 tm / 22 blk | 4 x7.5 | 9216 | 0 |
+| [`coil_3x3_54_2`](pages/coil_3x3_54_2.html) | 177 | 5487 | 3 x 3 x 49 | 441 | 3 x 3 blk / 93 x 93 mm | 49 / 1519 mm | 30 | 4 | 8 tm / 22 blk | 4 x7.5 | 9216 | 0 |
+| [`coil_3x3_59`](pages/coil_3x3_59.html) | 181 | 5611 | 3 x 3 x 54 | 486 | 3 x 3 blk / 93 x 93 mm | 54 / 1674 mm | 34 | 4 | 8 tm / 20 blk | 4 x8.5 | 7728 | 0 |
+| [`coil_2x2_134`](pages/coil_2x2_134.html) | 177 | 5487 | 2 x 2 x 126 | 504 | 2 x 2 blk / 62 x 62 mm | 126 / 3906 mm | 42 | 2 | 8 tm / 16 blk | 4 x10.5 | 6240 | 0 |
+| [`coil_4x7_20`](pages/coil_4x7_20.html) | 181 | 5611 | 4 x 7 x 18 | 504 | 4 x 7 blk / 124 x 217 mm | 18 / 558 mm | 34 | 4 | 8 tm / 20 blk | 4 x8.5 | 7248 | 15 |
+| [`coil_4x8_18`](pages/coil_4x8_18.html) | 177 | 5487 | 4 x 8 x 16 | 512 | 4 x 8 blk / 124 x 248 mm | 16 / 496 mm | 30 | 4 | 8 tm / 22 blk | 4 x7.5 | 8636 | 13 |
+| [`coil_5x7_18`](pages/coil_5x7_18.html) | 177 | 5487 | 5 x 7 x 16 | 560 | 5 x 7 blk / 155 x 217 mm | 16 / 496 mm | 30 | 4 | 8 tm / 22 blk | 4 x7.5 | 8255 | 13 |
+| [`coil_4x9_18`](pages/coil_4x9_18.html) | 193 | 5983 | 4 x 9 x 16 | 576 | 4 x 9 blk / 124 x 279 mm | 16 / 496 mm | 30 | 4 | 8 tm / 24 blk | 4 x7.5 | 10224 | 13 |
+| [`coil_5x8_18`](pages/coil_5x8_18.html) | 193 | 5983 | 5 x 8 x 16 | 640 | 5 x 8 blk / 155 x 248 mm | 16 / 496 mm | 30 | 4 | 8 tm / 24 blk | 4 x7.5 | 10704 | 13 |
+| [`coil_4x4_50`](pages/coil_4x4_50.html) | 193 | 5983 | 4 x 4 x 46 | 736 | 4 x 4 blk / 124 x 124 mm | 46 / 1426 mm | 45 | 8 | 16 tm / 48 blk | 12 x3.8 | 5568 | 0 |
+| [`coil_3x4_68`](pages/coil_3x4_68.html) | 177 | 5487 | 4 x 3 x 63 | 756 | 3 x 4 blk / 93 x 124 mm | 63 / 1953 mm | 41 | 4 | 6 tm / 16 blk | 4 x10.3 | 5934 | 0 |
+| [`coil_3x4_79`](pages/coil_3x4_79.html) | 188 | 5828 | 4 x 3 x 73 | 876 | 3 x 4 blk / 93 x 124 mm | 73 / 2263 mm | 43 | 4 | 8 tm / 17 blk | 4 x10.8 | 6593 | 0 |
+| [`coil_5x5_50`](pages/coil_5x5_50.html) | 177 | 5487 | 5 x 5 x 46 | 1150 | 5 x 5 blk / 155 x 155 mm | 46 / 1426 mm | 45 | 8 | 16 tm / 44 blk | 12 x3.8 | 4897 | 0 |
 
 Envelope, box and cross-section are in blocks; a block is 31mm of centreline. Sorted by
 box, smallest first.
@@ -106,6 +106,27 @@ which is what decides whether it fits inside anything. It is not implied by the 
 repeating one period needs only a handful, however long it runs: coil_2x2_134 is
 44 pieces cut from 4 shapes. The widest needs 8. That is files to check and parts to tell apart on the bench, and it
 does not show up in the piece count at all.
+
+**Period** is the repeating unit of the walk itself, in terms and in blocks, and it sits
+next to the rhythm because the two together say something neither says alone.
+
+**A piece is a flat snake, so the splitter has to start a new one exactly where the bore
+leaves its plane.** Turns that stay in-plane — the folds, hairpins and steps both —
+happen inside a piece and cost no boundary at all. So the rhythm is not counting turns,
+it is counting departures from the plane, and it comes out as
+
+    rhythm = period terms x the share of turns that leave the plane
+
+exactly, on every coil here. That decomposition is why the period column earns its
+place: a rhythm of 12 could be a long period turning gently or a short one leaving the
+plane at every chance, and the rhythm alone cannot tell you which. In this set the
+14 eight-term coils leave the plane on half their turns, while the 2 sixteen-term ones do it on
+three turns in four — so the gap in rhythm is two separate factors multiplying, not one.
+
+The share itself is **not** scored, and was tested rather than assumed: it takes only
+three values across the set, 14 of the 17 coils sit on exactly one of them, and it
+correlates 0.89 with the rhythm, 0.85 with distinct shapes and 0.76 with box per block.
+Near-constant and not independent — the same double failure that kept fill density out.
 
 **Rhythm** is how many pieces you lay before the cut list starts over, and how many
 times it recurs. It is descriptive, not scored: across coils built by repeating a period

@@ -2,7 +2,7 @@
 // Regenerate README.md. Every number in it comes from the tools, so the page
 // cannot drift from the walks: node tools/gen_readme.js
 const fs = require('fs'), path = require('path'), cp = require('child_process');
-const { metrics } = require('./spiral_metrics.js');
+const { metrics, period } = require('./spiral_metrics.js');
 const root = path.join(__dirname, '..');
 
 const parts = JSON.parse(fs.readFileSync(path.join(root, 'parts.json'), 'utf8'));
@@ -11,7 +11,8 @@ const rows = fs.readdirSync(path.join(root, 'walks')).filter(f => f.endsWith('.t
     const walk = fs.readFileSync(path.join(root,'walks',f),'utf8').trim();
     const p = parts[name] || {};
     // judged over the interior, described over the whole bore
-    return { name, p, full: metrics(walk), m: metrics(walk, p.interiorBlocks) }; })
+    return { name, p, per: period(walk), full: metrics(walk),
+             m: metrics(walk, p.interiorBlocks) }; })
   .sort((a, b) => a.m.vol - b.m.vol);
 
 // check.py results, as saved by tools/run_checks.sh
@@ -153,6 +154,27 @@ ${thinnest.m.cross.join('x')} in section and ${L(fattest)} is ${fattest.m.cross.
 repeating one period needs only a handful, however long it runs: ${dist.name} is
 ${dist.p.pieces} pieces cut from ${dist.p.distinct} shapes. The widest needs ${rows.slice().sort((a,b)=>b.p.interiorDistinct-a.p.interiorDistinct)[0].p.interiorDistinct}. That is files to check and parts to tell apart on the bench, and it
 does not show up in the piece count at all.
+
+**Period** is the repeating unit of the walk itself, in terms and in blocks, and it sits
+next to the rhythm because the two together say something neither says alone.
+
+**A piece is a flat snake, so the splitter has to start a new one exactly where the bore
+leaves its plane.** Turns that stay in-plane — the folds, hairpins and steps both —
+happen inside a piece and cost no boundary at all. So the rhythm is not counting turns,
+it is counting departures from the plane, and it comes out as
+
+    rhythm = period terms x the share of turns that leave the plane
+
+exactly, on every coil here. That decomposition is why the period column earns its
+place: a rhythm of ${rows.slice().sort((a,b)=>b.p.rhythm-a.p.rhythm)[0].p.rhythm} could be a long period turning gently or a short one leaving the
+plane at every chance, and the rhythm alone cannot tell you which. In this set the
+${rows.filter(r=>r.per.terms===8).length} eight-term coils leave the plane on half their turns, while the ${rows.filter(r=>r.per.terms===16).length} sixteen-term ones do it on
+three turns in four — so the gap in rhythm is two separate factors multiplying, not one.
+
+The share itself is **not** scored, and was tested rather than assumed: it takes only
+three values across the set, ${rows.filter(r=>r.per.terms===8).length} of the ${rows.length} coils sit on exactly one of them, and it
+correlates 0.89 with the rhythm, 0.85 with distinct shapes and 0.76 with box per block.
+Near-constant and not independent — the same double failure that kept fill density out.
 
 **Rhythm** is how many pieces you lay before the cut list starts over, and how many
 times it recurs. It is descriptive, not scored: across coils built by repeating a period

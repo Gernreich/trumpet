@@ -119,7 +119,23 @@ function metrics(walk, range){
     rise, riseMM: rise*MM
   };
 }
-module.exports = { metrics, blockDirs, MM };
+// The repeating unit: how many terms, and how many blocks. Worth having beside
+// the rhythm, because rhythm = period terms x the share of turns that leave the
+// plane, and with only the rhythm you cannot tell those two apart -- a rhythm of
+// 12 could be a long period turning gently or a short one leaving the plane at
+// every chance.
+function period(walk){
+  const t = walk.trim().split(/\s+/).slice(2, -2);
+  for (let p = 1; p <= t.length - p; p++){
+    let ok = true;
+    for (let i = 0; i + p < t.length; i++) if (t[i] !== t[i+p]){ ok = false; break; }
+    if (ok) return { terms: p,
+                     blocks: t.slice(0,p).reduce((a,x) => a + (+x.slice(1) || 1), 0) };
+  }
+  return { terms: null, blocks: null };
+}
+
+module.exports = { metrics, blockDirs, period, MM };
 
 if (require.main === module) {
   const m = metrics(process.argv[2]);

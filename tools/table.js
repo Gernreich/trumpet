@@ -2,7 +2,7 @@
 // The metrics tables. Usage: node tools/table.js [--md] [--shape|--rot|--all]
 // Piece counts come from parts.json; rebuild it with `node tools/parts.js`.
 const fs = require('fs'), path = require('path');
-const { metrics } = require('./spiral_metrics.js');
+const { metrics, period } = require('./spiral_metrics.js');
 const root = path.join(__dirname, '..');
 const md   = process.argv.includes('--md');
 const want = process.argv.includes('--shape') ? 'shape'
@@ -23,7 +23,7 @@ const rows = fs.readdirSync(path.join(root, 'walks'))
     const p = parts[name] || {};
     // Judged columns are measured over the interior; blocks and mm describe the
     // whole bore, ends included, because that is what the bore is.
-    return { name, p, full: metrics(walk),
+    return { name, p, full: metrics(walk), per: period(walk),
              m: metrics(walk, p.interiorBlocks) };
   })
   .sort((a, b) => a.m.vol - b.m.vol);
@@ -35,12 +35,13 @@ const link = r => md ? `[\`${r.name}\`](pages/${r.name}.html)` : r.name;
 const TABLES = {
   shape: {
     head: ['spiral', 'blocks', 'mm', 'envelope', 'box', 'cross-section', 'along axis',
-           'pieces', 'distinct', 'rhythm', 'mean plate mm2', 'touching'],
-    align:['---', '---:', '---:', '---', '---:', '---', '---:', '---:', '---:', '---:', '---:', '---:'],
+           'pieces', 'distinct', 'period', 'rhythm', 'mean plate mm2', 'touching'],
+    align:['---', '---:', '---:', '---', '---:', '---', '---:', '---:', '---:', '---:', '---:', '---:', '---:'],
     row: r => [link(r), r.full.blocks, r.full.mm, r.m.size.join(' x '), r.m.vol,
                r.m.cross.join(' x ') + ' blk / ' + r.m.crossMM.join(' x ') + ' mm',
                r.m.axisLen + ' / ' + r.m.axisLenMM + ' mm',
                r.p.innerPieces ?? '-', r.p.interiorDistinct ?? '-',
+               r.per.terms ? r.per.terms + ' tm / ' + r.per.blocks + ' blk' : '-',
                r.p.rhythm ? r.p.rhythm + ' x' + r.p.repeats.toFixed(1) : '-',
                r.p.meanPlate ? Math.round(r.p.meanPlate) : '-', r.m.touching]
   },
