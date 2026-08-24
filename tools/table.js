@@ -19,8 +19,12 @@ const rows = fs.readdirSync(path.join(root, 'walks'))
   .filter(f => f.endsWith('.txt'))
   .map(f => {
     const name = f.replace(/\.txt$/, '');
-    return { name, m: metrics(fs.readFileSync(path.join(root, 'walks', f), 'utf8').trim()),
-             p: parts[name] || {} };
+    const walk = fs.readFileSync(path.join(root, 'walks', f), 'utf8').trim();
+    const p = parts[name] || {};
+    // Judged columns are measured over the interior; blocks and mm describe the
+    // whole bore, ends included, because that is what the bore is.
+    return { name, p, full: metrics(walk),
+             m: metrics(walk, p.interiorBlocks) };
   })
   .sort((a, b) => a.m.vol - b.m.vol);
 const scored   = rows.filter(r => !UNSCORED.has(r.name));
@@ -33,10 +37,10 @@ const TABLES = {
     head: ['spiral', 'blocks', 'mm', 'envelope', 'box', 'cross-section', 'along axis',
            'pieces', 'distinct', 'rhythm', 'mean plate mm2', 'touching'],
     align:['---', '---:', '---:', '---', '---:', '---', '---:', '---:', '---:', '---:', '---:', '---:'],
-    row: r => [link(r), r.m.blocks, r.m.mm, r.m.size.join(' x '), r.m.vol,
+    row: r => [link(r), r.full.blocks, r.full.mm, r.m.size.join(' x '), r.m.vol,
                r.m.cross.join(' x ') + ' blk / ' + r.m.crossMM.join(' x ') + ' mm',
                r.m.axisLen + ' / ' + r.m.axisLenMM + ' mm',
-               r.p.pieces ?? '-', r.p.distinct ?? '-',
+               r.p.innerPieces ?? '-', r.p.interiorDistinct ?? '-',
                r.p.rhythm ? r.p.rhythm + ' x' + r.p.repeats.toFixed(1) : '-',
                r.p.meanPlate ? Math.round(r.p.meanPlate) : '-', r.m.touching]
   },

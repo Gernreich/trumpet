@@ -50,11 +50,15 @@ const rows = fs.readdirSync(path.join(root, 'walks')).filter(f => f.endsWith('.t
   .filter(f => !UNSCORED.has(f.replace(/\.txt$/, '')))
   .map(f => {
     const name = f.replace(/\.txt$/, '');
-    const m = metrics(fs.readFileSync(path.join(root, 'walks', f), 'utf8').trim());
+    const walk = fs.readFileSync(path.join(root, 'walks', f), 'utf8').trim();
     const p = parts[name];
-    return { name, m, v: {
+    // Nothing is judged on the bore's mouth and exit: every design has them and
+    // no design chooses them. m is measured over the interior only, and pieces
+    // and shapes are counted there too.
+    const m = metrics(walk, p.interiorBlocks);
+    return { name, m, full: metrics(walk), v: {
       vol: m.vol, crossArea: m.cross[0] * m.cross[1],
-      pieces: p.pieces, distinct: p.distinct,
+      pieces: p.innerPieces, distinct: p.interiorDistinct,
       risePer360: m.risePer360, turnsPerMetre: m.turnsPerMetre,
       longestStraight: m.longestStraight, meanPlate: p.meanPlate,
       touching: m.touching } };

@@ -38,6 +38,11 @@ read against the thing that produced it. Regenerate with \`node tools/gen_scorin
 ${METRICS.map(M => `* **${M.label}** — ${M.dir === 'lo' ? 'less' : 'more'} is better`).join('\n')}
 * **touching** — carried the same way as the rest, at weight ${TOUCH_WEIGHT}
 
+**Nothing is judged on the bore's mouth and exit.** Every design has those two pieces
+and no design chooses them, so every metric here is measured over the interior — the
+pieces in between — and the piece and shape counts are counts of those. Blocks and mm,
+which only describe, still cover the whole bore.
+
 The metrics are normalized to (0,1] with 1 the best in the set, oriented so bigger is
 better, and floored at ${EPS} so that one worst-in-set value cannot zero a product.
 

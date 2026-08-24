@@ -20,34 +20,41 @@ generator and tool, indexed.
 
 | spiral | blocks | mm | envelope | box | cross-section | along axis | pieces | distinct | rhythm | mean plate mm2 | touching |
 | --- | ---: | ---: | --- | ---: | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| [`coil_3x3_47`](pages/coil_3x3_47.html) | 193 | 5983 | 47 x 3 x 3 | 423 | 3 x 3 blk / 93 x 93 mm | 47 / 1457 mm | 37 | 6 | 4 x8.8 | 8438 | 8 |
-| [`coil_3x3_50`](pages/coil_3x3_50.html) | 193 | 5983 | 50 x 3 x 3 | 450 | 3 x 3 blk / 93 x 93 mm | 50 / 1550 mm | 37 | 5 | 4 x8.8 | 8357 | 8 |
-| [`coil_3x7_22`](pages/coil_3x7_22.html) | 193 | 5983 | 3 x 22 x 7 | 462 | 3 x 7 blk / 93 x 217 mm | 22 / 682 mm | 43 | 6 | 4 x10.3 | 6262 | 20 |
-| [`coil_3x3_53`](pages/coil_3x3_53.html) | 193 | 5983 | 53 x 3 x 3 | 477 | 3 x 3 blk / 93 x 93 mm | 53 / 1643 mm | 36 | 6 | 4 x8.5 | 8856 | 0 |
-| [`coil_3x3_53_2`](pages/coil_3x3_53_2.html) | 194 | 6014 | 3 x 3 x 53 | 477 | 3 x 3 blk / 93 x 93 mm | 53 / 1643 mm | 35 | 4 | 4 x8.3 | 9301 | 0 |
-| [`coil_3x8_20`](pages/coil_3x8_20.html) | 194 | 6014 | 8 x 20 x 3 | 480 | 3 x 8 blk / 93 x 248 mm | 20 / 620 mm | 39 | 6 | 4 x9.3 | 7638 | 17 |
-| [`coil_3x9_18`](pages/coil_3x9_18.html) | 194 | 6014 | 3 x 18 x 9 | 486 | 3 x 9 blk / 93 x 279 mm | 18 / 558 mm | 35 | 5 | 4 x8.3 | 8834 | 16 |
-| [`coil_4x7_20`](pages/coil_4x7_20.html) | 194 | 6014 | 4 x 20 x 7 | 560 | 4 x 7 blk / 124 x 217 mm | 20 / 620 mm | 39 | 6 | 4 x9.3 | 7271 | 18 |
-| [`coil_4x8_18`](pages/coil_4x8_18.html) | 194 | 6014 | 4 x 18 x 8 | 576 | 4 x 8 blk / 124 x 248 mm | 18 / 558 mm | 35 | 5 | 4 x8.3 | 8862 | 16 |
-| [`coil_2x2_146`](pages/coil_2x2_146.html) | 194 | 6014 | 2 x 2 x 146 | 584 | 2 x 2 blk / 62 x 62 mm | 146 / 4526 mm | 48 | 4 | 4 x11.5 | 6324 | 0 |
-| [`coil_4x9_17`](pages/coil_4x9_17.html) | 194 | 6014 | 9 x 17 x 4 | 612 | 4 x 9 blk / 124 x 279 mm | 17 / 527 mm | 33 | 6 | 4 x7.8 | 10013 | 14 |
-| [`coil_5x7_18`](pages/coil_5x7_18.html) | 193 | 5983 | 5 x 18 x 7 | 630 | 5 x 7 blk / 155 x 217 mm | 18 / 558 mm | 35 | 6 | 4 x8.3 | 8395 | 16 |
-| [`coil_5x8_17`](pages/coil_5x8_17.html) | 194 | 6014 | 17 x 5 x 8 | 680 | 5 x 8 blk / 155 x 248 mm | 17 / 527 mm | 32 | 6 | 4 x7.5 | 10767 | 14 |
-| [`staircase_coil`](pages/staircase_coil.html) | 196 | 6076 | 4 x 4 x 52 | 832 | 4 x 4 blk / 124 x 124 mm | 52 / 1612 mm | 48 | 10 | 12 x3.8 | 5736 | 0 |
-| [`coil_3x4_73`](pages/coil_3x4_73.html) | 193 | 5983 | 4 x 73 x 3 | 876 | 3 x 4 blk / 93 x 124 mm | 73 / 2263 mm | 49 | 6 | 4 x11.8 | 5900 | 0 |
-| [`coil_3x4_73_2`](pages/coil_3x4_73_2.html) | 193 | 5983 | 73 x 4 x 3 | 876 | 3 x 4 blk / 93 x 124 mm | 73 / 2263 mm | 49 | 5 | 4 x11.8 | 5839 | 0 |
-| [`coil_3x4_74`](pages/coil_3x4_74.html) | 194 | 6014 | 3 x 4 x 74 | 888 | 3 x 4 blk / 93 x 124 mm | 74 / 2294 mm | 48 | 6 | 4 x11.5 | 6080 | 0 |
-| [`coil_3x4_78`](pages/coil_3x4_78.html) | 194 | 6014 | 3 x 78 x 4 | 936 | 3 x 4 blk / 93 x 124 mm | 78 / 2418 mm | 45 | 6 | 4 x10.8 | 6842 | 0 |
-| [`coil_5x5_55`](pages/coil_5x5_55.html) | 191 | 5921 | 5 x 5 x 55 | 1375 | 5 x 5 blk / 155 x 155 mm | 55 / 1705 mm | 51 | 10 | 12 x4.1 | 5055 | 0 |
+| [`coil_3x3_47`](pages/coil_3x3_47.html) | 193 | 5983 | 46 x 3 x 3 | 414 | 3 x 3 blk / 93 x 93 mm | 46 / 1426 mm | 35 | 4 | 4 x8.8 | 8451 | 8 |
+| [`coil_3x3_50`](pages/coil_3x3_50.html) | 193 | 5983 | 49 x 3 x 3 | 441 | 3 x 3 blk / 93 x 93 mm | 49 / 1519 mm | 35 | 3 | 4 x8.8 | 8451 | 7 |
+| [`coil_3x7_22`](pages/coil_3x7_22.html) | 193 | 5983 | 3 x 22 x 7 | 462 | 3 x 7 blk / 93 x 217 mm | 22 / 682 mm | 41 | 4 | 4 x10.3 | 6240 | 19 |
+| [`coil_3x3_53`](pages/coil_3x3_53.html) | 193 | 5983 | 53 x 3 x 3 | 477 | 3 x 3 blk / 93 x 93 mm | 53 / 1643 mm | 34 | 4 | 4 x8.5 | 9128 | 0 |
+| [`coil_3x3_53_2`](pages/coil_3x3_53_2.html) | 194 | 6014 | 3 x 3 x 53 | 477 | 3 x 3 blk / 93 x 93 mm | 53 / 1643 mm | 33 | 3 | 4 x8.3 | 9216 | 0 |
+| [`coil_3x8_20`](pages/coil_3x8_20.html) | 194 | 6014 | 8 x 20 x 3 | 480 | 3 x 8 blk / 93 x 248 mm | 20 / 620 mm | 37 | 4 | 4 x9.3 | 7688 | 17 |
+| [`coil_3x9_18`](pages/coil_3x9_18.html) | 194 | 6014 | 3 x 18 x 9 | 486 | 3 x 9 blk / 93 x 279 mm | 18 / 558 mm | 33 | 4 | 4 x8.3 | 8721 | 15 |
+| [`coil_2x2_146`](pages/coil_2x2_146.html) | 194 | 6014 | 2 x 2 x 138 | 552 | 2 x 2 blk / 62 x 62 mm | 138 / 4278 mm | 46 | 2 | 4 x11.5 | 6240 | 0 |
+| [`coil_4x7_20`](pages/coil_4x7_20.html) | 194 | 6014 | 4 x 20 x 7 | 560 | 4 x 7 blk / 124 x 217 mm | 20 / 620 mm | 37 | 4 | 4 x9.3 | 7220 | 17 |
+| [`coil_4x8_18`](pages/coil_4x8_18.html) | 194 | 6014 | 4 x 18 x 8 | 576 | 4 x 8 blk / 124 x 248 mm | 18 / 558 mm | 33 | 4 | 4 x8.3 | 8660 | 15 |
+| [`coil_4x9_17`](pages/coil_4x9_17.html) | 194 | 6014 | 9 x 17 x 4 | 612 | 4 x 9 blk / 124 x 279 mm | 17 / 527 mm | 31 | 4 | 4 x7.8 | 10160 | 14 |
+| [`coil_5x7_18`](pages/coil_5x7_18.html) | 193 | 5983 | 5 x 18 x 7 | 630 | 5 x 7 blk / 155 x 217 mm | 18 / 558 mm | 33 | 4 | 4 x8.3 | 8194 | 15 |
+| [`coil_5x8_17`](pages/coil_5x8_17.html) | 194 | 6014 | 16 x 5 x 8 | 640 | 5 x 8 blk / 155 x 248 mm | 16 / 496 mm | 30 | 4 | 4 x7.5 | 10704 | 13 |
+| [`staircase_coil`](pages/staircase_coil.html) | 196 | 6076 | 4 x 4 x 46 | 736 | 4 x 4 blk / 124 x 124 mm | 46 / 1426 mm | 46 | 8 | 12 x3.8 | 5627 | 0 |
+| [`coil_3x4_73_2`](pages/coil_3x4_73_2.html) | 193 | 5983 | 69 x 4 x 3 | 828 | 3 x 4 blk / 93 x 124 mm | 69 / 2139 mm | 47 | 4 | 4 x11.8 | 5908 | 0 |
+| [`coil_3x4_74`](pages/coil_3x4_74.html) | 194 | 6014 | 3 x 4 x 69 | 828 | 3 x 4 blk / 93 x 124 mm | 69 / 2139 mm | 46 | 4 | 4 x11.5 | 5944 | 0 |
+| [`coil_3x4_73`](pages/coil_3x4_73.html) | 193 | 5983 | 4 x 73 x 3 | 876 | 3 x 4 blk / 93 x 124 mm | 73 / 2263 mm | 47 | 4 | 4 x11.8 | 5971 | 0 |
+| [`coil_3x4_78`](pages/coil_3x4_78.html) | 194 | 6014 | 3 x 78 x 4 | 936 | 3 x 4 blk / 93 x 124 mm | 78 / 2418 mm | 43 | 4 | 4 x10.8 | 6732 | 0 |
+| [`coil_5x5_55`](pages/coil_5x5_55.html) | 191 | 5921 | 5 x 5 x 49 | 1225 | 5 x 5 blk / 155 x 155 mm | 49 / 1519 mm | 49 | 8 | 12 x4.1 | 4924 | 0 |
 
 Not scored (see `unscored.txt`):
 
 | spiral | blocks | mm | envelope | box | cross-section | along axis | pieces | distinct | rhythm | mean plate mm2 | touching |
 | --- | ---: | ---: | --- | ---: | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| [`coil_5x5_28`](pages/coil_5x5_28.html) | 92 | 2852 | 5 x 5 x 28 | 700 | 5 x 5 blk / 155 x 155 mm | 28 / 868 mm | 24 | 10 | 12 x1.8 | 5233 | 0 |
+| [`coil_5x5_28`](pages/coil_5x5_28.html) | 92 | 2852 | 5 x 5 x 22 | 550 | 5 x 5 blk / 155 x 155 mm | 22 / 682 mm | 22 | 8 | 12 x1.8 | 4958 | 0 |
 
 Envelope, box and cross-section are in blocks; a block is 31mm of centreline. Sorted by
 box, smallest first.
+
+**The bore's mouth and exit are not judged.** Every design has them, no design chooses
+them, and they are the two pieces that never join the rhythm — so every column here
+except blocks and mm is measured on the interior, the pieces in between. It is not a
+cosmetic change: the ends stick out of the envelope they bracket. `staircase_coil`
+measures 736 rather than 832, and `coil_2x2_146` needs 2 shapes rather than
+4. Blocks and mm still describe the whole bore, because that is what the bore is.
 
 **Cross-section** is the envelope with the coil axis taken out — how fat the coil is,
 which is what decides whether it fits inside anything. It is not implied by the box:
@@ -72,14 +79,14 @@ only 6 of 20 places. `coil_3x3_53_2` is 3 shapes laid in a 4-piece cycle, repeat
 **Mean plate** is the average bounding box a piece is cut from, in mm2 — the
 laser-cutting number. Fewer, larger parts means less weeding, less sorting and fewer
 fingers to align, and it is the size of the part in your hand rather than the count of
-them. `coil_5x8_17` averages 10,767 mm2 against `staircase_coil`'s 5,736.
+them. `coil_5x8_17` averages 10,704 mm2 against `staircase_coil`'s 5,627.
 
 Average *blocks* per piece was the other reading of the same idea and is not used: the
-block count varies by only 113.0% across the set, so blocks-per-piece is very nearly the
+block count varies by only 128.0% across the set, so blocks-per-piece is very nearly the
 reciprocal of the piece count and ranks the set the same way in 15 of 20 places. Plate
 area is not redundant: `coil_3x3_53_2`, `coil_3x9_18` and `coil_4x8_18` all split into
 35 pieces and cannot be told apart by blocks-per-piece at all, while their mean plates
-are 9,301, 8,862, 8,834 mm2.
+are 9,216, 8,660, 8,721 mm2.
 
 It is a bounding box, not the cut outline — an L-shaped piece leaves its corner behind
 — so it measures the size of the part, not the material consumed.
@@ -95,38 +102,38 @@ contacts 0.111. `node tools/score.js --clean` ranks only the coils that have non
 
 It is also the one packing number that is *not* implied by the box. [`coil_3x3_47`](pages/coil_3x3_47.html) has the
 smallest box in the set and 8 shared walls; [`coil_3x3_53`](pages/coil_3x3_53.html) is
-13% larger and has **none**. If a shared wall
+15% larger and has **none**. If a shared wall
 is something to avoid, the smallest box is not the one to build.
 
 ## Rotation
 
 | spiral | axis | rotation | turns | blocks/360 | rise/360 blk / mm | deg/block | 90deg turns | turns/m | longest straight |
 | --- | :-: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| [`coil_3x3_47`](pages/coil_3x3_47.html) | E | 3240 | 9.00 | 21.4 | 5.11 / 158 | 16.8 | 73 | 12.2 | 4 blk / 124 mm |
-| [`coil_3x3_50`](pages/coil_3x3_50.html) | E | 3240 | 9.00 | 21.4 | 5.11 / 158 | 16.8 | 73 | 12.2 | 4 blk / 124 mm |
-| [`coil_3x7_22`](pages/coil_3x7_22.html) | U | 3870 | 10.75 | 18.0 | 1.95 / 61 | 20.1 | 85 | 14.2 | 3 blk / 93 mm |
-| [`coil_3x3_53`](pages/coil_3x3_53.html) | E | 3150 | 8.75 | 22.1 | 5.71 / 177 | 16.3 | 70 | 11.7 | 4 blk / 124 mm |
-| [`coil_3x3_53_2`](pages/coil_3x3_53_2.html) | N | 3060 | 8.50 | 22.8 | 6.00 / 186 | 15.8 | 70 | 11.6 | 4 blk / 124 mm |
-| [`coil_3x8_20`](pages/coil_3x8_20.html) | U | 3510 | 9.75 | 19.9 | 1.95 / 60 | 18.1 | 77 | 12.8 | 4 blk / 124 mm |
-| [`coil_3x9_18`](pages/coil_3x9_18.html) | U | 3240 | 9.00 | 21.6 | 1.89 / 59 | 16.7 | 70 | 11.6 | 4 blk / 124 mm |
-| [`coil_4x7_20`](pages/coil_4x7_20.html) | U | 3510 | 9.75 | 19.9 | 1.95 / 60 | 18.1 | 77 | 12.8 | 3 blk / 93 mm |
-| [`coil_4x8_18`](pages/coil_4x8_18.html) | U | 3240 | 9.00 | 21.6 | 1.89 / 59 | 16.7 | 70 | 11.6 | 4 blk / 124 mm |
-| [`coil_2x2_146`](pages/coil_2x2_146.html) | N | 4230 | 11.75 | 16.5 | 12.34 / 383 | 21.8 | 96 | 16.0 | 3 blk / 93 mm |
-| [`coil_4x9_17`](pages/coil_4x9_17.html) | U | 2880 | 8.00 | 24.3 | 2.00 / 62 | 14.8 | 64 | 10.6 | 4 blk / 124 mm |
-| [`coil_5x7_18`](pages/coil_5x7_18.html) | U | 3150 | 8.75 | 22.1 | 1.94 / 60 | 16.3 | 69 | 11.5 | 4 blk / 124 mm |
-| [`coil_5x8_17`](pages/coil_5x8_17.html) | E | 2880 | 8.00 | 24.3 | 2.00 / 62 | 14.8 | 64 | 10.6 | 4 blk / 124 mm |
-| [`staircase_coil`](pages/staircase_coil.html) | N | 4230 | 11.75 | 16.7 | 4.34 / 135 | 21.6 | 64 | 10.5 | 4 blk / 124 mm |
-| [`coil_3x4_73`](pages/coil_3x4_73.html) | U | 4320 | 12.00 | 16.1 | 6.00 / 186 | 22.4 | 72 | 12.0 | 3 blk / 93 mm |
-| [`coil_3x4_73_2`](pages/coil_3x4_73_2.html) | E | 4320 | 12.00 | 16.1 | 6.00 / 186 | 22.4 | 72 | 12.0 | 3 blk / 93 mm |
-| [`coil_3x4_74`](pages/coil_3x4_74.html) | N | 4230 | 11.75 | 16.5 | 6.21 / 193 | 21.8 | 72 | 12.0 | 3 blk / 93 mm |
-| [`coil_3x4_78`](pages/coil_3x4_78.html) | U | 4140 | 11.50 | 16.9 | 6.70 / 208 | 21.3 | 90 | 15.0 | 3 blk / 93 mm |
-| [`coil_5x5_55`](pages/coil_5x5_55.html) | N | 4500 | 12.50 | 15.3 | 4.32 / 134 | 23.6 | 68 | 11.5 | 4 blk / 124 mm |
+| [`coil_3x3_47`](pages/coil_3x3_47.html) | E | 3060 | 8.50 | 21.6 | 4.82 / 150 | 16.6 | 70 | 12.3 | 4 blk / 124 mm |
+| [`coil_3x3_50`](pages/coil_3x3_50.html) | E | 3060 | 8.50 | 21.5 | 5.65 / 175 | 16.7 | 70 | 12.3 | 4 blk / 124 mm |
+| [`coil_3x7_22`](pages/coil_3x7_22.html) | U | 3600 | 10.00 | 18.4 | 2.10 / 65 | 19.6 | 82 | 14.4 | 3 blk / 93 mm |
+| [`coil_3x3_53`](pages/coil_3x3_53.html) | E | 2970 | 8.25 | 22.7 | 5.58 / 173 | 15.9 | 68 | 11.7 | 4 blk / 124 mm |
+| [`coil_3x3_53_2`](pages/coil_3x3_53_2.html) | N | 2880 | 8.00 | 22.8 | 5.63 / 174 | 15.8 | 66 | 11.7 | 4 blk / 124 mm |
+| [`coil_3x8_20`](pages/coil_3x8_20.html) | U | 3240 | 9.00 | 20.4 | 2.11 / 65 | 17.6 | 74 | 13.0 | 4 blk / 124 mm |
+| [`coil_3x9_18`](pages/coil_3x9_18.html) | U | 2880 | 8.00 | 22.6 | 2.13 / 66 | 15.9 | 66 | 11.8 | 4 blk / 124 mm |
+| [`coil_2x2_146`](pages/coil_2x2_146.html) | N | 4050 | 11.25 | 16.4 | 12.18 / 378 | 22.0 | 92 | 16.1 | 3 blk / 93 mm |
+| [`coil_4x7_20`](pages/coil_4x7_20.html) | U | 3240 | 9.00 | 20.4 | 2.11 / 65 | 17.6 | 74 | 13.0 | 3 blk / 93 mm |
+| [`coil_4x8_18`](pages/coil_4x8_18.html) | U | 2880 | 8.00 | 22.5 | 2.13 / 66 | 16.0 | 66 | 11.8 | 4 blk / 124 mm |
+| [`coil_4x9_17`](pages/coil_4x9_17.html) | U | 2700 | 7.50 | 24.7 | 2.13 / 66 | 14.6 | 62 | 10.8 | 4 blk / 124 mm |
+| [`coil_5x7_18`](pages/coil_5x7_18.html) | U | 2880 | 8.00 | 22.5 | 2.13 / 66 | 16.0 | 66 | 11.8 | 4 blk / 124 mm |
+| [`coil_5x8_17`](pages/coil_5x8_17.html) | E | 2700 | 7.50 | 24.0 | 2.00 / 62 | 15.0 | 60 | 10.8 | 4 blk / 124 mm |
+| [`staircase_coil`](pages/staircase_coil.html) | N | 4230 | 11.75 | 15.8 | 3.83 / 119 | 22.7 | 62 | 10.8 | 3 blk / 93 mm |
+| [`coil_3x4_73_2`](pages/coil_3x4_73_2.html) | E | 4140 | 11.50 | 16.3 | 5.91 / 183 | 22.1 | 70 | 12.1 | 3 blk / 93 mm |
+| [`coil_3x4_74`](pages/coil_3x4_74.html) | N | 4140 | 11.50 | 16.0 | 5.91 / 183 | 22.5 | 69 | 12.1 | 3 blk / 93 mm |
+| [`coil_3x4_73`](pages/coil_3x4_73.html) | U | 4140 | 11.50 | 16.3 | 6.26 / 194 | 22.1 | 70 | 12.1 | 3 blk / 93 mm |
+| [`coil_3x4_78`](pages/coil_3x4_78.html) | U | 3780 | 10.50 | 17.3 | 7.33 / 227 | 20.8 | 86 | 15.2 | 3 blk / 93 mm |
+| [`coil_5x5_55`](pages/coil_5x5_55.html) | N | 4500 | 12.50 | 14.5 | 3.84 / 119 | 24.9 | 66 | 11.8 | 3 blk / 93 mm |
 
 Not scored (see `unscored.txt`):
 
 | spiral | axis | rotation | turns | blocks/360 | rise/360 blk / mm | deg/block | 90deg turns | turns/m | longest straight |
 | --- | :-: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| [`coil_5x5_28`](pages/coil_5x5_28.html) | N | 2070 | 5.75 | 16.0 | 4.70 / 146 | 22.5 | 32 | 11.2 | 4 blk / 124 mm |
+| [`coil_5x5_28`](pages/coil_5x5_28.html) | N | 2070 | 5.75 | 14.3 | 3.65 / 113 | 25.2 | 30 | 11.8 | 3 blk / 93 mm |
 
 A coil turns about one axis while travelling down it. Drop that axis and what is left —
 the lateral projection — is what rotates, and on a cubic lattice it can only turn in
@@ -151,14 +158,14 @@ No single spiral wins, because the measures disagree.
 
 | | winner | against the staircase coil |
 | --- | --- | --- |
-| smallest box | [`coil_3x3_47`](pages/coil_3x3_47.html) — 423 | 832, so 1.97x larger |
-| tightest spiral (least rise per turn) | [`coil_3x9_18`](pages/coil_3x9_18.html) — 59mm | 135mm, so 2.3x slacker |
-| least tube per turn | [`coil_5x5_55`](pages/coil_5x5_55.html) — 15.3 blk | 16.7 blk, within 9% |
+| smallest box | [`coil_3x3_47`](pages/coil_3x3_47.html) — 414 | 736, so 1.78x larger |
+| tightest spiral (least rise per turn) | [`coil_5x8_17`](pages/coil_5x8_17.html) — 62mm | 119mm, so 1.9x slacker |
+| least tube per turn | [`coil_5x5_28`](pages/coil_5x5_28.html) — 14.3 blk | 15.8 blk, within 11% |
 | fewest pieces | [`coil_5x5_28`](pages/coil_5x5_28.html) — 24 | 48 |
 | fewest distinct shapes | [`coil_3x3_53_2`](pages/coil_3x3_53_2.html) — 4 | 10 |
-| largest average plate | [`coil_5x8_17`](pages/coil_5x8_17.html) — 10,767 mm2 | 5,736 mm2 |
-| calmest bore (fewest turns/m) | [`staircase_coil`](pages/staircase_coil.html) — 10.5 | 10.5 |
-| smallest box with no shared wall | [`coil_3x3_53`](pages/coil_3x3_53.html) — 477 | 832, also 0 shared |
+| largest average plate | [`coil_5x8_17`](pages/coil_5x8_17.html) — 10,704 mm2 | 5,627 mm2 |
+| calmest bore (fewest turns/m) | [`coil_5x8_17`](pages/coil_5x8_17.html) — 10.8 | 10.8 |
+| smallest box with no shared wall | [`coil_3x3_53`](pages/coil_3x3_53.html) — 477 | 736, also 0 shared |
 
 The staircase coil loses on packing and wins, or nearly wins, on the two that bear on how
 the thing sounds: it spends the least tube per revolution of almost anything here, and it
@@ -261,8 +268,8 @@ rule.**
 **No cut files.** These are walks, viewers and gate results; nothing here has been split to
 SVG or nested. `bore_split.py --write DIR` will do it.
 
-The block counts are not equal — the scored ones run 92 to 196, so their bore lengths
-run 2852mm to 6076mm, a spread of 113.0%. A period is repeated to about the right length and then trimmed
+The block counts are not equal — the scored ones run 82 to 187, so their bore lengths
+run 2542mm to 5797mm, a spread of 128.0%. A period is repeated to about the right length and then trimmed
 to wherever the tail comes out elbow-free, so these are the same bore only to within a few
 blocks. For comparing packing that is fine; for comparing *bores* it is not, and the length
 would have to be pinned first.

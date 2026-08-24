@@ -23,7 +23,14 @@ for (const f of fs.readdirSync(path.join(root, 'walks')).filter(f => f.endsWith(
   const pieces = +(res.match(/(\d+) pieces to assemble/) || [])[1];
   const plates = [];
   for (const m of res.matchAll(/^\s+\d+\s+(\d+)-(\d+)\s+\w+\s+\w+\s+\w+\s+\d+x\d+ bl (\d+)x(\d+)/gm))
-    plates.push({ blocks: +m[2] - +m[1] + 1, mm2: +m[3] * +m[4] });
+    plates.push({ a: +m[1], b: +m[2], blocks: +m[2] - +m[1] + 1, mm2: +m[3] * +m[4] });
+  // The bore's mouth and exit are forced -- every design has them and no design
+  // chooses them -- so nothing here is judged on them. This is the block range
+  // belonging to the pieces in between, and it is what the metrics are measured
+  // over; blocks and mm still describe the whole bore.
+  const interiorBlocks = plates.length > 2
+    ? [plates[1].a, plates[plates.length - 2].b]
+    : [1, plates.length ? plates[plates.length - 1].b : 0];
   const kinds = {};
   for (const l of res.split('\n')) {
     const m = l.match(/^\s+\d+\s+\d+-\d+\s+(\w+)\s/);
@@ -47,8 +54,11 @@ for (const f of fs.readdirSync(path.join(root, 'walks')).filter(f => f.endsWith(
     return a.length;
   };
   const rhythm = interior.length ? period(interior) : 0;
-  const areas = plates.map(p => p.mm2);
+  const inner = plates.slice(1, -1);
+  const areas = (inner.length ? inner : plates).map(p => p.mm2);
   out[name] = { pieces, kinds, elbows: kinds.elbow || 0,
+                interiorBlocks,
+                innerPieces: Math.max(0, pieces - 2),
                 distinct: shapes.size, shapes: [...shapes].sort(),
                 rhythm, repeats: rhythm ? interior.length / rhythm : 0,
                 interiorDistinct: new Set(interior).size,

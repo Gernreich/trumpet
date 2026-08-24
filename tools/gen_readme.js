@@ -8,8 +8,10 @@ const root = path.join(__dirname, '..');
 const parts = JSON.parse(fs.readFileSync(path.join(root, 'parts.json'), 'utf8'));
 const rows = fs.readdirSync(path.join(root, 'walks')).filter(f => f.endsWith('.txt'))
   .map(f => { const name = f.replace(/\.txt$/, '');
-    return { name, m: metrics(fs.readFileSync(path.join(root,'walks',f),'utf8').trim()),
-             p: parts[name] || {} }; })
+    const walk = fs.readFileSync(path.join(root,'walks',f),'utf8').trim();
+    const p = parts[name] || {};
+    // judged over the interior, described over the whole bore
+    return { name, p, full: metrics(walk), m: metrics(walk, p.interiorBlocks) }; })
   .sort((a, b) => a.m.vol - b.m.vol);
 
 // check.py results, as saved by tools/run_checks.sh
@@ -66,6 +68,13 @@ ${tbl('--shape')}
 
 Envelope, box and cross-section are in blocks; a block is 31mm of centreline. Sorted by
 box, smallest first.
+
+**The bore's mouth and exit are not judged.** Every design has them, no design chooses
+them, and they are the two pieces that never join the rhythm — so every column here
+except blocks and mm is measured on the interior, the pieces in between. It is not a
+cosmetic change: the ends stick out of the envelope they bracket. \`staircase_coil\`
+measures ${rows.find(r=>r.name==='staircase_coil').m.vol} rather than ${rows.find(r=>r.name==='staircase_coil').full.vol}, and \`coil_2x2_146\` needs ${rows.find(r=>r.name==='coil_2x2_146').p.interiorDistinct} shapes rather than
+${rows.find(r=>r.name==='coil_2x2_146').p.distinct}. Blocks and mm still describe the whole bore, because that is what the bore is.
 
 **Cross-section** is the envelope with the coil axis taken out — how fat the coil is,
 which is what decides whether it fits inside anything. It is not implied by the box:

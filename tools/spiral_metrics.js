@@ -26,8 +26,11 @@ function blockDirs(walk){
   return out;
 }
 
-function metrics(walk){
-  const s = blockDirs(walk);                 // n directions, one per block
+// range, when given, is a 1-indexed inclusive block span: measure only that part
+// of the bore. Used to leave the mouth and exit pieces out of every judgement.
+function metrics(walk, range){
+  let s = blockDirs(walk);                   // n directions, one per block
+  if (range) s = s.slice(range[0] - 1, range[1]);
   let p=[0,0,0]; const cells=[p.slice()];
   for(let i=0;i+1<s.length;i++){             // n-1 moves between n blocks
     const v=V[s[i]]; p=[p[0]+v[0],p[1]+v[1],p[2]+v[2]]; cells.push(p.slice());
