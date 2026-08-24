@@ -20,6 +20,9 @@ const GEN  = path.join(root, '..', 'bore-generator');
 const PY   = process.env.BORE_PY || (process.env.HOME + '/boxes/venv/bin/python');
 const WRITE = process.argv.includes('--write');
 
+const MAIN = require.main === module;
+const say = (...a) => { if (MAIN) console.log(...a); };
+
 const V = {N:[0,0,-1], S:[0,0,1], E:[1,0,0], W:[-1,0,0], U:[0,1,0], D:[0,-1,0]};
 const NAME = {}; for (const [k,v] of Object.entries(V)) NAME[v.join(',')] = k;
 const FWD = V.N;                                   // forward is north
@@ -48,20 +51,30 @@ function windingXY(t){
   }
   return q;
 }
+// Fixing forward and the sense of rotation still leaves freedom: the four
+// rotations about the forward axis all satisfy both, and so does every rotation
+// of the cycle that opens on a north term. Picking the first that fits is not
+// canonical -- it left coils that were the same walk looking different, four of
+// them in one case. So enumerate every representation and take the
+// lexicographically smallest, which makes equal coils identical strings.
 function orient(period){
+  const cands = [];
   for (const T of TRANSFORMS){
     const t = period.map(m => ({ d: NAME[T(V[m.d]).join(',')], n: m.n }));
     if (t.some(m => !m.d)) continue;
     const net = netOf(t);
     if (net[0] !== 0 || net[1] !== 0 || net[2] >= 0) continue;   // must travel north
     if (windingXY(t) <= 0) continue;                            // must be CCW
-    // open on a north term
-    const start = t.findIndex(m => m.d === 'N');
-    if (start < 0) continue;
-    return [...t.slice(start), ...t.slice(0, start)];
+    for (let i = 0; i < t.length; i++){
+      if (t[i].d !== 'N') continue;                             // must open on north
+      cands.push([...t.slice(i), ...t.slice(0, i)].map(m => m.d + m.n).join(' '));
+    }
   }
-  return null;
+  if (!cands.length) return null;
+  cands.sort();
+  return cands[0].split(' ').map(x => ({ d: x[0], n: +x.slice(1) }));
 }
+
 function periodOf(t){
   const body = t.slice(2,-2).map(x => x.d + x.n);
   for (let p = 1; p <= body.length - p; p++){
@@ -82,7 +95,17 @@ function split(walk){
   } catch (e) { return { ok:false, err:(e.stderr||e.stdout||'').toString().split('\n')[0].slice(0,70) }; }
 }
 
-// gather periods first, so the longest sets the length for all of them
+// Build a standard walk from a period: orient it, repeat it the number of times
+// that lands nearest the target, one block in and one block out.
+function buildWalk(period, target){
+  const o = orient(period);
+  if (!o) return null;
+  const pb = blocksOf(o), k = Math.max(1, Math.round(target / pb));
+  const body = Array.from({length:k}, () => o.map(m => m.d + m.n).join(' ')).join(' ');
+  return { walk: 'N ' + body + ' ' + o[o.length-1].d, oriented: o, k, periodBlocks: pb };
+}
+
+// gather periods first, so the set decides the target
 const src = [];
 for (const f of fs.readdirSync(path.join(root,'walks')).filter(f => f.endsWith('.txt')).sort()){
   const name = f.replace(/\.txt$/,'');
@@ -106,7 +129,7 @@ for (let L = 120; L <= 220; L++){                       // 3.7m to 6.8m of tube
   if (spread < bestSpread - 1e-12){ bestSpread = spread; TARGET = L; }
 }
 const span = lengthsFor(TARGET);
-console.log('target ' + TARGET + ' blocks, chosen to minimise the spread: lengths ' +
+say('target ' + TARGET + ' blocks, chosen to minimise the spread: lengths ' +
   Math.min(...span) + '-' + Math.max(...span) + ', ' + (bestSpread*100).toFixed(1) + '%\n');
 
 const out = [];
@@ -115,15 +138,14 @@ for (const s of src){
   if (!per){                        // too short to show its own period; borrow a twin's
     const twin = known.find(k => k.name !== s.name && s.walk.includes(k.per.map(m=>m.d+m.n).join(' ')));
     per = twin ? twin.per : null;
-    if (!per){ console.log(s.name.padEnd(20) + 'no period; skipped'); continue; }
+    if (!per){ say(s.name.padEnd(20) + 'no period; skipped'); continue; }
   }
   const o = orient(per);
-  if (!o){ console.log(s.name.padEnd(20) + 'could not orient'); continue; }
-  const pb = blocksOf(o), k = Math.max(1, Math.round(TARGET / pb));
-  const body = Array.from({length:k}, () => o.map(m => m.d + m.n).join(' ')).join(' ');
-  const walk = 'N ' + body + ' ' + o[o.length-1].d;
+  if (!o){ say(s.name.padEnd(20) + 'could not orient'); continue; }
+  const built = buildWalk(per, TARGET);
+  const pb = built.periodBlocks, k = built.k, walk = built.walk;
   const r = split(walk);
-  console.log(s.name.padEnd(20) + 'period ' + String(pb).padStart(2) + ' x' + k +
+  say(s.name.padEnd(20) + 'period ' + String(pb).padStart(2) + ' x' + k +
     ' = ' + String(pb*k).padStart(3) + '  -> ' + String(r.blocks ?? '?').padStart(3) + ' blocks, ' +
     (r.ok ? r.pieces + ' pieces, elbows ' + r.elbows : 'REFUSED ' + r.err));
   if (r.ok && r.elbows === 0 && !r.oversize) out.push({ name:s.name, walk, period:o.map(m=>m.d+m.n).join(' '), k, r });
@@ -131,8 +153,8 @@ for (const s of src){
 // standardising can reveal that two walks were the same coil all along
 const byWalk = new Map();
 for (const o of out){ if (!byWalk.has(o.walk)) byWalk.set(o.walk, []); byWalk.get(o.walk).push(o.name); }
-console.log('\n' + out.length + ' standardised, ' + byWalk.size + ' distinct');
-for (const [w, names] of byWalk) if (names.length > 1) console.log('  same coil: ' + names.join(', '));
+say('\n' + out.length + ' standardised, ' + byWalk.size + ' distinct');
+for (const [w, names] of byWalk) if (names.length > 1) say('  same coil: ' + names.join(', '));
 if (WRITE) fs.writeFileSync(path.join(root,'standardised.json'),
   JSON.stringify([...byWalk].map(([walk,names]) => ({ walk, names })), null, 1));
-module.exports = { out, byWalk, TARGET };
+module.exports = { out, byWalk, TARGET, orient, periodOf, blocksOf, buildWalk, split };

@@ -14,27 +14,23 @@
 // that still close and still wind a whole turn, takes the shortest, rebuilds at
 // comparable length and puts the result back through bore_split.py.
 //
+// What it emits is standardised like everything else -- north, counter-clockwise,
+// whole periods nearest the common target -- so a reduction can be compared with
+// the coil it came from without any other difference in the way.
+//
 // Usage: node tools/reduce.js [--write]
 const fs = require('fs'), cp = require('child_process'), path = require('path');
 const root = path.join(__dirname, '..');
 const GEN  = path.join(root, '..', 'bore-generator');
 const PY   = process.env.BORE_PY || (process.env.HOME + '/boxes/venv/bin/python');
 const { metrics } = require('./spiral_metrics.js');
+const { orient, periodOf, blocksOf, buildWalk, split, TARGET } = require('./standardise.js');
 const WRITE = process.argv.includes('--write');
 
 const V  = {N:[0,0,-1],S:[0,0,1],E:[1,0,0],W:[-1,0,0],U:[0,1,0],D:[0,-1,0]};
 const AX = {N:2,S:2,E:0,W:0,U:1,D:1};
 const parse = w => w.trim().split(/\s+/).map(t => ({d:t[0], n:t.length>1?+t.slice(1):1}));
 
-function periodOf(t){
-  const body = t.slice(2,-2).map(x => x.d + x.n);      // lead-in and tail are partial
-  for (let p = 1; p <= body.length - p; p++){
-    let ok = true;
-    for (let i = 0; i + p < body.length; i++) if (body[i] !== body[i+p]){ ok = false; break; }
-    if (ok) return body.slice(0, p).map(s => ({ d: s[0], n: +s.slice(1) }));
-  }
-  return null;
-}
 const floorOf = (t, i) => {
   const k = t.length, a = t[(i+k-1)%k], c = t[(i+1)%k];
   return AX[a.d] !== AX[c.d] ? 3 : a.d === c.d ? 1 : 2;
@@ -62,18 +58,6 @@ function isCoil(t){
   return windsWhole(t, nz[0][1]);
 }
 
-function split(walk){
-  try {
-    const out = cp.execSync(`${JSON.stringify(PY)} bore_split.py --no-write ${JSON.stringify(walk)}`,
-      { cwd: GEN, encoding: 'utf8', maxBuffer: 1<<24, stdio: ['pipe','pipe','pipe'] });
-    const kinds = {};
-    for (const l of out.split('\n')){ const m = l.match(/^\s+\d+\s+\d+-\d+\s+(\w+)\s/); if (m) kinds[m[1]] = (kinds[m[1]]||0)+1; }
-    return { ok: true, elbows: kinds.elbow || 0,
-             pieces: +(out.match(/(\d+) pieces to assemble/)||[])[1],
-             blocks: +(out.match(/(\d+) blocks/)||[])[1],
-             oversize: /does not fit|too big/i.test(out) };
-  } catch (e) { return { ok: false }; }
-}
 
 const names = fs.readdirSync(path.join(root,'walks')).filter(f => f.endsWith('.txt'))
   .map(f => f.replace(/\.txt$/,'')).sort();
@@ -105,13 +89,10 @@ for (const name of names){
     if (t.some((m,i) => m.n < floorOf(t,i))) continue;   // floors shift as legs change
     if (!isCoil(t)) continue;
     const red = t.map(m => m.d + m.n).join(' ');
-    for (let T = 196; T >= 188; T--){
-      const w = cp.execSync(`node ${JSON.stringify(path.join(__dirname,'mknotation.js'))} ${JSON.stringify(red)} ${T}`)
-                  .toString().trim();
-      const s = split(w);
-      if (s.ok && s.elbows === 0 && !s.oversize){ found = { red, walk: w, s }; break; }
-    }
-    if (found) break;
+    const built = buildWalk(t, TARGET);   // buildWalk wants {d,n} terms
+    if (!built) continue;
+    const r = split(built.walk);
+    if (r.ok && r.elbows === 0 && !r.oversize){ found = { red, walk: built.walk, s: r }; break; }
   }
   if (!found){ results.push({ name, status: 'no reduction keeps the coil' }); continue; }
 
@@ -120,7 +101,7 @@ for (const name of names){
                  periodBefore: per.map(m=>m.d+m.n).join(' ') });
 }
 
-for (const r of results){
+if (require.main === module) for (const r of results){
   if (r.status !== 'reduced'){ console.log(r.name.padEnd(16) + r.status); continue; }
   console.log(r.name.padEnd(16) +
     'box ' + String(r.before.vol).padStart(4) + ' -> ' + String(r.after.vol).padStart(4) +
@@ -130,7 +111,8 @@ for (const r of results){
     '   ' + r.s.pieces + ' pieces');
 }
 const won = results.filter(r => r.status === 'reduced');
-console.log('\n' + won.length + ' of ' + results.length + ' reduced while staying a coil; ' +
-  won.filter(r => r.after.vol < r.before.vol).length + ' came out smaller.');
+if (require.main === module)
+  console.log('\n' + won.length + ' of ' + results.length + ' reduced while staying a coil; ' +
+    won.filter(r => r.after.vol < r.before.vol).length + ' came out smaller.');
 if (WRITE) fs.writeFileSync(path.join(root,'reduced.json'), JSON.stringify(won, null, 1));
 module.exports = { results };

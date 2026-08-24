@@ -50,6 +50,10 @@ const worstEnds = rows.slice().sort((a,b) => (b.p.distinct - b.p.interiorDistinc
 const L = r => `[\`${r.name}\`](pages/${r.name}.html)`;
 const { rows: srows, R: SR } = require('./score.js');
 const { results: minres } = require('./minimal.js');
+const { results: redres } = require('./reduce.js');
+const redOK = redres.filter(r => r.status === 'reduced');
+const redStat = { total: redres.length, reduced: redOK.length,
+                  distinct: new Set(redOK.map(r => r.walk)).size };
 const minimal = minres.filter(r => r.saving === 0).map(r => r.name);
 const slackiest = minres.slice().sort((a, b) => b.saving - a.saving)[0];
 const stair = minres.find(r => r.name === yours.name) || minres[0];
@@ -84,6 +88,8 @@ differ:
 
 * **forward is north** for all of them, and each walk opens on a north term
 * **counter-clockwise**, seen looking along the bore from the mouth
+* **canonical**: of the several ways a coil can satisfy all of the above, the
+  lexicographically smallest is the one kept, so equal coils are identical strings
 * **whole periods only** — the repeat count that lands nearest a common target
 * **one block in, one block out**, and no partial period between them
 
@@ -91,6 +97,13 @@ A bore opens at both ends, so the first and last piece cannot be removed — the
 bounded by the mouth and the exit rather than by a neighbour, and the notation says as
 much: the first term is only the way you came in. What is standardised is that every
 walk has exactly one of each, and the judged metrics ignore them regardless.
+
+Fixing forward and the sense of rotation is not enough on its own. The four rotations
+about the forward axis all satisfy both, and so does every rotation of the cycle that
+opens on a north term, so taking the first representation that fits leaves the same coil
+able to appear more than once looking different — and it did, four times over in one
+case. Pinning the representation to the lexicographically smallest is what makes
+\`distinct\` mean anything.
 
 Standardising collapsed 30 walks into ${rows.length}: several that looked different were the same
 coil in another orientation, and [\`derived.txt\`](derived.txt) records which. The hand
@@ -261,6 +274,38 @@ ${minimal.map(n => '\`' + n + '\`').join(', ')}. The search enumerated periods w
 4 and never asked whether a leg was longer than it had to be, so most of what it found
 carries slack — \`${slackiest.name}\` could lose ${slackiest.saving} blocks. Two of the ${minimal.length} minimal walks are
 the two that were reduced by hand.
+
+Removing slack is not automatically safe. The rule is local, and a shortened walk can
+run into itself or start touching, so what the tool reports are candidates to put back
+through \`bore_split.py\`.
+
+### The reduction pass, and why minimality is not an optimisation
+
+\`tools/reduce.js\` takes the slack out and rebuilds at comparable length. It has to
+enumerate rather than apply, because **coiling is global and the elbow rule is local**.
+A period coils only if it closes: drifting on one axis and returning to where it started
+on the other two. Shorten one leg and not its opposite and the period stops closing, so
+the walk wanders off diagonally instead of coiling. Taken naively, one coil went from a
+box of 423 to **10,452** — still elbow-free, no longer a coil.
+
+Keeping only the reductions that still close and still wind a whole number of turns, and
+putting the result back through the standardiser so it can be compared with what it came
+from, **${redStat.reduced} of the ${redStat.total} coils reduce — and every one lands on a coil already here.**
+${redStat.distinct} distinct walks come out of ${redStat.reduced} reductions, all of them already in the set: seven
+different coils reduce to the same one, four more to another, one reduces to itself, and
+the staircase coil reduces to the hand reduction of it that started all this.
+
+**The set is closed under reduction.** There is nothing left to take out that does not
+either break the coil or land somewhere already catalogued.
+
+That is a much cleaner result than the first attempt, and the difference is
+canonicalisation: before the representation was pinned, the same coil could appear
+several times looking different, and reductions of it looked like new designs when they
+were not.
+
+Shortening a leg still does not make a better coil — it cuts how far the coil advances
+per turn, so the same tube buys more revolutions in a fatter package. The best box per
+block and the best walls-free box per block are both unchanged by the pass.
 
 Removing slack is not automatically safe. The rule is local, and a shortened walk can
 run into itself or start touching, so what the tool reports are candidates to put back
