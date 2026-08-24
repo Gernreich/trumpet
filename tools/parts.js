@@ -1,0 +1,31 @@
+#!/usr/bin/env node
+// Piece counts and distinct piece shapes, read off bore_split.py and cached in
+// parts.json so table.js does not have to shell out on every run.
+// Usage: node tools/parts.js            (rebuild the cache)
+const fs = require('fs'), cp = require('child_process'), path = require('path');
+const root = path.join(__dirname, '..');
+const GEN  = path.join(root, '..', 'bore-generator');
+const PY   = process.env.BORE_PY || (process.env.HOME + '/boxes/venv/bin/python');
+
+const out = {};
+for (const f of fs.readdirSync(path.join(root, 'walks')).filter(f => f.endsWith('.txt')).sort()) {
+  const name = f.replace(/\.txt$/, '');
+  const walk = fs.readFileSync(path.join(root, 'walks', f), 'utf8').trim();
+  const res = cp.execSync(`${JSON.stringify(PY)} bore_split.py --no-write ${JSON.stringify(walk)}`,
+                          { cwd: GEN, encoding: 'utf8', maxBuffer: 1 << 24 });
+  const pieces = +(res.match(/(\d+) pieces to assemble/) || [])[1];
+  const kinds = {};
+  for (const l of res.split('\n')) {
+    const m = l.match(/^\s+\d+\s+\d+-\d+\s+(\w+)\s/);
+    if (m) kinds[m[1]] = (kinds[m[1]] || 0) + 1;
+  }
+  // a cut-list entry is NN_<kind>_<shape>.svg; the shape is what makes it distinct
+  const shapes = new Set();
+  for (const m of res.matchAll(/^\s+\d+\s+\d+_(\S+)\.svg/gm)) shapes.add(m[1]);
+  out[name] = { pieces, kinds, elbows: kinds.elbow || 0,
+                distinct: shapes.size, shapes: [...shapes].sort() };
+  console.log(name.padEnd(18), pieces + ' pieces', String(shapes.size) + ' distinct',
+              'elbows ' + (kinds.elbow || 0));
+}
+fs.writeFileSync(path.join(root, 'parts.json'), JSON.stringify(out, null, 1));
+console.log('wrote parts.json');

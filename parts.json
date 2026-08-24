@@ -1,0 +1,286 @@
+{
+ "coil_2x2_146": {
+  "pieces": 48,
+  "kinds": {
+   "bend": 48
+  },
+  "elbows": 0,
+  "distinct": 4,
+  "shapes": [
+   "bend_DDRD",
+   "bend_DLD",
+   "bend_DLDD",
+   "bend_DRD"
+  ]
+ },
+ "coil_3x3_47": {
+  "pieces": 37,
+  "kinds": {
+   "bend": 37
+  },
+  "elbows": 0,
+  "distinct": 6,
+  "shapes": [
+   "bend_DR",
+   "bend_LLDDR",
+   "bend_RDDR",
+   "bend_RDDRR",
+   "bend_RUUL",
+   "bend_RUUR"
+  ]
+ },
+ "coil_3x3_50": {
+  "pieces": 37,
+  "kinds": {
+   "bend": 37
+  },
+  "elbows": 0,
+  "distinct": 5,
+  "shapes": [
+   "bend_DR",
+   "bend_LLDDR",
+   "bend_LLDDRR",
+   "bend_RDDL",
+   "bend_RUUR"
+  ]
+ },
+ "coil_3x3_53": {
+  "pieces": 36,
+  "kinds": {
+   "bend": 36
+  },
+  "elbows": 0,
+  "distinct": 6,
+  "shapes": [
+   "bend_DR",
+   "bend_LLUUR",
+   "bend_RD",
+   "bend_RDDR",
+   "bend_RRDDR",
+   "bend_RUUL"
+  ]
+ },
+ "coil_3x3_53_2": {
+  "pieces": 35,
+  "kinds": {
+   "bend": 35
+  },
+  "elbows": 0,
+  "distinct": 4,
+  "shapes": [
+   "bend_DDDRRU",
+   "bend_DDRRU",
+   "bend_DLLD",
+   "bend_UURRD"
+  ]
+ },
+ "coil_3x4_73": {
+  "pieces": 49,
+  "kinds": {
+   "bend": 49
+  },
+  "elbows": 0,
+  "distinct": 6,
+  "shapes": [
+   "bend_DR",
+   "bend_LD",
+   "bend_LDDR",
+   "bend_RU",
+   "bend_RUUR",
+   "bend_UL"
+  ]
+ },
+ "coil_3x4_73_2": {
+  "pieces": 49,
+  "kinds": {
+   "bend": 49
+  },
+  "elbows": 0,
+  "distinct": 5,
+  "shapes": [
+   "bend_DR",
+   "bend_RD",
+   "bend_RDDR",
+   "bend_RU",
+   "bend_RUUL"
+  ]
+ },
+ "coil_3x4_74": {
+  "pieces": 48,
+  "kinds": {
+   "bend": 48
+  },
+  "elbows": 0,
+  "distinct": 6,
+  "shapes": [
+   "bend_DDRRD",
+   "bend_DR",
+   "bend_DRRD",
+   "bend_LD",
+   "bend_LDD",
+   "bend_ULLD"
+  ]
+ },
+ "coil_3x4_78": {
+  "pieces": 45,
+  "kinds": {
+   "bend": 45
+  },
+  "elbows": 0,
+  "distinct": 6,
+  "shapes": [
+   "bend_DDRRU",
+   "bend_DRRU",
+   "bend_DRRUU",
+   "bend_RD",
+   "bend_ULULU",
+   "bend_UR"
+  ]
+ },
+ "coil_3x7_22": {
+  "pieces": 43,
+  "kinds": {
+   "bend": 43
+  },
+  "elbows": 0,
+  "distinct": 6,
+  "shapes": [
+   "bend_DDRRU",
+   "bend_DRD",
+   "bend_DRRU",
+   "bend_UL",
+   "bend_ULLD",
+   "bend_URU"
+  ]
+ },
+ "coil_3x8_20": {
+  "pieces": 39,
+  "kinds": {
+   "bend": 39
+  },
+  "elbows": 0,
+  "distinct": 6,
+  "shapes": [
+   "bend_DR",
+   "bend_LLDDR",
+   "bend_LUL",
+   "bend_RRUUL",
+   "bend_RRUULL",
+   "bend_RUR"
+  ]
+ },
+ "coil_3x9_18": {
+  "pieces": 35,
+  "kinds": {
+   "bend": 35
+  },
+  "elbows": 0,
+  "distinct": 5,
+  "shapes": [
+   "bend_DDDRRU",
+   "bend_DDRD",
+   "bend_DDRRU",
+   "bend_UULLD",
+   "bend_UURU"
+  ]
+ },
+ "coil_4x7_20": {
+  "pieces": 39,
+  "kinds": {
+   "bend": 39
+  },
+  "elbows": 0,
+  "distinct": 6,
+  "shapes": [
+   "bend_DDRRRU",
+   "bend_DRD",
+   "bend_DRRRU",
+   "bend_UL",
+   "bend_ULLLD",
+   "bend_URU"
+  ]
+ },
+ "coil_4x8_18": {
+  "pieces": 35,
+  "kinds": {
+   "bend": 35
+  },
+  "elbows": 0,
+  "distinct": 5,
+  "shapes": [
+   "bend_DDRD",
+   "bend_DDRRRU",
+   "bend_DRRRU",
+   "bend_URU",
+   "bend_UULLLD"
+  ]
+ },
+ "coil_4x9_17": {
+  "pieces": 33,
+  "kinds": {
+   "bend": 33
+  },
+  "elbows": 0,
+  "distinct": 6,
+  "shapes": [
+   "bend_DDR",
+   "bend_LLDD",
+   "bend_LLDDDR",
+   "bend_LLUL",
+   "bend_RRUR",
+   "bend_RRUUUL"
+  ]
+ },
+ "coil_5x7_18": {
+  "pieces": 35,
+  "kinds": {
+   "bend": 35
+  },
+  "elbows": 0,
+  "distinct": 6,
+  "shapes": [
+   "bend_DDRRRRU",
+   "bend_DRD",
+   "bend_DRRRRU",
+   "bend_ULLL",
+   "bend_ULLLLD",
+   "bend_URU"
+  ]
+ },
+ "coil_5x8_17": {
+  "pieces": 32,
+  "kinds": {
+   "bend": 32
+  },
+  "elbows": 0,
+  "distinct": 6,
+  "shapes": [
+   "bend_DDRD",
+   "bend_DDRRRRU",
+   "bend_DRD",
+   "bend_URU",
+   "bend_UULLLLD",
+   "bend_UULLLLDD"
+  ]
+ },
+ "staircase_coil": {
+  "pieces": 48,
+  "kinds": {
+   "bend": 48
+  },
+  "elbows": 0,
+  "distinct": 10,
+  "shapes": [
+   "bend_DDDL",
+   "bend_DL",
+   "bend_DLLLU",
+   "bend_DR",
+   "bend_LD",
+   "bend_LDDD",
+   "bend_LUUUR",
+   "bend_RD",
+   "bend_RDDDL",
+   "bend_URRRD"
+  ]
+ }
+}

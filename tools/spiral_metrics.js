@@ -52,13 +52,49 @@ function metrics(walk){
     q += u[0]*w[1] - u[1]*w[0];        // +1 one way, -1 the other, 0 straight on
   }
 
+  // 90 degree turns along the bore, and the longest run without one. Bend
+  // density is what separates these coils acoustically: the tube length is the
+  // same, so what differs is how often the air is asked to turn a corner.
+  let turns90 = 0, run = 1, longest = 1;
+  for (let i = 1; i < s.length; i++){
+    if (s[i] === s[i-1]) { run++; if (run > longest) longest = run; }
+    else { turns90++; run = 1; }
+  }
+
   const deg   = q * 90;
   const turns = Math.abs(deg) / 360;
   const rise  = Math.abs(net[ax]);
   const blocks= cells.length;
 
+  // Blocks that touch without being joined along the bore. bore_split warns
+  // about these, and they are the version of "density" that has a consequence:
+  // where two runs of the bore share a wall, that wall is all that separates
+  // them. Raw fill density says the same thing as the bounding box at a fixed
+  // tube length; this does not.
+  const key = c => c.join(',');
+  const at = new Map(cells.map((c, i) => [key(c), i]));
+  const NB = [[1,0,0],[-1,0,0],[0,1,0],[0,-1,0],[0,0,1],[0,0,-1]];
+  let touching = 0;
+  for (let i = 0; i < cells.length; i++){
+    for (const n of NB){
+      const j = at.get(key([cells[i][0]+n[0], cells[i][1]+n[1], cells[i][2]+n[2]]));
+      if (j === undefined) continue;
+      if (j > i && j !== i + 1) touching++;      // count each pair once
+    }
+  }
+
+  // The cross-section is the envelope with the coil axis taken out: how fat the
+  // coil is, which is what decides whether it fits inside anything. Two coils
+  // with the same box can be 3x3x47 or 5x8x17.
+  const cross = lat.map(i => size[i]).sort((a, b) => a - b);
+
   return {
     blocks, mm: blocks*MM, size, vol: size[0]*size[1]*size[2],
+    cross, crossMM: cross.map(c => c*MM),
+    axisLen: size[ax], axisLenMM: size[ax]*MM,
+    turns90, turnsPerMetre: turns90 / (blocks*MM/1000),
+    touching, touchingPerBlock: touching / blocks,
+    longestStraight: longest, longestStraightMM: longest*MM,
     axis: AXNAME[ax],
     axisDir: net[ax] > 0 ? ALONG[ax].p : ALONG[ax].n,
     // Handedness is a property of the helix, not of where you stand. The

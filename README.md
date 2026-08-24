@@ -1,90 +1,152 @@
 # Spirals
 
-Coiling bore walks that turn about an axis while advancing along it, collected with
-the numbers that say how *hard* each one spirals. Every walk here splits into pieces
-with **no elbows** — every turn folds into a piece as an L, none is stranded as a
-single-block piece of its own.
+Coiling bore walks that turn about an axis while advancing along it, collected with the
+numbers that say how hard each one spirals and what each one costs to build. Every walk
+here splits with **no elbows** — every turn folds into a piece as an L, none is stranded
+as a single-block piece of its own — and every one passes the full gate.
 
-The one this started from is [`staircase_coil`](pages/staircase_coil.html); the rest
-came out of an exhaustive search for something tighter.
+The one this started from is [`staircase_coil`](pages/staircase_coil.html); the other 17 came out of an
+exhaustive search for something tighter.
 
-## The rotation metrics
+## Shape and cost
 
-A coil turns about one axis while travelling down it. Drop that axis and what is left
-— the lateral projection — is what actually rotates, and on a cubic lattice it can only
-turn in ninety degree steps. So the winding is counted in quarter turns and multiplied
-up. Steps along the coil axis project to nothing and are skipped: they are advance, not
-rotation.
+| spiral | blocks | mm | envelope | box | cross-section | along axis | pieces | distinct | touching |
+| --- | ---: | ---: | --- | ---: | --- | ---: | ---: | ---: | ---: |
+| [`coil_3x3_47`](pages/coil_3x3_47.html) | 193 | 5983 | 47 x 3 x 3 | 423 | 3 x 3 blk / 93 x 93 mm | 47 / 1457 mm | 37 | 6 | 8 |
+| [`coil_3x3_50`](pages/coil_3x3_50.html) | 193 | 5983 | 50 x 3 x 3 | 450 | 3 x 3 blk / 93 x 93 mm | 50 / 1550 mm | 37 | 5 | 8 |
+| [`coil_3x7_22`](pages/coil_3x7_22.html) | 193 | 5983 | 3 x 22 x 7 | 462 | 3 x 7 blk / 93 x 217 mm | 22 / 682 mm | 43 | 6 | 20 |
+| [`coil_3x3_53`](pages/coil_3x3_53.html) | 193 | 5983 | 53 x 3 x 3 | 477 | 3 x 3 blk / 93 x 93 mm | 53 / 1643 mm | 36 | 6 | 0 |
+| [`coil_3x3_53_2`](pages/coil_3x3_53_2.html) | 194 | 6014 | 3 x 3 x 53 | 477 | 3 x 3 blk / 93 x 93 mm | 53 / 1643 mm | 35 | 4 | 0 |
+| [`coil_3x8_20`](pages/coil_3x8_20.html) | 194 | 6014 | 8 x 20 x 3 | 480 | 3 x 8 blk / 93 x 248 mm | 20 / 620 mm | 39 | 6 | 17 |
+| [`coil_3x9_18`](pages/coil_3x9_18.html) | 194 | 6014 | 3 x 18 x 9 | 486 | 3 x 9 blk / 93 x 279 mm | 18 / 558 mm | 35 | 5 | 16 |
+| [`coil_4x7_20`](pages/coil_4x7_20.html) | 194 | 6014 | 4 x 20 x 7 | 560 | 4 x 7 blk / 124 x 217 mm | 20 / 620 mm | 39 | 6 | 18 |
+| [`coil_4x8_18`](pages/coil_4x8_18.html) | 194 | 6014 | 4 x 18 x 8 | 576 | 4 x 8 blk / 124 x 248 mm | 18 / 558 mm | 35 | 5 | 16 |
+| [`coil_2x2_146`](pages/coil_2x2_146.html) | 194 | 6014 | 2 x 2 x 146 | 584 | 2 x 2 blk / 62 x 62 mm | 146 / 4526 mm | 48 | 4 | 0 |
+| [`coil_4x9_17`](pages/coil_4x9_17.html) | 194 | 6014 | 9 x 17 x 4 | 612 | 4 x 9 blk / 124 x 279 mm | 17 / 527 mm | 33 | 6 | 14 |
+| [`coil_5x7_18`](pages/coil_5x7_18.html) | 193 | 5983 | 5 x 18 x 7 | 630 | 5 x 7 blk / 155 x 217 mm | 18 / 558 mm | 35 | 6 | 16 |
+| [`coil_5x8_17`](pages/coil_5x8_17.html) | 194 | 6014 | 17 x 5 x 8 | 680 | 5 x 8 blk / 155 x 248 mm | 17 / 527 mm | 32 | 6 | 14 |
+| [`staircase_coil`](pages/staircase_coil.html) | 196 | 6076 | 4 x 4 x 52 | 832 | 4 x 4 blk / 124 x 124 mm | 52 / 1612 mm | 48 | 10 | 0 |
+| [`coil_3x4_73`](pages/coil_3x4_73.html) | 193 | 5983 | 4 x 73 x 3 | 876 | 3 x 4 blk / 93 x 124 mm | 73 / 2263 mm | 49 | 6 | 0 |
+| [`coil_3x4_73_2`](pages/coil_3x4_73_2.html) | 193 | 5983 | 73 x 4 x 3 | 876 | 3 x 4 blk / 93 x 124 mm | 73 / 2263 mm | 49 | 5 | 0 |
+| [`coil_3x4_74`](pages/coil_3x4_74.html) | 194 | 6014 | 3 x 4 x 74 | 888 | 3 x 4 blk / 93 x 124 mm | 74 / 2294 mm | 48 | 6 | 0 |
+| [`coil_3x4_78`](pages/coil_3x4_78.html) | 194 | 6014 | 3 x 78 x 4 | 936 | 3 x 4 blk / 93 x 124 mm | 78 / 2418 mm | 45 | 6 | 0 |
 
-* **Rotation** — the whole turn of the walk end to end, in degrees. 4230 degrees is
-  11.75 full turns.
-* **Blocks / 360** — tube spent on one complete revolution. Lower is a tighter spiral:
-  less bore buys the same turn.
-* **Rise / 360** — how far down its own axis the coil has to travel to come back round
-  to where it started, in blocks and in mm. This is the pitch. Lower is a steeper coil,
-  packed closer along the axis.
-* **Deg / block** — the same thing per block, averaged over the walk.
+Envelope, box and cross-section are in blocks; a block is 31mm of centreline. Sorted by
+box, smallest first.
 
-**Axis** names the direction the coil advances, which is not north for all of them —
-the search was free to build about any axis, so a coil that runs east is measured
-against east.
+**Cross-section** is the envelope with the coil axis taken out — how fat the coil is,
+which is what decides whether it fits inside anything. It is not implied by the box:
+[`coil_2x2_146`](pages/coil_2x2_146.html) and [`coil_4x7_20`](pages/coil_4x7_20.html)
+are within 5% of each other on box and are 2x2 and
+4x7 in section.
 
-## The spirals
+**Distinct** is how many different piece shapes the cut list holds. A coil built by
+repeating one period needs only a handful, however long it runs: coil_3x3_53_2 is
+35 pieces cut from 4 shapes. The staircase coil needs
+10. That is files to check and parts to tell apart on the bench, and it
+does not show up in the piece count at all.
 
-| spiral | blocks | mm | envelope | box | pieces | axis | rotation | turns | blocks/360 | rise/360 blk / mm | deg/block |
-| --- | ---: | ---: | --- | ---: | ---: | :-: | ---: | ---: | ---: | ---: | ---: |
-| [`coil_3x3_47`](pages/coil_3x3_47.html) | 193 | 5983 | 47 x 3 x 3 | 423 | 37 | E | 3240 | 9.00 | 21.4 | 5.11 / 158 | 16.8 |
-| [`coil_3x3_50`](pages/coil_3x3_50.html) | 193 | 5983 | 50 x 3 x 3 | 450 | 37 | E | 3240 | 9.00 | 21.4 | 5.11 / 158 | 16.8 |
-| [`coil_3x7_22`](pages/coil_3x7_22.html) | 193 | 5983 | 3 x 22 x 7 | 462 | 43 | U | 3870 | 10.75 | 18.0 | 1.95 / 61 | 20.1 |
-| [`coil_3x3_53`](pages/coil_3x3_53.html) | 193 | 5983 | 53 x 3 x 3 | 477 | 36 | E | 3150 | 8.75 | 22.1 | 5.71 / 177 | 16.3 |
-| [`coil_3x3_53_2`](pages/coil_3x3_53_2.html) | 194 | 6014 | 3 x 3 x 53 | 477 | 35 | N | 3060 | 8.50 | 22.8 | 6.00 / 186 | 15.8 |
-| [`coil_3x8_20`](pages/coil_3x8_20.html) | 194 | 6014 | 8 x 20 x 3 | 480 | 39 | U | 3510 | 9.75 | 19.9 | 1.95 / 60 | 18.1 |
-| [`coil_3x9_18`](pages/coil_3x9_18.html) | 194 | 6014 | 3 x 18 x 9 | 486 | 35 | U | 3240 | 9.00 | 21.6 | 1.89 / 59 | 16.7 |
-| [`coil_4x7_20`](pages/coil_4x7_20.html) | 194 | 6014 | 4 x 20 x 7 | 560 | 39 | U | 3510 | 9.75 | 19.9 | 1.95 / 60 | 18.1 |
-| [`coil_4x8_18`](pages/coil_4x8_18.html) | 194 | 6014 | 4 x 18 x 8 | 576 | 35 | U | 3240 | 9.00 | 21.6 | 1.89 / 59 | 16.7 |
-| [`coil_2x2_146`](pages/coil_2x2_146.html) | 194 | 6014 | 2 x 2 x 146 | 584 | 48 | N | 4230 | 11.75 | 16.5 | 12.34 / 383 | 21.8 |
-| [`coil_4x9_17`](pages/coil_4x9_17.html) | 194 | 6014 | 9 x 17 x 4 | 612 | 33 | U | 2880 | 8.00 | 24.3 | 2.00 / 62 | 14.8 |
-| [`coil_5x7_18`](pages/coil_5x7_18.html) | 193 | 5983 | 5 x 18 x 7 | 630 | 35 | U | 3150 | 8.75 | 22.1 | 1.94 / 60 | 16.3 |
-| [`coil_5x8_17`](pages/coil_5x8_17.html) | 194 | 6014 | 17 x 5 x 8 | 680 | 32 | E | 2880 | 8.00 | 24.3 | 2.00 / 62 | 14.8 |
-| [`staircase_coil`](pages/staircase_coil.html) | 196 | 6076 | 4 x 4 x 52 | 832 | 48 | N | 4230 | 11.75 | 16.7 | 4.34 / 135 | 21.6 |
-| [`coil_3x4_73`](pages/coil_3x4_73.html) | 193 | 5983 | 4 x 73 x 3 | 876 | 49 | U | 4320 | 12.00 | 16.1 | 6.00 / 186 | 22.4 |
-| [`coil_3x4_73_2`](pages/coil_3x4_73_2.html) | 193 | 5983 | 73 x 4 x 3 | 876 | 49 | E | 4320 | 12.00 | 16.1 | 6.00 / 186 | 22.4 |
-| [`coil_3x4_74`](pages/coil_3x4_74.html) | 194 | 6014 | 3 x 4 x 74 | 888 | 48 | N | 4230 | 11.75 | 16.5 | 6.21 / 193 | 21.8 |
-| [`coil_3x4_78`](pages/coil_3x4_78.html) | 194 | 6014 | 3 x 78 x 4 | 936 | 45 | U | 4140 | 11.50 | 16.9 | 6.70 / 208 | 21.3 |
+**Touching** counts blocks that sit face to face without being joined along the bore —
+two runs of the tube sharing a wall. `bore_split.py` warns about them, and they are the
+version of "density" that has a consequence: where the bore passes itself, that one wall
+is all that separates the two passages.
 
-Envelope and box are in blocks; a block is 31mm of centreline. Sorted by box, smallest
-first. Every page is a viewer — drag to turn, scroll to zoom, colour by direction or by
-section, and drag the slider to follow the bore from the mouthpiece a block at a time.
+It is also the one packing number that is *not* implied by the box. [`coil_3x3_47`](pages/coil_3x3_47.html) has the
+smallest box in the set and 8 shared walls; [`coil_3x3_53`](pages/coil_3x3_53.html) is
+13% larger and has **none**. If a shared wall
+is something to avoid, the smallest box is not the one to build.
+
+## Rotation
+
+| spiral | axis | rotation | turns | blocks/360 | rise/360 blk / mm | deg/block | 90deg turns | turns/m | longest straight |
+| --- | :-: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| [`coil_3x3_47`](pages/coil_3x3_47.html) | E | 3240 | 9.00 | 21.4 | 5.11 / 158 | 16.8 | 73 | 12.2 | 4 blk / 124 mm |
+| [`coil_3x3_50`](pages/coil_3x3_50.html) | E | 3240 | 9.00 | 21.4 | 5.11 / 158 | 16.8 | 73 | 12.2 | 4 blk / 124 mm |
+| [`coil_3x7_22`](pages/coil_3x7_22.html) | U | 3870 | 10.75 | 18.0 | 1.95 / 61 | 20.1 | 85 | 14.2 | 3 blk / 93 mm |
+| [`coil_3x3_53`](pages/coil_3x3_53.html) | E | 3150 | 8.75 | 22.1 | 5.71 / 177 | 16.3 | 70 | 11.7 | 4 blk / 124 mm |
+| [`coil_3x3_53_2`](pages/coil_3x3_53_2.html) | N | 3060 | 8.50 | 22.8 | 6.00 / 186 | 15.8 | 70 | 11.6 | 4 blk / 124 mm |
+| [`coil_3x8_20`](pages/coil_3x8_20.html) | U | 3510 | 9.75 | 19.9 | 1.95 / 60 | 18.1 | 77 | 12.8 | 4 blk / 124 mm |
+| [`coil_3x9_18`](pages/coil_3x9_18.html) | U | 3240 | 9.00 | 21.6 | 1.89 / 59 | 16.7 | 70 | 11.6 | 4 blk / 124 mm |
+| [`coil_4x7_20`](pages/coil_4x7_20.html) | U | 3510 | 9.75 | 19.9 | 1.95 / 60 | 18.1 | 77 | 12.8 | 3 blk / 93 mm |
+| [`coil_4x8_18`](pages/coil_4x8_18.html) | U | 3240 | 9.00 | 21.6 | 1.89 / 59 | 16.7 | 70 | 11.6 | 4 blk / 124 mm |
+| [`coil_2x2_146`](pages/coil_2x2_146.html) | N | 4230 | 11.75 | 16.5 | 12.34 / 383 | 21.8 | 96 | 16.0 | 3 blk / 93 mm |
+| [`coil_4x9_17`](pages/coil_4x9_17.html) | U | 2880 | 8.00 | 24.3 | 2.00 / 62 | 14.8 | 64 | 10.6 | 4 blk / 124 mm |
+| [`coil_5x7_18`](pages/coil_5x7_18.html) | U | 3150 | 8.75 | 22.1 | 1.94 / 60 | 16.3 | 69 | 11.5 | 4 blk / 124 mm |
+| [`coil_5x8_17`](pages/coil_5x8_17.html) | E | 2880 | 8.00 | 24.3 | 2.00 / 62 | 14.8 | 64 | 10.6 | 4 blk / 124 mm |
+| [`staircase_coil`](pages/staircase_coil.html) | N | 4230 | 11.75 | 16.7 | 4.34 / 135 | 21.6 | 64 | 10.5 | 4 blk / 124 mm |
+| [`coil_3x4_73`](pages/coil_3x4_73.html) | U | 4320 | 12.00 | 16.1 | 6.00 / 186 | 22.4 | 72 | 12.0 | 3 blk / 93 mm |
+| [`coil_3x4_73_2`](pages/coil_3x4_73_2.html) | E | 4320 | 12.00 | 16.1 | 6.00 / 186 | 22.4 | 72 | 12.0 | 3 blk / 93 mm |
+| [`coil_3x4_74`](pages/coil_3x4_74.html) | N | 4230 | 11.75 | 16.5 | 6.21 / 193 | 21.8 | 72 | 12.0 | 3 blk / 93 mm |
+| [`coil_3x4_78`](pages/coil_3x4_78.html) | U | 4140 | 11.50 | 16.9 | 6.70 / 208 | 21.3 | 90 | 15.0 | 3 blk / 93 mm |
+
+A coil turns about one axis while travelling down it. Drop that axis and what is left —
+the lateral projection — is what rotates, and on a cubic lattice it can only turn in
+ninety degree steps, so the winding is counted in quarter turns and multiplied up. Steps
+along the coil axis project to nothing and are skipped: they are advance, not rotation.
+
+* **Rotation** — the whole turn end to end, in degrees.
+* **Blocks / 360** — tube spent on one revolution. Lower is a tighter spiral.
+* **Rise / 360** — how far down its axis the coil travels to come back round. The pitch.
+* **Deg / block** — the same, per block, averaged.
+* **90deg turns**, **turns/m** — how often the air is asked to turn a corner. The tube
+  length is nearly the same for all of these, so this is what separates them acoustically,
+  and it is the one number here that argues *against* packing tighter.
+* **Longest straight** — the longest run without a turn.
+
+**Axis** is the direction the coil advances; the search was free to build about any axis,
+so a coil that runs east is measured against east.
 
 ## What wins what
 
-There is no single tightest, because "tight" splits in two and the two do not agree.
+No single spiral wins, because the measures disagree.
 
-**Smallest package** is [`coil_3x3_47`](pages/coil_3x3_47.html) at
-423 blocks of bounding box against 832 for the staircase coil —
-1.97x smaller, in 37 pieces against 48. It wins on
-both counts at once, which is the reason to care about it.
+| | winner | against the staircase coil |
+| --- | --- | --- |
+| smallest box | [`coil_3x3_47`](pages/coil_3x3_47.html) — 423 | 832, so 1.97x larger |
+| tightest spiral (least rise per turn) | [`coil_3x9_18`](pages/coil_3x9_18.html) — 59mm | 135mm, so 2.3x slacker |
+| least tube per turn | [`coil_3x4_73`](pages/coil_3x4_73.html) — 16.1 blk | 16.7 blk, within 4% |
+| fewest pieces | [`coil_5x8_17`](pages/coil_5x8_17.html) — 32 | 48 |
+| fewest distinct shapes | [`coil_3x3_53_2`](pages/coil_3x3_53_2.html) — 4 | 10 |
+| calmest bore (fewest turns/m) | [`staircase_coil`](pages/staircase_coil.html) — 10.5 | 10.5 |
+| smallest box with no shared wall | [`coil_3x3_53`](pages/coil_3x3_53.html) — 477 | 832, also 0 shared |
 
-**Tightest spiral** is [`coil_3x9_18`](pages/coil_3x9_18.html), which comes back round
-after only 1.89 blocks of rise — 59mm — against
-4.34 blocks (135mm) for the staircase coil. That is a
-2.3x steeper coil, but it does not have the smallest box: a steep coil
-is fat, and pays for its pitch in cross-section.
+The staircase coil loses on packing and wins, or nearly wins, on the two that bear on how
+the thing sounds: it spends the least tube per revolution of almost anything here, and it
+turns the air the fewest times per metre. **Packing tighter costs bends**, and bends are
+the thing a bore notices.
 
-**Least tube per turn** is [`coil_3x4_73`](pages/coil_3x4_73.html) at
-16.1 blocks per revolution. The staircase coil is
-16.7, so on this measure the walk that started it off was already within
-4% of the best in the set — it is a genuinely economical
-spiral, and what the search beat it on was packing, not turning.
+## A metric deliberately left out
 
-**Fewest pieces** is [`coil_5x8_17`](pages/coil_5x8_17.html) at 32.
+Fill density — blocks over box volume — was tried and dropped. At a fixed tube length it
+is not independent of the box: blocks is near enough constant, so density is just the
+reciprocal of box volume rescaled. Ranking these 18 spirals by density puts them in the
+same order as ranking by box in 16 of 18 positions, and the two that swap are a tie at
+477 broken by a one-block difference in length. It reads like a second opinion and is not
+one. It would earn its place only in comparing walks of genuinely different lengths.
+
+**Touching** is the metric density was reaching for. It answers the question density
+sounds like it answers — how hard is this bore packed against itself — and unlike density
+it disagrees with the box often enough to change which coil you would build.
+
+## The gate
+
+Every walk here has been through `check.py` — the parts, the sections, the seams, and a
+voxel model of the assembled bore flooded from the outside to prove it is one sealed
+passage. **23,802 checks across 18 spirals, 0 failed.** The per-walk output is
+in `checks/`.
+
+    node tools/run_checks.sh     # re-run the gate over every walk
+
+`check.py` needs shapely, numpy and scipy, which live in the Boxes.py venv — run it with
+`~/boxes/venv/bin/python`, as `../bore-generator/README.md` says. The system python3 does
+not have them.
 
 ## How they were found
 
-`tools/search_spirals.js` walks every periodic term sequence up to eight terms with legs
-up to four blocks, and keeps those that: never reverse, come back to the same lateral
-position each period so the thing is a coil rather than a drift, wind a whole number of
-turns per period, stay self-avoiding when repeated, and satisfy the elbow-free rule.
+`tools/search_spirals.js` walks every periodic term sequence up to eight terms with legs up
+to four blocks, keeping those that never reverse, return to the same lateral position each
+period so the thing coils rather than drifts, wind a whole number of turns per period, stay
+self-avoiding when repeated, and satisfy the elbow-free rule.
 
 That rule, for a window of three consecutive terms — outer A, middle m, outer C:
 
@@ -94,42 +156,38 @@ That rule, for a window of three consecutive terms — outer A, middle m, outer 
 | same axis, opposite direction | a hairpin | >= 2 |
 | different axes | a coil | >= 3 |
 
-The bore-designs README states only the third case and calls the other two "a fold ...
-as tight as you like". That holds for steps and not for hairpins: `U3 N1 D3` costs two
-elbows and `U3 N2 D3` costs none. The three cases above were read off `bore_split.py`
-by probing it, not derived.
+The bore-designs README states only the third case and calls the other two "a fold ... as
+tight as you like". That holds for steps and not for hairpins: `U3 N1 D3` costs two elbows
+and `U3 N2 D3` costs none. The three cases were read off `bore_split.py` by probing it.
 
-Search output is a period. `tools/mknotation.js` repeats it to length and writes it in
-the bore notation, trimming the tail so the last block is not mid-turn — a turn in the
-last block has nothing after it to make it interior, so it is always its own piece.
-Then every candidate goes through `bore_split.py` and only the ones that come back with
-zero elbows are kept. **The splitter decides, not the rule.**
+`tools/mknotation.js` repeats a period to length and writes it in the bore notation,
+trimming the tail so the last block is not mid-turn — a turn in the last block has nothing
+after it to make it interior, so it is always its own piece. Then every candidate goes
+through the splitter, and only zero-elbow walks are kept. **The splitter decides, not the
+rule.**
 
 ## Regenerating
 
-    node tools/table.js          # the metrics table, as printed above
-    node tools/table.js --md     # the same, as markdown
+    node tools/parts.js          # piece counts and distinct shapes -> parts.json
+    node tools/table.js          # both tables, plain text
+    node tools/table.js --md     # the same as markdown
+    node tools/gen_readme.js     # this file
 
-    # measure one walk
-    node tools/spiral_metrics.js "$(cat walks/coil_3x3_47.txt)"
+    node tools/spiral_metrics.js "$(cat walks/coil_3x3_47.txt)"   # measure one walk
 
-    # rebuild a viewer page
-    cd ../bore-generator
-    python3 viewer.py "$(cat ../spirals/walks/coil_3x3_47.txt)" \
+    cd ../bore-generator         # rebuild a viewer page
+    ~/boxes/venv/bin/python viewer.py "$(cat ../spirals/walks/coil_3x3_47.txt)" \
         --out ../spirals/pages/coil_3x3_47.html --title "Coil 3x3 47"
 
 ## What has not been done
 
-These are walks and viewers, not designs. **No cut files, and the full gate has not
-run**: `check.py` needs shapely, which is not installed here, so every walk in this
-repository has been through `bore_split.py` only. That covers the split, the piece
-kinds and the bed, and it does not cover the parts, the seams or the assembled bore.
-Nothing here should be cut without running `check.py` first.
+**No cut files.** These are walks, viewers and gate results; nothing here has been split to
+SVG or nested. `bore_split.py --write DIR` will do it.
 
-The block counts are not all equal either — they run 193 to 196, so the bore
-lengths run 5983mm to 6076mm. A coil is repeated to about the right length and
-then trimmed to wherever the tail comes out elbow-free, so these are the same bore only
-to within a few blocks. For a comparison of packing that is fine; for a comparison of
-*bores* it is not, and the length would have to be fixed first.
+The block counts are not equal — they run 193 to 196, so the bore lengths run
+5983mm to 6076mm. A period is repeated to about the right length and then trimmed
+to wherever the tail comes out elbow-free, so these are the same bore only to within a few
+blocks. For comparing packing that is fine; for comparing *bores* it is not, and the length
+would have to be pinned first.
 
 Released under [CC0 1.0](LICENSE).
