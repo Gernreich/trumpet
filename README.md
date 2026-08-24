@@ -209,6 +209,40 @@ Removing slack is not automatically safe. The rule is local, and a shortened wal
 run into itself or start touching, so what the tool reports are candidates to put back
 through `bore_split.py`.
 
+### The reduction pass, and why minimality is not an optimisation
+
+`tools/reduce.js` takes the slack out and rebuilds at comparable length. It has to
+enumerate rather than apply, because **coiling is global and the elbow rule is local**.
+A period coils only if it closes: drifting on one axis and returning to where it started
+on the other two. Shorten one leg and not its opposite and the period stops closing, so
+the walk wanders off diagonally instead of coiling. Taken naively, `coil_3x3_47` goes
+from a box of 423 to **10,452** — still elbow-free, no longer a coil.
+
+Keeping only the reductions that still close and still wind a whole number of turns, 14
+of the 20 walks reduce. What that buys:
+
+| | |
+| --- | ---: |
+| box smaller | 6 |
+| box bigger | 7 |
+| touching reduced | 2 |
+| touching increased | 6 |
+
+And **nothing it produces beats what was already here.** The smallest box is still
+`coil_3x3_47` at 423 against the reduced field's 462; the smallest walls-free is still
+`coil_3x3_53` at 477 against 522.
+
+That is the point worth keeping. Shortening a leg reduces how far the coil advances per
+turn, so the same tube buys more revolutions in a fatter, shorter package — a different
+design, not a better one. Every block being load-bearing is a property, not a virtue.
+
+One thing the pass did find: `coil_3x9_18`, `coil_4x7_20`, `coil_4x8_18` and
+`coil_5x7_18` all reduce to **the same walk**, `E2 S3 U1 S3 W2 N3 U1 N3`. Four results
+the search reported as distinct are one design wearing four amounts of slack.
+
+    node tools/reduce.js             # the pass
+    node tools/reduce.js --write     # and reduced.json
+
 ## Walks kept but not scored
 
 The scoring normalizes every metric across the set, so a walk of a different length does
