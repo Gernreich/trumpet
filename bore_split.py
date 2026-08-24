@@ -974,7 +974,7 @@ def main(text, outdir=None):
 
     n = len(rec)
     print(f'bore:  {text.strip()}')
-    print(f'       {n} blocks ({n*31} mm of centreline)')
+    print(f'       {n} blocks ({n*31}mm of centreline)')
     print(f'       {len(specs)} pieces to assemble\n')
 
     # Number by position along the bore, not by shape: the engraved number is
@@ -1017,7 +1017,7 @@ def main(text, outdir=None):
                            args=args, neighbours=nb)
             total += len(parts)
             sizes = ' + '.join(f'{w:.0f}x{h:.0f}' for _, w, h in sheets)
-            line += f'{len(parts)} parts   {sizes} mm'
+            line += f'{len(parts)} parts   {sizes}mm'
             if len(sheets) > 1:
                 line += f'   ({len(sheets)} sheets)'
             over = [t for t in sheets if t[1] > BED_W or t[2] > BED_H]
@@ -1079,7 +1079,7 @@ def main(text, outdir=None):
 
     if toobig:
         print(f'\n  ! piece(s) {", ".join(c for c, _, _ in toobig)} do not fit '
-              f'the {BED_W:.0f} x {BED_H:.0f} mm bed.\n'
+              f'the {BED_W:.0f} x {BED_H:.0f}mm bed.\n'
               f'    A flat piece may span at most {int((BED_W - 2*PIN - 2*BURN)//BLOCK)}'
               f' blocks one way by '
               f'{int((BED_H - 2*PIN - 2*BURN)//BLOCK)} the other. Put a turn out '

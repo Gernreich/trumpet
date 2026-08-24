@@ -15,6 +15,12 @@ page, set for reading, with a table of contents.
 **[The rest of the build files](https://gernreich.github.io/)** — every instrument,
 generator and tool, indexed.
 
+Built for **[LaserMadeMusic](https://www.youtube.com/@LaserMadeMusic)**, where the cutting
+and the playing are shown.
+
+**[Download everything as a ZIP](https://github.com/Gernreich/bore-generator/archive/refs/heads/main.zip)**
+— the toolchain and the walks it regresses against.
+
 Split out of `octomino-snakes`, which enumerated and classified the 369 octominoes and is
 now archived and private. The bore toolchain kept growing after that work finished, and a
 live instrument should not depend on a frozen repository to rebuild its own parts.
@@ -96,7 +102,7 @@ name the open faces:
 boxes SnakeBox --path= --open_faces=S,E --blocksize=31
 ```
 
-That is a 31 mm cube with two adjacent faces open — four parts, each 31.2 x 31.2
+That is a 31mm cube with two adjacent faces open — four parts, each 31.2 x 31.2
 at `--pin_length=0`. Opposite faces (`--open_faces=S,N`) give a one-cell straight
 instead.
 
@@ -118,7 +124,7 @@ four symmetric positions engage.
 Because those two openings share an edge, the elbow has no material along it,
 and neither neighbouring tube reaches it either — one stops at one opening
 plane, the other at the other. That leaves the **inside of the bend open by
-`t` x `t` across the bore's width**: 3 x 3 x 25 = 225 mm^3 at `blocksize=31`.
+`t` x `t` across the bore's width**: 3 x 3 x 25 = 225mm^3 at `blocksize=31`.
 Modelled as solids it is sealed from outside by the two neighbours' walls and
 the elbow's plates, so it is a notch in the bore rather than a leak — but it
 shows as a gap where the two neighbouring walls fail to meet.
@@ -129,8 +135,8 @@ Of the four tabs at an elbow joint, the one facing the elbow's missing face
 meets nothing. `--lap_in` / `--lap_out` name a face whose wall runs `t` past
 that opening as a **full-width tongue** instead of a tab: `blocksize - 2t` wide
 and `t` deep, which is exactly the missing corner. The next piece's end face
-then lands flat on it — two flat faces, 3 x 25 mm of glue area. Modelled as
-solids, the empty corner goes from 225 mm^3 to **0**.
+then lands flat on it — two flat faces, 3 x 25mm of glue area. Modelled as
+solids, the empty corner goes from 225mm^3 to **0**.
 
 The tongue is only as wide as the wall. Running the wall's whole length on
 instead would carry the finger teeth past the joint plane, where they would
@@ -155,7 +161,7 @@ leaves no void.
 The joint is a spigot and socket. With the plate stopped short, the outer `t` of
 the port cell is empty, so the mating piece slides that far in and seats on
 three sides — the two side walls and the end wall. Modelled from what the parts
-measure, 261 mm^2 of its end frame is backed, of the 336 mm^2 total; the missing
+measure, 261mm^2 of its end frame is backed, of the 336mm^2 total; the missing
 side is where the bore carries on, so there is nothing to back it. The mating
 piece has no tabs at that end (`--plain_in` / `--plain_out`): a tab would need
 material in a band the plate does not reach.
@@ -188,7 +194,7 @@ off, so it cannot come back by accident.
 internal bore = blocksize - 2 * thickness
 ```
 
-So a 25 mm bore needs `--blocksize=31` at 3 mm material. This is the number
+So a 25mm bore needs `--blocksize=31` at 3mm material. This is the number
 people get wrong.
 
 ## Tuning the fit
@@ -202,12 +208,12 @@ together. Depth decides whether the two end faces can close at all.
 Make the tab and the notch the same depth and the tab bottoms out at the exact
 moment the faces meet, so char at the notch floor, a sheet running a little
 thick, or any glue holds the seam open — **a visible line along the whole joint
-even when the finger joints are tight**. `pin_seat` cuts the notch 0.2 mm
+even when the finger joints are tight**. `pin_seat` cuts the notch 0.2mm
 deeper than the tab is long, which cannot loosen anything: a tab is held by its
 width and its side faces, never by its tip.
 
 The tab itself is untouched by `pin_seat`, so parts cut before it still mate —
-an old 3.00 mm tab drops into a new 3.20 mm notch, and a new tab is identical
+an old 3.00mm tab drops into a new 3.20mm notch, and a new tab is identical
 to an old one.
 
 `pin_play` widens the notch only; the tab is always exactly `pin_width`. So
@@ -216,7 +222,7 @@ cut at different play values still interchange.
 
 **The default is 0, and that is deliberate.** Boxes.py's finger joints carry
 `play = 0.0` — no designed clearance at all — and rely entirely on `burn` for
-fit. The first cut set used `pin_play=0.1`, which stacked 0.1 mm per side on top
+fit. The first cut set used `pin_play=0.1`, which stacked 0.1mm per side on top
 of already-correct kerf compensation; the finger joints came out good and tight
 while the pin/slot was slightly loose. Matching the finger joints at 0 is the
 fix. Only raise it if your kerf varies enough that the finger joints are loose
@@ -227,9 +233,9 @@ the setting**, so the pieces stay identifiable after cutting:
 
 | Cells | `pin_play` | Clearance per side |
 |---|---|---|
-| 2 | 0.10 | 0.10 mm (first cut set — measured slightly loose) |
-| 3 | 0.05 | 0.05 mm |
-| 4 | 0.025 | 0.025 mm |
+| 2 | 0.10 | 0.10mm (first cut set — measured slightly loose) |
+| 3 | 0.05 | 0.05mm |
+| 4 | 0.025 | 0.025mm |
 | 5 | 0.0 | line-to-line (**current default**) |
 | 6 | −0.025 | interference |
 
@@ -261,7 +267,7 @@ neighbours of an opening are walls, so its edge is `blocksize - 2t` —
 symmetric — and centring the tab on that edge also centres it on the tube. On an
 **elbow** the two openings share a corner, so one end of the edge loses nothing
 and the edge is `blocksize - t`. Centring on it put the tab `t/2` off the tube's
-centreline, so it no longer lined up with the notch it had to meet: 1.5 mm out
+centreline, so it no longer lined up with the notch it had to meet: 1.5mm out
 at `blocksize=31, t=3`. The tab is now measured from the tube's centre in every
 case.
 
@@ -376,13 +382,13 @@ and `bend_<path>.svg` for a multi-block piece that turns, where `<path>` is the
 
 ### Sheets and labels
 
-Sheets wrap to the **xTool P2S work area, 600 x 308 mm**. A piece too big to fit
+Sheets wrap to the **xTool P2S work area, 600 x 308mm**. A piece too big to fit
 is still written, but flagged in the cut list. `BED_W` / `BED_H` at the top of
 `bore_split.py` set this; note that a single *part* wider than the bed cannot be
 wrapped, only reported.
 
 Every part is engraved in blue with its **section number** and nothing else, at
-about 1.7 mm — `1` on every part of the first section along the bore, `4` on
+about 1.7mm — `1` on every part of the first section along the bore, `4` on
 every part of the fourth. The number is the position in the build, not the
 shape, so a loose part tells you where it goes; plates and walls tell themselves
 apart by size. Two sections that happen to be the same shape are cut as
@@ -487,7 +493,9 @@ S tetrominoes are themselves snakes, and `SnakeBox` reproduces
 
 ### Two parsing traps
 
-If you write your own checker: burn compensation leaves sub-0.1 mm steps at
+If you write your own checker: burn compensation leaves sub-0.1mm steps at
 every corner, and `polygonWall` splits edges into *collinear* pieces at corner
 corrections. Naive vertex-pattern matching reads both as spurious features.
 Merge collinear runs first.
+
+Released under [CC0 1.0](LICENSE).
