@@ -45,8 +45,38 @@ and the harmonic mean punishes that harder than it punishes 8 contacts.
 If no touching walls is a *requirement* rather than a preference, filter:
 
     node tools/score.js --clean      # ranks only the coils with no touching walls
+    node tools/score.js --solid      # and only those at least 3 blocks thick
 
 which is the same advice as everywhere else here — cut on the property, then rank.
+
+### Two filters, arrived at from judgements rather than argument
+
+Ten coils were judged by eye, seven liked and three not. Two filters reproduce that split
+exactly, and between them they select the liked set and nothing else:
+
+* **no touching walls** — perfect on its own: no coil with any wall contact was liked, and
+  seven of the eight without were.
+* **at least 3 blocks thick in every direction** — a coil 2 thick is a ribbon rather than
+  a rod.
+
+The second took a designed test to establish. The one rejected walls-free coil was extreme
+on two things at once, thinness and elongation, and nothing else in the set separated them.
+So two candidates were built: one 3 thick but far longer than anything previously liked
+(aspect 43 against a previous ceiling of 24), and one 2 thick but as short as a 2-thick
+coil can be at this tube length (aspect 49). The long one was liked and the thin one was
+not, which rules out elongation on its own — aspect 43 is fine when the coil has a core.
+
+Both are filters and neither is scored. Thickness is not a gradient: 3 is acceptable, and
+being thicker is not better — the 5x5 coil packs worst of anything here and was liked.
+
+    node tools/score.js --clean --solid    # exactly the seven
+
+One honest limit. At this tube length the two properties are coupled: a 2-thick coil has
+nowhere to put 177 blocks but lengthwise, so thin coils start at aspect 49 while 3-thick
+ones stop at 43. A rule of "aspect under about 46" fits every judgement too. Thickness is
+preferred because it is an integer boundary rather than a threshold picked from a 13%
+window, and because the designed test varied thickness while holding aspect nearly fixed
+— but the two cannot be fully separated without a shorter bore.
 
 **`blocks/360` is deliberately gone.** It is anti-correlated with turns/m by
 construction — a tighter spiral has to turn more often — so carrying both let them

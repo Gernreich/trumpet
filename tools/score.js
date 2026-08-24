@@ -43,6 +43,11 @@ const METRICS = [
 // dropping the worst coil does not move everyone else's touching term.
 const TOUCH_WEIGHT = +(process.env.SPIRAL_TOUCH_WEIGHT || 5);
 const CLEAN_ONLY = process.argv.includes('--clean');
+// A coil two blocks thick in any direction is a ribbon rather than a rod. That is
+// a shape judgement, not a score: 3 is acceptable and so are 4 and 5, and being
+// thicker is not better -- the 5x5 coil packs worst of anything here. So it is a
+// filter, like --clean, and not a metric.
+const SOLID_ONLY = process.argv.includes('--solid');
 const EPS = 0.01;              // a floor, so one worst-in-set value cannot zero a product
 
 // Walks listed in unscored.txt stay in the repository but out of the composite.
@@ -133,7 +138,8 @@ for (const r of rows) {
 // is a requirement rather than a preference. Note the normalization above is
 // computed over the whole set either way, so this filters the field, it does
 // not rescale it -- see tools/iterate.js for why that distinction matters.
-const shown = CLEAN_ONLY ? rows.filter(r => r.v.touching === 0) : rows;
+let shown = CLEAN_ONLY ? rows.filter(r => r.v.touching === 0) : rows;
+if (SOLID_ONLY) shown = shown.filter(r => Math.min(...r.m.size) >= 3);
 const R = {};
 for (const M of MEANS) {
   const s = shown.slice().sort((a, b) => b[M.k] - a[M.k]);
