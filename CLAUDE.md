@@ -73,10 +73,26 @@ sides rather than four, so both neighbours need flattened plates butt-glued to
 it, plus tongues, plus an unfilled void in the corner. Flat-to-flat gluing is
 the difficulty of the whole build.
 
-**A turn is free in a plane and costs three blocks out of it.** Checked over
-every window of three consecutive terms, not once per walk: if three consecutive
-terms name three different axes, the middle one must be 3 or more; if they name
-only two, the turn is a fold and costs nothing at any spacing.
+**What a turn costs is set by the window of three consecutive terms around it**,
+outer A, middle m, outer C — checked over every window, not once per walk.
+Consecutive terms are always on different axes, which leaves three cases:
+
+| A and C | case | m must be |
+| --- | --- | ---: |
+| same axis, same direction | step | >= 1 |
+| same axis, opposite direction | hairpin | >= 2 |
+| different axes | coil | >= 3 |
+
+This said, until 2026-08-29, that three different axes need a middle of 3 and
+that anything else was "a fold, free at any spacing". Steps are indeed free;
+hairpins are not. Probed with `--no-write`:
+
+    N N3 U1 N3 N   step      0 elbows      N N3 U1 E3 E   coil   2 elbows
+    N N3 U1 S3 S   hairpin   2 elbows      N N3 U2 E3 E   coil   1 elbow
+    N N3 U2 S3 S   hairpin   0 elbows      N N3 U3 E3 E   coil   0 elbows
+
+`bore_split.py` is the authority on this, not this file and not a
+reimplementation of the rule.
 
 **A walk that revisits a cell is refused.** The cells are the air path, so a cell
 filled twice is a junction with two ways out and no box section has an opening in
