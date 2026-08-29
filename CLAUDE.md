@@ -67,11 +67,22 @@ it has been proved not obviously wrong. Say which it is.
 
 ## Standing decisions
 
-**Fewest elbows at any cost** unless told otherwise. `FEWEST_ELBOWS` is the
-switch and `--fewest-pieces` turns it off. An elbow's opening frame has three
-sides rather than four, so both neighbours need flattened plates butt-glued to
-it, plus tongues, plus an unfilled void in the corner. Flat-to-flat gluing is
-the difficulty of the whole build.
+**Fewest elbows at any cost** unless told otherwise. An elbow's opening frame has
+three sides rather than four, so both neighbours need flattened plates butt-glued
+to it, plus tongues, plus an unfilled void in the corner. Flat-to-flat gluing is
+the difficulty of the whole build. `FEWEST_ELBOWS` is the switch and
+`--fewest-pieces` turns it off.
+
+**For a build, fewest is not the standard — none is.** `--refuse-elbows` raises
+before a single file is written, naming the sections at fault, so a walk that
+would cost one cannot be cut by accident:
+
+    error: --refuse-elbows: section 2 of 3 is an elbow. Nothing written.
+
+It is off by default because most of the library exists to exercise elbows —
+17 of the 20 designs in `regress.py` contain them, the Hilbert curves 22 and 24 —
+so turning it on globally would refuse the corpus. Use it on anything headed for
+a build repository.
 
 **What a turn costs is set by the window of three consecutive terms around it**,
 outer A, middle m, outer C — checked over every window, not once per walk.

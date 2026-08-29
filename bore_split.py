@@ -35,6 +35,7 @@ file plus one file per distinct run length.
 
     python3 bore_split.py "D R1 F"              report only
     python3 bore_split.py "D R1 F" --write DIR  also cut the files
+    python3 bore_split.py "D R1 F" --refuse-elbows   refuse a walk with any
 """
 import html, os, re, subprocess, sys, xml.etree.ElementTree as ET
 
@@ -51,6 +52,10 @@ PY = os.environ.get('SNAKEBOX_PY', os.path.join(BOXES, 'venv/bin/python'))
 BED_W, BED_H = 600.0, 308.0   # xTool P2S work area, mm
 BLOCK, PIN, BURN = 31.0, 1.5, 0.1   # block pitch, tab reach, kerf allowance
 FEWEST_ELBOWS = True          # --fewest-pieces turns this off
+# Fewest is not none. A build repository wants none, and wants to be told rather
+# than handed a folder to inspect, so --refuse-elbows stops before anything is
+# written. Off by default: most of the library exists to exercise elbows.
+REFUSE_ELBOWS = False
 BED = BED_W                   # sheets wrap to the bed width
 OUTDIR = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                       '..', '..', 'test')
@@ -998,6 +1003,16 @@ def main(text, outdir=None):
         print(f'  {code:<4} {span:<8} {note:<10} {r0["in"]}    {r1["out"]}    '
               f'{size:<16} {raw}' + ('  !! over the bed' if not ok else ''))
 
+    if REFUSE_ELBOWS:
+        bad = [code for _, code, _, note, _ in specs if note == 'elbow']
+        if bad:
+            raise ValueError(
+                f'--refuse-elbows: section{"s" if len(bad) > 1 else ""} '
+                f'{", ".join(bad)} of {len(specs)} '
+                f'{"are elbows" if len(bad) > 1 else "is an elbow"}. '
+                'Nothing written. Lengthen the term between the turns: a '
+                'hairpin needs 2 and a coil 3.')
+
     print('\ncut list   (every part engraved with its section number)')
     total = 0
     shapes = {}
@@ -1118,6 +1133,9 @@ if __name__ == '__main__':
     if '--fewest-pieces' in a:
         a.remove('--fewest-pieces')
         B.FEWEST_ELBOWS = False
+    if '--refuse-elbows' in a:
+        a.remove('--refuse-elbows')
+        B.REFUSE_ELBOWS = True
     if '--no-write' in a:
         a.remove('--no-write'); d = None
     if '--write' in a:
