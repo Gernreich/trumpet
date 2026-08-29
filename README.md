@@ -10,6 +10,22 @@ north overall. Every section is a **bend** — there are no elbows, so no
 section needs a neighbour's plate flattened and butt-glued to it, which is
 the difficulty of the whole build.
 
+<!-- readme-only -->
+**[Read the writeup](https://gernreich.github.io/trumpet-final-youtube-candidate/)** — the
+same text as this page, set for reading, with a table of contents.
+
+**[The repository](https://github.com/Gernreich/trumpet-final-youtube-candidate)** — the
+six nets and the page they regenerate from.
+
+**[Download everything as a ZIP](https://github.com/Gernreich/trumpet-final-youtube-candidate/archive/refs/heads/main.zip)**
+— GitHub builds it from `main` on every push, so it is never out of date.
+
+Built for **[LaserMadeMusic](https://www.youtube.com/@LaserMadeMusic)**, where the cutting
+and the playing are shown.
+
+**[The rest of the build files](https://gernreich.github.io/)** — every instrument,
+generator and tool, indexed.
+
 ## The sections
 
 Cut in order; each part is engraved with its section number.
