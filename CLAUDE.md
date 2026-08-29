@@ -6,8 +6,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 A laser-cutting build repository, not a software project. The deliverables are six **SVG
 cut files** that someone sends to a laser, plus the page describing them. Everything here
-is **generated** by the sibling repository **`../bore-generator`**; nothing in this
-repository is authored by hand except `README.md` and this file.
+is **generated** by the sibling repository **`../bore-generator`**
+([CLAUDE.md](https://github.com/Gernreich/bore-generator/blob/main/CLAUDE.md)); nothing in
+this repository is authored by hand except `README.md` and this file.
 
 It holds one design: the bore candidate for the build video. The bell and the mouthpiece
 are not here — they are shared with the other trumpets and live in `../trumpet-parts`.
