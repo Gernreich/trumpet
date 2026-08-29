@@ -77,11 +77,12 @@ different axes, so there are three cases:
 | same axis, opposite direction | hairpin | >= 2 |
 | different axes | coil | >= 3 |
 
-**The `../bore-generator` README and `../trumpet-coiled/CLAUDE.md` both state only the coil
-case**, and lump the other two together as a fold that "costs nothing at any spacing". That
-is right for steps and wrong for hairpins: `U3 N1 D3` costs 2 elbows and `U3 N2 D3` costs
-none. Treat `bore_split.py` as the authority, not either document and not a
-reimplementation of the rule.
+`../bore-generator/CLAUDE.md`, `../trumpet-coiled/CLAUDE.md` and that repository's
+`README.md` all stated only the coil case until 2026-08-29, lumping the other two together
+as a fold that "costs nothing at any spacing" — right for steps, wrong for hairpins, and
+this walk has two hairpins sitting exactly on the limit. All three now carry the table
+above. Treat `bore_split.py` as the authority, not any document and not a reimplementation
+of the rule.
 
 Checking the current walk:
 
