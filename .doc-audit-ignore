@@ -1,0 +1,4 @@
+# Named in prose; they live in ../bore-generator, not in this repository.
+
+bore_split.py
+regress.py

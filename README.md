@@ -14,14 +14,14 @@ the difficulty of the whole build.
 
 Cut in order; each part is engraved with its section number.
 
-| # | blocks | in | out | plate | shape | sheet |
-|---|---|---|---|---|---|---|
-| 1 | 1-3 | N | W | 2x2 | BDL | 397x89mm |
-| 2 | 4-8 | W | E | 2x3 | BLUUR | 554x117mm |
-| 3 | 9-11 | E | N | 2x2 | BRD | 403x86mm |
-| 4 | 12-14 | N | D | 2x2 | BDL | 397x89mm |
-| 5 | 15-19 | D | U | 3x2 | BDLLU | 537x130mm |
-| 6 | 20-22 | U | N | 2x2 | BRD | 403x86mm |
+| # | file | blocks | in | out | plate | shape | sheet |
+|---|---|---|---|---|---|---|---|
+| 1 | `01_bend_DL.svg` | 1-3 | N | W | 2x2 | BDL | 397x89mm |
+| 2 | `02_bend_LUUR.svg` | 4-8 | W | E | 2x3 | BLUUR | 554x117mm |
+| 3 | `03_bend_RD.svg` | 9-11 | E | N | 2x2 | BRD | 403x86mm |
+| 4 | `04_bend_DL.svg` | 12-14 | N | D | 2x2 | BDL | 397x89mm |
+| 5 | `05_bend_DLLU.svg` | 15-19 | D | U | 3x2 | BDLLU | 537x130mm |
+| 6 | `06_bend_RD.svg` | 20-22 | U | N | 2x2 | BRD | 403x86mm |
 
 Sections 1 and 4 are the same shape, and so are 3 and 6. They are cut
 separately anyway, so each carries its own number and the assembly order
