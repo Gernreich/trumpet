@@ -166,16 +166,21 @@ S=../bore-generator
 **Test a walk without writing anything** — always do this before proposing a change:
 
 ```sh
-cd $S && python3 bore_split.py --no-write "N N1 W3 U2 E3 N3 D3 W2 U3 N1"
+cd $S && python3 bore_split.py --no-write --refuse-elbows "N N1 W3 U2 E3 N3 D3 W2 U3 N1"
 ```
 
 **Regenerate the cut files** (rewrites everything — ask first):
 
 ```sh
-cd $S && python3 bore_split.py \
+cd $S && python3 bore_split.py --refuse-elbows \
     "$(cat walks/trumpet_final_youtube_candidate.txt)" \
     --write ../trumpet-final-youtube-candidate
 ```
+
+**Always pass `--refuse-elbows` here.** This is a build repository, and the standard for a
+build is zero elbows — not the `FEWEST_ELBOWS` default, which only minimises them. The
+switch raises before anything is written and names the sections at fault, so a walk that
+costs one cannot reach this folder by accident.
 
 **Checks:**
 
