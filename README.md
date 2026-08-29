@@ -33,9 +33,11 @@ against those ends.
 
 ## The page
 
-`trumpet-final-youtube-candidate.html` is the viewer: drag to turn, colour
-by direction or by section, and a slider follows the bore from the mouth.
-It is self-contained apart from its fonts.
+[`trumpet-final-youtube-candidate.html`](trumpet-final-youtube-candidate.html)
+is the viewer: drag to turn, colour by direction or by section, and a
+slider follows the bore from the mouth. It is self-contained apart from
+its fonts, so it opens from a checkout as readily as from the published
+page.
 
 ## Where it comes from
 
