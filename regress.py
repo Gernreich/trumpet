@@ -53,6 +53,12 @@ DESIGNS = [
     # generator refuses as a pinch. This one used to raise.
     ('double spiral', 'N N4 W4 S3 E3 N2 W2 U2 E2 N3 W3 S4 E4 E', None),
     ('metre spring', 'walks/metre_spring.txt', None),
+    # a folded run that doubles back twice inside a 4x4 cross-section, cut
+    # short at both ends to leave room for the mouthpiece and the bell. Two
+    # of its six sections come out the same shape, so it is the set's check
+    # that duplicate shapes still get their own section number engraved.
+    ('twin switchback', 'walks/twin_switchback.txt',
+     '../../test/twin_switchback'),
 ]
 
 
