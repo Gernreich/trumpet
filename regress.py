@@ -60,6 +60,19 @@ DESIGNS = [
     ('trumpet final youtube candidate',
      'walks/trumpet_final_youtube_candidate.txt',
      '../trumpet-final-youtube-candidate'),
+    # The elbow-free walks. Every design above either contains elbows or is too
+    # small to be interesting, so nothing was checking that a long walk still
+    # splits without one - the property every build is chosen for.
+    # 190 blocks and 27 pieces, no elbows: the open Hilbert knot is the largest
+    # elbow-free walk here by a factor of three, and gates 1010 checks.
+    ('hilbert open', 'walks/hilbert_open.txt', '../../test/hilbert_open'),
+    # a telescope whose legs grow 4, 5, 6 ... so every turn is a fold and the
+    # risers between loops are the only thing leaving the plane
+    ('wide telescope', 'walks/wide_telescope.txt', '../../test/wide_telescope'),
+    # two-piece walks that turn: the smallest cases where a bend has to carry
+    # its corner internally rather than strand it
+    ('three block turn', 'walks/three_block_turn.txt', None),
+    ('hook check', 'walks/hook_check.txt', None),
 ]
 
 

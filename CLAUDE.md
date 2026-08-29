@@ -59,7 +59,7 @@ library. It is the only reason any of this stays honest, it takes about four
 minutes, and **it must pass before anything is pushed**:
 
 ```sh
-python3 regress.py       # all 21 designs, ~6000 checks
+python3 regress.py       # all 24 designs, ~8000 checks
 ```
 
 A change that alters cut geometry and still passes has not been proved right —
@@ -79,10 +79,16 @@ would cost one cannot be cut by accident:
 
     error: --refuse-elbows: section 2 of 3 is an elbow. Nothing written.
 
-It is off by default because most of the library exists to exercise elbows —
-17 of the 20 designs in `regress.py` contain them, the Hilbert curves 22 and 24 —
+It is off by default because much of the library exists to exercise elbows —
+17 of the 24 designs in `regress.py` contain them, the Hilbert curves 22 and 24 —
 so turning it on globally would refuse the corpus. Use it on anything headed for
 a build repository.
+
+The other seven are there for the opposite reason: `hilbert open` (190 blocks,
+27 pieces), `wide telescope`, `metre spring`, `4 corners, flat`, `three block
+turn`, `hook check` and the trumpet candidate all split with **no** elbows, so a
+change that started stranding turns would break them and leave the elbow-heavy
+designs looking fine.
 
 **What a turn costs is set by the window of three consecutive terms around it**,
 outer A, middle m, outer C — checked over every window, not once per walk.
