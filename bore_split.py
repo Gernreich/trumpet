@@ -1079,13 +1079,19 @@ def main(text, outdir=None):
         # names the page fine and titles it uselessly - a browser tab reading
         # "Bore" says nothing. Borrow the parent for the title in that case:
         # trumpet-coiled/bore reads as "Trumpet Coiled Bore".
-        words = name
-        # 'bore-10mm' is as parentless as 'bore' is: what distinguishes the
-        # folder is the size, and the instrument is still only in the parent.
-        if re.match(r'bores?([-_].*)?$', name.lower()):
-            parent = os.path.basename(os.path.dirname(full))
-            if parent:
-                words = parent + ' ' + name
+        # 'bore-10mm' is as parentless as 'bore' is, and so is the '10mm' that
+        # a candidate/10mm/bore layout puts between them: what those name is
+        # the size, and the instrument is still further up. So climb until a
+        # folder names something, rather than borrowing exactly one level.
+        DULL = re.compile(r'bores?([-_].*)?|[\d.]+mm')
+        stack, at, cur = [name], full, name
+        while DULL.fullmatch(cur.lower()):
+            at = os.path.dirname(at)
+            cur = os.path.basename(at)
+            if not cur:
+                break
+            stack.insert(0, cur)
+        words = ' '.join(stack)
         # folder names are hyphenated across these repositories
         # (trumpet-coiled, torus-octagonal), so a hyphen is a word break
         # here exactly as an underscore is
