@@ -2,3 +2,8 @@
 
 bore_split.py
 regress.py
+
+# Named in prose; they live in ../trumpet-parts.
+
+bell-round.py
+mouthpiece-round.py

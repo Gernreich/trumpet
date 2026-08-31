@@ -4,22 +4,46 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-A laser-cutting build repository, not a software project. The deliverables are two sets of
-six **SVG cut files** that someone sends to a laser, plus the pages describing them.
-Everything here is **generated** by the sibling repository **`../bore-generator`**
+A laser-cutting build repository, not a software project. The deliverables are two whole
+trumpets — a mouthpiece, a bore of six sections and a bell apiece — as **SVG cut files**
+that someone sends to a laser, plus the pages describing them. The bores are **generated**
+by the sibling repository **`../bore-generator`**
 ([CLAUDE.md](https://github.com/Gernreich/bore-generator/blob/main/CLAUDE.md)); nothing in
 this repository is authored by hand except `README.md` and this file.
 
-It holds **one design at two sizes**, one folder each and nothing loose at the root:
-`bore-25mm/` on a 31mm block and `bore-10mm/` on a 16mm one. The bell and the mouthpiece
-are not here — they are shared with the other trumpets and live in `../trumpet-parts`.
+It holds **one design at two sizes, as two complete instruments**:
 
-The root held the 25mm set until 2026-08-31, when it was moved down into `bore-25mm/` so
-the two sizes read as siblings rather than as a design and an afterthought. The move was
-`git mv`, and regenerating afterwards left all six SVGs **byte-identical**; the only file
-it changed was the viewer, which is named for its folder — `trumpet-final-youtube-candidate.html`
-became `bore-25mm/bore-25mm.html`, retitled to match. `index.html` is still the root, and
-still the published page.
+    25mm/  mouthpiece/  bore/  bell/          31mm block
+    10mm/  mouthpiece/  bore/  bell/          16mm block
+
+Cut one folder and you have a trumpet. `index.html` is still at the root and still the
+published page; nothing else is loose there.
+
+**Two moves got here, both on 2026-08-31.** First the 25mm set came off the root into
+`25mm/bore/`, so the sizes read as siblings rather than as a design and an afterthought.
+Then the bores went down a level into `<size>/bore/` and the mouthpiece and bell joined
+them, so a folder is an instrument rather than a part. Both moves were `git mv`, and both
+times regenerating afterwards left every bore SVG **byte-identical** — the only files that
+changed content were the viewers, which are named and titled for their folder.
+
+**Where the parts come from.** The bell and the mouthpiece are generated in
+`../trumpet-parts`, which is where the two square-to-round generators live:
+
+**All four sheets live here outright — there are no copies.** They were briefly duplicated
+from `../trumpet-parts` on 2026-08-31 and the duplicates were removed the same day: nothing
+else cuts any of them, so this repository owns them and that one keeps the generators.
+`trumpet-coiled` and `trumpet-octagonal` take a different bell and the `asbuilt` mouthpiece,
+both still there.
+
+Regenerating any of the four still means running a generator in `../trumpet-parts` and
+moving the result across, because they write into their own directory. Two traps in that:
+
+- **A bare `bell-round.py` writes `bell-round-17rings.svg` back into `../trumpet-parts/bell`,**
+  since it is one of that script's four standard budgets. Move it here or delete it; do not
+  leave a second copy there.
+- **The generators write no engraving.** Every sheet here carries a `<g id="ring-numbers">`
+  that `number_rings.py --order=document` added afterwards, and a regenerate throws it away
+  silently. Put it back before cutting.
 
 Sibling repositories — `trumpet-coiled`, `trumpet-octagonal`, `torus-octagonal`,
 `knotwork-soundholes`, `living-hinge` and others — follow the same conventions. Shared
@@ -60,8 +84,8 @@ A block is 25 × 25 × 25mm of sound space wrapped in **3mm of wall**, so its ou
 **31mm**, and coring it out for air does not shrink it. A run of *N* blocks is **31N mm**
 along the bore. The 22 blocks are 682mm of centreline at that size.
 
-**The folders are named for the bore, the switch is the block.** `bore-25mm/` is
-`--blocksize=31` and `bore-10mm/` is `--blocksize=16`. The two numbers are 6mm apart and
+**The folders are named for the bore, the switch is the block.** `25mm/bore/` is
+`--blocksize=31` and `10mm/bore/` is `--blocksize=16`. The two numbers are 6mm apart and
 naming them the same thing is the mistake this section exists to stop.
 
 Standard flags, uniform across the set — mixing `burn` changes finger joint fit while every
@@ -73,14 +97,14 @@ builds them from its own constants, so `--blocksize` moves the plan and the shee
 --reference=0 --inner_corners=corner --spacing=0.5
 ```
 
-## `bore-10mm/` is the same walk, a smaller square
+## `10mm/bore/` is the same walk, a smaller square
 
 Added 2026-08-31. The **block pitch is the sound square plus two walls**, so a 10mm bore in
 the same 3mm stock is a **16mm** block: `--blocksize=16`, and nothing else changes. Same
 walk, same six sections, same shapes, same in and out faces, no elbows — 352mm of
 centreline instead of 682.
 
-**The two folders share every filename.** `01_bend_DL.svg` exists in both, because the
+**The two folders share every filename.** `01_bend_DL.svg` exists in both bores, because the
 shapes genuinely are the same and only the pitch differs. Nothing stops you cutting the
 wrong one; the sheet size is the tell — 247x59mm is small, 397x89mm is large — and the
 README tables carry both.
@@ -93,7 +117,7 @@ so the 31mm files did not move: they were regenerated after the change and came 
 **byte-identical**.
 
 Regenerating one set does not touch the other — they are separate `--write` targets — but
-**omitting `--blocksize=16` fills `bore-10mm/` with full-size parts under the small set's
+**omitting `--blocksize=16` fills `10mm/bore/` with full-size parts under the small set's
 names**. Both are entries in `regress.py`; the 10mm one carries a fourth field, the pitch.
 
 ## No elbows — the rule that shapes the walk
@@ -186,8 +210,8 @@ Boxes.py virtualenv, so run the gate from there:
 ```sh
 W="$(cat walks/trumpet_final_youtube_candidate.txt)"
 D=../trumpet-final-youtube-candidate
-~/boxes/venv/bin/python check.py "$W" --files $D/bore-25mm
-~/boxes/venv/bin/python check.py "$W" --blocksize=16 --files $D/bore-10mm
+~/boxes/venv/bin/python check.py "$W" --files $D/25mm/bore
+~/boxes/venv/bin/python check.py "$W" --blocksize=16 --files $D/10mm/bore
 ```
 
 `--files` only looks at the sheets as the machine sees them — bed fit, overlaps, engraving
@@ -217,14 +241,25 @@ S=../bore-generator
 cd $S && python3 bore_split.py --no-write --refuse-elbows "N N1 W3 U2 E3 N3 D3 W2 U3 N1"
 ```
 
-**Regenerate the cut files** (rewrites everything — ask first):
+**Regenerate the cut files** (rewrites everything — ask first). The bores:
 
 ```sh
 cd $S
 W="$(cat walks/trumpet_final_youtube_candidate.txt)"
 D=../trumpet-final-youtube-candidate
-python3 bore_split.py --refuse-elbows "$W" --write $D/bore-25mm
-python3 bore_split.py --blocksize=16 --refuse-elbows "$W" --write $D/bore-10mm
+python3 bore_split.py --refuse-elbows "$W" --write $D/25mm/bore
+python3 bore_split.py --blocksize=16 --refuse-elbows "$W" --write $D/10mm/bore
+```
+
+The mouthpiece and the bell are **not generated here** — they come from
+`../trumpet-parts` and are copied in. Those generators write into their own directory, so
+copy the result across afterwards; they also strip the engraved ring numbers, which
+`number_rings.py --order=document` puts back:
+
+```sh
+cd ../trumpet-parts/mouthpiece
+python3 mouthpiece-round.py --bore=10 --rim=17 --layout=trumpet
+cd ../bell && python3 bell-round.py 17 --bore=10 --length=152 --mouth=80
 ```
 
 **Always pass `--refuse-elbows` here.** This is a build repository, and the standard for a
@@ -239,8 +274,11 @@ python3 $G/svg-stroke-check.py --dir . --quiet   # stroke declared twice, disagr
 cd $S && ~/boxes/venv/bin/python regress.py      # every design in the library
 ```
 
-The gate reports **194 checks, 0 failed** on each of the two sizes, and `regress.py` covers
-25 designs. Nothing here should be cut from a file that has not passed it.
+The gate reports **194 checks, 0 failed** on each of the two bores, and `regress.py` covers
+25 designs. It does not look at the bell or the mouthpiece at all — those are checked by
+`bell-round.py` and `mouthpiece-round.py` themselves, before they write, in
+`../trumpet-parts`. Nothing here should be cut from a file that has not passed one or the
+other.
 
 **After editing `README.md`** — regenerate the page, then audit:
 
