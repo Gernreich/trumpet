@@ -102,7 +102,8 @@ builds them from its own constants, so `--blocksize` moves the plan and the shee
 Added 2026-08-31. The **block pitch is the sound square plus two walls**, so a 10mm bore in
 the same 3mm stock is a **16mm** block: `--blocksize=16`, and nothing else changes. Same
 walk, same six sections, same shapes, same in and out faces, no elbows — 352mm of
-centreline instead of 682.
+centreline instead of 682. The two bores differ in pitch and in nothing else, so a change
+to one is a change to both.
 
 **The two folders share every filename.** `01_bend_DL.svg` exists in both bores, because the
 shapes genuinely are the same and only the pitch differs. Nothing stops you cutting the
@@ -112,7 +113,9 @@ README tables carry both.
 `--pin_width` is the one flag that does not simply scale. SnakeBox defaults it to 12mm,
 sized for the 25mm square, and 12mm does not fit a 10mm end frame — SnakeBox raises
 `pin_width 12.0 is too wide for the 10.0mm end frame` rather than cutting something wrong.
-`bore-generator` now derives it as **0.48 × the sound square**, which is exactly 12 at 25,
+`bore-generator` derives it as **0.48 × the sound square, floored at the finger tooth**
+(`2 × thickness`, which does not shrink with the block) — 6mm at the 10mm bore, and the
+fraction's 12 at 25,
 so the 31mm files did not move: they were regenerated after the change and came back
 **byte-identical**.
 
@@ -170,12 +173,30 @@ room for the mouthpiece and the bell to seat — but it means **neither end will
 another block of trimming**. If a socket needs to seat *into* a section rather than butt
 against it, the walk has to grow, not shrink.
 
-## Four sections, two shapes
+## Six sections, six shapes — and why that changed
 
-Sections 1 and 4 are both `BDL`; sections 3 and 6 are both `BRD`. They are cut separately
-anyway so each carries its own engraved number and the assembly order stays readable on the
-bench. That duplication is also why this design is in `regress.py` — nothing else in the
-library checks that a repeated shape still gets its own number.
+Sections 1 and 4 were both `BDL` and sections 3 and 6 both `BRD` until 2026-08-31, when the
+bore's two outer ends were made plain. Section 1 is now `BDL~a` and section 6 `BRD~b`,
+`_buttin` and `_buttout` in the filenames, so all six are distinct.
+
+**The outer ends carry no coupling because there is nothing to couple to.** The mouthpiece
+meets one and the bell the other, and both present a flat plate that glues onto the end
+face — the mouthpiece's station one, the bell's ring 0. A tab standing 3mm proud holds that
+plate off the face and leaves the joint resting on the tab. Reported from the bench.
+`plain_ends()` in `bore_split.py` had the mechanism already but only ever fired for ports;
+it now always marks the first piece's entry and the last piece's exit.
+
+**That rename orphans files, and the gate counts them.** `01_bend_DL.svg` and
+`06_bend_RD.svg` are no longer written by anything and had to be deleted by hand — the
+generator does not remove what it stops writing. Until they were, the gate reported **200
+checks instead of 194**: `check_sheets` globs the folder and adds three checks per sheet it
+finds, so two stale files bought six checks on parts nothing was cutting. A rising check
+count after a rename is a warning, not reassurance. Check both bore folders for orphans
+after any regenerate.
+
+This design was in `regress.py` because it was the only one checking that a repeated shape
+still gets its own number. It no longer has a repeated shape, so **that coverage has moved
+off this design** — if you need it back, some other walk has to carry it.
 
 ## Colour is the cut order
 

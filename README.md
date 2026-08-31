@@ -61,10 +61,19 @@ The two bores use the same six filenames — see
 [Do not mix the folders](#do-not-mix-the-folders).
 
 The tab is the one thing that does not simply scale. SnakeBox's `--pin_width`
-defaults to 12mm, which was chosen when 31 was the only block there was, and
-12mm does not fit inside the 10mm end frame at all — it raises rather than
-cuts. `bore-generator` sets the tab as a fraction of the sound square, 0.48,
-which is exactly 12mm at 25 and 4.8mm at 10.
+defaults to 12mm, chosen when 31 was the only block there was, and 12mm does
+not fit inside the 10mm end frame at all — it raises rather than cuts.
+`bore-generator` sets it to 0.48 of the sound square **but never below the
+finger joint tooth**, which is `2 × thickness` and does not shrink with the
+block: 12mm at 25, 6mm at 10. Without that floor the fraction alone gives
+4.8mm at 10 — a seam tab narrower than the ordinary teeth beside it, which is
+exactly backwards.
+
+The notch it enters is opened by **0.15mm per side**; the tab keeps its full
+width. SnakeBox leaves that at zero, on the grounds that finger joints have no
+play either, but a finger joint is a dozen teeth sharing an edge and a section
+seam is one tab in one notch. At zero the two are drawn the same width and the
+sections will not go together.
 
 ### 25mm bore — `25mm/bore/`
 
@@ -72,33 +81,42 @@ Cut in order; each part is engraved with its section number.
 
 | # | file | blocks | in | out | plate | shape | sheet |
 |---|---|---|---|---|---|---|---|
-| 1 | [`25mm/bore/01_bend_DL.svg`](25mm/bore/01_bend_DL.svg) | 1-3 | N | W | 2×2 | BDL | 397×89mm |
+| 1 | [`25mm/bore/01_bend_DL_buttin.svg`](25mm/bore/01_bend_DL_buttin.svg) | 1-3 | N | W | 2×2 | BDL~a | 391×86mm |
 | 2 | [`25mm/bore/02_bend_LUUR.svg`](25mm/bore/02_bend_LUUR.svg) | 4-8 | W | E | 2×3 | BLUUR | 554×117mm |
 | 3 | [`25mm/bore/03_bend_RD.svg`](25mm/bore/03_bend_RD.svg) | 9-11 | E | N | 2×2 | BRD | 403×86mm |
 | 4 | [`25mm/bore/04_bend_DL.svg`](25mm/bore/04_bend_DL.svg) | 12-14 | N | D | 2×2 | BDL | 397×89mm |
 | 5 | [`25mm/bore/05_bend_DLLU.svg`](25mm/bore/05_bend_DLLU.svg) | 15-19 | D | U | 3×2 | BDLLU | 537×130mm |
-| 6 | [`25mm/bore/06_bend_RD.svg`](25mm/bore/06_bend_RD.svg) | 20-22 | U | N | 2×2 | BRD | 403×86mm |
+| 6 | [`25mm/bore/06_bend_RD_buttout.svg`](25mm/bore/06_bend_RD_buttout.svg) | 20-22 | U | N | 2×2 | BRD~b | 403×86mm |
 
 ### 10mm bore — `10mm/bore/`
 
 | # | file | blocks | in | out | plate | shape | sheet |
 |---|---|---|---|---|---|---|---|
-| 1 | [`10mm/bore/01_bend_DL.svg`](10mm/bore/01_bend_DL.svg) | 1-3 | N | W | 2×2 | BDL | 247×59mm |
+| 1 | [`10mm/bore/01_bend_DL_buttin.svg`](10mm/bore/01_bend_DL_buttin.svg) | 1-3 | N | W | 2×2 | BDL~a | 241×56mm |
 | 2 | [`10mm/bore/02_bend_LUUR.svg`](10mm/bore/02_bend_LUUR.svg) | 4-8 | W | E | 2×3 | BLUUR | 344×72mm |
 | 3 | [`10mm/bore/03_bend_RD.svg`](10mm/bore/03_bend_RD.svg) | 9-11 | E | N | 2×2 | BRD | 253×56mm |
 | 4 | [`10mm/bore/04_bend_DL.svg`](10mm/bore/04_bend_DL.svg) | 12-14 | N | D | 2×2 | BDL | 247×59mm |
 | 5 | [`10mm/bore/05_bend_DLLU.svg`](10mm/bore/05_bend_DLLU.svg) | 15-19 | D | U | 3×2 | BDLLU | 370×59mm |
-| 6 | [`10mm/bore/06_bend_RD.svg`](10mm/bore/06_bend_RD.svg) | 20-22 | U | N | 2×2 | BRD | 253×56mm |
+| 6 | [`10mm/bore/06_bend_RD_buttout.svg`](10mm/bore/06_bend_RD_buttout.svg) | 20-22 | U | N | 2×2 | BRD~b | 253×56mm |
 
 ### Either size
 
-Sections 1 and 4 are the same shape, and so are 3 and 6. They are cut
-separately anyway, so each carries its own number and the assembly order
-stays readable on the bench.
+**The two end sections are flat where they face outward.** Every seam inside
+the bore is a tab entering a notch, but sections 1 and 6 have nothing beyond
+them to couple to — what meets them is the mouthpiece at one end and the bell
+at the other, and both present a flat plate that glues straight onto the end
+face. A tab standing 3mm proud of that face would hold the plate off it. So
+section 1's mouth end and section 6's bell end are plain edges, which is what
+`~a` and `~b` mark in the shape column and `_buttin` / `_buttout` in the
+filename.
 
-Both end sections are a single straight block either side of their turn,
-which is the least a section can have. The mouthpiece and the bell seat
-against those ends.
+Sections 1 and 4 were the same shape until then, and 3 and 6 with them; the
+flat ends make all six distinct. They were always cut separately anyway, so
+each carries its own engraved number and the assembly order stays readable on
+the bench.
+
+Both end sections are a single straight block either side of their turn, which
+is the least a section can have.
 
 ## The mouthpiece and the bell
 
@@ -153,8 +171,8 @@ millimetres — nothing you can judge by eye once the parts are off the bed.
 The two bores use the **same six filenames**, because the shapes really are the
 same and only the pitch differs. Nothing stops you cutting from the wrong
 folder, and the parts will look plausible right up until they do not fit. The
-sheet size is the tell — **247×59mm is the small bore, 397×89mm the large** —
-and the tables above carry both.
+sheet size is the tell — section 4, say, is **247×59mm on the small bore and
+397×89mm on the large** — and the tables above carry every sheet at both sizes.
 
 The bell and the mouthpiece are safe: their filenames differ between sizes.
 
