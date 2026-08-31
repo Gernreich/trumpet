@@ -52,6 +52,30 @@ globals — so setting a switch on `__main__` set it for the writer and not for 
 delegates to the imported module so there is one set of globals. If another switch is
 added, set it on `B`, not on `globals()`.
 
+**The bore's outer ends are plain.** `plain_ends()` always marks the first piece's entry
+and the last piece's exit, not just the openings that meet a port. Nothing couples there —
+the mouthpiece and the bell each glue a flat plate onto the end face, and a proud tab holds
+it off. This renames end sections that used to share a shape with an inner one (`BDL` ->
+`BDL~a`, `01_bend_DL.svg` -> `01_bend_DL_buttin.svg`) and **orphans the old file**, which
+nothing deletes for you. `check_sheets` then globs the folder and gates the orphan too, at
+three checks a sheet: the candidate reported 200 checks instead of 194 purely because two
+stale files were still sitting there. **A check count that rises after a rename is a
+warning.**
+
+**The tab is floored at the finger tooth, and the notch carries the play.** Two bench
+failures, both on 2026-08-31, both invisible to the gate. `--pin_width` scaled with the
+block while the finger teeth did not (Boxes.py sizes those at `2 x thickness`), so at the
+10mm bore the seam tab came out 4.8mm against 6mm teeth — the narrowest feature on the
+sheet, where it should be the strongest. And `--pin_play` was 0, so the notch was drawn
+exactly the tab's width and section 1 would not enter section 2. `pin_width()` now floors
+at the tooth and caps at `MIN_SHOULDER`, and `PIN_PLAY` is 0.15 per side. Both are in
+`COMMON`, so `check.py` sees the same geometry.
+
+The gate did not catch either. Its floor is `MIN_FEATURE`, 1.5mm, which 4.8 clears
+comfortably, and nothing compares a feature against the other features beside it or checks
+that a joint has any clearance at all. **A passing gate means no check failed, not that the
+part is buildable.**
+
 `--blocksize` is the same hazard with a quieter failure. It is two numbers, not one:
 `BLOCK`, the pitch the plan is laid out on, and `--blocksize` in `COMMON`, the pitch
 SnakeBox cuts to. Both now come from `set_blocksize()`, and `COMMON` is built by `_common()`

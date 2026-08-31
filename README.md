@@ -271,11 +271,39 @@ frame a 16mm block leaves. SnakeBox raises rather than cutting something wrong:
 
     pin_width 12.0 is too wide for the 10.0mm end frame
 
-`bore_split.COMMON` therefore passes `--pin_width` explicitly, at **0.48 x the
-sound square** — exactly 12 at the 25mm bore, so nothing already cut moved, and
-4.8 at 10. Tubes of different bore no longer interconnect across that scaling,
-which costs nothing: they have different bores. Set `--pin_width` by hand if
-you want two sizes to mate and both frames can take the same tab.
+`bore_split.COMMON` therefore passes `--pin_width` explicitly: **0.48 x the
+sound square, floored at the finger joint tooth** and capped to leave 2mm of
+shoulder either side. The floor matters. A tooth is `2 x thickness` and does
+**not** shrink with the block, so scaling the tab alone took it below the teeth
+— at the 10mm bore the fraction alone gives 4.8mm against a 6mm tooth, which
+made the one tab carrying a section seam the *narrowest* feature on the sheet.
+With the floor it is 6mm there, level with the teeth, and 12mm at the 25mm bore
+where the fraction still wins, so nothing already cut moved.
+
+Tubes of different bore no longer interconnect across that scaling, which costs
+nothing: they have different bores. Set `--pin_width` by hand if you want two
+sizes to mate and both frames can take the same tab.
+
+**The bore's two outer ends carry no coupling at all.** `plain_ends()` marks the
+first piece's entry and the last piece's exit plain, because there is no next
+section for them to reach: what meets them is the mouthpiece at one end and the
+bell at the other, and both present a flat plate that glues onto the end face. A
+tab standing `pin_length` proud of that face holds the plate off it. The
+mechanism was already there for ports, which cannot carry a tab either; it just
+never fired for the ends of the bore itself.
+
+It shows in the shape and so in the filename — `BDL~a`, `BDL_buttin` — because
+the gender of an end changes the part. **A walk whose end sections previously
+shared a shape with an inner one will therefore rename two files**, and the
+generator does not delete what it stops writing. Check the folder for orphans.
+
+**The notch gets `--pin_play`, the tab does not.** SnakeBox leaves play at 0 on
+the grounds that finger joints carry none either, and that does not follow: a
+finger joint is a dozen teeth sharing an edge, where the errors average out,
+while a section seam is one tab in one notch drawn exactly its own width. That
+is a press fit before char, glue, or any kerf the burn allowance did not
+predict — section 1 would not enter section 2 on the bench. `COMMON` now passes
+**0.15mm per side**, so the notch opens 0.3mm and the tab keeps its full width.
 
 ### The tab is centred on the tube, not on the edge it sits in
 

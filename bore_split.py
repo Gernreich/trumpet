@@ -78,12 +78,39 @@ FLAT = False        # --flat: plain butt ends, no tabs and no notches
 # across and a 12mm tab does not fit in it at all. 0.48 reproduces 12 exactly
 # at the 25mm square, so the default block is untouched.
 PIN_FRAC = 0.48
+MIN_SHOULDER = 2.0   # material left either side of the tab, along the frame
+# SnakeBox leaves --pin_play at 0, on the grounds that it matches the finger
+# joints, which carry no designed play either. It does not follow. A finger
+# joint is a dozen teeth sharing an edge and the errors average out; the
+# section seam is ONE tab in ONE notch, drawn exactly its own width, so a press
+# fit before you add char, glue or any kerf the burn allowance did not predict.
+# Reported from the bench 2026-08-31: section 1 would not enter section 2. This
+# widens the notch only -- the tab keeps its full width and strength.
+PIN_PLAY = 0.15      # per side, so the notch opens by twice this
+
+
+def pin_width():
+    """The coupling tab, which must never be the weakest feature on the sheet.
+
+    A fraction of the end frame it sits in -- but floored at the finger joint
+    tooth, which Boxes.py sizes at 2 x thickness and which therefore does NOT
+    shrink with the block. Scaling the tab alone took it below that: at the
+    10mm bore the fraction gives 4.8mm against a 6mm tooth, so the one tab
+    carrying the joint between two sections came out narrower than the
+    ordinary teeth beside it. Reported from the cut file, not caught by the
+    gate -- the gate's floor is MIN_FEATURE, 1.5mm, and 4.8 clears it.
+
+    At the 25mm bore the fraction wins at 12mm and nothing moves.
+    """
+    tooth = 2.0 * THICKNESS                     # Boxes.py FingerJointSettings
+    frame = BLOCK - 2 * THICKNESS               # the opening the tab sits in
+    return min(max(PIN_FRAC * frame, tooth), frame - 2 * MIN_SHOULDER)
 
 
 def _common():
     return [f'--blocksize={BLOCK:g}', f'--thickness={THICKNESS:g}',
             f'--burn={BURN:g}',
-            f'--pin_width={PIN_FRAC * (BLOCK - 2 * THICKNESS):g}',
+            f'--pin_width={pin_width():g}', f'--pin_play={PIN_PLAY:g}',
             '--labels=0', '--reference=0',
             '--inner_corners=corner', '--spacing=0.5']
 
@@ -398,6 +425,13 @@ def plain_ends(plans):
     either, because a tab needs material in a band where the plate has already
     stopped. So the opening that meets a port is plain on both sides: the two
     butt flat and are glued. Returns (plain_in, plain_out) per piece.
+
+    The bore's two OUTER ends are plain for a different reason: there is no
+    next section for them to couple to. What meets them is the mouthpiece at
+    one end and the bell at the other, and both present a flat plate that
+    glues onto the end face - the mouthpiece's station one, the bell's ring 0.
+    A tab standing 3mm proud of that face holds the plate off it and leaves
+    the joint on the tab alone. Reported from the bench 2026-08-31.
     """
     n = len(plans)
     plain = [[False, False] for _ in range(n)]
@@ -406,6 +440,8 @@ def plain_ends(plans):
             plain[i - 1][1] = True      # the piece before butts on this port
         if po and i < n - 1:
             plain[i + 1][0] = True
+    plain[0][0] = True                  # the mouth: meets the mouthpiece plate
+    plain[n - 1][1] = True              # the bell end: meets the bell flange
     return [tuple(p) for p in plain]
 
 
