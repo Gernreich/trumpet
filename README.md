@@ -1,7 +1,9 @@
 # trumpet-final-youtube-candidate
 
 The bore candidate for the build video: six laser-cut sections that
-assemble into one sealed passage, 22 blocks and 682mm of centreline.
+assemble into one sealed passage, 22 blocks long. It is cut at **two bore
+sizes** from the one walk — `bore-25mm/` and `bore-10mm/` — and nothing but
+the size differs between them.
 
     N N1 W3 U2 E3 N3 D3 W2 U3 N1
 
@@ -14,8 +16,8 @@ the difficulty of the whole build.
 **[Read the writeup](https://gernreich.github.io/trumpet-final-youtube-candidate/)** — the
 same text as this page, set for reading, with a table of contents.
 
-**[The repository](https://github.com/Gernreich/trumpet-final-youtube-candidate)** — the
-six nets and the page they regenerate from.
+**[The repository](https://github.com/Gernreich/trumpet-final-youtube-candidate)** — both
+sets of six nets and the page they regenerate from.
 
 **[Download everything as a ZIP](https://github.com/Gernreich/trumpet-final-youtube-candidate/archive/refs/heads/main.zip)**
 — GitHub builds it from `main` on every push, so it is never out of date.
@@ -26,18 +28,58 @@ and the playing are shown.
 **[The rest of the build files](https://gernreich.github.io/)** — every instrument,
 generator and tool, indexed.
 
-## The sections
+## The two sizes
+
+A block is the sound square plus a wall each side, so **the bore is the block
+less 6mm** in 3mm stock. That one number is the whole difference between the
+folders:
+
+| | `bore-25mm/` | `bore-10mm/` |
+|---|---|---|
+| bore | 25mm square | 10mm square |
+| block | 31mm | 16mm |
+| centreline | 682mm | 352mm |
+| switch | *(default)* | `--blocksize=16` |
+
+Everything else is shared: the same walk, the same six sections in the same
+order, the same shapes, the same in and out faces, no elbows in either.
+
+**The two folders use the same six filenames**, because the shapes really are
+the same and only the pitch differs. Nothing stops you cutting from the wrong
+one — the sheet size is the tell, so check it against the tables below before
+the file goes on the machine.
+
+The tab is the one thing that does not simply scale. SnakeBox's `--pin_width`
+defaults to 12mm, which was chosen when 31 was the only block there was, and
+12mm does not fit inside the 10mm end frame at all — it raises rather than
+cuts. `bore-generator` sets the tab as a fraction of the sound square, 0.48,
+which is exactly 12mm at 25 and 4.8mm at 10.
+
+### 25mm bore — `bore-25mm/`
 
 Cut in order; each part is engraved with its section number.
 
 | # | file | blocks | in | out | plate | shape | sheet |
 |---|---|---|---|---|---|---|---|
-| 1 | `01_bend_DL.svg` | 1-3 | N | W | 2x2 | BDL | 397x89mm |
-| 2 | `02_bend_LUUR.svg` | 4-8 | W | E | 2x3 | BLUUR | 554x117mm |
-| 3 | `03_bend_RD.svg` | 9-11 | E | N | 2x2 | BRD | 403x86mm |
-| 4 | `04_bend_DL.svg` | 12-14 | N | D | 2x2 | BDL | 397x89mm |
-| 5 | `05_bend_DLLU.svg` | 15-19 | D | U | 3x2 | BDLLU | 537x130mm |
-| 6 | `06_bend_RD.svg` | 20-22 | U | N | 2x2 | BRD | 403x86mm |
+| 1 | [`bore-25mm/01_bend_DL.svg`](bore-25mm/01_bend_DL.svg) | 1-3 | N | W | 2x2 | BDL | 397x89mm |
+| 2 | [`bore-25mm/02_bend_LUUR.svg`](bore-25mm/02_bend_LUUR.svg) | 4-8 | W | E | 2x3 | BLUUR | 554x117mm |
+| 3 | [`bore-25mm/03_bend_RD.svg`](bore-25mm/03_bend_RD.svg) | 9-11 | E | N | 2x2 | BRD | 403x86mm |
+| 4 | [`bore-25mm/04_bend_DL.svg`](bore-25mm/04_bend_DL.svg) | 12-14 | N | D | 2x2 | BDL | 397x89mm |
+| 5 | [`bore-25mm/05_bend_DLLU.svg`](bore-25mm/05_bend_DLLU.svg) | 15-19 | D | U | 3x2 | BDLLU | 537x130mm |
+| 6 | [`bore-25mm/06_bend_RD.svg`](bore-25mm/06_bend_RD.svg) | 20-22 | U | N | 2x2 | BRD | 403x86mm |
+
+### 10mm bore — `bore-10mm/`
+
+| # | file | blocks | in | out | plate | shape | sheet |
+|---|---|---|---|---|---|---|---|
+| 1 | [`bore-10mm/01_bend_DL.svg`](bore-10mm/01_bend_DL.svg) | 1-3 | N | W | 2x2 | BDL | 247x59mm |
+| 2 | [`bore-10mm/02_bend_LUUR.svg`](bore-10mm/02_bend_LUUR.svg) | 4-8 | W | E | 2x3 | BLUUR | 344x72mm |
+| 3 | [`bore-10mm/03_bend_RD.svg`](bore-10mm/03_bend_RD.svg) | 9-11 | E | N | 2x2 | BRD | 253x56mm |
+| 4 | [`bore-10mm/04_bend_DL.svg`](bore-10mm/04_bend_DL.svg) | 12-14 | N | D | 2x2 | BDL | 247x59mm |
+| 5 | [`bore-10mm/05_bend_DLLU.svg`](bore-10mm/05_bend_DLLU.svg) | 15-19 | D | U | 3x2 | BDLLU | 370x59mm |
+| 6 | [`bore-10mm/06_bend_RD.svg`](bore-10mm/06_bend_RD.svg) | 20-22 | U | N | 2x2 | BRD | 253x56mm |
+
+### Either size
 
 Sections 1 and 4 are the same shape, and so are 3 and 6. They are cut
 separately anyway, so each carries its own number and the assembly order
@@ -47,37 +89,42 @@ Both end sections are a single straight block either side of their turn,
 which is the least a section can have. The mouthpiece and the bell seat
 against those ends.
 
-## The page
+## The pages
 
-[`trumpet-final-youtube-candidate.html`](trumpet-final-youtube-candidate.html)
-is the viewer: drag to turn, colour by direction or by section, and a
-slider follows the bore from the mouth. It is self-contained apart from
-its fonts, so it opens from a checkout as readily as from the published
-page.
+Each folder carries its own viewer —
+[`bore-25mm/bore-25mm.html`](bore-25mm/bore-25mm.html) and
+[`bore-10mm/bore-10mm.html`](bore-10mm/bore-10mm.html). Drag to turn, colour by
+direction or by section, and a slider follows the bore from the mouth. They are
+the same page with different measurements in them, and self-contained apart
+from their fonts, so either opens from a checkout as readily as from the
+published page.
 
 ## Where it comes from
 
 Generated by
 **[bore-generator](https://github.com/Gernreich/bore-generator)**, which holds
 the walk as `walks/trumpet_final_youtube_candidate.txt` and gates these files in
-`regress.py`. Its
+`regress.py` as two designs, one per size. Its
 [CLAUDE.md](https://github.com/Gernreich/bore-generator/blob/main/CLAUDE.md)
 carries the conventions — the elbow rule, which switches reach the gate, and why
 a regenerated folder is not a checked one. To rebuild and check:
 
 ```sh
 cd ../bore-generator
-python3 bore_split.py --refuse-elbows \
-    "$(cat walks/trumpet_final_youtube_candidate.txt)" \
-    --write ../trumpet-final-youtube-candidate
+W="$(cat walks/trumpet_final_youtube_candidate.txt)"
+D=../trumpet-final-youtube-candidate
+python3 bore_split.py --refuse-elbows "$W" --write $D/bore-25mm
+python3 bore_split.py --blocksize=16 --refuse-elbows "$W" --write $D/bore-10mm
 ~/boxes/venv/bin/python regress.py trumpet
 ```
 
 `--refuse-elbows` is not optional here: it stops before writing anything if the
-walk would cost an elbow.
+walk would cost an elbow. Neither is the folder on the end of each line — leave
+`--blocksize=16` off the second command and it quietly fills `bore-10mm/` with
+full-size parts under the small set's names, which no drawing shows.
 
-The gate reports **194 checks, 0 failed**. Nothing here should be cut from
-a file that has not passed it.
+Both sizes gate at **194 checks, 0 failed**. Nothing here should be cut from a
+file that has not passed it.
 
 ## Licence
 

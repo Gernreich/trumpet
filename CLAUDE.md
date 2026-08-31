@@ -4,14 +4,22 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-A laser-cutting build repository, not a software project. The deliverables are six **SVG
-cut files** that someone sends to a laser, plus the page describing them. Everything here
-is **generated** by the sibling repository **`../bore-generator`**
+A laser-cutting build repository, not a software project. The deliverables are two sets of
+six **SVG cut files** that someone sends to a laser, plus the pages describing them.
+Everything here is **generated** by the sibling repository **`../bore-generator`**
 ([CLAUDE.md](https://github.com/Gernreich/bore-generator/blob/main/CLAUDE.md)); nothing in
 this repository is authored by hand except `README.md` and this file.
 
-It holds one design: the bore candidate for the build video. The bell and the mouthpiece
+It holds **one design at two sizes**, one folder each and nothing loose at the root:
+`bore-25mm/` on a 31mm block and `bore-10mm/` on a 16mm one. The bell and the mouthpiece
 are not here — they are shared with the other trumpets and live in `../trumpet-parts`.
+
+The root held the 25mm set until 2026-08-31, when it was moved down into `bore-25mm/` so
+the two sizes read as siblings rather than as a design and an afterthought. The move was
+`git mv`, and regenerating afterwards left all six SVGs **byte-identical**; the only file
+it changed was the viewer, which is named for its folder — `trumpet-final-youtube-candidate.html`
+became `bore-25mm/bore-25mm.html`, retitled to match. `index.html` is still the root, and
+still the published page.
 
 Sibling repositories — `trumpet-coiled`, `trumpet-octagonal`, `torus-octagonal`,
 `knotwork-soundholes`, `living-hinge` and others — follow the same conventions. Shared
@@ -50,15 +58,43 @@ turns the final block and buys an elbow.
 
 A block is 25 × 25 × 25mm of sound space wrapped in **3mm of wall**, so its outside is
 **31mm**, and coring it out for air does not shrink it. A run of *N* blocks is **31N mm**
-along the bore. The 22 blocks here are 682mm of centreline.
+along the bore. The 22 blocks are 682mm of centreline at that size.
+
+**The folders are named for the bore, the switch is the block.** `bore-25mm/` is
+`--blocksize=31` and `bore-10mm/` is `--blocksize=16`. The two numbers are 6mm apart and
+naming them the same thing is the mistake this section exists to stop.
 
 Standard flags, uniform across the set — mixing `burn` changes finger joint fit while every
-outside dimension still matches, which no drawing shows:
+outside dimension still matches, which no drawing shows. Do not type them: `bore_split.py`
+builds them from its own constants, so `--blocksize` moves the plan and the sheet together.
 
 ```
---blocksize=31 --thickness=3 --burn=0.1 --labels=0 --reference=0
---inner_corners=corner --spacing=0.5
+--blocksize=31 --thickness=3 --burn=0.1 --pin_width=12 --labels=0
+--reference=0 --inner_corners=corner --spacing=0.5
 ```
+
+## `bore-10mm/` is the same walk, a smaller square
+
+Added 2026-08-31. The **block pitch is the sound square plus two walls**, so a 10mm bore in
+the same 3mm stock is a **16mm** block: `--blocksize=16`, and nothing else changes. Same
+walk, same six sections, same shapes, same in and out faces, no elbows — 352mm of
+centreline instead of 682.
+
+**The two folders share every filename.** `01_bend_DL.svg` exists in both, because the
+shapes genuinely are the same and only the pitch differs. Nothing stops you cutting the
+wrong one; the sheet size is the tell — 247x59mm is small, 397x89mm is large — and the
+README tables carry both.
+
+`--pin_width` is the one flag that does not simply scale. SnakeBox defaults it to 12mm,
+sized for the 25mm square, and 12mm does not fit a 10mm end frame — SnakeBox raises
+`pin_width 12.0 is too wide for the 10.0mm end frame` rather than cutting something wrong.
+`bore-generator` now derives it as **0.48 × the sound square**, which is exactly 12 at 25,
+so the 31mm files did not move: they were regenerated after the change and came back
+**byte-identical**.
+
+Regenerating one set does not touch the other — they are separate `--write` targets — but
+**omitting `--blocksize=16` fills `bore-10mm/` with full-size parts under the small set's
+names**. Both are entries in `regress.py`; the 10mm one carries a fourth field, the pitch.
 
 ## No elbows — the rule that shapes the walk
 
@@ -134,9 +170,11 @@ concurrently modified:
   Inkscape save.
 - **Never regenerate a cut file** the author has hand-edited (nesting, numbering, curve
   conversion) without asking.
-- Regenerating rewrites **every** SVG here, and a changed section length renames a file —
-  `06_bend_RDD.svg` became `06_bend_RD.svg` when the last term went from `N2` to `N1`. The
-  old file is not deleted for you. Check for orphans after a regenerate.
+- Regenerating rewrites **every** SVG in the folder you point it at — and only that
+  folder, so the two sizes have to be rebuilt one command each. A changed section length
+  renames a file: `06_bend_RDD.svg` became `06_bend_RD.svg` when the last term went from
+  `N2` to `N1`. The old file is not deleted for you, in either folder. Check both for
+  orphans after a regenerate.
 
 ## The gate does not run under the system python
 
@@ -146,16 +184,25 @@ with `ModuleNotFoundError` — **the files are written and ungated**. shapely li
 Boxes.py virtualenv, so run the gate from there:
 
 ```sh
-~/boxes/venv/bin/python check.py "$(cat walks/trumpet_final_youtube_candidate.txt)" \
-    --files ../trumpet-final-youtube-candidate
+W="$(cat walks/trumpet_final_youtube_candidate.txt)"
+D=../trumpet-final-youtube-candidate
+~/boxes/venv/bin/python check.py "$W" --files $D/bore-25mm
+~/boxes/venv/bin/python check.py "$W" --blocksize=16 --files $D/bore-10mm
 ```
+
+`--files` only looks at the sheets as the machine sees them — bed fit, overlaps, engraving
+on material — and never at the pitch, so it passes on either folder at either
+`--blocksize`. What the switch decides is the *geometry* half of the gate, which is recut
+in-process. Pass the wrong one and 194 checks still say pass, having checked a design you
+are not cutting.
 
 `regress.py` passes `sys.executable` down to `check.py`, so it must be started with the
 same interpreter or every design fails on the import.
 
-`regress.py` also only passes `--files` **when the folder exists**. If this repository is
-moved or renamed without updating the path in its `DESIGNS` entry, the gate will go on
-printing `pass` while checking the geometry alone and never touching these SVGs.
+`regress.py` also only passes `--files` **when the folder exists**. Both `DESIGNS` entries
+name a subfolder now, not the repository root, so a rename of either one — as well as of
+this repository — leaves the gate printing `pass` while checking the geometry alone and
+never touching these SVGs.
 
 ## Commands
 
@@ -173,9 +220,11 @@ cd $S && python3 bore_split.py --no-write --refuse-elbows "N N1 W3 U2 E3 N3 D3 W
 **Regenerate the cut files** (rewrites everything — ask first):
 
 ```sh
-cd $S && python3 bore_split.py --refuse-elbows \
-    "$(cat walks/trumpet_final_youtube_candidate.txt)" \
-    --write ../trumpet-final-youtube-candidate
+cd $S
+W="$(cat walks/trumpet_final_youtube_candidate.txt)"
+D=../trumpet-final-youtube-candidate
+python3 bore_split.py --refuse-elbows "$W" --write $D/bore-25mm
+python3 bore_split.py --blocksize=16 --refuse-elbows "$W" --write $D/bore-10mm
 ```
 
 **Always pass `--refuse-elbows` here.** This is a build repository, and the standard for a
@@ -190,8 +239,8 @@ python3 $G/svg-stroke-check.py --dir . --quiet   # stroke declared twice, disagr
 cd $S && ~/boxes/venv/bin/python regress.py      # every design in the library
 ```
 
-The gate reports **194 checks, 0 failed** on this design, and `regress.py` covers 20
-designs. Nothing here should be cut from a file that has not passed it.
+The gate reports **194 checks, 0 failed** on each of the two sizes, and `regress.py` covers
+25 designs. Nothing here should be cut from a file that has not passed it.
 
 **After editing `README.md`** — regenerate the page, then audit:
 
