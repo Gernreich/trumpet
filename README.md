@@ -8,7 +8,7 @@ them.
 
     N N1 W3 U2 E3 N3 D3 W2 U3 N1
 
-The walk folds back twice inside a 4x4 cross-section and runs nine blocks
+The walk folds back twice inside a 4×4 cross-section and runs nine blocks
 north overall. Every section is a **bend** — there are no elbows, so no
 section needs a neighbour's plate flattened and butt-glued to it, which is
 the difficulty of the whole build.
@@ -72,23 +72,23 @@ Cut in order; each part is engraved with its section number.
 
 | # | file | blocks | in | out | plate | shape | sheet |
 |---|---|---|---|---|---|---|---|
-| 1 | [`25mm/bore/01_bend_DL.svg`](25mm/bore/01_bend_DL.svg) | 1-3 | N | W | 2x2 | BDL | 397x89mm |
-| 2 | [`25mm/bore/02_bend_LUUR.svg`](25mm/bore/02_bend_LUUR.svg) | 4-8 | W | E | 2x3 | BLUUR | 554x117mm |
-| 3 | [`25mm/bore/03_bend_RD.svg`](25mm/bore/03_bend_RD.svg) | 9-11 | E | N | 2x2 | BRD | 403x86mm |
-| 4 | [`25mm/bore/04_bend_DL.svg`](25mm/bore/04_bend_DL.svg) | 12-14 | N | D | 2x2 | BDL | 397x89mm |
-| 5 | [`25mm/bore/05_bend_DLLU.svg`](25mm/bore/05_bend_DLLU.svg) | 15-19 | D | U | 3x2 | BDLLU | 537x130mm |
-| 6 | [`25mm/bore/06_bend_RD.svg`](25mm/bore/06_bend_RD.svg) | 20-22 | U | N | 2x2 | BRD | 403x86mm |
+| 1 | [`25mm/bore/01_bend_DL.svg`](25mm/bore/01_bend_DL.svg) | 1-3 | N | W | 2×2 | BDL | 397×89mm |
+| 2 | [`25mm/bore/02_bend_LUUR.svg`](25mm/bore/02_bend_LUUR.svg) | 4-8 | W | E | 2×3 | BLUUR | 554×117mm |
+| 3 | [`25mm/bore/03_bend_RD.svg`](25mm/bore/03_bend_RD.svg) | 9-11 | E | N | 2×2 | BRD | 403×86mm |
+| 4 | [`25mm/bore/04_bend_DL.svg`](25mm/bore/04_bend_DL.svg) | 12-14 | N | D | 2×2 | BDL | 397×89mm |
+| 5 | [`25mm/bore/05_bend_DLLU.svg`](25mm/bore/05_bend_DLLU.svg) | 15-19 | D | U | 3×2 | BDLLU | 537×130mm |
+| 6 | [`25mm/bore/06_bend_RD.svg`](25mm/bore/06_bend_RD.svg) | 20-22 | U | N | 2×2 | BRD | 403×86mm |
 
 ### 10mm bore — `10mm/bore/`
 
 | # | file | blocks | in | out | plate | shape | sheet |
 |---|---|---|---|---|---|---|---|
-| 1 | [`10mm/bore/01_bend_DL.svg`](10mm/bore/01_bend_DL.svg) | 1-3 | N | W | 2x2 | BDL | 247x59mm |
-| 2 | [`10mm/bore/02_bend_LUUR.svg`](10mm/bore/02_bend_LUUR.svg) | 4-8 | W | E | 2x3 | BLUUR | 344x72mm |
-| 3 | [`10mm/bore/03_bend_RD.svg`](10mm/bore/03_bend_RD.svg) | 9-11 | E | N | 2x2 | BRD | 253x56mm |
-| 4 | [`10mm/bore/04_bend_DL.svg`](10mm/bore/04_bend_DL.svg) | 12-14 | N | D | 2x2 | BDL | 247x59mm |
-| 5 | [`10mm/bore/05_bend_DLLU.svg`](10mm/bore/05_bend_DLLU.svg) | 15-19 | D | U | 3x2 | BDLLU | 370x59mm |
-| 6 | [`10mm/bore/06_bend_RD.svg`](10mm/bore/06_bend_RD.svg) | 20-22 | U | N | 2x2 | BRD | 253x56mm |
+| 1 | [`10mm/bore/01_bend_DL.svg`](10mm/bore/01_bend_DL.svg) | 1-3 | N | W | 2×2 | BDL | 247×59mm |
+| 2 | [`10mm/bore/02_bend_LUUR.svg`](10mm/bore/02_bend_LUUR.svg) | 4-8 | W | E | 2×3 | BLUUR | 344×72mm |
+| 3 | [`10mm/bore/03_bend_RD.svg`](10mm/bore/03_bend_RD.svg) | 9-11 | E | N | 2×2 | BRD | 253×56mm |
+| 4 | [`10mm/bore/04_bend_DL.svg`](10mm/bore/04_bend_DL.svg) | 12-14 | N | D | 2×2 | BDL | 247×59mm |
+| 5 | [`10mm/bore/05_bend_DLLU.svg`](10mm/bore/05_bend_DLLU.svg) | 15-19 | D | U | 3×2 | BDLLU | 370×59mm |
+| 6 | [`10mm/bore/06_bend_RD.svg`](10mm/bore/06_bend_RD.svg) | 20-22 | U | N | 2×2 | BRD | 253×56mm |
 
 ### Either size
 
@@ -110,10 +110,20 @@ against those ends.
 | bell | [`bell-round-17rings.svg`](25mm/bell/bell-round-17rings.svg) | [`bell-round-152mm-bore10-17rings.svg`](10mm/bell/bell-round-152mm-bore10-17rings.svg) |
 | bell length | 204mm | 153mm |
 | bell mouth | ø138.8 of air in a ø144.8 rim | ø80.0 of air in a ø86.0 rim |
+| **cut the bell sheet** | **4 times** | **3 times** |
+| bell pieces | 68 | 51 |
 
-Both bells are 17 rings, laminated 3mm ply, and both seat on the ring below
-over **3.00mm per side at every joint** — see
+**The bell sheet draws every ring once and is cut more than once.** A ring is a
+stack of 3mm laminations — four of them at 25mm, three at 10mm — so the sheet
+goes through the machine that many times and you glue the copies up into one
+ring. Cut it once and you get a **51mm bell** instead of 204 or 153, which is
+the single most expensive mistake in this build. The bore is not like this:
+those six sheets are cut once each.
+
+Both bells are 17 rings and both seat on the ring below over **3.00mm per side
+at every joint** — see
 [bell-round.py](https://github.com/Gernreich/trumpet-parts/blob/main/bell/bell-round.py).
+Each mouthpiece is 30 rings of one lamination, so its sheet is cut once.
 Both mouthpieces use the `trumpet` layout, which spends its length on the
 backbore and keeps a short cup, as a real one does.
 
@@ -143,7 +153,7 @@ millimetres — nothing you can judge by eye once the parts are off the bed.
 The two bores use the **same six filenames**, because the shapes really are the
 same and only the pitch differs. Nothing stops you cutting from the wrong
 folder, and the parts will look plausible right up until they do not fit. The
-sheet size is the tell — **247x59mm is the small bore, 397x89mm the large** —
+sheet size is the tell — **247×59mm is the small bore, 397×89mm the large** —
 and the tables above carry both.
 
 The bell and the mouthpiece are safe: their filenames differ between sizes.
