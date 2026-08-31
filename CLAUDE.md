@@ -52,6 +52,17 @@ globals — so setting a switch on `__main__` set it for the writer and not for 
 delegates to the imported module so there is one set of globals. If another switch is
 added, set it on `B`, not on `globals()`.
 
+`--blocksize` is the same hazard with a quieter failure. It is two numbers, not one:
+`BLOCK`, the pitch the plan is laid out on, and `--blocksize` in `COMMON`, the pitch
+SnakeBox cuts to. Both now come from `set_blocksize()`, and `COMMON` is built by `_common()`
+from the constants rather than typed out — `check.py` and `piece_render.py` used to keep
+their own copies of that list, which is a second place to forget. Use `bore_split.COMMON`.
+
+`check.py --files` never looks at the pitch: it checks the written sheets for bed fit,
+overlaps and engraving on material, all of which a 16mm folder passes at `--blocksize=31`.
+The pitch decides the *geometry* half of the gate, which is recut in-process. Gate a folder
+at the wrong blocksize and it reports 194 checks and 0 failed on a design nobody cut.
+
 ## Never regenerate what you cannot check
 
 `regress.py` runs the full gate over every design in `walks/` and the design
@@ -59,7 +70,7 @@ library. It is the only reason any of this stays honest, it takes about four
 minutes, and **it must pass before anything is pushed**:
 
 ```sh
-python3 regress.py       # all 24 designs, ~8000 checks
+python3 regress.py       # all 25 designs, ~8000 checks
 ```
 
 A change that alters cut geometry and still passes has not been proved right —
@@ -80,13 +91,14 @@ would cost one cannot be cut by accident:
     error: --refuse-elbows: section 2 of 3 is an elbow. Nothing written.
 
 It is off by default because much of the library exists to exercise elbows —
-17 of the 24 designs in `regress.py` contain them, the Hilbert curves 22 and 24 —
+17 of the 25 designs in `regress.py` contain them, the Hilbert curves 22 and 24 —
 so turning it on globally would refuse the corpus. Use it on anything headed for
 a build repository.
 
-The other seven are there for the opposite reason: `hilbert open` (190 blocks,
+The other eight are there for the opposite reason: `hilbert open` (190 blocks,
 27 pieces), `wide telescope`, `metre spring`, `4 corners, flat`, `three block
-turn`, `hook check` and the trumpet candidate all split with **no** elbows, so a
+turn`, `hook check` and the trumpet candidate at both of its sizes all split
+with **no** elbows, so a
 change that started stranding turns would break them and leave the elbow-heavy
 designs looking fine.
 

@@ -12,6 +12,7 @@ import subprocess
 import sys
 import os
 
+# (name, walk or walks/*.txt, folder of cut files or None[, block pitch mm])
 DESIGNS = [
     ('first trumpet', 'N N10 U2 W2 S7 U2 E4 N9 W2 D2 N4 N',
      '../../test/first_trumpet'),
@@ -59,7 +60,16 @@ DESIGNS = [
     # check that duplicates still get their own section number engraved.
     ('trumpet final youtube candidate',
      'walks/trumpet_final_youtube_candidate.txt',
-     '../trumpet-final-youtube-candidate'),
+     '../trumpet-final-youtube-candidate/bore-25mm'),
+    # the same walk on a 16mm block - 10mm of air inside 3mm walls, where the
+    # 31mm sibling above gives 25. The only design here not cut at the stock
+    # pitch, so it is the one thing keeping --blocksize honest: everything
+    # scaled with the block except SnakeBox's 12mm tab, which does not fit a
+    # 10mm frame. Its folder is named for the bore, not the block, so it reads
+    # against bore-25mm rather than against 16.
+    ('trumpet final youtube candidate, 10mm',
+     'walks/trumpet_final_youtube_candidate.txt',
+     '../trumpet-final-youtube-candidate/bore-10mm', 16),
     # The elbow-free walks. Every design above either contains elbows or is too
     # small to be interesting, so nothing was checking that a long walk still
     # splits without one - the property every build is chosen for.
@@ -86,12 +96,15 @@ def walk_of(spec, here):
 def main(pattern=None):
     here = os.path.dirname(os.path.abspath(__file__))
     bad = 0
-    for name, walk, folder in DESIGNS:
+    for name, walk, folder, *rest in DESIGNS:
         if pattern and pattern.lower() not in name.lower():
             continue
         args = [sys.executable, 'check.py', walk_of(walk, here)]
         if folder and os.path.isdir(os.path.join(here, folder)):
             args += ['--files', folder]
+        # a fourth field is the block pitch, for the designs not cut at 31
+        if rest:
+            args += [f'--blocksize={rest[0]}']
         r = subprocess.run(args, cwd=here, capture_output=True, text=True)
         last = (r.stdout.strip().splitlines() or ['no output'])[-1]
         ok = r.returncode == 0 and '0 failed' in last

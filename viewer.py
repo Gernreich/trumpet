@@ -12,6 +12,7 @@ import os
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import bore_split                                           # noqa: E402
 from bore_split import specs_for, DIRS, walk_text           # noqa: E402
 from bore_render import DIRCOL, DIRNAME, wheel              # noqa: E402
 
@@ -503,7 +504,7 @@ def build(text, title):
     data = {
         'cells': cells,
         'blocks': len(rec),
-        'mm': len(rec) * 31,
+        'mm': round(len(rec) * bore_split.BLOCK),
         'dircol': DIRCOL,
         'dirs': [{'k': d, 'name': DIRNAME[d],
                   'n': sum(1 for r in rec if r['out'] == d)}

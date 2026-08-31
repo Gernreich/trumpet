@@ -9,12 +9,11 @@ files, so the picture cannot drift from what is actually cut.
 import argparse, math, os, sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import bore_split                          # noqa: E402
 from bore_split import BOXES, cut          # noqa: E402
 sys.path.insert(0, BOXES)
 from boxes.generators.snakebox import SnakeBox      # noqa: E402
 
-COMMON = ['--blocksize=31', '--thickness=3', '--burn=0.1', '--labels=0',
-          '--reference=0', '--inner_corners=corner', '--spacing=0.5']
 PLATE_COL = '#b8b2a4'
 WALL_COLS = ['#3a5f8a', '#3f7d55', '#c8532f', '#d9962f',
              '#6b3a7a', '#2f7a7a', '#7a4a2f', '#4a6b2f']
@@ -34,7 +33,7 @@ def describe(path, open_faces):
     """Outline, tips and measured part sizes for one piece."""
     args = [f'--path={path}'] + ([f'--open_faces={open_faces}'] if open_faces else [])
     b = SnakeBox()
-    b.parseArgs(args + COMMON)
+    b.parseArgs(args + bore_split.COMMON)
     cells = b.cells()
     runs, _ = b.outline(cells)
     tips = b.tipRuns(cells, runs)

@@ -36,6 +36,10 @@ file plus one file per distinct run length.
     python3 bore_split.py "D R1 F"              report only
     python3 bore_split.py "D R1 F" --write DIR  also cut the files
     python3 bore_split.py "D R1 F" --refuse-elbows   refuse a walk with any
+    python3 bore_split.py "D R1 F" --blocksize=16    a smaller bore: the
+        pitch is the sound square plus two walls, so 16 is 10mm of air in 3mm
+        stock, where the default 31 is 25mm of air. Pass the same number to
+        check.py or the gate measures the wrong design.
 """
 import html, os, re, subprocess, sys, xml.etree.ElementTree as ET
 
@@ -65,8 +69,33 @@ THICKNESS = 3.0
 # on one side, with their fingers facing nothing. Off unless asked for.
 ALLOW_PORTS = False
 FLAT = False        # --flat: plain butt ends, no tabs and no notches
-COMMON = ['--blocksize=31', '--thickness=3', '--burn=0.1', '--labels=0',
-          '--reference=0', '--inner_corners=corner', '--spacing=0.5']
+# Built from the constants above rather than typed out, because BLOCK is the
+# pitch the plan is laid out on and --blocksize is the pitch SnakeBox cuts to.
+# Set one without the other and the sheet and the plan quietly disagree.
+# SnakeBox's own --pin_width default is 12mm, chosen when 31 was the only
+# block there was. It is a fraction of the opening it has to sit in, not a
+# length, so it has to shrink with the block: at 16mm the end frame is 10mm
+# across and a 12mm tab does not fit in it at all. 0.48 reproduces 12 exactly
+# at the 25mm square, so the default block is untouched.
+PIN_FRAC = 0.48
+
+
+def _common():
+    return [f'--blocksize={BLOCK:g}', f'--thickness={THICKNESS:g}',
+            f'--burn={BURN:g}',
+            f'--pin_width={PIN_FRAC * (BLOCK - 2 * THICKNESS):g}',
+            '--labels=0', '--reference=0',
+            '--inner_corners=corner', '--spacing=0.5']
+
+
+COMMON = _common()
+
+
+def set_blocksize(mm):
+    """Change the block pitch. The only supported way: it moves both."""
+    global BLOCK, COMMON
+    BLOCK = float(mm)
+    COMMON = _common()
 
 G = {
  '0': [[(.5,1),(.85,.8),(.85,.2),(.5,0),(.15,.2),(.15,.8),(.5,1)]],
@@ -979,7 +1008,7 @@ def main(text, outdir=None):
 
     n = len(rec)
     print(f'bore:  {text.strip()}')
-    print(f'       {n} blocks ({n*31}mm of centreline)')
+    print(f'       {n} blocks ({n*BLOCK:g}mm of centreline)')
     print(f'       {len(specs)} pieces to assemble\n')
 
     # Number by position along the bore, not by shape: the engraved number is
@@ -1051,14 +1080,18 @@ def main(text, outdir=None):
         # "Bore" says nothing. Borrow the parent for the title in that case:
         # trumpet-coiled/bore reads as "Trumpet Coiled Bore".
         words = name
-        if name.lower() in ('bore', 'bores'):
+        # 'bore-10mm' is as parentless as 'bore' is: what distinguishes the
+        # folder is the size, and the instrument is still only in the parent.
+        if re.match(r'bores?([-_].*)?$', name.lower()):
             parent = os.path.basename(os.path.dirname(full))
             if parent:
                 words = parent + ' ' + name
         # folder names are hyphenated across these repositories
         # (trumpet-coiled, torus-octagonal), so a hyphen is a word break
         # here exactly as an underscore is
-        title = words.replace('_', ' ').replace('-', ' ').title()
+        title = ' '.join(
+            w if w[:1].isdigit() else w.title()      # '10mm', not '10Mm'
+            for w in words.replace('_', ' ').replace('-', ' ').split())
         if 'Bore' not in title:
             title += ' Bore'
         path = os.path.join(outdir, name + '.html')
@@ -1136,6 +1169,10 @@ if __name__ == '__main__':
     if '--refuse-elbows' in a:
         a.remove('--refuse-elbows')
         B.REFUSE_ELBOWS = True
+    bs = [x for x in a if x.startswith('--blocksize=')]
+    if bs:
+        a.remove(bs[0])
+        B.set_blocksize(bs[0].split('=', 1)[1])
     if '--no-write' in a:
         a.remove('--no-write'); d = None
     if '--write' in a:

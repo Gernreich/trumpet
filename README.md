@@ -194,8 +194,14 @@ off, so it cannot come back by accident.
 internal bore = blocksize - 2 * thickness
 ```
 
-So a 25mm bore needs `--blocksize=31` at 3mm material. This is the number
-people get wrong.
+So a 25mm bore needs `--blocksize=31` at 3mm material, and a 10mm bore needs
+`--blocksize=16`. This is the number people get wrong.
+
+`bore_split.py` takes it as `--blocksize=N` and moves both halves at once — the
+pitch the plan is laid out on and the pitch SnakeBox cuts to. `check.py` takes
+the same switch and must be given it: `--files` only looks at the sheets as the
+machine sees them, never at the pitch, so the gate will report a clean pass
+having checked a design you are not cutting.
 
 ## Tuning the fit
 
@@ -257,8 +263,19 @@ middle of the top and bottom sides; the two side walls cover the full left and
 right sides), but the annulus *region* is 4-fold symmetric. A tab centred on
 each side therefore lands on material in every rotation.
 
-Tabs are sized from `pin_width`, **independent of `blocksize`**, so tubes of any
-bore interconnect. Do not make pin dimensions relative to blocksize.
+Tabs are sized from `pin_width`, **independent of `blocksize`** as far as
+SnakeBox is concerned, so tubes of any bore interconnect. That was the rule
+here too until a 16mm block was cut: `pin_width` has to *fit inside the end
+frame*, which is `blocksize - 2t`, and the 12mm default does not fit the 10mm
+frame a 16mm block leaves. SnakeBox raises rather than cutting something wrong:
+
+    pin_width 12.0 is too wide for the 10.0mm end frame
+
+`bore_split.COMMON` therefore passes `--pin_width` explicitly, at **0.48 x the
+sound square** — exactly 12 at the 25mm bore, so nothing already cut moved, and
+4.8 at 10. Tubes of different bore no longer interconnect across that scaling,
+which costs nothing: they have different bores. Set `--pin_width` by hand if
+you want two sizes to mate and both frames can take the same tab.
 
 ### The tab is centred on the tube, not on the edge it sits in
 

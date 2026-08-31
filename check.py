@@ -11,6 +11,7 @@ from shapely.geometry import Polygon, box
 from shapely import affinity
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import bore_split
 from bore_split import (specs_for, cut, _inside, DIRS, AXIS, FACE2D,
                         BED_W, BED_H, BOXES, THICKNESS, walk_text)
 import svgpath as V
@@ -18,8 +19,6 @@ from assemble import closes, sealed
 sys.path.insert(0, BOXES)
 from boxes.generators.snakebox import SnakeBox        # noqa: E402
 
-COMMON = ['--blocksize=31', '--thickness=3', '--burn=0.1', '--labels=0',
-          '--reference=0', '--inner_corners=corner', '--spacing=0.5']
 MIN_FEATURE = 1.5
 results = []
 
@@ -36,12 +35,13 @@ def poly(p):
 def geometry_of(args):
     """The outline SnakeBox worked from, so parts can be checked against it.
 
-    Built with the same switches bore_split is cutting with, or the checks
-    would be judging a different piece from the one on the sheet.
+    Built with bore_split.COMMON itself, not a copy of it: a second list here
+    would judge a different piece from the one on the sheet the moment either
+    moved.
     """
-    import bore_split
     b = SnakeBox()
-    b.parseArgs(args + COMMON + (['--pin_length=0'] if bore_split.FLAT else []))
+    b.parseArgs(args + bore_split.COMMON
+                + (['--pin_length=0'] if bore_split.FLAT else []))
     cells = b.cells()
     runs, turns = b.outline(cells)
     borders, tips, caps, ports, tab_run, plains = b.geometry()
@@ -370,7 +370,7 @@ def main(text, folder=None, report=True):
         check_section(i, args, parts, flats[i - 1])
     for i in range(len(specs) - 1):
         check_seam(i + 1, specs[i][0], specs[i+1][0])
-    check_seams_3d(rec, groups, 31.0, THICKNESS)
+    check_seams_3d(rec, groups, bore_split.BLOCK, THICKNESS)
     check_pairing(rec, groups, [p['norm'] for p in plan], flats,
                   [p['lap'] for p in plan])
     if folder:
@@ -399,7 +399,11 @@ if __name__ == '__main__':
     ap.add_argument('walk', nargs='+')
     ap.add_argument('--files', metavar='DIR',
                     help='also check the sheets written into DIR')
+    ap.add_argument('--blocksize', type=float, metavar='MM',
+                    help='block pitch the files were cut at (default 31)')
     a = ap.parse_args()
+    if a.blocksize:
+        bore_split.set_blocksize(a.blocksize)
     try:
         sys.exit(main(walk_text(' '.join(a.walk)), a.files))
     except ValueError as e:
