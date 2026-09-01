@@ -214,6 +214,33 @@ viewer, and [`tools/walks/coil-3t.txt`](tools/walks/coil-3t.txt) holds the walk.
 name, and "Coil 10x10x30 3t Bore" is a filename read aloud. A folder has to
 sort and survive a URL; a title has to read.
 
+## What is missing: a mouthpiece and a bell
+
+Everything here is bore. **A coil on its own does not play**, and nothing in this
+repository closes either end.
+
+They already exist, though, and they fit. A coil's mouth is a 10mm square
+opening in a 16mm square face, which is exactly what the 10mm pair made for
+**[trumpet-switchback](https://github.com/Gernreich/trumpet-switchback)** seats
+onto — that mouthpiece's station one is *a sharp 10mm square aperture in a sharp
+16mm square plate*, and the bell's flange covers the same face. Nothing about
+either depends on how long the bore behind it is, so one pair serves all four
+coils:
+
+| | file, in `trumpet-switchback/10mm/` |
+| --- | --- |
+| mouthpiece | `mouthpiece/mouthpiece-round-bore10-parts.svg` |
+| bell | `bell/bell-round-152mm-bore10-17rings.svg` |
+
+**They are named here rather than copied here.** Two copies of a cut file drift,
+and that has already cost this project once. If you would rather have them in
+the folder you are cutting from, say so — but then only one of the two places
+can be the source.
+
+The bell is 152mm to a ø80 mouth because that is what the switchback wanted. It
+is not a constraint of the coils; `bell-round.py --bore=10 --length=… --mouth=…`
+makes another.
+
 ## The joint between sections
 
 Each section couples to the next with one tab entering one notch. The notch is

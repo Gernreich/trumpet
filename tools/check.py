@@ -231,8 +231,17 @@ def check_seams_3d(rec, groups, t):
     # +0.35% and the spiral to +5.97% on the same code.
     s = bore_split.BLOCK
     turns = sum(1 for r in rec if r['in'] != r['out'])
-    want = (sum((s - 2 * t) ** 2 * bore_split.extent(r, bore_split.AXIS[r['out']])
-                for r in rec)
+    # DELIBERATELY a second implementation. This used to call bore_split.extent,
+    # the same function block_boxes builds the geometry from, so an error in it
+    # moved the measured volume and the expected volume together and the check
+    # could not see it: adding 1mm to every straight block still passed. A check
+    # that shares its source with the thing it checks is comparing something to
+    # itself. So the block length is worked out here, from the walk, and this
+    # must not be refactored to call extent() however much it looks like it.
+    def block_length(r):
+        straight = r['in'] == r['out']
+        return bore_split.STRAIGHT if straight else bore_split.BLOCK
+    want = (sum((s - 2 * t) ** 2 * block_length(r) for r in rec)
             + turns * t * t * (s - 2 * t))
     note(ok and parts == 1, 'all', 'the assembled bore is one sealed passage',
          f'{leak:.0f} mm3 leaking, {parts} regions')

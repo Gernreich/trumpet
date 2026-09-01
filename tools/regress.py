@@ -14,7 +14,9 @@ Every design carries the switches it is cut with. Passing the wrong ones gates a
 design nobody is cutting -- --files never looks at the pitch, so it will not
 notice.
 """
+import json
 import os
+import re
 import subprocess
 import sys
 
@@ -40,6 +42,51 @@ DESIGNS = [
 ]
 
 
+def check_page(here, folder, text, switches):
+    """The 3D page beside the cut files, which nothing else looks at.
+
+    check.py reads sheets and geometry and never opens the viewer, so a render
+    can be wrong while every check passes -- it has been. The page drew a
+    uniform lattice for a stretched one, and 392 checks said nothing, because
+    the mistake was in what the page was told rather than in any part. Only a
+    screenshot caught it.
+
+    This does not judge the picture. It asserts the page was handed the walk it
+    sits beside: the block count and the centreline it prints. A page built from
+    a stale walk, or before a geometry change, fails here.
+    """
+    import bore_split as B
+    for sw in switches:
+        k, _, v = sw.lstrip('-').partition('=')
+        {'bore': B.set_bore, 'straight': B.set_straight,
+         'blocksize': B.set_blocksize}[k](v)
+    rec, groups, _, _, _ = B.specs_for(B.walk_text(text))
+    want_blocks = len(rec)
+    want_mm = round(sum(B.extent(r, B.AXIS[r['out']]) for r in rec))
+
+    d = os.path.join(here, folder)
+    pages = [f for f in os.listdir(d) if f.endswith('.html')]
+    if len(pages) != 1:
+        return f'{len(pages)} html pages in {folder}, expected 1'
+    body = open(os.path.join(d, pages[0])).read()
+    m = re.search(r'const SETS = (\[.*?\]);\n', body, re.S)
+    if not m:
+        return f'{pages[0]}: no SETS block -- not a viewer page?'
+    sets = json.loads(m.group(1))
+    if len(sets) != 1:
+        return f'{pages[0]}: {len(sets)} coils in a per-coil page'
+    d0 = sets[0]['d']
+    if d0['blocks'] != want_blocks:
+        return (f'{pages[0]}: page says {d0["blocks"]} blocks, '
+                f'the walk has {want_blocks}')
+    if d0['mm'] != want_mm:
+        return (f'{pages[0]}: page says {d0["mm"]}mm of centreline, '
+                f'the walk gives {want_mm}')
+    if sets[0]['walk'] != text.strip():
+        return f'{pages[0]}: the page carries a different walk'
+    return None
+
+
 def main(pattern=None):
     here = os.path.dirname(os.path.abspath(__file__))
     bad = 0
@@ -52,9 +99,13 @@ def main(pattern=None):
             args += ['--files', folder]
         r = subprocess.run(args, cwd=here, capture_output=True, text=True)
         last = (r.stdout.strip().splitlines() or ['no output'])[-1]
-        ok = r.returncode == 0 and '0 failed' in last
+        page = check_page(here, folder, text, switches) if folder else None
+        ok = r.returncode == 0 and '0 failed' in last and page is None
         bad += not ok
-        print(f'  {"pass" if ok else "FAIL"}  {name:<16} {last}')
+        print(f'  {"pass" if ok else "FAIL"}  {name:<16} {last}'
+              + ('' if page is None else '   + page'))
+        if page:
+            print(f'          page: {page}')
         if not ok:
             for line in r.stdout.splitlines():
                 if 'FAIL' in line or line.startswith('      '):

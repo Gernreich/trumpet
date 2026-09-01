@@ -42,7 +42,11 @@ different coil rather than a shorter one.
   which walks a square circuit in cross-section while stepping north. The first design laid
   out for this lattice. Nothing cut yet.
 
-Neither is an instrument: no mouthpiece, no bell.
+None of them is an instrument on its own: this repository is all bore, and nothing here
+closes either end. The 10mm mouthpiece and bell in `../trumpet-switchback/10mm/` fit any of
+them — a coil's mouth is a 10mm square in a 16mm face, which is what both seat onto, and
+neither cares how long the bore behind it is. They are **named, not copied**: two copies of
+a cut file drift, which has cost this project once already.
 
 ## The other repositories are FROZEN, with one exception so far
 

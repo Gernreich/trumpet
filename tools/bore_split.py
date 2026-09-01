@@ -93,16 +93,33 @@ MIN_FEATURE = 1.5    # and what check.py will actually refuse below
 # fit before you add char, glue or any kerf the burn allowance did not predict.
 # Reported from the bench 2026-08-31: section 1 would not enter section 2. This
 # widens the notch only -- the tab keeps its full width and strength.
-# Per side, so the notch opens by twice this. Sized on the bench, not guessed:
-# 0.0 would not assemble at all, 0.3 rocked, 0.1 was very slightly loose.
-# 0.025 a side -- 0.05 on the notch -- is where it landed.
+# Per side, so the notch opens by twice this. Measured per bore, not guessed and
+# not modelled -- both rows below are assembled objects:
 #
-# The tab is never moved to tune the fit. It is the finger-tooth width and the
-# same on every piece; the notch closes onto it. Two reasons: one number to
-# think about at the bench, and a tab is load-bearing where a notch is a hole.
-PIN_PLAY = 0.025
+#     bore 25mm (tab 12.0 in a 25mm frame)   0.0   assembles, fits well
+#     bore 10mm (tab  6.0 in a 10mm frame)   0.025 assembles, fits well
+#                                            0.0   will not go together
+#                                            0.05  very slightly loose
+#                                            0.15  perceptible rock
+#
+# The same zero clearance that jams the small joint is fine on the large one, so
+# the requirement is neither absolute nor constant. Why is not established: the
+# tab is 60% of the small frame against 48% of the large, and the shoulder
+# beside it 2.0mm against 6.5mm, and either could be what binds.
+#
+# This is a lookup of what has been cut, not a curve through it, and it is kept
+# in step with ../bore-generator by hand. Every coil here is a 10mm bore, where
+# both agree; a 25mm design would take the wrong number if this were left as the
+# flat constant it used to be. A bore not in the table gets the small-joint
+# value, because too loose is a worse joint and too tight is no joint at all.
+PLAY_BY_BORE = {25.0: 0.0, 10.0: 0.025}
+PLAY_UNMEASURED = 0.025
+
+
+def pin_play():
+    return PLAY_BY_BORE.get(round(BLOCK - 2 * THICKNESS, 3), PLAY_UNMEASURED)
 # Set NOTCH to size the joint from the female side instead: the tab is then
-# whatever fits it, NOTCH - 2 * PIN_PLAY. It overrides the tooth floor below,
+# whatever fits it, NOTCH - 2 * pin_play(). It overrides the tooth floor below,
 # so a notch small enough puts the tab back under the finger teeth -- say so
 # rather than silently refusing, because on a small frame the shoulder either
 # side of the notch may matter more than the tab's own width.
@@ -138,9 +155,9 @@ def pin_width():
         # that target on purpose, so hold it to what the gate actually enforces,
         # MIN_FEATURE. Checking the notch against the TAB's cap refused a notch
         # the automatic path had itself produced.
-        w = NOTCH - 2 * PIN_PLAY
+        w = NOTCH - 2 * pin_play()
         if w <= 0:
-            sys.exit(f'--notch must be wider than the {2*PIN_PLAY:g}mm of play')
+            sys.exit(f'--notch must be wider than the {2*pin_play():g}mm of play')
         thin = min((frame - NOTCH) / 2, (frame - w) / 2)
         if thin < MIN_FEATURE:
             sys.exit(f'--notch={NOTCH:g} leaves {thin:.2f}mm beside it in a '
@@ -153,7 +170,7 @@ def pin_width():
 def _common():
     return [f'--blocksize={BLOCK:g}', f'--thickness={THICKNESS:g}',
             f'--burn={BURN:g}',
-            f'--pin_width={pin_width():g}', f'--pin_play={PIN_PLAY:g}',
+            f'--pin_width={pin_width():g}', f'--pin_play={pin_play():g}',
             '--labels=0', '--reference=0',
             '--inner_corners=corner', '--spacing=0.5']
 
