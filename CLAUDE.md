@@ -58,7 +58,7 @@ the mouthpiece and the bell each glue a flat plate onto the end face, and a prou
 it off. This renames end sections that used to share a shape with an inner one (`BDL` ->
 `BDL~a`, `01_bend_DL.svg` -> `01_bend_DL_buttin.svg`) and **orphans the old file**, which
 nothing deletes for you. `check_sheets` then globs the folder and gates the orphan too, at
-three checks a sheet: the candidate reported 200 checks instead of 194 purely because two
+three checks a sheet: the switchback reported 200 checks instead of 194 purely because two
 stale files were still sitting there. **A check count that rises after a rename is a
 warning.**
 
@@ -82,7 +82,7 @@ SnakeBox cuts to. Both now come from `set_blocksize()`, and `COMMON` is built by
 from the constants rather than typed out — `check.py` and `piece_render.py` used to keep
 their own copies of that list, which is a second place to forget. Use `bore_split.COMMON`.
 
-A design folder may sit below its repository — the candidate's are `<size>/bore/` — so a
+A design folder may sit below its repository — the switchback's are `<size>/bore/` — so a
 page title climbs past any ancestor that only names a size or says "bore" until it reaches
 one that names the instrument. `trumpet-coiled/bore` still reads "Trumpet Coiled Bore"; the
 switchback's reads "Trumpet Switchback 10mm Bore" rather than "10mm Bore".
