@@ -47,25 +47,7 @@ That is the whole design. Eight of the 22 blocks turn, so:
 **1.56x, not 3x.** Stretching 30/16 is 1.875 per straight block, and the turns
 do not stretch at all.
 
-## The sections
-
-Cut in order; each part is engraved with its section number. Sections 1 and 6
-are flat where they face outward, so a mouthpiece or a bell can seat against
-them.
-
-| # | file | blocks | in | out | plate | shape | sheet |
-|---|---|---|---|---|---|---|---|
-| 1 | [`coil-10x10x30-1.5t/01_bend_DL_buttin.svg`](coil-10x10x30-1.5t/01_bend_DL_buttin.svg) | 1-3 | N | W | 49x49 | BDL~a | 325x70mm |
-| 2 | [`coil-10x10x30-1.5t/02_bend_LUUR.svg`](coil-10x10x30-1.5t/02_bend_LUUR.svg) | 4-8 | W | E | 65x49 | BLUUR | 456x86mm |
-| 3 | [`coil-10x10x30-1.5t/03_bend_RD.svg`](coil-10x10x30-1.5t/03_bend_RD.svg) | 9-11 | E | N | 49x49 | BRD | 337x70mm |
-| 4 | [`coil-10x10x30-1.5t/04_bend_DL.svg`](coil-10x10x30-1.5t/04_bend_DL.svg) | 12-14 | N | D | 49x49 | BDL | 331x73mm |
-| 5 | [`coil-10x10x30-1.5t/05_bend_DLLU.svg`](coil-10x10x30-1.5t/05_bend_DLLU.svg) | 15-19 | D | U | 65x49 | BDLLU | 482x73mm |
-| 6 | [`coil-10x10x30-1.5t/06_bend_RD_buttout.svg`](coil-10x10x30-1.5t/06_bend_RD_buttout.svg) | 20-22 | U | N | 49x49 | BRD~b | 337x70mm |
-
-[`coil-10x10x30-1.5t/coil-10x10x30-1.5t.html`](coil-10x10x30-1.5t/coil-10x10x30-1.5t.html) is the viewer: drag to turn, colour by
-direction or by section.
-
-## Three coils, one walk truncated
+## Four coils, one walk truncated
 
 They are the same coil stopped at different points. `WUED` repeats, an `N` spacer
 lands every three terms, and the walk can be cut at any spacer:
@@ -104,13 +86,43 @@ in all three. Only the last differs, since that is where each one stops:
 walk exactly.** It arrived here as a borrowed test before anyone noticed it was a
 coil — which is why its folder was called `bore/` until the other two existed.
 
-## The 3-turn coil — `coil-10x10x30-3t/`
+### 0.75 turns — `coil-10x10x30-0.75t/`
 
-The second design, and the first laid out for a stretched lattice rather than
-borrowed from a cubic one. **The folder names the block and the turns** — a
-10 x 10mm airway on a 30mm straight, three times round. Two coils differ in
-those before they differ in anything else, so that is what the name carries;
-the circuit size and the pitch stay in the walk. **`WUED` repeated**, an `N` spacer every three terms,
+| # | file | sheet | parts |
+|---|---|---|---:|
+| 1 | [`coil-10x10x30-0.75t/01_bend_DL_buttin.svg`](coil-10x10x30-0.75t/01_bend_DL_buttin.svg) | 325x70mm | 6 |
+| 2 | [`coil-10x10x30-0.75t/02_bend_LUUR.svg`](coil-10x10x30-0.75t/02_bend_LUUR.svg) | 456x86mm | 8 |
+| 3 | [`coil-10x10x30-0.75t/03_bend_RD_buttout.svg`](coil-10x10x30-0.75t/03_bend_RD_buttout.svg) | 337x70mm | 6 |
+
+### 1.5 turns — `coil-10x10x30-1.5t/`
+
+| # | file | sheet | parts |
+|---|---|---|---:|
+| 1 | [`coil-10x10x30-1.5t/01_bend_DL_buttin.svg`](coil-10x10x30-1.5t/01_bend_DL_buttin.svg) | 325x70mm | 6 |
+| 2 | [`coil-10x10x30-1.5t/02_bend_LUUR.svg`](coil-10x10x30-1.5t/02_bend_LUUR.svg) | 456x86mm | 8 |
+| 3 | [`coil-10x10x30-1.5t/03_bend_RD.svg`](coil-10x10x30-1.5t/03_bend_RD.svg) | 337x70mm | 6 |
+| 4 | [`coil-10x10x30-1.5t/04_bend_DL.svg`](coil-10x10x30-1.5t/04_bend_DL.svg) | 331x73mm | 6 |
+| 5 | [`coil-10x10x30-1.5t/05_bend_DLLU.svg`](coil-10x10x30-1.5t/05_bend_DLLU.svg) | 482x73mm | 8 |
+| 6 | [`coil-10x10x30-1.5t/06_bend_RD_buttout.svg`](coil-10x10x30-1.5t/06_bend_RD_buttout.svg) | 337x70mm | 6 |
+
+### 2.25 turns — `coil-10x10x30-2.25t/`
+
+| # | file | sheet | parts |
+|---|---|---|---:|
+| 1 | [`coil-10x10x30-2.25t/01_bend_DL_buttin.svg`](coil-10x10x30-2.25t/01_bend_DL_buttin.svg) | 325x70mm | 6 |
+| 2 | [`coil-10x10x30-2.25t/02_bend_LUUR.svg`](coil-10x10x30-2.25t/02_bend_LUUR.svg) | 456x86mm | 8 |
+| 3 | [`coil-10x10x30-2.25t/03_bend_RD.svg`](coil-10x10x30-2.25t/03_bend_RD.svg) | 337x70mm | 6 |
+| 4 | [`coil-10x10x30-2.25t/04_bend_DL.svg`](coil-10x10x30-2.25t/04_bend_DL.svg) | 331x73mm | 6 |
+| 5 | [`coil-10x10x30-2.25t/05_bend_DLLU.svg`](coil-10x10x30-2.25t/05_bend_DLLU.svg) | 482x73mm | 8 |
+| 6 | [`coil-10x10x30-2.25t/06_bend_RD.svg`](coil-10x10x30-2.25t/06_bend_RD.svg) | 337x70mm | 6 |
+| 7 | [`coil-10x10x30-2.25t/07_bend_DR.svg`](coil-10x10x30-2.25t/07_bend_DR.svg) | 331x73mm | 6 |
+| 8 | [`coil-10x10x30-2.25t/08_bend_RDDL.svg`](coil-10x10x30-2.25t/08_bend_RDDL.svg) | 456x86mm | 8 |
+| 9 | [`coil-10x10x30-2.25t/09_bend_LD_buttout.svg`](coil-10x10x30-2.25t/09_bend_LD_buttout.svg) | 337x70mm | 6 |
+
+### 3 turns — `coil-10x10x30-3t/`
+
+The longest, and the first walk laid out for a stretched lattice rather than
+borrowed from a cubic one. **`WUED` repeated**, an `N` spacer every three terms,
 and a north buffer at each end:
 
     N N1 W3 U2 E3 N3 D3 W2 U3 N3 E3 D2 W3 N3 U3 E2 D3 N1
