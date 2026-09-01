@@ -63,11 +63,6 @@ Each group costs exactly **11 blocks**, so shortening to the previous spacer is 
 flat price — 11, 22, 33, 44. All four enter and leave north with flat outer faces, and none has
 an elbow.
 
-**Only multiples of three quarters of a turn are reachable.** A turn is four
-circuit terms and a spacer lands every three, so the cut points are 0.75, 1.5,
-2.25 and 3, and all four are built. Asking for 2 or 2.5 means changing the spacer rhythm, which makes a
-different coil rather than a shorter one.
-
 Each folder carries its own viewer:
 [`coil-10x10x30-0.75t.html`](coil-10x10x30-0.75t/coil-10x10x30-0.75t.html),
 [`coil-10x10x30-1.5t.html`](coil-10x10x30-1.5t/coil-10x10x30-1.5t.html),
@@ -76,7 +71,7 @@ Each folder carries its own viewer:
 
 **The sheets are numbered per coil, and the names repeat between them** — every
 coil has an `01_bend_DL_buttin.svg`, because the first section is the same shape
-in all three. Only the last differs, since that is where each one stops:
+in all four. Only the last differs, since that is where each one stops:
 [`03_bend_RD_buttout.svg`](coil-10x10x30-0.75t/03_bend_RD_buttout.svg) at 0.75,
 `06_bend_RD_buttout.svg` at 1.5,
 [`09_bend_LD_buttout.svg`](coil-10x10x30-2.25t/09_bend_LD_buttout.svg) at 2.25,
@@ -85,6 +80,40 @@ in all three. Only the last differs, since that is where each one stops:
 **The 1.5t is [trumpet-switchback](https://github.com/Gernreich/trumpet-switchback)'s
 walk exactly.** It arrived here as a borrowed test before anyone noticed it was a
 coil — which is why its folder was called `bore/` until the other two existed.
+
+### Why four groups make three turns
+
+Two rhythms run through this walk at once, and they are deliberately out of step:
+
+    term       1    2    3    4    5    6    7    8    9   10   11   12
+    letter     W    U    E    D    W    U    E    D    W    U    E    D
+               <-- turn 1 -->      <-- turn 2 -->      <-- turn 3 -->
+    N after              N              N              N              N
+              [ group 1 ]    [ group 2 ]    [ group 3 ]    [ group 4 ]
+
+A **turn** is four terms — one full `WUED` circuit. A **group** is three — as
+many as fit between `N` spacers. Group boundaries fall after terms 3, 6, 9 and
+12; turn boundaries after 4, 8 and 12. The only place both land together is
+**term 12**, the lowest common multiple of 3 and 4.
+
+So the walk is **three turns and four groups at the same time**, and neither
+number is wrong. The longest coil is named `3t` and has four folders' worth of
+groups in it, which is the thing most likely to trip you up.
+
+Two consequences follow, and both show up in the table above:
+
+- **Only multiples of three quarters of a turn are reachable.** One group is
+  ¾ of a turn, so the cut points are 0.75, 1.5, 2.25 and 3 — all four built.
+  Two turns would be eight terms, and no `N` lands on eight.
+- **Only the last group completes the pattern.** The first three stop
+  mid-circuit — on `E`, `U` and `W` — which is why the cross-section does not
+  close until the fourth.
+
+The group count runs one ahead of the turn count here only because 3 and 4 are
+one apart; a spacer every two terms or every five would not behave that way. If
+you ever want one group to *be* one turn, put the `N` every four terms — but
+that is a different coil, not a shorter one, and it would need checking against
+the elbow rule.
 
 ### 0.75 turns — `coil-10x10x30-0.75t/`
 

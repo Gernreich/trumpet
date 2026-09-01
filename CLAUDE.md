@@ -9,10 +9,23 @@ cuts them. Straight blocks are 30mm long, turning blocks are 16mm cubes, and the
 10 x 10mm the whole way.
 
 Four designs, each in its own folder with its own walk in `tools/walks/`. They are **one
-coil truncated at its `N` spacers**, not three separate walks: a turn is four circuit terms
-and a spacer lands every three, so the reachable lengths are multiples of three quarters of a
-turn — 0.75, 1.5, 2.25, 3 — and each group costs exactly 11 blocks. Asking for 2 or 2.5 turns
-means changing the spacer rhythm, which is a different coil rather than a shorter one.
+coil truncated at its `N` spacers**, not four separate walks.
+
+**A turn is four terms and a group is three, so they only agree at term 12.** That is the
+one thing to get straight before touching any of this:
+
+    term    1  2  3  4  5  6  7  8  9 10 11 12
+    letter  W  U  E  D  W  U  E  D  W  U  E  D
+            <- turn 1 ->  <- turn 2 ->  <- turn 3 ->
+    N after       N        N        N        N
+           [group 1] [group 2] [group 3] [group 4]
+
+12 terms is three turns **and** four groups at once — the lowest common multiple. So the
+longest coil is called `3t` and contains four groups, the reachable lengths are multiples of
+¾ of a turn (0.75, 1.5, 2.25, 3), each group costs exactly 11 blocks, and only the fourth
+group closes the cross-section because the first three stop mid-circuit. Two turns is eight
+terms and no `N` lands there. Asking for 2 or 2.5 means moving the spacer, which makes a
+different coil rather than a shorter one.
 
 - **`coil-10x10x30-0.75t/`** — 11 blocks, 274mm, 3 sections. The shortest the walk goes.
   Uncut.
