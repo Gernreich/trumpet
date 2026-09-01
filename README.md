@@ -311,12 +311,22 @@ bore: 0.0 would not assemble at all, 0.3 went together with a perceptible rock,
 0.1 was very slightly loose, 0.05 fits.
 
 **The 25mm bore, though, assembled fine at 0.0** — the fit it was cut at before
-2026-09-01. So the requirement is not purely absolute: the zero clearance that
-jams a 6mm tab in a 10mm frame is fine on a 12mm tab in a 25mm one. Why is not
-established. The tab is 60% of the small frame against 48% of the large, and the
-shoulder beside it 2.0mm against 6.5mm; either could be what binds. 0.05 is kept
-for both rather than inventing a size rule from two data points, and it sits a
-hair off a fit already proven at 25mm.
+2026-09-01. So the requirement is not absolute and not a constant: the zero
+clearance that jams a 6mm tab in a 10mm frame is fine on a 12mm tab in a 25mm
+one. Why is not established. The tab is 60% of the small frame against 48% of
+the large, and the shoulder beside it 2.0mm against 6.5mm; either could be what
+binds.
+
+So the play is a **lookup of what has been cut, not a curve through it**:
+
+| bore | tab | clearance | |
+| ---: | ---: | ---: | --- |
+| 25mm | 12.0mm | **0.0** | assembles, fits well |
+| 10mm | 6.0mm | **0.05** | assembles, fits well |
+
+A bore not in the table gets the small-joint value, because that is the safe
+direction — too loose is a worse joint, too tight is no joint at all. Measure it
+and add a row rather than trusting the fallback.
 
 ### The tab is centred on the tube, not on the edge it sits in
 

@@ -87,22 +87,29 @@ MIN_SHOULDER = 2.0   # material left either side of the tab, along the frame
 # Reported from the bench 2026-08-31: section 1 would not enter section 2. This
 # widens the notch only -- the tab keeps its full width and strength.
 #
-# The number is measured, not guessed. Four fits were cut in 3mm ply at the 10mm
-# bore: 0.0 would not assemble at all, 0.3 went together with a perceptible
-# rock, 0.1 was very slightly loose, 0.05 fits.
+# Measured, per bore, and NOT modelled. Two sizes have been cut and assembled:
 #
-# But the 25mm bore assembled fine at 0.0, which is the fit it was cut at before
-# 2026-09-01. So the requirement is NOT purely absolute: the same zero clearance
-# that jams a 6mm tab in a 10mm frame is fine on a 12mm tab in a 25mm one. Why
-# is not established -- the tab is 60% of the small frame against 48% of the
-# large one, and the shoulder beside it 2.0mm against 6.5mm, so either could be
-# what actually binds.
+#     bore 25mm (tab 12.0 in a 25mm frame)   0.0   assembles, fits well
+#     bore 10mm (tab  6.0 in a 10mm frame)   0.05  assembles, fits well
+#                                            0.0   will not go together
+#                                            0.1   very slightly loose
+#                                            0.3   perceptible rock
 #
-# 0.05 is kept for both because it is one number rather than a size-dependent
-# rule invented from two points, and because it sits a hair off a fit already
-# proven at 25mm while being far from the 0.3 that rocked at 10mm. If a 25mm
-# joint ever feels slack, this is the assumption to revisit first.
-PIN_PLAY = 0.025     # per side, so the notch opens by twice this
+# The same zero clearance that jams the small joint is fine on the large one, so
+# the requirement is not absolute and not a constant. Why is not established: the
+# tab is 60% of the small frame against 48% of the large, and the shoulder beside
+# it 2.0mm against 6.5mm, and either could be what binds.
+#
+# So this is a lookup of what has been cut, not a curve through it. A bore that
+# is not in the table gets the small-joint value, because that is the safe
+# direction -- too loose is a worse joint, too tight is no joint at all. Measure
+# it and add a row rather than trusting the fallback.
+PLAY_BY_BORE = {25.0: 0.0, 10.0: 0.025}     # per side; the notch opens by twice
+PLAY_UNMEASURED = 0.025
+
+
+def pin_play():
+    return PLAY_BY_BORE.get(round(BLOCK - 2 * THICKNESS, 3), PLAY_UNMEASURED)     # per side, so the notch opens by twice this
 
 
 def pin_width():
@@ -126,7 +133,7 @@ def pin_width():
 def _common():
     return [f'--blocksize={BLOCK:g}', f'--thickness={THICKNESS:g}',
             f'--burn={BURN:g}',
-            f'--pin_width={pin_width():g}', f'--pin_play={PIN_PLAY:g}',
+            f'--pin_width={pin_width():g}', f'--pin_play={pin_play():g}',
             '--labels=0', '--reference=0',
             '--inner_corners=corner', '--spacing=0.5']
 
