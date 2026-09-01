@@ -74,6 +74,7 @@ THICKNESS = 3.0
 # on one side, with their fingers facing nothing. Off unless asked for.
 ALLOW_PORTS = False
 FLAT = False        # --flat: plain butt ends, no tabs and no notches
+TITLE = None        # --title: the page's title, when the folder makes a poor one
 # Built from the constants above rather than typed out, because BLOCK is the
 # pitch the plan is laid out on and --blocksize is the pitch SnakeBox cuts to.
 # Set one without the other and the sheet and the plan quietly disagree.
@@ -1309,6 +1310,12 @@ def main(text, outdir=None):
             for w in words.replace('_', ' ').replace('-', ' ').split())
         if 'Bore' not in title:
             title += ' Bore'
+        # A folder name has to sort, stay unambiguous and survive a URL;
+        # a page title has to read. 'coil-10x10x30-3t' is the right folder
+        # and "Coil 10x10x30 3t Bore" is a filename read aloud, so --title
+        # lets the two differ rather than forcing one to serve both.
+        if TITLE:
+            title = TITLE
         path = os.path.join(outdir, name + '.html')
         open(path, 'w').write(viewer.build(text, title))
         print(f'\n  {os.path.basename(path):<44}drag to turn, colour by '
@@ -1400,6 +1407,10 @@ if __name__ == '__main__':
     if nt:
         a.remove(nt[0])
         B.set_notch(nt[0].split('=', 1)[1])
+    ti = [x for x in a if x.startswith('--title=')]
+    if ti:
+        a.remove(ti[0])
+        B.TITLE = ti[0].split('=', 1)[1]
     if '--no-write' in a:
         a.remove('--no-write'); d = None
     if '--write' in a:

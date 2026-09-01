@@ -62,10 +62,13 @@ them.
 [`bore/bore.html`](bore/bore.html) is the viewer: drag to turn, colour by
 direction or by section.
 
-## The coil — `coil/`
+## The coil — `coil-10x10x30-3t/`
 
 The second design, and the first laid out for a stretched lattice rather than
-borrowed from a cubic one. **`WUED` repeated**, an `N` spacer every three terms,
+borrowed from a cubic one. **The folder names the block and the turns** — a
+10 x 10mm airway on a 30mm straight, three times round. Two coils differ in
+those before they differ in anything else, so that is what the name carries;
+the circuit size and the pitch stay in the walk. **`WUED` repeated**, an `N` spacer every three terms,
 and a north buffer at each end:
 
     N N1 W3 U2 E3 N3 D3 W2 U3 N3 E3 D2 W3 N3 U3 E2 D3 N1
@@ -96,26 +99,31 @@ exactly on their minimum, so shortening any middle term costs an elbow at once.
 
 | # | file | sheet |
 |---|---|---|
-| 1 | [`coil/01_bend_DL_buttin.svg`](coil/01_bend_DL_buttin.svg) | 325x70mm |
-| 2 | [`coil/02_bend_LUUR.svg`](coil/02_bend_LUUR.svg) | 456x86mm |
-| 3 | [`coil/03_bend_RD.svg`](coil/03_bend_RD.svg) | 337x70mm |
-| 4 | [`coil/04_bend_DL.svg`](coil/04_bend_DL.svg) | 331x73mm |
-| 5 | [`coil/05_bend_DLLU.svg`](coil/05_bend_DLLU.svg) | 482x73mm |
-| 6 | [`coil/06_bend_RD.svg`](coil/06_bend_RD.svg) | 337x70mm |
-| 7 | [`coil/07_bend_DR.svg`](coil/07_bend_DR.svg) | 331x73mm |
-| 8 | [`coil/08_bend_RDDL.svg`](coil/08_bend_RDDL.svg) | 456x86mm |
-| 9 | [`coil/09_bend_LD.svg`](coil/09_bend_LD.svg) | 337x70mm |
-| 10 | [`coil/10_bend_DR.svg`](coil/10_bend_DR.svg) | 331x73mm |
-| 11 | [`coil/11_bend_URRD.svg`](coil/11_bend_URRD.svg) | 482x73mm |
-| 12 | [`coil/12_bend_LD_buttout.svg`](coil/12_bend_LD_buttout.svg) | 337x70mm |
+| 1 | [`coil-10x10x30-3t/01_bend_DL_buttin.svg`](coil-10x10x30-3t/01_bend_DL_buttin.svg) | 325x70mm |
+| 2 | [`coil-10x10x30-3t/02_bend_LUUR.svg`](coil-10x10x30-3t/02_bend_LUUR.svg) | 456x86mm |
+| 3 | [`coil-10x10x30-3t/03_bend_RD.svg`](coil-10x10x30-3t/03_bend_RD.svg) | 337x70mm |
+| 4 | [`coil-10x10x30-3t/04_bend_DL.svg`](coil-10x10x30-3t/04_bend_DL.svg) | 331x73mm |
+| 5 | [`coil-10x10x30-3t/05_bend_DLLU.svg`](coil-10x10x30-3t/05_bend_DLLU.svg) | 482x73mm |
+| 6 | [`coil-10x10x30-3t/06_bend_RD.svg`](coil-10x10x30-3t/06_bend_RD.svg) | 337x70mm |
+| 7 | [`coil-10x10x30-3t/07_bend_DR.svg`](coil-10x10x30-3t/07_bend_DR.svg) | 331x73mm |
+| 8 | [`coil-10x10x30-3t/08_bend_RDDL.svg`](coil-10x10x30-3t/08_bend_RDDL.svg) | 456x86mm |
+| 9 | [`coil-10x10x30-3t/09_bend_LD.svg`](coil-10x10x30-3t/09_bend_LD.svg) | 337x70mm |
+| 10 | [`coil-10x10x30-3t/10_bend_DR.svg`](coil-10x10x30-3t/10_bend_DR.svg) | 331x73mm |
+| 11 | [`coil-10x10x30-3t/11_bend_URRD.svg`](coil-10x10x30-3t/11_bend_URRD.svg) | 482x73mm |
+| 12 | [`coil-10x10x30-3t/12_bend_LD_buttout.svg`](coil-10x10x30-3t/12_bend_LD_buttout.svg) | 337x70mm |
 
 Sections 3 and 6 are the same shape, and 7 and 10; they are cut separately so
-each carries its own engraved number. [`coil/coil.html`](coil/coil.html) is its
+each carries its own engraved number. [`coil-10x10x30-3t/coil-10x10x30-3t.html`](coil-10x10x30-3t/coil-10x10x30-3t.html) is its
 viewer, and [`tools/walks/coil.txt`](tools/walks/coil.txt) holds the walk.
 
     cd tools
     python3 bore_split.py --bore=10 --straight=30 --refuse-elbows \
-        "$(cat walks/coil.txt)" --write ../coil
+        --title="10x10x30 Coil, 3 Turns" \
+        "$(cat walks/coil.txt)" --write ../coil-10x10x30-3t
+
+`--title` is needed because the page title is otherwise built from the folder
+name, and "Coil 10x10x30 3t Bore" is a filename read aloud. A folder has to
+sort and survive a URL; a title has to read.
 
 ## The joint between sections
 

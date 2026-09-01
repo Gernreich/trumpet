@@ -13,7 +13,11 @@ Two designs, each in its own folder with its own walk in `tools/walks/`:
 - **`bore/`** — the original test, 22 blocks, 548mm. The walk was borrowed from
   `../trumpet-final-youtube-candidate` rather than designed for a stretched lattice.
   **Parts 1 and 2 are cut**; treat its files as describing wood.
-- **`coil/`** — 44 blocks, 1096mm. `WUED` repeated with an `N` spacer every three terms,
+- **`coil-10x10x30-3t/`** — 44 blocks, 1096mm. **Coils are named for the block and the
+  number of full turns**: a 10 x 10mm airway on a 30mm straight, three times round. That is
+  what differs between two coils before anything else does; the circuit size and the pitch
+  live in the walk, not the name. Its page title comes from `--title`, not the folder — a
+  folder has to sort and survive a URL, a title has to read. `WUED` repeated with an `N` spacer every three terms,
   which walks a square circuit in cross-section while stepping north. The first design laid
   out for this lattice. Nothing cut yet.
 

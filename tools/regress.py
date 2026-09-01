@@ -26,7 +26,7 @@ DESIGNS = [
      ['--bore=10', '--straight=30']),
     # WUED repeated with an N spacer every three terms: a square circuit in
     # cross-section that steps north. The first walk laid out for this lattice.
-    ('coil', 'walks/coil.txt', '../coil',
+    ('coil 10x10x30 3t', 'walks/coil.txt', '../coil-10x10x30-3t',
      ['--bore=10', '--straight=30']),
 ]
 
