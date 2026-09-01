@@ -69,10 +69,10 @@ sized first and the tab follows:
 
 | | |
 | --- | ---: |
-| notch | **5.0mm** wide, 3.2mm deep |
-| tab | **4.7mm** wide, 3.0mm deep |
+| notch | **6.3mm** wide, 3.2mm deep |
+| tab | **6.0mm** wide, 3.0mm deep |
 | clearance | 0.3mm across the width, 0.2mm at the bottom |
-| shoulder | 2.5mm either side of the notch in a 10mm frame |
+| shoulder | 2.0mm either side of the notch in a 10mm frame |
 
 **The clearance is the point.** SnakeBox leaves `--pin_play` at 0 on the grounds
 that finger joints carry none either, and that does not follow: a finger joint
@@ -80,11 +80,15 @@ is a dozen teeth sharing an edge, where the errors average out, and a section
 seam is one tab in one notch drawn to exactly the same width. At zero the two
 will not go together.
 
-**The tab is narrower than the finger teeth**, which are 6mm — `2 x thickness`,
-and they do not shrink with the block. That is a deliberate trade on a frame
-this small: a wider tab would leave less shoulder either side of the notch, and
-here the shoulder is the weaker thing. Size it from the other end with
-`--notch`, and watch both numbers.
+**The tab is exactly the finger-tooth width**, 6mm — `2 x thickness`, which does
+not shrink with the block. It is floored there on purpose: sized as a fraction
+of the frame alone it comes out at 4.8mm, narrower than the ordinary teeth
+beside it, which is backwards for the one feature carrying a whole seam.
+
+`--notch` sizes the joint from the female side instead, and **overrides that
+floor**. It is worth knowing the trade before reaching for it: a 5mm notch
+leaves 2.5mm of shoulder rather than 2.0, at the cost of a 4.7mm tab that is
+back under the teeth. This design uses the default.
 
 Every seam runs SLOT to TAB, and the two outer ends carry neither.
 
@@ -112,15 +116,16 @@ Its generator installs into Boxes.py as **`SnakeBoxVar`**, beside the frozen
 
 ```sh
 cd tools
-python3 bore_split.py --bore=10 --straight=30 --notch=5 --refuse-elbows \
+python3 bore_split.py --bore=10 --straight=30 --refuse-elbows \
     "$(cat walks/stretched_test.txt)" --write ../bore
 ```
 
 `--bore` is the airway, square, rather than the block outside. `--straight` is
 how long a straight block runs; leave it out and every cell is a cube, which is
 exactly what the frozen toolchain does. `--notch` sizes the coupling from the
-female side, the tab following at `notch - 2 x play`; leave it out and the tab
-is sized from the frame instead and floored at the finger tooth.
+female side, the tab following at `notch - 2 x play`; **these files are cut
+without it**, so the tab is sized from the frame and floored at the finger
+tooth.
 
 ## What had to change, and what it cost
 

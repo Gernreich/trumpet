@@ -91,16 +91,17 @@ compare — do not read the tally.
 ```sh
 cd tools
 W="$(cat walks/stretched_test.txt)"
-python3 bore_split.py --bore=10 --straight=30 --notch=5 --refuse-elbows "$W" --write ../bore
+python3 bore_split.py --bore=10 --straight=30 --refuse-elbows "$W" --write ../bore
 ~/boxes/venv/bin/python check.py "$W" --bore=10 --straight=30 --files ../bore
 ```
 
-`--notch` sizes the coupling from the female side and the tab follows at
-`notch - 2 x play`. It **overrides the finger-tooth floor**, so a small notch puts the tab
-back under the teeth — which is the state that was reported as "not wide enough" before the
-floor existed. On a 10mm frame that is a real trade rather than a mistake: shoulder either
-side of the notch against width of tab. Both numbers are in the README; change one and
-check the other.
+**`--notch` exists but this design does not use it.** It sizes the coupling from the female
+side, the tab following at `notch - 2 x play`, and it **overrides the finger-tooth floor** —
+a 5mm notch gives a 4.7mm tab, back under the teeth, which is the state that was reported as
+"not wide enough" before the floor existed. It was tried at 5mm on 2026-08-31 and reverted,
+because **parts 1 and 2 had already been cut** at the default and the files have to match
+the wood. If you change it, the cut parts stop matching the files: say so, do not just
+regenerate.
 
 `--bore` is the airway and `--blocksize` is the outside; they differ by two wall
 thicknesses and confusing them is the mistake this switch exists to stop. `check.py` needs
