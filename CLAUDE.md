@@ -103,8 +103,32 @@ A gallery is **more sets in the same viewer**, not a second viewer: two template
 drift, and the drawing code is the part that has been wrong before.
 
 Anything derived from `D` has to be rebuilt when the set changes — `occAll` and `centre`
-both are, and a stale `occAll` hides faces the new set has no neighbour for. The switch also
-resets the camera, because a zoom kept from the 25mm strands the 10mm off-screen.
+both are, and a stale `occAll` hides faces the new set has no neighbour for. The switch
+**keeps** the camera, which is the point of a switch: you are comparing two shapes, and you
+cannot compare them if the view jumps every time you swap.
+
+**The scale is locked to the biggest set, and the cells are drawn in millimetres.** Two
+things had to be true before the comparison meant anything, and neither was:
+
+- `data_for` emits **lattice** positions, because occupancy and adjacency need a lattice.
+  The pitch reached the caption and nothing else, so `sizes.html` drew the 25mm and the
+  10mm as the same picture — literally the same, the two `cells` lists compared equal. The
+  data now carries `u`, the millimetres per step, and `rotC` scales by it.
+- Each set fitted itself to the canvas, which normalises away exactly what a size control
+  exists to show. `draw()` now takes its **scale** from the reference set and its
+  **position** from the set on screen, so the small one is small and still centred.
+
+Together those make the 10mm draw at 16/31 of the 25mm, and the ¾ coil at just under half
+the 3-turn. Change one without the other and the page silently goes back to lying.
+
+**`rot()` scales millimetres, so anything that is a direction must not go through it.**
+`shade()` takes a face normal and its dot product with the light as a number in `[-1, 1]`.
+The normal was being rotated by `rot()` like a position, which multiplied it by the block
+size once `u` existed, drove the dot product to ±31, and clamped every face to pure white or
+pure black. Use `rotC(p, centre.c, 1)` for a direction. `regress.py` passed throughout — it
+gates geometry, and a page whose every face is white is geometrically perfect. **Screenshot
+the page after any change to the drawing code**; nothing that reads the file will catch
+this class.
 
 ## Never regenerate what you cannot check
 

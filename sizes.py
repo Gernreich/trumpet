@@ -26,16 +26,18 @@ SIZES = [('25mm', 31.0), ('10mm', 16.0)]
 def main(walk_name, out):
     here = os.path.dirname(os.path.abspath(__file__))
     text = open(os.path.join(here, 'walks', walk_name + '.txt')).read().strip()
-    items, stats = [], []
+    sets, stats = [], []
     for label, block in SIZES:
-        # the walk is the same string at both sizes; only the pitch moves, and
-        # data_for reads BLOCK when it builds, so set it before each one
+        # Build each set while its own size is set. data_for reads BLOCK when it
+        # runs, so collecting walks and building them later hands every set the
+        # last size -- which is exactly what happened: both came out at 16mm and
+        # one was labelled 682mm regardless.
         B.set_blocksize(block)
-        items.append((label, text))
+        sets.append((label, text, viewer.data_for(text)))
         rec, groups, _, _, _ = B.specs_for(B.walk_text(text))
         stats.append((label, block, len(rec), len(rec) * block, len(groups)))
     title = walk_name.replace('_', ' ').title() + ' Bore'
-    open(out, 'w').write(viewer.build_many(items, title))
+    open(out, 'w').write(viewer.build_sets(sets, title))
     print(f'  {os.path.basename(out)}')
     for label, block, n, mm, g in stats:
         print(f'    {label:>5}  block {block:g}mm  {n} blocks  {mm:g}mm  {g} sections')
