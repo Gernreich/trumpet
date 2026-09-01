@@ -89,10 +89,19 @@ MIN_SHOULDER = 2.0   # material left either side of the tab, along the frame
 #
 # The number is measured, not guessed. Four fits were cut in 3mm ply at the 10mm
 # bore: 0.0 would not assemble at all, 0.3 went together with a perceptible
-# rock, 0.1 was very slightly loose, 0.05 fits. It is an absolute clearance and
-# not a proportion -- what it has to absorb is kerf variance and a fuzzy ply
-# edge, neither of which scales with the tab -- so the same 0.05 serves the
-# 25mm bore, where it is simply a smaller fraction of a wider tab.
+# rock, 0.1 was very slightly loose, 0.05 fits.
+#
+# But the 25mm bore assembled fine at 0.0, which is the fit it was cut at before
+# 2026-09-01. So the requirement is NOT purely absolute: the same zero clearance
+# that jams a 6mm tab in a 10mm frame is fine on a 12mm tab in a 25mm one. Why
+# is not established -- the tab is 60% of the small frame against 48% of the
+# large one, and the shoulder beside it 2.0mm against 6.5mm, so either could be
+# what actually binds.
+#
+# 0.05 is kept for both because it is one number rather than a size-dependent
+# rule invented from two points, and because it sits a hair off a fit already
+# proven at 25mm while being far from the 0.3 that rocked at 10mm. If a 25mm
+# joint ever feels slack, this is the assumption to revisit first.
 PIN_PLAY = 0.025     # per side, so the notch opens by twice this
 
 

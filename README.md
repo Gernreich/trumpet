@@ -308,10 +308,15 @@ width.
 
 **That number was cut, not chosen.** Four fits went through 3mm ply at the 10mm
 bore: 0.0 would not assemble at all, 0.3 went together with a perceptible rock,
-0.1 was very slightly loose, 0.05 fits. It is an absolute clearance rather than
-a proportion — what it absorbs is kerf variance and a fuzzy ply edge, and
-neither scales with the tab — so the same 0.05 serves the 25mm bore, where it is
-simply a smaller fraction of a wider tab.
+0.1 was very slightly loose, 0.05 fits.
+
+**The 25mm bore, though, assembled fine at 0.0** — the fit it was cut at before
+2026-09-01. So the requirement is not purely absolute: the zero clearance that
+jams a 6mm tab in a 10mm frame is fine on a 12mm tab in a 25mm one. Why is not
+established. The tab is 60% of the small frame against 48% of the large, and the
+shoulder beside it 2.0mm against 6.5mm; either could be what binds. 0.05 is kept
+for both rather than inventing a size rule from two data points, and it sits a
+hair off a fit already proven at 25mm.
 
 ### The tab is centred on the tube, not on the edge it sits in
 
