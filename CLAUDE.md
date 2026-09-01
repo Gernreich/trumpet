@@ -61,7 +61,7 @@ The first letter is the way in; each term after it turns where you stand and the
 *n* blocks, so **the bore is 1 + the sum of the numbers** — 22 blocks here. Axes match
 Minecraft: `U`/`D` are +Y/−Y, `N` is −Z, `S` is +Z, `E` is +X, `W` is −X.
 
-**The walk is stored in `../bore-generator/walks/trumpet_final_youtube_candidate.txt`**,
+**The walk is stored in `../bore-generator/walks/trumpet_switchback.txt`**,
 and `regress.py` there names this repository as where its cut files live. Unlike
 `../trumpet-coiled`, which keeps its walk in its page, the file is the record here — the
 page carries the same string in its `<div class="walk">` and `bore_split.py` will read
@@ -229,8 +229,8 @@ with `ModuleNotFoundError` — **the files are written and ungated**. shapely li
 Boxes.py virtualenv, so run the gate from there:
 
 ```sh
-W="$(cat walks/trumpet_final_youtube_candidate.txt)"
-D=../trumpet-final-youtube-candidate
+W="$(cat walks/trumpet_switchback.txt)"
+D=../trumpet-switchback
 ~/boxes/venv/bin/python check.py "$W" --files $D/25mm/bore
 ~/boxes/venv/bin/python check.py "$W" --blocksize=16 --files $D/10mm/bore
 ```
@@ -266,8 +266,8 @@ cd $S && python3 bore_split.py --no-write --refuse-elbows "N N1 W3 U2 E3 N3 D3 W
 
 ```sh
 cd $S
-W="$(cat walks/trumpet_final_youtube_candidate.txt)"
-D=../trumpet-final-youtube-candidate
+W="$(cat walks/trumpet_switchback.txt)"
+D=../trumpet-switchback
 python3 bore_split.py --refuse-elbows "$W" --write $D/25mm/bore
 python3 bore_split.py --blocksize=16 --refuse-elbows "$W" --write $D/10mm/bore
 ```
@@ -322,7 +322,7 @@ queues behind it; keyed on the sha, a stuck run can only block a re-run of its o
 
 `index.html` is generated and committed, not built on the server, so **a stale `index.html`
 publishes stale content**. Pages was switched to Actions with
-`gh api -X POST repos/Gernreich/trumpet-final-youtube-candidate/pages -f build_type=workflow`
+`gh api -X POST repos/Gernreich/trumpet-switchback/pages -f build_type=workflow`
 on 2026-08-29; without that the deploy has nowhere to publish to.
 
 **Match the deploy to your SHA**, not to "the most recent run":
@@ -333,9 +333,19 @@ gh run list -L5 --json status,conclusion,headSha \
   -q ".[] | select(.headSha==\"$SHA\") | .status+\" \"+(.conclusion//\"-\")"
 ```
 
-## The name
+## The name, twice changed
 
-The design was called **twin switchback** until 2026-08-29, when it was moved out of the
-shared library at `~/LaserMadeMusic/test` and given this repository. The folder, the walk
-file and the `regress.py` entry were renamed together — if you find "twin switchback"
-anywhere, it is a leftover.
+It was **twin switchback** until 2026-08-29, when it was moved out of the shared library at
+`~/LaserMadeMusic/test` and given a repository — and **trumpet-final-youtube-candidate**
+until 2026-09-01, when that name was dropped because it claimed a decision that had not been
+made. Which bore the video ends up using kept changing, and a repository name is a bad place
+to record a preference.
+
+**trumpet-switchback** describes the design instead: the bore folds back on itself twice,
+which is exactly the two hairpins the elbow rule counts. That is a fact about the walk, so
+it cannot go stale. It also matches `../trumpet-coiled` and `../trumpet-octagonal`, which
+are named the same way.
+
+Renamed together each time: the folder, the walk file, the `regress.py` entries, the GitHub
+repository, the Pages URL and the artifact. If you find either old name anywhere, it is a
+leftover.

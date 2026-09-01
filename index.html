@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>trumpet-final-youtube-candidate</title>
+<title>trumpet-switchback</title>
 <style>
 :root{--bg:#fbfbfa;--fg:#1a1c1e;--mut:#5b6067;--line:#e2e4e7;--card:#fff;--accent:#1d4ed8;
 --codebg:#f4f5f7;--thbg:#f0f1f3;--mark:#fff8c4}
@@ -86,16 +86,16 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <body>
 <button class="tog" type="button">theme</button>
 <div class="wrap">
-<nav><b>Contents</b><a class="l1" href="#trumpet-final-youtube-candidate">trumpet-final-youtube-candidate</a><a class="l2" href="#what-is-in-each-folder">What is in each folder</a><a class="l2" href="#the-two-sizes">The two sizes</a><a class="l2" href="#the-mouthpiece-and-the-bell">The mouthpiece and the bell</a><a class="l2" href="#do-not-mix-the-folders">Do not mix the folders</a><a class="l2" href="#the-pages">The pages</a><a class="l2" href="#where-it-comes-from">Where it comes from</a><a class="l2" href="#licence">Licence</a></nav>
+<nav><b>Contents</b><a class="l1" href="#trumpet-switchback">trumpet-switchback</a><a class="l2" href="#what-is-in-each-folder">What is in each folder</a><a class="l2" href="#the-two-sizes">The two sizes</a><a class="l2" href="#the-mouthpiece-and-the-bell">The mouthpiece and the bell</a><a class="l2" href="#do-not-mix-the-folders">Do not mix the folders</a><a class="l2" href="#the-pages">The pages</a><a class="l2" href="#where-it-comes-from">Where it comes from</a><a class="l2" href="#licence">Licence</a></nav>
 <main>
-<h1 id="trumpet-final-youtube-candidate">trumpet-final-youtube-candidate</h1>
-<p>The bore candidate for the build video — and now the whole instrument around it. <strong><code>25mm/</code> and <code>10mm/</code> each hold a complete trumpet</strong>: a mouthpiece, a bore of six laser-cut sections that assemble into one sealed passage, and a bell. Cut one folder and you have everything; nothing but the size differs between them.</p>
+<h1 id="trumpet-switchback">trumpet-switchback</h1>
+<p>A trumpet whose bore <strong>folds back on itself twice</strong>, which is what the switchback in the name means. <strong><code>25mm/</code> and <code>10mm/</code> each hold a complete instrument</strong>: a mouthpiece, a bore of six laser-cut sections that assemble into one sealed passage, and a bell. Cut one folder and you have everything; nothing but the size differs between them.</p>
 <pre><code>N N1 W3 U2 E3 N3 D3 W2 U3 N1</code></pre>
 <p>The walk folds back twice inside a 4×4 cross-section and runs nine blocks north overall. Every section is a <strong>bend</strong> — there are no elbows, so no section needs a neighbour's plate flattened and butt-glued to it, which is the difficulty of the whole build.</p>
 <p>&lt;img src="10mm/bore/minecraft_bore.png" alt="The walk built in Minecraft from translucent coloured glass, one colour per direction: long blue runs heading north to the left and right, a green box heading east, magenta where it runs west, red columns where it climbs and a grey column where it drops" width="620"&gt;</p>
 <p><em>The walk laid out block by block in Minecraft, coloured by direction — blue north, green east, magenta west, red up, grey down. The same walk serves both sizes; only the block it is drawn on changes.</em></p>
-<p><strong><a href="https://github.com/Gernreich/trumpet-final-youtube-candidate">The repository</a></strong> — both instruments and the page they regenerate from.</p>
-<p><strong><a href="https://github.com/Gernreich/trumpet-final-youtube-candidate/archive/refs/heads/main.zip">Download everything as a ZIP</a></strong> — GitHub builds it from <code>main</code> on every push, so it is never out of date.</p>
+<p><strong><a href="https://github.com/Gernreich/trumpet-switchback">The repository</a></strong> — both instruments and the page they regenerate from.</p>
+<p><strong><a href="https://github.com/Gernreich/trumpet-switchback/archive/refs/heads/main.zip">Download everything as a ZIP</a></strong> — GitHub builds it from <code>main</code> on every push, so it is never out of date.</p>
 <p>Built for <strong><a href="https://www.youtube.com/@LaserMadeMusic">LaserMadeMusic</a></strong>, where the cutting and the playing are shown.</p>
 <p><strong><a href="https://gernreich.github.io/">The rest of the build files</a></strong> — every instrument, generator and tool, indexed.</p>
 <h2 id="what-is-in-each-folder">What is in each folder</h2>
@@ -133,10 +133,10 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <h2 id="the-pages">The pages</h2>
 <p>Each bore folder carries its own viewer — <a href="25mm/bore/bore.html"><code>25mm/bore/bore.html</code></a> and <a href="10mm/bore/bore.html"><code>10mm/bore/bore.html</code></a>. Drag to turn, colour by direction or by section, and a slider follows the bore from the mouth. They are the same page with different measurements in them, and self-contained apart from their fonts, so either opens from a checkout as readily as from the published page.</p>
 <h2 id="where-it-comes-from">Where it comes from</h2>
-<p>Generated by <strong><a href="https://github.com/Gernreich/bore-generator">bore-generator</a></strong>, which holds the walk as <code>walks/trumpet_final_youtube_candidate.txt</code> and gates these files in <code>regress.py</code> as two designs, one per size. Its <a href="https://github.com/Gernreich/bore-generator/blob/main/CLAUDE.md">CLAUDE.md</a> carries the conventions — the elbow rule, which switches reach the gate, and why a regenerated folder is not a checked one. To rebuild and check:</p>
+<p>Generated by <strong><a href="https://github.com/Gernreich/bore-generator">bore-generator</a></strong>, which holds the walk as <code>walks/trumpet_switchback.txt</code> and gates these files in <code>regress.py</code> as two designs, one per size. Its <a href="https://github.com/Gernreich/bore-generator/blob/main/CLAUDE.md">CLAUDE.md</a> carries the conventions — the elbow rule, which switches reach the gate, and why a regenerated folder is not a checked one. To rebuild and check:</p>
 <pre><code>cd ../bore-generator
-W="$(cat walks/trumpet_final_youtube_candidate.txt)"
-D=../trumpet-final-youtube-candidate
+W="$(cat walks/trumpet_switchback.txt)"
+D=../trumpet-switchback
 python3 bore_split.py --refuse-elbows "$W" --write $D/25mm/bore
 python3 bore_split.py --blocksize=16 --refuse-elbows "$W" --write $D/10mm/bore
 ~/boxes/venv/bin/python regress.py trumpet</code></pre>
