@@ -58,18 +58,18 @@ DESIGNS = [
     # short at both ends to leave room for the mouthpiece and the bell. Four
     # of its six sections come out as one of two shapes, so it is the set's
     # check that duplicates still get their own section number engraved.
-    ('trumpet final youtube candidate',
-     'walks/trumpet_final_youtube_candidate.txt',
-     '../trumpet-final-youtube-candidate/25mm/bore'),
+    ('trumpet switchback',
+     'walks/trumpet_switchback.txt',
+     '../trumpet-switchback/25mm/bore'),
     # the same walk on a 16mm block - 10mm of air inside 3mm walls, where the
     # 31mm sibling above gives 25. The only design here not cut at the stock
     # pitch, so it is the one thing keeping --blocksize honest: everything
     # scaled with the block except SnakeBox's 12mm tab, which does not fit a
     # 10mm frame. Its folder is named for the bore, not the block, so it reads
     # against bore-25mm rather than against 16.
-    ('trumpet final youtube candidate, 10mm',
-     'walks/trumpet_final_youtube_candidate.txt',
-     '../trumpet-final-youtube-candidate/10mm/bore', 16),
+    ('trumpet switchback, 10mm',
+     'walks/trumpet_switchback.txt',
+     '../trumpet-switchback/10mm/bore', 16),
     # The elbow-free walks. Every design above either contains elbows or is too
     # small to be interesting, so nothing was checking that a long walk still
     # splits without one - the property every build is chosen for.

@@ -85,7 +85,7 @@ their own copies of that list, which is a second place to forget. Use `bore_spli
 A design folder may sit below its repository — the candidate's are `<size>/bore/` — so a
 page title climbs past any ancestor that only names a size or says "bore" until it reaches
 one that names the instrument. `trumpet-coiled/bore` still reads "Trumpet Coiled Bore"; the
-candidate's reads "Trumpet Final Youtube Candidate 10mm Bore" rather than "10mm Bore".
+switchback's reads "Trumpet Switchback 10mm Bore" rather than "10mm Bore".
 
 `check.py --files` never looks at the pitch: it checks the written sheets for bed fit,
 overlaps and engraving on material, all of which a 16mm folder passes at `--blocksize=31`.
