@@ -8,12 +8,18 @@ Bores whose straight blocks are longer than their turns, and a fork of the toolc
 cuts them. Straight blocks are 30mm long, turning blocks are 16mm cubes, and the airway is
 10 x 10mm the whole way.
 
-Two designs, each in its own folder with its own walk in `tools/walks/`:
+Three designs, each in its own folder with its own walk in `tools/walks/`. They are **one
+coil truncated at its `N` spacers**, not three separate walks: a turn is four circuit terms
+and a spacer lands every three, so the reachable lengths are multiples of three quarters of a
+turn — 0.75, 1.5, 2.25, 3 — and each group costs exactly 11 blocks. Asking for 2 or 2.5 turns
+means changing the spacer rhythm, which is a different coil rather than a shorter one.
 
-- **`bore/`** — the original test, 22 blocks, 548mm. The walk was borrowed from
-  `../trumpet-switchback` rather than designed for a stretched lattice.
-  **Parts 1 and 2 are cut**; treat its files as describing wood.
-- **`coil-10x10x30-3t/`** — 44 blocks, 1096mm. **Coils are named for the block and the
+- **`coil-10x10x30-1.5t/`** — 22 blocks, 548mm. **All six parts are cut**; treat its files
+  as describing wood. It arrived as a borrowed test from `../trumpet-switchback` and is that
+  repository's walk exactly — nobody noticed it was a coil until the other two existed, which
+  is why its folder was called `bore/` until 2026-09-01.
+- **`coil-10x10x30-2.25t/`** — 33 blocks, 822mm, 9 sections. Uncut.
+- **`coil-10x10x30-3t/`** — 44 blocks, 1096mm, and the longest. **Coils are named for the block and the
   number of full turns**: a 10 x 10mm airway on a 30mm straight, three times round. That is
   what differs between two coils before anything else does; the circuit size and the pitch
   live in the walk, not the name. Its page title comes from `--title`, not the folder — a

@@ -55,17 +55,53 @@ them.
 
 | # | file | blocks | in | out | plate | shape | sheet |
 |---|---|---|---|---|---|---|---|
-| 1 | [`bore/01_bend_DL_buttin.svg`](bore/01_bend_DL_buttin.svg) | 1-3 | N | W | 49x49 | BDL~a | 325x70mm |
-| 2 | [`bore/02_bend_LUUR.svg`](bore/02_bend_LUUR.svg) | 4-8 | W | E | 65x49 | BLUUR | 456x86mm |
-| 3 | [`bore/03_bend_RD.svg`](bore/03_bend_RD.svg) | 9-11 | E | N | 49x49 | BRD | 337x70mm |
-| 4 | [`bore/04_bend_DL.svg`](bore/04_bend_DL.svg) | 12-14 | N | D | 49x49 | BDL | 331x73mm |
-| 5 | [`bore/05_bend_DLLU.svg`](bore/05_bend_DLLU.svg) | 15-19 | D | U | 65x49 | BDLLU | 482x73mm |
-| 6 | [`bore/06_bend_RD_buttout.svg`](bore/06_bend_RD_buttout.svg) | 20-22 | U | N | 49x49 | BRD~b | 337x70mm |
+| 1 | [`coil-10x10x30-1.5t/01_bend_DL_buttin.svg`](coil-10x10x30-1.5t/01_bend_DL_buttin.svg) | 1-3 | N | W | 49x49 | BDL~a | 325x70mm |
+| 2 | [`coil-10x10x30-1.5t/02_bend_LUUR.svg`](coil-10x10x30-1.5t/02_bend_LUUR.svg) | 4-8 | W | E | 65x49 | BLUUR | 456x86mm |
+| 3 | [`coil-10x10x30-1.5t/03_bend_RD.svg`](coil-10x10x30-1.5t/03_bend_RD.svg) | 9-11 | E | N | 49x49 | BRD | 337x70mm |
+| 4 | [`coil-10x10x30-1.5t/04_bend_DL.svg`](coil-10x10x30-1.5t/04_bend_DL.svg) | 12-14 | N | D | 49x49 | BDL | 331x73mm |
+| 5 | [`coil-10x10x30-1.5t/05_bend_DLLU.svg`](coil-10x10x30-1.5t/05_bend_DLLU.svg) | 15-19 | D | U | 65x49 | BDLLU | 482x73mm |
+| 6 | [`coil-10x10x30-1.5t/06_bend_RD_buttout.svg`](coil-10x10x30-1.5t/06_bend_RD_buttout.svg) | 20-22 | U | N | 49x49 | BRD~b | 337x70mm |
 
-[`bore/bore.html`](bore/bore.html) is the viewer: drag to turn, colour by
+[`coil-10x10x30-1.5t/coil-10x10x30-1.5t.html`](coil-10x10x30-1.5t/coil-10x10x30-1.5t.html) is the viewer: drag to turn, colour by
 direction or by section.
 
-## The coil — `coil-10x10x30-3t/`
+## Three coils, one walk truncated
+
+They are the same coil stopped at different points. `WUED` repeats, an `N` spacer
+lands every three terms, and the walk can be cut at any spacer:
+
+| folder | turns | blocks | centreline | sections | envelope |
+| --- | ---: | ---: | ---: | ---: | --- |
+| [`coil-10x10x30-1.5t`](coil-10x10x30-1.5t/) | 1.5 | 22 | 548mm | 6 | 92 x 92 x 152mm |
+| [`coil-10x10x30-2.25t`](coil-10x10x30-2.25t/) | 2.25 | 33 | 822mm | 9 | 122 x 92 x 228mm |
+| [`coil-10x10x30-3t`](coil-10x10x30-3t/) | 3 | 44 | 1096mm | 12 | 122 x 122 x 304mm |
+
+Each group costs exactly **11 blocks**, so shortening to the previous spacer is a
+flat price. All three enter and leave north with flat outer faces, and none has
+an elbow.
+
+**Only multiples of three quarters of a turn are reachable.** A turn is four
+circuit terms and a spacer lands every three, so the cut points are 0.75, 1.5,
+2.25 and 3. Asking for 2 or 2.5 means changing the spacer rhythm, which makes a
+different coil rather than a shorter one.
+
+Each folder carries its own viewer:
+[`coil-10x10x30-1.5t.html`](coil-10x10x30-1.5t/coil-10x10x30-1.5t.html),
+[`coil-10x10x30-2.25t.html`](coil-10x10x30-2.25t/coil-10x10x30-2.25t.html) and
+[`coil-10x10x30-3t.html`](coil-10x10x30-3t/coil-10x10x30-3t.html).
+
+**The sheets are numbered per coil, and the names repeat between them** — every
+coil has an `01_bend_DL_buttin.svg`, because the first section is the same shape
+in all three. Only the last differs, since that is where each one stops:
+`06_bend_RD_buttout.svg` at 1.5 turns,
+[`09_bend_LD_buttout.svg`](coil-10x10x30-2.25t/09_bend_LD_buttout.svg) at 2.25,
+`12_bend_LD_buttout.svg` at 3. Cut from one folder at a time.
+
+**The 1.5t is [trumpet-switchback](https://github.com/Gernreich/trumpet-switchback)'s
+walk exactly.** It arrived here as a borrowed test before anyone noticed it was a
+coil — which is why its folder was called `bore/` until the other two existed.
+
+## The 3-turn coil — `coil-10x10x30-3t/`
 
 The second design, and the first laid out for a stretched lattice rather than
 borrowed from a cubic one. **The folder names the block and the turns** — a
@@ -117,12 +153,12 @@ exactly on their minimum, so shortening any middle term costs an elbow at once.
 
 Sections 3 and 6 are the same shape, and 7 and 10; they are cut separately so
 each carries its own engraved number. [`coil-10x10x30-3t/coil-10x10x30-3t.html`](coil-10x10x30-3t/coil-10x10x30-3t.html) is its
-viewer, and [`tools/walks/coil.txt`](tools/walks/coil.txt) holds the walk.
+viewer, and [`tools/walks/coil-3t.txt`](tools/walks/coil-3t.txt) holds the walk.
 
     cd tools
     python3 bore_split.py --bore=10 --straight=30 --refuse-elbows \
         --title="10x10x30 Coil, 3 Turns" \
-        "$(cat walks/coil.txt)" --write ../coil-10x10x30-3t
+        "$(cat walks/coil-3t.txt)" --write ../coil-10x10x30-3t
 
 `--title` is needed because the page title is otherwise built from the folder
 name, and "Coil 10x10x30 3t Bore" is a filename read aloud. A folder has to
@@ -192,13 +228,14 @@ Its generator installs into Boxes.py as **`SnakeBoxVar`**, beside the frozen
 | `tools/bore_render.py` | the colours and direction names the viewer uses |
 | `tools/svgpath.py` | reads and writes the path data |
 | `tools/regress.py` | runs the gate over both designs at once |
-| `tools/walks/stretched_test.txt` | the borrowed walk of the first design |
-| `tools/walks/coil.txt` | the coil's walk |
+| `tools/walks/coil-1.5t.txt` | the 1.5-turn coil |
+| `tools/walks/coil-2.25t.txt` | the 2.25-turn coil |
+| `tools/walks/coil-3t.txt` | the 3-turn coil |
 
 ```sh
 cd tools
 python3 bore_split.py --bore=10 --straight=30 --refuse-elbows \
-    "$(cat walks/stretched_test.txt)" --write ../bore
+    "$(cat walks/coil-1.5t.txt)" --write ../bore
 ```
 
 `--bore` is the airway, square, rather than the block outside. `--straight` is

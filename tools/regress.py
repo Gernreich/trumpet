@@ -20,13 +20,20 @@ import sys
 
 # (name, walk file, folder of cut files, switches it is cut with)
 DESIGNS = [
-    # The original test: the trumpet candidate's walk on a stretched lattice.
-    # Parts are cut from this one, so a change that moves it needs asking about.
-    ('stretched test', 'walks/stretched_test.txt', '../bore',
+    # Truncations of one coil at its N spacers. A turn is four circuit terms and
+    # an N lands every three, so the reachable lengths are multiples of 3/4:
+    # 0.75, 1.5, 2.25, 3. Parts are cut from the 1.5t, so a change that moves
+    # it needs asking about.
+    #
+    # The 1.5t is also ../trumpet-switchback's walk exactly. It arrived here as
+    # a borrowed test before anyone noticed it was a coil.
+    ('coil 10x10x30 1.5t', 'walks/coil-1.5t.txt', '../coil-10x10x30-1.5t',
+     ['--bore=10', '--straight=30']),
+    ('coil 10x10x30 2.25t', 'walks/coil-2.25t.txt', '../coil-10x10x30-2.25t',
      ['--bore=10', '--straight=30']),
     # WUED repeated with an N spacer every three terms: a square circuit in
     # cross-section that steps north. The first walk laid out for this lattice.
-    ('coil 10x10x30 3t', 'walks/coil.txt', '../coil-10x10x30-3t',
+    ('coil 10x10x30 3t', 'walks/coil-3t.txt', '../coil-10x10x30-3t',
      ['--bore=10', '--straight=30']),
 ]
 
