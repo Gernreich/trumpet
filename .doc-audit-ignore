@@ -1,0 +1,11 @@
+# The toolchain is a fork of ../bore-generator's, carried here because that
+# repository is frozen. These are named in prose only where they matter.
+
+tools/assemble.py
+tools/bore_render.py
+tools/svgpath.py
+tools/viewer.py
+
+# Named in prose; not a file in this repository.
+
+Boxes.py
