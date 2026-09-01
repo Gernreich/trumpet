@@ -190,7 +190,14 @@ The bell and the mouthpiece are safe: their filenames differ between sizes.
 
 ## The pages
 
-Each bore folder carries its own viewer —
+**[`sizes.html`](sizes.html) holds both sizes in one page**, with a control that
+switches between them. That is the useful comparison: the walk, the sections and
+the shapes are identical at 25mm and 10mm, and only the millimetres move — 682mm
+of centreline against 352. Two separate pages make that hard to see, because you
+lose the camera opening the second. `bore-generator/sizes.py` writes it, through
+the same viewer the per-size pages use.
+
+Each bore folder also carries its own viewer —
 [`25mm/bore/bore.html`](25mm/bore/bore.html) and
 [`10mm/bore/bore.html`](10mm/bore/bore.html). Drag to turn, colour by
 direction or by section, and a slider follows the bore from the mouth. They are
