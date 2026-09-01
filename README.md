@@ -13,6 +13,12 @@ north overall. Every section is a **bend** — there are no elbows, so no
 section needs a neighbour's plate flattened and butt-glued to it, which is
 the difficulty of the whole build.
 
+<img src="10mm/bore/minecraft_bore.png" alt="The walk built in Minecraft from translucent coloured glass, one colour per direction: long blue runs heading north to the left and right, a green box heading east, magenta where it runs west, red columns where it climbs and a grey column where it drops" width="620">
+
+*The walk laid out block by block in Minecraft, coloured by direction — blue
+north, green east, magenta west, red up, grey down. The same walk serves both
+sizes; only the block it is drawn on changes.*
+
 <!-- readme-only -->
 **[Read the writeup](https://gernreich.github.io/trumpet-final-youtube-candidate/)** — the
 same text as this page, set for reading, with a table of contents.
