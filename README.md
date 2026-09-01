@@ -180,7 +180,9 @@ Its generator installs into Boxes.py as **`SnakeBoxVar`**, beside the frozen
 | `tools/viewer.py` | writes the 3D page beside the cut files |
 | `tools/bore_render.py` | the colours and direction names the viewer uses |
 | `tools/svgpath.py` | reads and writes the path data |
-| `tools/walks/stretched_test.txt` | the walk, and the only design here |
+| `tools/regress.py` | runs the gate over both designs at once |
+| `tools/walks/stretched_test.txt` | the borrowed walk of the first design |
+| `tools/walks/coil.txt` | the coil's walk |
 
 ```sh
 cd tools

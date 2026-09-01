@@ -161,20 +161,28 @@ only at the sheets as the machine sees them and never at the geometry.
 not in `/usr/bin/python3`. Run as a script it writes all six files and then dies on the
 import, files written and ungated. Use the Boxes.py venv.
 
-**There is no `regress.py` here**, and there are now two designs, which is the point at
-which one starts to be worth having. The frozen corpus in `../bore-generator` gates the
-frozen toolchain and knows nothing about this fork. Each design here is gated on write and
-nowhere else, so **a change to `tools/` is only proved against whichever design you happened
-to rebuild**. Rebuild both:
+## `regress.py` gates both designs, and what it cannot see
 
 ```sh
-cd tools
-python3 bore_split.py --bore=10 --straight=30 --refuse-elbows "$(cat walks/stretched_test.txt)" --write ../bore
-python3 bore_split.py --bore=10 --straight=30 --refuse-elbows "$(cat walks/coil.txt)" --write ../coil
+cd tools && ~/boxes/venv/bin/python regress.py        # both designs
+cd tools && ~/boxes/venv/bin/python regress.py coil   # one
 ```
 
-and remember `bore/` describes cut parts, so a rebuild that changes it needs asking about
-first.
+The frozen corpus in `../bore-generator` gates the frozen toolchain and has no stretched
+lattice in it, so it cannot catch a change made here. Each design carries the switches it is
+cut with, because `--files` never looks at the pitch and will happily gate a design nobody
+is cutting.
+
+**It bites.** Adding 1mm to `SnakeBoxVar.span()` fails both designs and names the sections.
+
+**It has one blind spot, and it is the interesting one.** `extent()` decides how long a
+straight block is, and `check.py` computes the expected bore volume from that same function.
+Break `extent` and the measured volume and the expected volume move together, so the check
+that looks strongest here cannot see it: adding 1mm to every straight block still passes
+392 checks. What the volume check proves is that the voxel model agrees with the formula,
+not that either is right. **A change to `extent()` has to be checked by hand.**
+
+`bore/` describes cut parts. A rebuild that changes it needs asking about first.
 
 **After editing `README.md`** — regenerate the page, then audit:
 
