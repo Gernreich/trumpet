@@ -69,19 +69,27 @@ sized first and the tab follows:
 
 | | |
 | --- | ---: |
-| notch | **6.3mm** wide, 3.2mm deep |
-| tab | **6.2mm** wide, 3.0mm deep |
-| clearance | 0.1mm across the width, 0.2mm at the bottom |
-| shoulder | 1.85mm beside the notch, 1.90mm beside the tab |
+| tab | **6.0mm** wide, 3.0mm deep |
+| notch | **6.05mm** wide, 3.2mm deep |
+| clearance | 0.05mm across the width, 0.2mm at the bottom |
+| shoulder | 2.0mm beside the tab, 1.975mm beside the notch |
 
-**Both numbers come from the bench.** At zero clearance the sections would not
-go together at all. At 0.3mm they went together with a perceptible rock. 0.1mm
-is a snug slip fit that still leaves glue somewhere to sit.
+**One tab size and one notch size, on every piece.** Every joint in the bore is
+the same joint, so there is one number to check at the bench rather than a
+different fit at each seam.
 
-**The notch is held at 6.3mm because part 1 is already cut**, and its notch is
-the one part 2's tab enters. Tightening therefore had to come from the tab,
-which is why the joint is sized with `--notch=6.3` rather than left to the
-automatic width.
+**The tab never moves; the notch closes onto it.** The tab is the finger-tooth
+width and it is the load-bearing half — a notch is a hole. So the fit is tuned
+by narrowing the notch, and `--pin_play` is the only number that changes.
+
+**The size came from cutting it.** Four goes, three of them wrong:
+
+| clearance | what happened |
+| ---: | --- |
+| 0.0mm | would not go together at all |
+| 0.3mm | went together, perceptible rock |
+| 0.1mm | very slightly loose |
+| **0.05mm** | current |
 
 **The clearance is the point.** SnakeBox leaves `--pin_play` at 0 on the grounds
 that finger joints carry none either, and that does not follow: a finger joint
@@ -89,15 +97,11 @@ is a dozen teeth sharing an edge, where the errors average out, and a section
 seam is one tab in one notch drawn to exactly the same width. At zero the two
 will not go together.
 
-**The tab is a shade wider than the finger teeth**, which are 6mm —
-`2 x thickness`, and they do not shrink with the block. Sized as a fraction of
-the frame alone the tab comes out at 4.8mm, narrower than the ordinary teeth
-beside it, which is backwards for the one feature carrying a whole seam; the
-automatic width floors it at the tooth for that reason. Here it is 6.2mm, set
-from the notch instead.
-
-Going much wider is not free: at 6.2mm there is 1.9mm of material beside the
-tab, and `check.py` refuses anything under 1.5mm.
+**The tab is exactly the finger-tooth width**, 6mm — `2 x thickness`, and the
+teeth do not shrink with the block. Sized as a fraction of the frame alone it
+would come out at 4.8mm, narrower than the ordinary teeth beside it, which is
+backwards for the one feature carrying a whole seam; the automatic width floors
+it at the tooth for that reason, and that is the width used here.
 
 Every seam runs SLOT to TAB, and the two outer ends carry neither.
 
@@ -125,16 +129,15 @@ Its generator installs into Boxes.py as **`SnakeBoxVar`**, beside the frozen
 
 ```sh
 cd tools
-python3 bore_split.py --bore=10 --straight=30 --notch=6.3 --refuse-elbows \
+python3 bore_split.py --bore=10 --straight=30 --refuse-elbows \
     "$(cat walks/stretched_test.txt)" --write ../bore
 ```
 
 `--bore` is the airway, square, rather than the block outside. `--straight` is
 how long a straight block runs; leave it out and every cell is a cube, which is
-exactly what the frozen toolchain does. `--notch` sizes the coupling from the
-female side, the tab following at `notch - 2 x play`; **it is not optional
-here** — leave it out and the tab drops to 6.0mm, which is the loose fit the
-bench rejected.
+exactly what the frozen toolchain does. `--notch` would size the coupling from
+the female side and move the tab to suit; **this design does not use it**, so
+the tab keeps the finger-tooth width and the fit is set by `PIN_PLAY` alone.
 
 ## What had to change, and what it cost
 

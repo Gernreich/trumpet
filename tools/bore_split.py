@@ -92,11 +92,14 @@ MIN_FEATURE = 1.5    # and what check.py will actually refuse below
 # fit before you add char, glue or any kerf the burn allowance did not predict.
 # Reported from the bench 2026-08-31: section 1 would not enter section 2. This
 # widens the notch only -- the tab keeps its full width and strength.
-# Per side, so the notch opens by twice this. 0.15 was a guess and the bench
-# said loose: parts 1 and 2 went together with a perceptible rock. 0.05 is a
-# snug slip fit in 3mm ply. Zero does not work -- that is what stopped the
-# sections going together at all before any play existed.
-PIN_PLAY = 0.05
+# Per side, so the notch opens by twice this. Sized on the bench, not guessed:
+# 0.0 would not assemble at all, 0.3 rocked, 0.1 was very slightly loose.
+# 0.025 a side -- 0.05 on the notch -- is where it landed.
+#
+# The tab is never moved to tune the fit. It is the finger-tooth width and the
+# same on every piece; the notch closes onto it. Two reasons: one number to
+# think about at the bench, and a tab is load-bearing where a notch is a hole.
+PIN_PLAY = 0.025
 # Set NOTCH to size the joint from the female side instead: the tab is then
 # whatever fits it, NOTCH - 2 * PIN_PLAY. It overrides the tooth floor below,
 # so a notch small enough puts the tab back under the finger teeth -- say so
