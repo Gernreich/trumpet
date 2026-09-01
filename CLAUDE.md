@@ -73,6 +73,27 @@ Everything downstream of that had to stop counting cells:
 when a straight and a turn share one — a plate is drawn on a rectilinear grid even though
 the bore as a whole is not on one. This walk happens to satisfy it; most will not.
 
+## The 1mm spurs are known, benign, and not worth fixing
+
+Five of the six plates carry **four 1.00mm zero-width spurs** each: the cut path runs 1mm
+past a corner and retraces the same line. Spotted on 2026-08-31 and deliberately left.
+
+- **They cut into waste, not into the part.** Every spur tip tests outside the plate
+  outline, so it is a slit in the offcut, not a nick in the piece. No dimension moves.
+- **They are not from the stretched lattice.** The frozen 10mm bore in
+  `../trumpet-final-youtube-candidate` has the identical 20, and its 25mm bore has none.
+  They appear once the end frame drops below 12mm: zero at block 18 and above, four at 17
+  and 16.
+- **The cause is below this code.** The polygon `plateBorders()` hands over is clean — no
+  negative or malformed lengths — so it is Boxes.py's edge drawing at a small frame.
+  Narrowing the coupling does not help: at a 4.0mm notch there are still four, and at 4.6
+  and 5.3 there are eight.
+
+Section 1 is the only one with none, which is why the first part cut looked right.
+
+**Do not "fix" this.** Chasing it means changing `~/boxes`, the shared checkout the frozen
+repositories depend on, to remove a scorch mark in the waste.
+
 ## Do not trust a passing gate
 
 194 checks and 0 failed is not the evidence. Two of those checks were vacuous on this
