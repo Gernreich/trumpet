@@ -92,6 +92,19 @@ MIN_SHOULDER = 2.0   # material left either side of the tab, along the frame
 # Reported from the bench 2026-08-31: section 1 would not enter section 2. This
 # widens the notch only -- the tab keeps its full width and strength.
 PIN_PLAY = 0.15      # per side, so the notch opens by twice this
+# Set NOTCH to size the joint from the female side instead: the tab is then
+# whatever fits it, NOTCH - 2 * PIN_PLAY. It overrides the tooth floor below,
+# so a notch small enough puts the tab back under the finger teeth -- say so
+# rather than silently refusing, because on a small frame the shoulder either
+# side of the notch may matter more than the tab's own width.
+NOTCH = None
+
+
+def set_notch(mm):
+    """Size the joint from the notch. Tab follows at notch - 2 * play."""
+    global NOTCH, COMMON
+    NOTCH = float(mm)
+    COMMON = _common()
 
 
 def pin_width():
@@ -109,6 +122,14 @@ def pin_width():
     """
     tooth = 2.0 * THICKNESS                     # Boxes.py FingerJointSettings
     frame = BLOCK - 2 * THICKNESS               # the opening the tab sits in
+    if NOTCH is not None:
+        w = NOTCH - 2 * PIN_PLAY
+        if w <= 0:
+            sys.exit(f'--notch must be wider than the {2*PIN_PLAY:g}mm of play')
+        if NOTCH > frame - 2 * MIN_SHOULDER:
+            sys.exit(f'--notch={NOTCH:g} leaves under {MIN_SHOULDER:g}mm of '
+                     f'shoulder in a {frame:g}mm frame')
+        return w
     return min(max(PIN_FRAC * frame, tooth), frame - 2 * MIN_SHOULDER)
 
 
@@ -1359,6 +1380,10 @@ if __name__ == '__main__':
     if st:
         a.remove(st[0])
         B.set_straight(st[0].split('=', 1)[1])
+    nt = [x for x in a if x.startswith('--notch=')]
+    if nt:
+        a.remove(nt[0])
+        B.set_notch(nt[0].split('=', 1)[1])
     if '--no-write' in a:
         a.remove('--no-write'); d = None
     if '--write' in a:

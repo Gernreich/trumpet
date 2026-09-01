@@ -62,6 +62,32 @@ them.
 [`bore/bore.html`](bore/bore.html) is the viewer: drag to turn, colour by
 direction or by section.
 
+## The joint between sections
+
+Each section couples to the next with one tab entering one notch. The notch is
+sized first and the tab follows:
+
+| | |
+| --- | ---: |
+| notch | **5.0mm** wide, 3.2mm deep |
+| tab | **4.7mm** wide, 3.0mm deep |
+| clearance | 0.3mm across the width, 0.2mm at the bottom |
+| shoulder | 2.5mm either side of the notch in a 10mm frame |
+
+**The clearance is the point.** SnakeBox leaves `--pin_play` at 0 on the grounds
+that finger joints carry none either, and that does not follow: a finger joint
+is a dozen teeth sharing an edge, where the errors average out, and a section
+seam is one tab in one notch drawn to exactly the same width. At zero the two
+will not go together.
+
+**The tab is narrower than the finger teeth**, which are 6mm — `2 x thickness`,
+and they do not shrink with the block. That is a deliberate trade on a frame
+this small: a wider tab would leave less shoulder either side of the notch, and
+here the shoulder is the weaker thing. Size it from the other end with
+`--notch`, and watch both numbers.
+
+Every seam runs SLOT to TAB, and the two outer ends carry neither.
+
 ## The toolchain is a fork, on purpose
 
 `tools/` is a copy of
@@ -73,15 +99,28 @@ gated against, and nothing here touches them.
 Its generator installs into Boxes.py as **`SnakeBoxVar`**, beside the frozen
 `SnakeBox` rather than over it, so both are available at once.
 
+| file | what it does |
+| --- | --- |
+| `tools/bore_split.py` | turns a walk into pieces and drives the generator |
+| `tools/snakeboxvar.py` | the Boxes.py generator that draws one flat piece |
+| `tools/check.py` | the gate: every check that runs before anything is cut |
+| `tools/assemble.py` | voxels the assembled bore, for the seal and volume checks |
+| `tools/viewer.py` | writes the 3D page beside the cut files |
+| `tools/bore_render.py` | the colours and direction names the viewer uses |
+| `tools/svgpath.py` | reads and writes the path data |
+| `tools/walks/stretched_test.txt` | the walk, and the only design here |
+
 ```sh
 cd tools
-python3 bore_split.py --bore=10 --straight=30 --refuse-elbows \
+python3 bore_split.py --bore=10 --straight=30 --notch=5 --refuse-elbows \
     "$(cat walks/stretched_test.txt)" --write ../bore
 ```
 
 `--bore` is the airway, square, rather than the block outside. `--straight` is
 how long a straight block runs; leave it out and every cell is a cube, which is
-exactly what the frozen toolchain does.
+exactly what the frozen toolchain does. `--notch` sizes the coupling from the
+female side, the tab following at `notch - 2 x play`; leave it out and the tab
+is sized from the frame instead and floored at the finger tooth.
 
 ## What had to change, and what it cost
 
