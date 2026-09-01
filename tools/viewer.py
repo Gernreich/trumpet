@@ -292,14 +292,52 @@ function faces() {
   return out;
 }
 
-function rot(p) {
+function rotC(p, c) {
   const cy = Math.cos(yaw), sy = Math.sin(yaw);
   const cp = Math.cos(pitch), sp = Math.sin(pitch);
-  let x = p[0] - centre.c[0], y = p[1] - centre.c[1], z = p[2] - centre.c[2];
+  let x = p[0] - c[0], y = p[1] - c[1], z = p[2] - c[2];
   let x2 = x * cy + z * sy, z2 = -x * sy + z * cy;
   let y2 = y * cp - z2 * sp, z3 = y * sp + z2 * cp;
   return [x2, y2, z3];
 }
+function rot(p) { return rotC(p, centre.c); }
+
+/* What the boxes project to at this angle, in mm, as [x0, x1, y0, y1]. */
+function fit(cells, c) {
+  let x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity;
+  for (const q of cells) {
+    for (let i = 0; i < 8; i++) {
+      const r = rotC([(i & 1) ? q.b[0] : q.a[0],
+                      ((i >> 1) & 1) ? q.b[1] : q.a[1],
+                      ((i >> 2) & 1) ? q.b[2] : q.a[2]], c);
+      x0 = Math.min(x0, r[0]); x1 = Math.max(x1, r[0]);
+      y0 = Math.min(y0, r[1]); y1 = Math.max(y1, r[1]);
+    }
+  }
+  return [x0, x1, y0, y1];
+}
+
+/* The scale is locked to the biggest set, not fitted to whichever is shown.
+   Fitting each one to the canvas draws four coils the same size, which is the
+   one thing a page comparing lengths must not do: the 3t is four times the
+   0.75t and has to look it. Each set still centres on itself, so the shown one
+   stays in the middle rather than drifting off with its own origin. */
+const bboxOf = (cells) => {
+  const lo = [Infinity, Infinity, Infinity], hi = [-Infinity, -Infinity, -Infinity];
+  for (const q of cells) for (let i = 0; i < 3; i++) {
+    lo[i] = Math.min(lo[i], q.a[i]); hi[i] = Math.max(hi[i], q.b[i]);
+  }
+  return [lo, hi];
+};
+const REF = SETS.reduce((best, s) => {
+  const sp = (d) => { const [lo, hi] = bboxOf(d.cells);
+    return Math.hypot(hi[0] - lo[0], hi[1] - lo[1], hi[2] - lo[2]); };
+  return sp(s.d) > sp(best.d) ? s : best;
+}, SETS[0]).d;
+const refCentre = (() => {
+  const [lo, hi] = bboxOf(REF.cells);
+  return lo.map((v, i) => (v + hi[i]) / 2);
+})();
 
 function shade(hex, n) {
   const L = [-0.32, 0.86, 0.4], m = Math.hypot(...L);
@@ -326,19 +364,12 @@ function draw() {
   // first or strands the second in the middle of the canvas. And not the
   // bounding box either: a walk that climbs as it runs fills a diagonal slab
   // of a mostly empty box, and the box's corners are nowhere near the shape.
-  let px0 = Infinity, px1 = -Infinity, py0 = Infinity, py1 = -Infinity;
-  for (const c of D.cells) {
-    for (let i = 0; i < 8; i++) {
-      const r = rot([(i & 1) ? c.b[0] : c.a[0],
-                     ((i >> 1) & 1) ? c.b[1] : c.a[1],
-                     ((i >> 2) & 1) ? c.b[2] : c.a[2]]);
-      px0 = Math.min(px0, r[0]); px1 = Math.max(px1, r[0]);
-      py0 = Math.min(py0, r[1]); py1 = Math.max(py1, r[1]);
-    }
-  }
+  // Position from the set on screen, scale from the reference set.
+  const [px0, px1, py0, py1] = fit(D.cells, centre.c);
+  const [rx0, rx1, ry0, ry1] = fit(REF.cells, refCentre);
   const M = 56;
-  const S = Math.min((w - M) / Math.max(px1 - px0, 0.001),
-                     (h - M) / Math.max(py1 - py0, 0.001)) * zoom;
+  const S = Math.min((w - M) / Math.max(rx1 - rx0, 0.001),
+                     (h - M) / Math.max(ry1 - ry0, 0.001)) * zoom;
   const ox = w / 2 - (px0 + px1) / 2 * S + panX;
   const oy = h / 2 + (py0 + py1) / 2 * S + panY;
   const P = (p) => { const r = rot(p); return [ox + r[0] * S, oy - r[1] * S, r[2]]; };
@@ -506,7 +537,12 @@ function pickCoil(i) {
   $('reveal').max = reveal; $('reveal').value = reveal;
   $('reveal-count').textContent = reveal + ' / ' + reveal;
   document.getElementById('walk').textContent = SETS[i].walk;
-  yaw = 0.62; pitch = 0.72; zoom = 1; panX = panY = 0;
+  // Keep the camera. It used to reset here, because each coil fitted itself and
+  // a zoom held from the 3-turn threw the 3/4 off the canvas. The scale is
+  // locked to the longest now, so every coil draws inside that frame -- and
+  // holding the angle is the whole point of a switch: you are comparing
+  // lengths, which you cannot do if the view jumps each time you swap. Reset
+  // is still a button.
   isolate = null;
   for (const b of $('pick').children)
     b.setAttribute('aria-pressed', +b.dataset.i === i);

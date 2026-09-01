@@ -66,8 +66,12 @@ an elbow.
 **[`coils.html`](coils.html) holds all four in one page**, with a control that
 switches between them. Comparing lengths of one coil is the whole point of
 having four, and four separate pages lose the camera every time you open
-another. It is not a second viewer — `tools/coils.py` calls the same
-`viewer.build_many` the per-coil pages go through, with more than one set in it.
+another. All four are drawn to **one locked scale**, so the ¾ is visibly the
+smallest and the 3-turn fills the frame — fitting each to the canvas would draw
+four coils the same size, which would defeat the page. Switching keeps your
+camera, so they swap in place. It is not a second viewer — `tools/coils.py`
+calls the same `viewer.build_many` the per-coil pages go through, with more than
+one set in it.
 
 Each folder also carries its own viewer:
 [`coil-10x10x30-0.75t.html`](coil-10x10x30-0.75t/coil-10x10x30-0.75t.html),

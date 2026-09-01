@@ -206,8 +206,17 @@ always was. `tools/coils.py` passes four and writes `coils.html`.
 That is deliberate: a gallery is **more sets in the same viewer**, not a second viewer. Two
 templates would drift, and the drawing code is the part that has been wrong before.
 
-The switch resets the camera, and it has to. The coils differ in size by a factor of four,
-so a zoom kept from the 3-turn strands the ¾ off-screen.
+**The scale is locked to the longest coil, not fitted to whichever is shown.** Fitting each
+one to the canvas drew four coils the same size, which is the one thing a page comparing
+lengths must not do. `draw()` takes its **scale** from the reference set and its
+**position** from the set on screen, so the ¾ draws at 0.485 of the 3-turn and stays
+centred. That ratio is bounding box, not centreline: the centrelines are 274mm and 1096mm,
+a factor of four, but a coil folds, so its box grows more slowly than its length.
+
+The switch therefore **keeps** the camera. It used to reset, and it had to when each coil
+fitted itself — a zoom held from the 3-turn threw the ¾ off-screen. Nothing can leave the
+frame now, and holding the angle is the point: you are comparing lengths, which you cannot
+do if the view jumps each time you swap. Reset is still a button.
 
 ## `regress.py` gates both designs, and what it cannot see
 
