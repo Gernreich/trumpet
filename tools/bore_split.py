@@ -83,7 +83,8 @@ FLAT = False        # --flat: plain butt ends, no tabs and no notches
 # across and a 12mm tab does not fit in it at all. 0.48 reproduces 12 exactly
 # at the 25mm square, so the default block is untouched.
 PIN_FRAC = 0.48
-MIN_SHOULDER = 2.0   # material left either side of the tab, along the frame
+MIN_SHOULDER = 2.0   # what the automatic sizing aims to leave beside the tab
+MIN_FEATURE = 1.5    # and what check.py will actually refuse below
 # SnakeBox leaves --pin_play at 0, on the grounds that it matches the finger
 # joints, which carry no designed play either. It does not follow. A finger
 # joint is a dozen teeth sharing an edge and the errors average out; the
@@ -91,7 +92,11 @@ MIN_SHOULDER = 2.0   # material left either side of the tab, along the frame
 # fit before you add char, glue or any kerf the burn allowance did not predict.
 # Reported from the bench 2026-08-31: section 1 would not enter section 2. This
 # widens the notch only -- the tab keeps its full width and strength.
-PIN_PLAY = 0.15      # per side, so the notch opens by twice this
+# Per side, so the notch opens by twice this. 0.15 was a guess and the bench
+# said loose: parts 1 and 2 went together with a perceptible rock. 0.05 is a
+# snug slip fit in 3mm ply. Zero does not work -- that is what stopped the
+# sections going together at all before any play existed.
+PIN_PLAY = 0.05
 # Set NOTCH to size the joint from the female side instead: the tab is then
 # whatever fits it, NOTCH - 2 * PIN_PLAY. It overrides the tooth floor below,
 # so a notch small enough puts the tab back under the finger teeth -- say so
@@ -123,12 +128,20 @@ def pin_width():
     tooth = 2.0 * THICKNESS                     # Boxes.py FingerJointSettings
     frame = BLOCK - 2 * THICKNESS               # the opening the tab sits in
     if NOTCH is not None:
+        # MIN_SHOULDER is the target the automatic sizing aims for, not a limit
+        # of the material: the shipped 10mm design already leaves 1.85mm beside
+        # its notch and cuts fine. An explicit --notch is someone overriding
+        # that target on purpose, so hold it to what the gate actually enforces,
+        # MIN_FEATURE. Checking the notch against the TAB's cap refused a notch
+        # the automatic path had itself produced.
         w = NOTCH - 2 * PIN_PLAY
         if w <= 0:
             sys.exit(f'--notch must be wider than the {2*PIN_PLAY:g}mm of play')
-        if NOTCH > frame - 2 * MIN_SHOULDER:
-            sys.exit(f'--notch={NOTCH:g} leaves under {MIN_SHOULDER:g}mm of '
-                     f'shoulder in a {frame:g}mm frame')
+        thin = min((frame - NOTCH) / 2, (frame - w) / 2)
+        if thin < MIN_FEATURE:
+            sys.exit(f'--notch={NOTCH:g} leaves {thin:.2f}mm beside it in a '
+                     f'{frame:g}mm frame, under the {MIN_FEATURE:g}mm the gate '
+                     f'allows')
         return w
     return min(max(PIN_FRAC * frame, tooth), frame - 2 * MIN_SHOULDER)
 

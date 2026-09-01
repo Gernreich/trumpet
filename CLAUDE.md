@@ -116,13 +116,27 @@ python3 bore_split.py --bore=10 --straight=30 --refuse-elbows "$W" --write ../bo
 ~/boxes/venv/bin/python check.py "$W" --bore=10 --straight=30 --files ../bore
 ```
 
-**`--notch` exists but this design does not use it.** It sizes the coupling from the female
-side, the tab following at `notch - 2 x play`, and it **overrides the finger-tooth floor** —
-a 5mm notch gives a 4.7mm tab, back under the teeth, which is the state that was reported as
-"not wide enough" before the floor existed. It was tried at 5mm on 2026-08-31 and reverted,
-because **parts 1 and 2 had already been cut** at the default and the files have to match
-the wood. If you change it, the cut parts stop matching the files: say so, do not just
-regenerate.
+**`--notch=6.3` is not optional, and the number is set by wood.** It sizes the coupling
+from the female side, the tab following at `notch - 2 x play`. Leave it off and the tab is
+6.0mm, the loose fit the bench rejected.
+
+The joint has been sized three times, all on 2026-08-31, and only the last from evidence:
+
+| play | outcome |
+| ---: | --- |
+| 0.0mm | would not go together at all |
+| 0.3mm | went together, perceptible rock |
+| **0.1mm** | current: notch 6.3, tab 6.2 |
+
+**Why the notch is pinned at 6.3 rather than shrunk.** Part 1 is cut, and its notch is the
+one part 2's tab enters. A cut notch cannot be narrowed, so tightening had to come from the
+tab on everything else. Part 1's file is unchanged by this and does **not** need recutting;
+part 2 does, because its own tab widened from 6.0 to 6.2, and recutting it is what fixes
+joint 1-2 as well.
+
+**Before changing this again, ask what is already cut.** A regenerate that moves a joint
+leaves parts in wood that no file describes. The 5mm notch tried earlier that day had to be
+reverted for exactly this reason.
 
 `--bore` is the airway and `--blocksize` is the outside; they differ by two wall
 thicknesses and confusing them is the mistake this switch exists to stop. `check.py` needs

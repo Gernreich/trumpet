@@ -70,9 +70,18 @@ sized first and the tab follows:
 | | |
 | --- | ---: |
 | notch | **6.3mm** wide, 3.2mm deep |
-| tab | **6.0mm** wide, 3.0mm deep |
-| clearance | 0.3mm across the width, 0.2mm at the bottom |
-| shoulder | 2.0mm either side of the notch in a 10mm frame |
+| tab | **6.2mm** wide, 3.0mm deep |
+| clearance | 0.1mm across the width, 0.2mm at the bottom |
+| shoulder | 1.85mm beside the notch, 1.90mm beside the tab |
+
+**Both numbers come from the bench.** At zero clearance the sections would not
+go together at all. At 0.3mm they went together with a perceptible rock. 0.1mm
+is a snug slip fit that still leaves glue somewhere to sit.
+
+**The notch is held at 6.3mm because part 1 is already cut**, and its notch is
+the one part 2's tab enters. Tightening therefore had to come from the tab,
+which is why the joint is sized with `--notch=6.3` rather than left to the
+automatic width.
 
 **The clearance is the point.** SnakeBox leaves `--pin_play` at 0 on the grounds
 that finger joints carry none either, and that does not follow: a finger joint
@@ -80,15 +89,15 @@ is a dozen teeth sharing an edge, where the errors average out, and a section
 seam is one tab in one notch drawn to exactly the same width. At zero the two
 will not go together.
 
-**The tab is exactly the finger-tooth width**, 6mm — `2 x thickness`, which does
-not shrink with the block. It is floored there on purpose: sized as a fraction
-of the frame alone it comes out at 4.8mm, narrower than the ordinary teeth
-beside it, which is backwards for the one feature carrying a whole seam.
+**The tab is a shade wider than the finger teeth**, which are 6mm —
+`2 x thickness`, and they do not shrink with the block. Sized as a fraction of
+the frame alone the tab comes out at 4.8mm, narrower than the ordinary teeth
+beside it, which is backwards for the one feature carrying a whole seam; the
+automatic width floors it at the tooth for that reason. Here it is 6.2mm, set
+from the notch instead.
 
-`--notch` sizes the joint from the female side instead, and **overrides that
-floor**. It is worth knowing the trade before reaching for it: a 5mm notch
-leaves 2.5mm of shoulder rather than 2.0, at the cost of a 4.7mm tab that is
-back under the teeth. This design uses the default.
+Going much wider is not free: at 6.2mm there is 1.9mm of material beside the
+tab, and `check.py` refuses anything under 1.5mm.
 
 Every seam runs SLOT to TAB, and the two outer ends carry neither.
 
@@ -116,16 +125,16 @@ Its generator installs into Boxes.py as **`SnakeBoxVar`**, beside the frozen
 
 ```sh
 cd tools
-python3 bore_split.py --bore=10 --straight=30 --refuse-elbows \
+python3 bore_split.py --bore=10 --straight=30 --notch=6.3 --refuse-elbows \
     "$(cat walks/stretched_test.txt)" --write ../bore
 ```
 
 `--bore` is the airway, square, rather than the block outside. `--straight` is
 how long a straight block runs; leave it out and every cell is a cube, which is
 exactly what the frozen toolchain does. `--notch` sizes the coupling from the
-female side, the tab following at `notch - 2 x play`; **these files are cut
-without it**, so the tab is sized from the frame and floored at the finger
-tooth.
+female side, the tab following at `notch - 2 x play`; **it is not optional
+here** — leave it out and the tab drops to 6.0mm, which is the loose fit the
+bench rejected.
 
 ## What had to change, and what it cost
 
