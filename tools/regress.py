@@ -22,11 +22,13 @@ import sys
 DESIGNS = [
     # Truncations of one coil at its N spacers. A turn is four circuit terms and
     # an N lands every three, so the reachable lengths are multiples of 3/4:
-    # 0.75, 1.5, 2.25, 3. Parts are cut from the 1.5t, so a change that moves
+    # 0.75, 1.5, 2.25, 3, all four of which are built. Parts are cut from the 1.5t, so a change that moves
     # it needs asking about.
     #
     # The 1.5t is also ../trumpet-switchback's walk exactly. It arrived here as
     # a borrowed test before anyone noticed it was a coil.
+    ('coil 10x10x30 0.75t', 'walks/coil-0.75t.txt', '../coil-10x10x30-0.75t',
+     ['--bore=10', '--straight=30']),
     ('coil 10x10x30 1.5t', 'walks/coil-1.5t.txt', '../coil-10x10x30-1.5t',
      ['--bore=10', '--straight=30']),
     ('coil 10x10x30 2.25t', 'walks/coil-2.25t.txt', '../coil-10x10x30-2.25t',

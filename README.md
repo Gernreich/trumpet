@@ -72,20 +72,22 @@ lands every three terms, and the walk can be cut at any spacer:
 
 | folder | turns | blocks | centreline | sections | envelope |
 | --- | ---: | ---: | ---: | ---: | --- |
+| [`coil-10x10x30-0.75t`](coil-10x10x30-0.75t/) | 0.75 | 11 | 274mm | 3 | 92 x 62 x 76mm |
 | [`coil-10x10x30-1.5t`](coil-10x10x30-1.5t/) | 1.5 | 22 | 548mm | 6 | 92 x 92 x 152mm |
 | [`coil-10x10x30-2.25t`](coil-10x10x30-2.25t/) | 2.25 | 33 | 822mm | 9 | 122 x 92 x 228mm |
 | [`coil-10x10x30-3t`](coil-10x10x30-3t/) | 3 | 44 | 1096mm | 12 | 122 x 122 x 304mm |
 
 Each group costs exactly **11 blocks**, so shortening to the previous spacer is a
-flat price. All three enter and leave north with flat outer faces, and none has
+flat price — 11, 22, 33, 44. All four enter and leave north with flat outer faces, and none has
 an elbow.
 
 **Only multiples of three quarters of a turn are reachable.** A turn is four
 circuit terms and a spacer lands every three, so the cut points are 0.75, 1.5,
-2.25 and 3. Asking for 2 or 2.5 means changing the spacer rhythm, which makes a
+2.25 and 3, and all four are built. Asking for 2 or 2.5 means changing the spacer rhythm, which makes a
 different coil rather than a shorter one.
 
 Each folder carries its own viewer:
+[`coil-10x10x30-0.75t.html`](coil-10x10x30-0.75t/coil-10x10x30-0.75t.html),
 [`coil-10x10x30-1.5t.html`](coil-10x10x30-1.5t/coil-10x10x30-1.5t.html),
 [`coil-10x10x30-2.25t.html`](coil-10x10x30-2.25t/coil-10x10x30-2.25t.html) and
 [`coil-10x10x30-3t.html`](coil-10x10x30-3t/coil-10x10x30-3t.html).
@@ -93,7 +95,8 @@ Each folder carries its own viewer:
 **The sheets are numbered per coil, and the names repeat between them** — every
 coil has an `01_bend_DL_buttin.svg`, because the first section is the same shape
 in all three. Only the last differs, since that is where each one stops:
-`06_bend_RD_buttout.svg` at 1.5 turns,
+[`03_bend_RD_buttout.svg`](coil-10x10x30-0.75t/03_bend_RD_buttout.svg) at 0.75,
+`06_bend_RD_buttout.svg` at 1.5,
 [`09_bend_LD_buttout.svg`](coil-10x10x30-2.25t/09_bend_LD_buttout.svg) at 2.25,
 `12_bend_LD_buttout.svg` at 3. Cut from one folder at a time.
 
@@ -228,6 +231,7 @@ Its generator installs into Boxes.py as **`SnakeBoxVar`**, beside the frozen
 | `tools/bore_render.py` | the colours and direction names the viewer uses |
 | `tools/svgpath.py` | reads and writes the path data |
 | `tools/regress.py` | runs the gate over both designs at once |
+| `tools/walks/coil-0.75t.txt` | the 0.75-turn coil |
 | `tools/walks/coil-1.5t.txt` | the 1.5-turn coil |
 | `tools/walks/coil-2.25t.txt` | the 2.25-turn coil |
 | `tools/walks/coil-3t.txt` | the 3-turn coil |
