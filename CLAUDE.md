@@ -23,13 +23,20 @@ Two designs, each in its own folder with its own walk in `tools/walks/`:
 
 Neither is an instrument: no mouthpiece, no bell.
 
-## The other repositories are FROZEN
+## The other repositories are FROZEN, with one exception so far
 
 `../bore-generator` and every repository it cuts for — `../trumpet-coiled`,
 `../trumpet-octagonal`, `../trumpet-parts`, `../trumpet-switchback` — keep the
 scripts they were gated against. **Do not change them to suit this one.** That is why
 `tools/` is a copy rather than an import, and why the generator installs as `SnakeBoxVar`
 beside the frozen `SnakeBox` instead of over it.
+
+**The exception, on 2026-09-01, is worth understanding because it is the shape a future
+one would take.** `PIN_PLAY` was taken to 0.025 there too. It was not a change made to
+suit this repository: the fit was *measured here*, four times in ply, and
+`../trumpet-switchback` was carrying 0.3 — the value the bench had already rejected as
+loose — in files someone might cut. The freeze protects the other repositories from
+churn, not from evidence. Unfreezing was the author's call, and it should stay that way.
 
 Two things follow:
 
