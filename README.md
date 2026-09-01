@@ -17,6 +17,9 @@ rather than designed for a stretched lattice.
 **[Read the writeup](https://gernreich.github.io/bore-stretched/)** — the same
 text as this page, set for reading, with a table of contents.
 
+**[Download everything as a ZIP](https://github.com/Gernreich/bore-stretched/archive/refs/heads/main.zip)**
+— GitHub builds it from `main` on every push, so it is never out of date.
+
 Built for **[LaserMadeMusic](https://www.youtube.com/@LaserMadeMusic)**, where
 the cutting and the playing are shown.
 
