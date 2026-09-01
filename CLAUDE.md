@@ -4,12 +4,20 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-A **test bore**, and a fork of the toolchain that cuts it. Straight blocks are 30mm long,
-turning blocks are 16mm cubes, and the airway is 10 x 10mm the whole way. 548mm of
-centreline from a walk that gives 352mm on a uniform 16mm block.
+Bores whose straight blocks are longer than their turns, and a fork of the toolchain that
+cuts them. Straight blocks are 30mm long, turning blocks are 16mm cubes, and the airway is
+10 x 10mm the whole way.
 
-Not an instrument: no mouthpiece, no bell, and the walk was borrowed from
-`../trumpet-final-youtube-candidate` rather than designed for a stretched lattice.
+Two designs, each in its own folder with its own walk in `tools/walks/`:
+
+- **`bore/`** — the original test, 22 blocks, 548mm. The walk was borrowed from
+  `../trumpet-final-youtube-candidate` rather than designed for a stretched lattice.
+  **Parts 1 and 2 are cut**; treat its files as describing wood.
+- **`coil/`** — 44 blocks, 1096mm. `WUED` repeated with an `N` spacer every three terms,
+  which walks a square circuit in cross-section while stepping north. The first design laid
+  out for this lattice. Nothing cut yet.
+
+Neither is an instrument: no mouthpiece, no bell.
 
 ## The other repositories are FROZEN
 
@@ -114,6 +122,8 @@ cd tools
 W="$(cat walks/stretched_test.txt)"
 python3 bore_split.py --bore=10 --straight=30 --refuse-elbows "$W" --write ../bore
 ~/boxes/venv/bin/python check.py "$W" --bore=10 --straight=30 --files ../bore
+C="$(cat walks/coil.txt)"
+python3 bore_split.py --bore=10 --straight=30 --refuse-elbows "$C" --write ../coil
 ```
 
 **Tune the fit with `PIN_PLAY`. Do not move the tab.** Two standing decisions, both the
@@ -151,9 +161,20 @@ only at the sheets as the machine sees them and never at the geometry.
 not in `/usr/bin/python3`. Run as a script it writes all six files and then dies on the
 import, files written and ungated. Use the Boxes.py venv.
 
-**There is no `regress.py` here.** The frozen corpus lives in `../bore-generator` and gates
-the frozen toolchain; this fork has one design and gates it on write. If this grows a second
-design, it needs its own corpus rather than borrowing that one.
+**There is no `regress.py` here**, and there are now two designs, which is the point at
+which one starts to be worth having. The frozen corpus in `../bore-generator` gates the
+frozen toolchain and knows nothing about this fork. Each design here is gated on write and
+nowhere else, so **a change to `tools/` is only proved against whichever design you happened
+to rebuild**. Rebuild both:
+
+```sh
+cd tools
+python3 bore_split.py --bore=10 --straight=30 --refuse-elbows "$(cat walks/stretched_test.txt)" --write ../bore
+python3 bore_split.py --bore=10 --straight=30 --refuse-elbows "$(cat walks/coil.txt)" --write ../coil
+```
+
+and remember `bore/` describes cut parts, so a rebuild that changes it needs asking about
+first.
 
 **After editing `README.md`** — regenerate the page, then audit:
 

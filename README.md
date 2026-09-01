@@ -1,6 +1,6 @@
 # bore-stretched
 
-A bore whose **straight blocks are longer than its turns**. The cross-section
+Bores whose **straight blocks are longer than their turns**. The cross-section
 stays square the whole way — 10 x 10mm of air — but a block that runs straight
 is 30mm long, while a block that turns is a 16mm cube. The same walk that gives
 352mm of centreline on a uniform 16mm block gives **548mm** here, without
@@ -61,6 +61,61 @@ them.
 
 [`bore/bore.html`](bore/bore.html) is the viewer: drag to turn, colour by
 direction or by section.
+
+## The coil — `coil/`
+
+The second design, and the first laid out for a stretched lattice rather than
+borrowed from a cubic one. **`WUED` repeated**, an `N` spacer every three terms,
+and a north buffer at each end:
+
+    N N1 W3 U2 E3 N3 D3 W2 U3 N3 E3 D2 W3 N3 U3 E2 D3 N1
+
+Each `W U E D` returns to the same place in cross-section, so the bore walks a
+square circuit while the `N` terms push it north — a square coil. The three
+terms in each circuit read `3 2 3`, and the middle ones taken in order spell
+`UWDE`.
+
+| | |
+| --- | ---: |
+| blocks | 44 — 28 straights at 30mm, 16 cubic turns |
+| centreline | **1096mm** |
+| envelope | 122 x 122 x 304mm |
+| sections | 12, 80 flat parts |
+
+**It enters and leaves north, and both outer faces are flat**, so a mouthpiece
+and a bell seat straight onto them.
+
+**44 is the shortest this walk gets without an elbow.** Drop the lead-in and
+section 1 becomes an elbow — the mouth block would turn with nothing to fold
+into. Drop the lead-out and it is 43 blocks but leaves pointing down. Every
+buffer length from 1 to 3 at either end is elbow-free, so the ends are free;
+these are just the smallest that keep both openings facing north.
+
+**There is no slack anywhere else.** All fifteen windows of the elbow rule sit
+exactly on their minimum, so shortening any middle term costs an elbow at once.
+
+| # | file | sheet |
+|---|---|---|
+| 1 | [`coil/01_bend_DL_buttin.svg`](coil/01_bend_DL_buttin.svg) | 325x70mm |
+| 2 | [`coil/02_bend_LUUR.svg`](coil/02_bend_LUUR.svg) | 456x86mm |
+| 3 | [`coil/03_bend_RD.svg`](coil/03_bend_RD.svg) | 337x70mm |
+| 4 | [`coil/04_bend_DL.svg`](coil/04_bend_DL.svg) | 331x73mm |
+| 5 | [`coil/05_bend_DLLU.svg`](coil/05_bend_DLLU.svg) | 482x73mm |
+| 6 | [`coil/06_bend_RD.svg`](coil/06_bend_RD.svg) | 337x70mm |
+| 7 | [`coil/07_bend_DR.svg`](coil/07_bend_DR.svg) | 331x73mm |
+| 8 | [`coil/08_bend_RDDL.svg`](coil/08_bend_RDDL.svg) | 456x86mm |
+| 9 | [`coil/09_bend_LD.svg`](coil/09_bend_LD.svg) | 337x70mm |
+| 10 | [`coil/10_bend_DR.svg`](coil/10_bend_DR.svg) | 331x73mm |
+| 11 | [`coil/11_bend_URRD.svg`](coil/11_bend_URRD.svg) | 482x73mm |
+| 12 | [`coil/12_bend_LD_buttout.svg`](coil/12_bend_LD_buttout.svg) | 337x70mm |
+
+Sections 3 and 6 are the same shape, and 7 and 10; they are cut separately so
+each carries its own engraved number. [`coil/coil.html`](coil/coil.html) is its
+viewer, and [`tools/walks/coil.txt`](tools/walks/coil.txt) holds the walk.
+
+    cd tools
+    python3 bore_split.py --bore=10 --straight=30 --refuse-elbows \
+        "$(cat walks/coil.txt)" --write ../coil
 
 ## The joint between sections
 
