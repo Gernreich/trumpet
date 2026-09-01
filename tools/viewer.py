@@ -247,28 +247,38 @@ const CORN = [
 let yaw = 0.62, pitch = 0.72, zoom = 1, panX = 0, panY = 0;
 let mode = 'dir', reveal = D.cells.length, isolate = null, spinning = false;
 
-const key = (c) => c[0] + ',' + c[1] + ',' + c[2];
-const occAll = new Set(D.cells.map(c => key(c.p)));
+/* A cell is a box in mm, c.a to c.b. Blocks differ in length, so a face is
+   hidden only where a neighbour covers the whole of it - measured, because
+   there is no lattice index to compare any more. */
+function covers(c, o, f) {
+  const n = NRM[f], ax = n[0] ? 0 : (n[1] ? 1 : 2);
+  const touch = n[ax] > 0 ? Math.abs(o.a[ax] - c.b[ax]) : Math.abs(o.b[ax] - c.a[ax]);
+  if (touch > 1e-6) return false;
+  for (let i = 0; i < 3; i++) {
+    if (i === ax) continue;
+    const lap = Math.min(c.b[i], o.b[i]) - Math.max(c.a[i], o.a[i]);
+    if (lap < (c.b[i] - c.a[i]) - 1e-6) return false;
+  }
+  return true;
+}
 
 /* centre on the whole bore, so revealing blocks does not shift the model */
 const centre = (() => {
   const lo = [Infinity, Infinity, Infinity], hi = [-Infinity, -Infinity, -Infinity];
   for (const c of D.cells) for (let i = 0; i < 3; i++) {
-    lo[i] = Math.min(lo[i], c.p[i]); hi[i] = Math.max(hi[i], c.p[i] + 1);
+    lo[i] = Math.min(lo[i], c.a[i]); hi[i] = Math.max(hi[i], c.b[i]);
   }
   return { c: lo.map((v, i) => (v + hi[i]) / 2), lo: lo, hi: hi };
 })();
 
 function faces() {
   const shown = D.cells.slice(0, reveal);
-  const occ = reveal === D.cells.length ? occAll : new Set(shown.map(c => key(c.p)));
   const out = [];
   for (let i = 0; i < shown.length; i++) {
     const c = shown[i];
     if (isolate !== null && (mode === 'dir' ? c.d : c.s) !== isolate) continue;
     for (let f = 0; f < 6; f++) {
-      const n = NRM[f];
-      if (occ.has(key([c.p[0]+n[0], c.p[1]+n[1], c.p[2]+n[2]]))) continue;
+      if (shown.some(o => o !== c && covers(c, o, f))) continue;
       out.push({ cell: c, i: i, f: f });
     }
   }
@@ -312,8 +322,9 @@ function draw() {
   let px0 = Infinity, px1 = -Infinity, py0 = Infinity, py1 = -Infinity;
   for (const c of D.cells) {
     for (let i = 0; i < 8; i++) {
-      const r = rot([c.p[0] + (i & 1), c.p[1] + ((i >> 1) & 1),
-                     c.p[2] + ((i >> 2) & 1)]);
+      const r = rot([(i & 1) ? c.b[0] : c.a[0],
+                     ((i >> 1) & 1) ? c.b[1] : c.a[1],
+                     ((i >> 2) & 1) ? c.b[2] : c.a[2]]);
       px0 = Math.min(px0, r[0]); px1 = Math.max(px1, r[0]);
       py0 = Math.min(py0, r[1]); py1 = Math.max(py1, r[1]);
     }
@@ -329,7 +340,9 @@ function draw() {
   for (const q of faces()) {
     const n = NRM[q.f], rn = rot([n[0] + centre.c[0], n[1] + centre.c[1], n[2] + centre.c[2]]);
     if (rn[2] <= 0.001) continue;                 /* facing away */
-    const pts = CORN[q.f].map(v => P([q.cell.p[0]+v[0], q.cell.p[1]+v[1], q.cell.p[2]+v[2]]));
+    const pts = CORN[q.f].map(v => P([v[0] ? q.cell.b[0] : q.cell.a[0],
+                                      v[1] ? q.cell.b[1] : q.cell.a[1],
+                                      v[2] ? q.cell.b[2] : q.cell.a[2]]));
     const z = pts.reduce((a, p) => a + p[2], 0) / 4;
     list.push({ pts, z, q, rn });
   }
@@ -442,7 +455,9 @@ function buildList() {
     tr.children[0].textContent = i + 1;
     tr.children[1].innerHTML = '<span class="sw" style="background:'
       + D.dircol[c.d] + '"></span> ' + DIRNAME[c.d];
-    tr.children[2].textContent = '(' + c.p.join(',') + ')';
+    /* the block's low corner in mm; there is no lattice index to show once
+       straights and turns are different lengths */
+    tr.children[2].textContent = '(' + c.a.map(v => Math.round(v)).join(',') + ')';
     tr.children[3].textContent = turn ? 'turn' : '';
     t.appendChild(tr);
   });
@@ -489,7 +504,12 @@ def build(text, title):
         for j in g:
             sec_of[j] = i
     pal = wheel(len(groups))
-    cells = [{'p': list(r['pos']), 'd': r['out'], 's': sec_of[i], 'i0': i}
+    # Real boxes in mm, not lattice cells: a straight block may be longer than
+    # a turn, and drawing every cell as a unit cube then shows a bore nobody
+    # is cutting. For a cubic cell a..b is exactly the old unit cube scaled.
+    boxes = bore_split.block_boxes(rec)
+    cells = [{'a': list(boxes[i][0]), 'b': list(boxes[i][1]),
+              'd': r['out'], 's': sec_of[i], 'i0': i}
              for i, r in enumerate(rec)]
 
     # the two ends of the bore, as (cell index : face index)
@@ -504,7 +524,8 @@ def build(text, title):
     data = {
         'cells': cells,
         'blocks': len(rec),
-        'mm': round(len(rec) * bore_split.BLOCK),
+        'mm': round(sum(bore_split.extent(r, bore_split.AXIS[r['out']])
+                        for r in rec)),
         'dircol': DIRCOL,
         'dirs': [{'k': d, 'name': DIRNAME[d],
                   'n': sum(1 for r in rec if r['out'] == d)}

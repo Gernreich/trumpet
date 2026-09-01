@@ -21,10 +21,18 @@ beside the frozen `SnakeBox` instead of over it.
 
 Two things follow:
 
-- **Fixes do not flow back on their own.** `tools/bore_split.py` here already differs beyond
-  the stretch: its page-title rule was tightened, because the frozen one climbs past
+- **Fixes do not flow back on their own.** Two files here already differ beyond the stretch.
+  `tools/bore_split.py` has a tightened page-title rule, because the frozen one climbs past
   `bore-stretched` to the parent directory and titles the page "Git Bore Stretched Bore".
-  If a fix matters over there, it has to be asked for, not assumed.
+  `tools/viewer.py` draws each block from its real box rather than as a unit cube, and hides
+  a face only where a neighbour measurably covers the whole of it — the frozen one culls by
+  lattice index, which no longer exists here. If a fix matters over there, it has to be
+  asked for, not assumed.
+
+  The viewer is worth calling out because **nothing gates it**. `check.py` never looks at
+  the page, so a render can be wrong while 194 checks pass — which is exactly what happened:
+  the geometry, the plates and the voxel model were all correct and the picture still showed
+  a uniform 10mm lattice. Look at the render after changing the geometry.
 - **Check the freeze after touching Boxes.py.** Installing anything into `~/boxes` can
   disturb the shared checkout. The test is that the frozen toolchain still reproduces a
   shipped file byte for byte:
