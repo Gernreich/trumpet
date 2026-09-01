@@ -92,6 +92,20 @@ overlaps and engraving on material, all of which a 16mm folder passes at `--bloc
 The pitch decides the *geometry* half of the gate, which is recut in-process. Gate a folder
 at the wrong blocksize and it reports 194 checks and 0 failed on a design nobody cut.
 
+## One viewer, one bore or several
+
+`viewer.build_many([(label, walk), ...], title)` is the only page builder. `build()` is it
+with a single item, and a single item hides the selector, so a per-bore page is what it
+always was. `sizes.py` passes two and writes one page holding a design at both the block
+sizes it is cut at.
+
+A gallery is **more sets in the same viewer**, not a second viewer: two templates would
+drift, and the drawing code is the part that has been wrong before.
+
+Anything derived from `D` has to be rebuilt when the set changes — `occAll` and `centre`
+both are, and a stale `occAll` hides faces the new set has no neighbour for. The switch also
+resets the camera, because a zoom kept from the 25mm strands the 10mm off-screen.
+
 ## Never regenerate what you cannot check
 
 `regress.py` runs the full gate over every design in `walks/` and the design

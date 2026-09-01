@@ -191,11 +191,15 @@ input[type="range"]::-moz-range-thumb {
 
 <div class="rail" id="title-rail">
   <h1>__TITLE__</h1>
-  <div class="walk">__WALK__</div>
+  <div class="walk" id="walk">__WALK__</div>
   <div class="stat" id="stat"></div>
 </div>
 
 <div class="rail" id="controls">
+  <div id="pick-wrap" style="display:none">
+    <div class="label">Size</div>
+    <div class="seg" role="group" aria-label="Which size" id="pick"></div>
+  </div>
   <div>
     <div class="label">Colour by</div>
     <div class="seg" role="group" aria-label="Colour by">
@@ -230,7 +234,8 @@ input[type="range"]::-moz-range-thumb {
 </div>
 
 <script>
-const D = __DATA__;
+const SETS = __SETS__;
+let D = SETS[0].d;
 
 const cv = document.getElementById('c');
 const ctx = cv.getContext('2d');
@@ -248,16 +253,18 @@ let yaw = 0.62, pitch = 0.72, zoom = 1, panX = 0, panY = 0;
 let mode = 'dir', reveal = D.cells.length, isolate = null, spinning = false;
 
 const key = (c) => c[0] + ',' + c[1] + ',' + c[2];
-const occAll = new Set(D.cells.map(c => key(c.p)));
+let occAll = new Set(D.cells.map(c => key(c.p)));
 
 /* centre on the whole bore, so revealing blocks does not shift the model */
-const centre = (() => {
+let centre = null;
+function recentre() { centre = (() => {
   const lo = [Infinity, Infinity, Infinity], hi = [-Infinity, -Infinity, -Infinity];
   for (const c of D.cells) for (let i = 0; i < 3; i++) {
     lo[i] = Math.min(lo[i], c.p[i]); hi[i] = Math.max(hi[i], c.p[i] + 1);
   }
   return { c: lo.map((v, i) => (v + hi[i]) / 2), lo: lo, hi: hi };
-})();
+})(); }
+recentre();
 
 function faces() {
   const shown = D.cells.slice(0, reveal);
@@ -473,6 +480,35 @@ function buildKeys() {
   }
 }
 
+/* Several bores in one page -- the same design at more than one block size.
+   occAll is derived from D, so it has to be rebuilt with it; a stale one hides
+   faces that the new set does not have a neighbour for. Reset the camera too:
+   the sizes differ, and a zoom kept from one strands the other off-screen. */
+function pickCoil(i) {
+  D = SETS[i].d;
+  occAll = new Set(D.cells.map(c => key(c.p)));
+  recentre();
+  reveal = D.cells.length;
+  $('reveal').max = reveal; $('reveal').value = reveal;
+  $('reveal-count').textContent = reveal + ' / ' + reveal;
+  document.getElementById('walk').textContent = SETS[i].walk;
+  yaw = 0.62; pitch = 0.72; zoom = 1; panX = panY = 0;
+  isolate = null;
+  for (const b of $('pick').children)
+    b.setAttribute('aria-pressed', +b.dataset.i === i);
+  buildKeys(); buildList(); draw();
+}
+if (SETS.length > 1) {
+  $('pick-wrap').style.display = '';
+  SETS.forEach((s, i) => {
+    const b = document.createElement('button');
+    b.textContent = s.label; b.dataset.i = i;
+    b.setAttribute('aria-pressed', i === 0);
+    b.onclick = () => pickCoil(i);
+    $('pick').appendChild(b);
+  });
+}
+
 window.addEventListener('resize', draw);
 $('reveal-count').textContent = D.cells.length + ' / ' + D.cells.length;
 buildKeys();
@@ -482,7 +518,10 @@ draw();
 '''
 
 
-def build(text, title):
+def data_for(text):
+    """The one dict the page draws from. Split out of build() so several walks
+    can share a page: a gallery is the same viewer with more than one set, not a
+    second viewer."""
     rec, groups, plans, plan, unfilled = specs_for(text)
     sec_of = {}
     for i, g in enumerate(groups):
@@ -515,10 +554,23 @@ def build(text, title):
         'inCol': '#1c1c20',
         'outCol': '#e0457b',
     }
-    return (HTML.replace('__DATA__', json.dumps(data, separators=(',', ':')))
+    return data
+
+
+def build(text, title):
+    return build_many([(None, text)], title)
+
+
+def build_many(items, title):
+    """items is [(label, walk)]. One item hides the selector, so a single page
+    is what it always was."""
+    sets = [{'label': lab or '', 'walk': txt.strip(), 'd': data_for(txt)}
+            for lab, txt in items]
+    first = sets[0]
+    return (HTML.replace('__SETS__', json.dumps(sets, separators=(',', ':')))
                 .replace('__TITLE__', title)
-                .replace('__WALK__', text.strip())
-                .replace('__N__', str(len(rec))))
+                .replace('__WALK__', first['walk'])
+                .replace('__N__', str(first['d']['blocks'])))
 
 
 def main(argv):

@@ -109,7 +109,7 @@ PLAY_UNMEASURED = 0.025
 
 
 def pin_play():
-    return PLAY_BY_BORE.get(round(BLOCK - 2 * THICKNESS, 3), PLAY_UNMEASURED)     # per side, so the notch opens by twice this
+    return PLAY_BY_BORE.get(round(BLOCK - 2 * THICKNESS, 3), PLAY_UNMEASURED)
 
 
 def pin_width():
