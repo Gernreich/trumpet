@@ -86,7 +86,14 @@ MIN_SHOULDER = 2.0   # material left either side of the tab, along the frame
 # fit before you add char, glue or any kerf the burn allowance did not predict.
 # Reported from the bench 2026-08-31: section 1 would not enter section 2. This
 # widens the notch only -- the tab keeps its full width and strength.
-PIN_PLAY = 0.15      # per side, so the notch opens by twice this
+#
+# The number is measured, not guessed. Four fits were cut in 3mm ply at the 10mm
+# bore: 0.0 would not assemble at all, 0.3 went together with a perceptible
+# rock, 0.1 was very slightly loose, 0.05 fits. It is an absolute clearance and
+# not a proportion -- what it has to absorb is kerf variance and a fuzzy ply
+# edge, neither of which scales with the tab -- so the same 0.05 serves the
+# 25mm bore, where it is simply a smaller fraction of a wider tab.
+PIN_PLAY = 0.025     # per side, so the notch opens by twice this
 
 
 def pin_width():

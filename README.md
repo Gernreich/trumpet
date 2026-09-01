@@ -303,7 +303,15 @@ finger joint is a dozen teeth sharing an edge, where the errors average out,
 while a section seam is one tab in one notch drawn exactly its own width. That
 is a press fit before char, glue, or any kerf the burn allowance did not
 predict — section 1 would not enter section 2 on the bench. `COMMON` now passes
-**0.15mm per side**, so the notch opens 0.3mm and the tab keeps its full width.
+**0.025mm per side**, so the notch opens 0.05mm and the tab keeps its full
+width.
+
+**That number was cut, not chosen.** Four fits went through 3mm ply at the 10mm
+bore: 0.0 would not assemble at all, 0.3 went together with a perceptible rock,
+0.1 was very slightly loose, 0.05 fits. It is an absolute clearance rather than
+a proportion — what it absorbs is kerf variance and a fuzzy ply edge, and
+neither scales with the tab — so the same 0.05 serves the 25mm bore, where it is
+simply a smaller fraction of a wider tab.
 
 ### The tab is centred on the tube, not on the edge it sits in
 
