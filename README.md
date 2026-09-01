@@ -77,11 +77,12 @@ block: 12mm at 25, 6mm at 10. Without that floor the fraction alone gives
 4.8mm at 10 — a seam tab narrower than the ordinary teeth beside it, which is
 exactly backwards.
 
-The notch it enters is opened by **0.025mm per side**, so the joint carries
-0.05mm of clearance; the tab keeps its full width. That figure comes off the
-bench rather than out of the air — 0.3mm rocked and 0.1mm was still slightly
-loose when the same joint was cut at this bore in
-**[bore-stretched](https://github.com/Gernreich/bore-stretched)**. SnakeBox leaves that at zero, on the grounds that finger joints have no
+The notch it enters is opened by a clearance that **differs between the two
+sizes, because both were measured**: the 25mm joint carries **0.0** and the 10mm
+**0.05mm**. That is not an oversight. Zero assembles and fits well at 25mm — it
+is what this trumpet was built with — and at 10mm the same zero will not go
+together at all, while 0.3 rocked and 0.1 was still slightly loose. The tab
+keeps its full width at both. SnakeBox leaves that at zero, on the grounds that finger joints have no
 play either, but a finger joint is a dozen teeth sharing an edge and a section
 seam is one tab in one notch. At zero the two are drawn the same width and the
 sections will not go together.
