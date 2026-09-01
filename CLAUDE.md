@@ -193,6 +193,18 @@ only at the sheets as the machine sees them and never at the geometry.
 not in `/usr/bin/python3`. Run as a script it writes all six files and then dies on the
 import, files written and ungated. Use the Boxes.py venv.
 
+## One viewer, one or several coils
+
+`viewer.build_many([(label, walk), ...], title)` is the only page builder. `build()` is it
+with a single item, and a single item hides the selector, so a per-coil page is what it
+always was. `tools/coils.py` passes four and writes `coils.html`.
+
+That is deliberate: a gallery is **more sets in the same viewer**, not a second viewer. Two
+templates would drift, and the drawing code is the part that has been wrong before.
+
+The switch resets the camera, and it has to. The coils differ in size by a factor of four,
+so a zoom kept from the 3-turn strands the ¾ off-screen.
+
 ## `regress.py` gates both designs, and what it cannot see
 
 ```sh

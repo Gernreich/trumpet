@@ -63,7 +63,13 @@ Each group costs exactly **11 blocks**, so shortening to the previous spacer is 
 flat price — 11, 22, 33, 44. All four enter and leave north with flat outer faces, and none has
 an elbow.
 
-Each folder carries its own viewer:
+**[`coils.html`](coils.html) holds all four in one page**, with a control that
+switches between them. Comparing lengths of one coil is the whole point of
+having four, and four separate pages lose the camera every time you open
+another. It is not a second viewer — `tools/coils.py` calls the same
+`viewer.build_many` the per-coil pages go through, with more than one set in it.
+
+Each folder also carries its own viewer:
 [`coil-10x10x30-0.75t.html`](coil-10x10x30-0.75t/coil-10x10x30-0.75t.html),
 [`coil-10x10x30-1.5t.html`](coil-10x10x30-1.5t/coil-10x10x30-1.5t.html),
 [`coil-10x10x30-2.25t.html`](coil-10x10x30-2.25t/coil-10x10x30-2.25t.html) and
@@ -268,7 +274,8 @@ Its generator installs into Boxes.py as **`SnakeBoxVar`**, beside the frozen
 | `tools/snakeboxvar.py` | the Boxes.py generator that draws one flat piece |
 | `tools/check.py` | the gate: every check that runs before anything is cut |
 | `tools/assemble.py` | voxels the assembled bore, for the seal and volume checks |
-| `tools/viewer.py` | writes the 3D page beside the cut files |
+| `tools/viewer.py` | writes the 3D page beside the cut files, one coil or several |
+| `tools/coils.py` | writes `coils.html`, every coil in one page |
 | `tools/bore_render.py` | the colours and direction names the viewer uses |
 | `tools/svgpath.py` | reads and writes the path data |
 | `tools/regress.py` | runs the gate over both designs at once |

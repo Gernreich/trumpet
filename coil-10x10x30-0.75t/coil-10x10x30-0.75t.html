@@ -173,11 +173,15 @@ input[type="range"]::-moz-range-thumb {
 
 <div class="rail" id="title-rail">
   <h1>10x10x30 Coil, ¾ Turn</h1>
-  <div class="walk">N N1 W3 U2 E3 N1</div>
+  <div class="walk" id="walk">N N1 W3 U2 E3 N1</div>
   <div class="stat" id="stat"></div>
 </div>
 
 <div class="rail" id="controls">
+  <div id="pick-wrap" style="display:none">
+    <div class="label">Turns</div>
+    <div class="seg" role="group" aria-label="Which coil" id="pick"></div>
+  </div>
   <div>
     <div class="label">Colour by</div>
     <div class="seg" role="group" aria-label="Colour by">
@@ -212,7 +216,8 @@ input[type="range"]::-moz-range-thumb {
 </div>
 
 <script>
-const D = {"cells":[{"a":[-8.0,-8.0,-30.0],"b":[8.0,8.0,0.0],"d":"N","s":0,"i0":0},{"a":[-8.0,-8.0,-46.0],"b":[8.0,8.0,-30.0],"d":"W","s":0,"i0":1},{"a":[-38.0,-8.0,-46.0],"b":[-8.0,8.0,-30.0],"d":"W","s":0,"i0":2},{"a":[-68.0,-8.0,-46.0],"b":[-38.0,8.0,-30.0],"d":"W","s":1,"i0":3},{"a":[-84.0,-8.0,-46.0],"b":[-68.0,8.0,-30.0],"d":"U","s":1,"i0":4},{"a":[-84.0,8.0,-46.0],"b":[-68.0,38.0,-30.0],"d":"U","s":1,"i0":5},{"a":[-84.0,38.0,-46.0],"b":[-68.0,54.0,-30.0],"d":"E","s":1,"i0":6},{"a":[-68.0,38.0,-46.0],"b":[-38.0,54.0,-30.0],"d":"E","s":1,"i0":7},{"a":[-38.0,38.0,-46.0],"b":[-8.0,54.0,-30.0],"d":"E","s":2,"i0":8},{"a":[-8.0,38.0,-46.0],"b":[8.0,54.0,-30.0],"d":"N","s":2,"i0":9},{"a":[-8.0,38.0,-76.0],"b":[8.0,54.0,-46.0],"d":"N","s":2,"i0":10}],"blocks":11,"mm":274,"dircol":{"N":"#2f6ea8","S":"#e08a2e","E":"#3f8f5e","W":"#9b4a9c","U":"#cf4433","D":"#8b9096"},"dirs":[{"k":"N","name":"north","n":3},{"k":"E","name":"east","n":3},{"k":"W","name":"west","n":3},{"k":"U","name":"up","n":2}],"sections":[{"col":"#2f6f4e","kind":"bend","n":3},{"col":"#b5563a","kind":"bend","n":5},{"col":"#3a5f8a","kind":"bend","n":3}],"openings":{"0:4":"IN","10:5":"OUT"},"inCol":"#1c1c20","outCol":"#e0457b"};
+const SETS = [{"label":"","walk":"N N1 W3 U2 E3 N1","d":{"cells":[{"a":[-8.0,-8.0,-30.0],"b":[8.0,8.0,0.0],"d":"N","s":0,"i0":0},{"a":[-8.0,-8.0,-46.0],"b":[8.0,8.0,-30.0],"d":"W","s":0,"i0":1},{"a":[-38.0,-8.0,-46.0],"b":[-8.0,8.0,-30.0],"d":"W","s":0,"i0":2},{"a":[-68.0,-8.0,-46.0],"b":[-38.0,8.0,-30.0],"d":"W","s":1,"i0":3},{"a":[-84.0,-8.0,-46.0],"b":[-68.0,8.0,-30.0],"d":"U","s":1,"i0":4},{"a":[-84.0,8.0,-46.0],"b":[-68.0,38.0,-30.0],"d":"U","s":1,"i0":5},{"a":[-84.0,38.0,-46.0],"b":[-68.0,54.0,-30.0],"d":"E","s":1,"i0":6},{"a":[-68.0,38.0,-46.0],"b":[-38.0,54.0,-30.0],"d":"E","s":1,"i0":7},{"a":[-38.0,38.0,-46.0],"b":[-8.0,54.0,-30.0],"d":"E","s":2,"i0":8},{"a":[-8.0,38.0,-46.0],"b":[8.0,54.0,-30.0],"d":"N","s":2,"i0":9},{"a":[-8.0,38.0,-76.0],"b":[8.0,54.0,-46.0],"d":"N","s":2,"i0":10}],"blocks":11,"mm":274,"dircol":{"N":"#2f6ea8","S":"#e08a2e","E":"#3f8f5e","W":"#9b4a9c","U":"#cf4433","D":"#8b9096"},"dirs":[{"k":"N","name":"north","n":3},{"k":"E","name":"east","n":3},{"k":"W","name":"west","n":3},{"k":"U","name":"up","n":2}],"sections":[{"col":"#2f6f4e","kind":"bend","n":3},{"col":"#b5563a","kind":"bend","n":5},{"col":"#3a5f8a","kind":"bend","n":3}],"openings":{"0:4":"IN","10:5":"OUT"},"inCol":"#1c1c20","outCol":"#e0457b"}}];
+let D = SETS[0].d;
 
 const cv = document.getElementById('c');
 const ctx = cv.getContext('2d');
@@ -245,13 +250,15 @@ function covers(c, o, f) {
 }
 
 /* centre on the whole bore, so revealing blocks does not shift the model */
-const centre = (() => {
+let centre = null;
+function recentre() { centre = (() => {
   const lo = [Infinity, Infinity, Infinity], hi = [-Infinity, -Infinity, -Infinity];
   for (const c of D.cells) for (let i = 0; i < 3; i++) {
     lo[i] = Math.min(lo[i], c.a[i]); hi[i] = Math.max(hi[i], c.b[i]);
   }
   return { c: lo.map((v, i) => (v + hi[i]) / 2), lo: lo, hi: hi };
-})();
+})(); }
+recentre();
 
 function faces() {
   const shown = D.cells.slice(0, reveal);
@@ -468,6 +475,34 @@ function buildKeys() {
     b.onclick = () => { isolate = (isolate === r.id) ? null : r.id; buildKeys(); draw(); };
     box.appendChild(b);
   }
+}
+
+/* Several coils in one page: same walk truncated at different points, so the
+   only thing that changes is which set of cells is drawn. Reset the view with
+   it -- they differ in size, and keeping a zoom from a longer one strands a
+   shorter one off-screen. */
+function pickCoil(i) {
+  D = SETS[i].d;
+  recentre();
+  reveal = D.cells.length;
+  $('reveal').max = reveal; $('reveal').value = reveal;
+  $('reveal-count').textContent = reveal + ' / ' + reveal;
+  document.getElementById('walk').textContent = SETS[i].walk;
+  yaw = 0.62; pitch = 0.72; zoom = 1; panX = panY = 0;
+  isolate = null;
+  for (const b of $('pick').children)
+    b.setAttribute('aria-pressed', +b.dataset.i === i);
+  buildKeys(); buildList(); draw();
+}
+if (SETS.length > 1) {
+  $('pick-wrap').style.display = '';
+  SETS.forEach((s, i) => {
+    const b = document.createElement('button');
+    b.textContent = s.label; b.dataset.i = i;
+    b.setAttribute('aria-pressed', i === 0);
+    b.onclick = () => pickCoil(i);
+    $('pick').appendChild(b);
+  });
 }
 
 window.addEventListener('resize', draw);
