@@ -10,7 +10,7 @@ changing a single term of it.
 
 This is a **test**, not an instrument: it has no mouthpiece and no bell, and the
 walk was borrowed from
-[trumpet-final-youtube-candidate](https://github.com/Gernreich/trumpet-final-youtube-candidate)
+[trumpet-switchback](https://github.com/Gernreich/trumpet-switchback)
 rather than designed for a stretched lattice.
 
 <!-- readme-only -->

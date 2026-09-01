@@ -11,7 +11,7 @@ cuts them. Straight blocks are 30mm long, turning blocks are 16mm cubes, and the
 Two designs, each in its own folder with its own walk in `tools/walks/`:
 
 - **`bore/`** — the original test, 22 blocks, 548mm. The walk was borrowed from
-  `../trumpet-final-youtube-candidate` rather than designed for a stretched lattice.
+  `../trumpet-switchback` rather than designed for a stretched lattice.
   **Parts 1 and 2 are cut**; treat its files as describing wood.
 - **`coil-10x10x30-3t/`** — 44 blocks, 1096mm. **Coils are named for the block and the
   number of full turns**: a 10 x 10mm airway on a 30mm straight, three times round. That is
@@ -26,7 +26,7 @@ Neither is an instrument: no mouthpiece, no bell.
 ## The other repositories are FROZEN
 
 `../bore-generator` and every repository it cuts for — `../trumpet-coiled`,
-`../trumpet-octagonal`, `../trumpet-parts`, `../trumpet-final-youtube-candidate` — keep the
+`../trumpet-octagonal`, `../trumpet-parts`, `../trumpet-switchback` — keep the
 scripts they were gated against. **Do not change them to suit this one.** That is why
 `tools/` is a copy rather than an import, and why the generator installs as `SnakeBoxVar`
 beside the frozen `SnakeBox` instead of over it.
@@ -51,9 +51,9 @@ Two things follow:
 
 ```sh
 cd ../bore-generator
-W="$(cat walks/trumpet_final_youtube_candidate.txt)"
+W="$(cat walks/trumpet_switchback.txt)"
 ~/boxes/venv/bin/python bore_split.py --blocksize=16 --refuse-elbows "$W" --write /tmp/f
-cmp /tmp/f/02_bend_LUUR.svg ../trumpet-final-youtube-candidate/10mm/bore/02_bend_LUUR.svg
+cmp /tmp/f/02_bend_LUUR.svg ../trumpet-switchback/10mm/bore/02_bend_LUUR.svg
 ```
 
 ## A turn is a cube because it has to be
@@ -93,7 +93,7 @@ past a corner and retraces the same line. Spotted on 2026-08-31 and deliberately
 - **They cut into waste, not into the part.** Every spur tip tests outside the plate
   outline, so it is a slit in the offcut, not a nick in the piece. No dimension moves.
 - **They are not from the stretched lattice.** The frozen 10mm bore in
-  `../trumpet-final-youtube-candidate` has the identical 20, and its 25mm bore has none.
+  `../trumpet-switchback` has the identical 20, and its 25mm bore has none.
   They appear once the end frame drops below 12mm: zero at block 18 and above, four at 17
   and 16.
 - **The cause is below this code.** The polygon `plateBorders()` hands over is clean — no
