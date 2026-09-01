@@ -132,7 +132,7 @@ Sized on the bench over four goes, all 2026-08-31:
 | 0.0mm | would not go together at all |
 | 0.3mm | went together, perceptible rock |
 | 0.1mm | very slightly loose |
-| **0.05mm** | current: tab 6.0, notch 6.05 |
+| **0.05mm** | current: tab 6.0, notch 6.05 — **confirmed on the bench**, parts 1 and 2 fit themselves and each other |
 
 The 0.1mm round widened the tab to 6.2 and held the notch at 6.3, because parts 1 and 2
 were cut and a cut notch cannot be narrowed. That left two tab sizes in one bore. The

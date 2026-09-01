@@ -89,7 +89,7 @@ by narrowing the notch, and `--pin_play` is the only number that changes.
 | 0.0mm | would not go together at all |
 | 0.3mm | went together, perceptible rock |
 | 0.1mm | very slightly loose |
-| **0.05mm** | current |
+| **0.05mm** | current, and confirmed: parts 1 and 2 fit |
 
 **The clearance is the point.** SnakeBox leaves `--pin_play` at 0 on the grounds
 that finger joints carry none either, and that does not follow: a finger joint
