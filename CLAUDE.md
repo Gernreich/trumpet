@@ -41,9 +41,11 @@ moving the result across, because they write into their own directory. Two traps
 - **A bare `bell-round.py` writes `bell-round-17rings.svg` back into `../trumpet-parts/bell`,**
   since it is one of that script's four standard budgets. Move it here or delete it; do not
   leave a second copy there.
-- **The generators write no engraving.** Every sheet here carries a `<g id="ring-numbers">`
-  that `number_rings.py --order=document` added afterwards, and a regenerate throws it away
-  silently. Put it back before cutting.
+- **The generators number their own rings.** Every sheet here carries a
+  `<g id="ring-numbers">`, and `bell-round.py` and `mouthpiece-round.py` write it themselves
+  as the last step, so a regenerate keeps it. `--numbers=no` opts out; a numbering failure
+  deletes the sheet rather than leaving an unnumbered one to be cut. This used to be a
+  separate command you had to remember, and forgetting it cost a sheet its numbering once.
 
 Sibling repositories — `trumpet-coiled`, `trumpet-octagonal`, `torus-octagonal`,
 `knotwork-soundholes`, `living-hinge` and others — follow the same conventions. Shared
@@ -274,8 +276,8 @@ python3 bore_split.py --blocksize=16 --refuse-elbows "$W" --write $D/10mm/bore
 
 The mouthpiece and the bell are **not generated here** — they come from
 `../trumpet-parts` and are copied in. Those generators write into their own directory, so
-copy the result across afterwards; they also strip the engraved ring numbers, which
-`number_rings.py --order=document` puts back:
+copy the result across afterwards. They engrave the ring numbers themselves, so these two
+commands are the whole job:
 
 ```sh
 cd ../trumpet-parts/mouthpiece

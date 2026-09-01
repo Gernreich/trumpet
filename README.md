@@ -154,6 +154,12 @@ Both bells are 17 rings and both seat on the ring below over **3.00mm per side
 at every joint** — see
 [bell-round.py](https://github.com/Gernreich/trumpet-parts/blob/main/bell/bell-round.py).
 Each mouthpiece is 30 rings of one lamination, so its sheet is cut once.
+
+**Every ring on all four sheets carries its own number, engraved in blue before the
+cut** — hex, one character, 0 at the bore end. A mouthpiece narrows to the throat and
+opens again, so its backbore and its cup pass through the same diameters: once the rings
+are off the bed, nothing but the number says which half a given ring belongs to. The
+generators engrave these themselves, so a regenerated sheet still has them.
 Both mouthpieces use the `trumpet` layout, which spends its length on the
 backbore and keeps a short cup, as a real one does.
 
