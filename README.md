@@ -313,9 +313,40 @@ bore: 0.0 would not assemble at all, 0.3 went together with a perceptible rock,
 **The 25mm bore, though, assembled fine at 0.0** — the fit it was cut at before
 2026-09-01. So the requirement is not absolute and not a constant: the zero
 clearance that jams a 6mm tab in a 10mm frame is fine on a 12mm tab in a 25mm
-one. Why is not established. The tab is 60% of the small frame against 48% of
-the large, and the shoulder beside it 2.0mm against 6.5mm; either could be what
-binds.
+one.
+
+**The 10mm bore is not a small size, it is the extreme one.** Working the sizing
+rules across every bore shows they cross at exactly one place: at 10mm the tab is
+a full finger-joint tooth *and* the shoulder is at its 2mm minimum, both at once.
+Below 10mm the tab has to be cut narrower than a tooth to keep any shoulder at
+all. So the joint that jammed is the tightest geometry these rules permit, not a
+point somewhere along a range — which is worth knowing before reading much into
+one jam.
+
+A third difference goes with it, unrecorded until now: **the 10mm shoulder is
+narrower than the material is thick.** 2.00mm of shoulder in 3mm ply is 0.67 of a
+ply; the 25mm shoulder is 6.50mm, or 2.17. One is a short-grain sliver, the other
+a piece of wood.
+
+**What the two data points do rule out.** Required clearance *falls* as the joint
+grows — 0.025mm per side at a 6mm tab, zero at a 12mm one. A constant absolute
+clearance would need the same figure at both, and a constant fraction of the tab
+would need *more* at 25mm, not less. Both are contradicted. What fits the
+direction is a fabrication error that does not scale — kerf variation, ply
+thickness, positioning, all fixed in millimetres — against an elastic take-up
+that does, so the larger joint simply absorbs what the smaller one cannot.
+
+That is a hypothesis and is marked as one. Note also that the shoulder-stiffness
+reading in this repository's earlier note has a sign problem: a narrower shoulder
+is *less* stiff and should spread more easily, making the small joint easier to
+close rather than harder. It only works as an explanation if the 2mm sliver
+splits instead of flexing, which is a different mechanism.
+
+**The test that would settle it** is cheap and does not need a bore: cut a coupon
+of just the two mating end frames at an intermediate size — 16mm, where the tab is
+7.68mm and the 48% fraction is what binds — at 0.0, 0.0125 and 0.025 per side. If
+take-up scales with the joint, the middle value should be the one that fits.
+Minutes on the bed, and it turns a lookup into a curve.
 
 So the play is a **lookup of what has been cut, not a curve through it**:
 
@@ -526,7 +557,7 @@ outside every repository. Override it with an explicit path to `--write`.
 
 ## `walks/`
 
-Twenty-three bores kept as one line of notation each, and the corpus `regress.py`
+Twenty-four bores kept as one line of notation each, and the corpus `regress.py`
 runs the gate over. They exist because every one of them broke something once:
 
 | Group | Files | What they hold onto |
@@ -535,6 +566,7 @@ runs the gate over. They exist because every one of them broke something once:
 | the telescopes | `telescope_spiral.txt`, `wide_telescope.txt`, `nested_spiral.txt` | coils that grow as they climb, the widest sheets the bed will take |
 | the Hilbert cubes | `hilbert_cube.txt`, `hilbert_open.txt`, `hilbert_snorkel.txt` | a space-filling curve at three scales — the densest walks here, and the ones that fold hardest |
 | the singles | `three_block_turn.txt`, `corner_to_corner.txt`, `metre_spring.txt` | the three-block minimum on its own, a walk that turns at every opportunity, and a metre of bore in a spring |
+| the built one | `trumpet_switchback.txt` | the walk in [trumpet-switchback](https://github.com/Gernreich/trumpet-switchback), cut and assembled at both 25mm and 10mm — the only one here that exists in wood |
 
 Run them all:
 

@@ -96,9 +96,29 @@ MIN_SHOULDER = 2.0   # material left either side of the tab, along the frame
 #                                            0.3   perceptible rock
 #
 # The same zero clearance that jams the small joint is fine on the large one, so
-# the requirement is not absolute and not a constant. Why is not established: the
-# tab is 60% of the small frame against 48% of the large, and the shoulder beside
-# it 2.0mm against 6.5mm, and either could be what binds.
+# the requirement is not absolute and not a constant.
+#
+# The 10mm bore is not merely a small size, it is the extreme one. Work pin_width
+# across every bore and the two rules cross at exactly 10mm: the tab is a full
+# finger-joint tooth AND the shoulder is at its 2mm minimum, both at once. Below
+# 10mm the tab has to be cut narrower than a tooth to keep any shoulder. And the
+# shoulder there is 2.00mm in 3mm ply -- 0.67 of a ply, a short-grain sliver --
+# against 6.50mm, or 2.17 plies, at 25mm.
+#
+# What the two points rule out: required clearance FALLS as the joint grows. A
+# constant absolute clearance would want the same figure at both; a constant
+# fraction of the tab would want more at 25mm, not less. Both are contradicted.
+# What fits the direction is a fabrication error that does not scale -- kerf,
+# ply thickness, positioning, all fixed in millimetres -- against elastic take-up
+# that does, so the larger joint absorbs what the smaller cannot. Hypothesis, not
+# result. (Note the shoulder-stiffness reading has a sign problem: a narrower
+# shoulder is less stiff and should spread more easily, making the small joint
+# easier to close, not harder. It only explains the jam if the sliver splits
+# rather than flexes.)
+#
+# The test that would settle it needs no bore: cut a coupon of the two mating end
+# frames at 16mm, where the tab is 7.68mm and the 48% fraction binds, at 0.0,
+# 0.0125 and 0.025 per side. If take-up scales, the middle one fits.
 #
 # So this is a lookup of what has been cut, not a curve through it. A bore that
 # is not in the table gets the small-joint value, because that is the safe
