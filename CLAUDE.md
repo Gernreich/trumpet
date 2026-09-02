@@ -1,4 +1,6 @@
-# Working in this repository
+# CLAUDE.md
+
+## Working in this repository
 
 A laser-cutting build repository, not a software project. The deliverable is **one cut
 sheet** — `octagonal-trumpet.svg`, 444.077 × 484.599mm — plus the page describing it.
