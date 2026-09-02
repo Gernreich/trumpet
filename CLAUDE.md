@@ -40,7 +40,7 @@ moving the result across, because they write into their own directory. Two traps
 
 - **Name the sheet on the way out.** Both generators take the filename — a positional
   argument for `mouthpiece-round.py`, `--out=` for `bell-round.py` — and the names here put
-  the bore in every one: `mouthpiece-bore25-parts.svg`, `bell-bore10-152mm-17rings.svg`. The
+  the bore in every one: `mouthpiece-bore25-trumpet-parts.svg`, `bell-bore10-152mm-17rings.svg`. The
   generated names say how a sheet was *made* (which script, what length), which is not what
   someone hunting for a part needs to read, and they left the 25mm sheets with no size in
   their names at all. Take the name and there is nothing to rename afterwards.
@@ -291,7 +291,7 @@ commands are the whole job:
 
 ```sh
 cd ../trumpet-parts/mouthpiece
-python3 mouthpiece-round.py --bore=10 --rim=17 --layout=trumpet mouthpiece-bore10-parts.svg
+python3 mouthpiece-round.py --bore=10 --rim=17 --layout=trumpet mouthpiece-bore10-trumpet-parts.svg
 cd ../bell && python3 bell-round.py 17 --bore=10 --length=152 --mouth=80 \
     --out=bell-bore10-152mm-17rings.svg
 ```

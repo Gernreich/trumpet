@@ -134,7 +134,7 @@ is the least a section can have.
 
 | | `25mm/` | `10mm/` |
 |---|---|---|
-| mouthpiece | [`mouthpiece-bore25-parts.svg`](25mm/mouthpiece/mouthpiece-bore25-parts.svg) | [`mouthpiece-bore10-parts.svg`](10mm/mouthpiece/mouthpiece-bore10-parts.svg) |
+| mouthpiece | [`mouthpiece-bore25-trumpet-parts.svg`](25mm/mouthpiece/mouthpiece-bore25-trumpet-parts.svg) | [`mouthpiece-bore10-trumpet-parts.svg`](10mm/mouthpiece/mouthpiece-bore10-trumpet-parts.svg) |
 | station one | 25mm square in a 31mm plate | 10mm square in a 16mm plate |
 | rim | ø16.5mm | ø17mm |
 | bell | [`bell-bore25-17rings.svg`](25mm/bell/bell-bore25-17rings.svg) | [`bell-bore10-152mm-17rings.svg`](10mm/bell/bell-bore10-152mm-17rings.svg) |
@@ -172,10 +172,10 @@ backbore and keeps a short cup, as a real one does.
 Each also carries a section drawing — an axial slice showing the bore climbing
 one staircase and the outside climbing another:
 [`25mm/bell/bell-bore25-17rings-section.svg`](25mm/bell/bell-bore25-17rings-section.svg),
-[`25mm/mouthpiece/mouthpiece-bore25-parts-section.svg`](25mm/mouthpiece/mouthpiece-bore25-parts-section.svg),
+[`25mm/mouthpiece/mouthpiece-bore25-trumpet-parts-section.svg`](25mm/mouthpiece/mouthpiece-bore25-trumpet-parts-section.svg),
 [`10mm/bell/bell-bore10-152mm-17rings-section.svg`](10mm/bell/bell-bore10-152mm-17rings-section.svg)
 and
-[`10mm/mouthpiece/mouthpiece-bore10-parts-section.svg`](10mm/mouthpiece/mouthpiece-bore10-parts-section.svg).
+[`10mm/mouthpiece/mouthpiece-bore10-trumpet-parts-section.svg`](10mm/mouthpiece/mouthpiece-bore10-trumpet-parts-section.svg).
 **Those are display only — never cut one.**
 
 **All four sheets live here outright.** Nothing else cuts them: the 10mm pair
@@ -249,7 +249,7 @@ The mouthpiece and the bell come from
 
 ```sh
 cd ../trumpet-parts/mouthpiece
-python3 mouthpiece-round.py --bore=10 --rim=17 --layout=trumpet mouthpiece-bore10-parts.svg
+python3 mouthpiece-round.py --bore=10 --rim=17 --layout=trumpet mouthpiece-bore10-trumpet-parts.svg
 cd ../bell && python3 bell-round.py 17 --bore=10 --length=152 --mouth=80 \
     --out=bell-bore10-152mm-17rings.svg
 ```
