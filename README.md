@@ -147,10 +147,10 @@ it:
 
 | | for `25mm/` | for `10mm/` |
 |---|---|---|
-| mouthpiece | [`mouthpiece-bore25-trumpet-parts.svg`](https://github.com/Gernreich/trumpet-parts/blob/main/mouthpiece/mouthpiece-bore25-trumpet-parts.svg) | [`mouthpiece-bore10-trumpet-parts.svg`](https://github.com/Gernreich/trumpet-parts/blob/main/mouthpiece/mouthpiece-bore10-trumpet-parts.svg) |
+| mouthpiece | [`mouthpiece-bore25-trumpet-parts-cut-files.svg`](https://github.com/Gernreich/trumpet-parts/blob/main/mouthpiece/mouthpiece-bore25-trumpet-parts-cut-files.svg) | [`mouthpiece-bore10-trumpet-parts-cut-files.svg`](https://github.com/Gernreich/trumpet-parts/blob/main/mouthpiece/mouthpiece-bore10-trumpet-parts-cut-files.svg) |
 | station one | 25mm square in a 31mm plate | 10mm square in a 16mm plate |
 | rim | ø16.5mm | ø17mm |
-| bell | [`bell-round25-204mm-17rings-x4-rim145.svg`](https://github.com/Gernreich/trumpet-parts/blob/main/bell/bell-round25-204mm-17rings-x4-rim145.svg) | [`bell-round10-153mm-17rings-x3-rim86.svg`](https://github.com/Gernreich/trumpet-parts/blob/main/bell/bell-round10-153mm-17rings-x3-rim86.svg) |
+| bell | [`bell-round25-204mm-17rings-x4-rim145-cut-files.svg`](https://github.com/Gernreich/trumpet-parts/blob/main/bell/bell-round25-204mm-17rings-x4-rim145-cut-files.svg) | [`bell-round10-153mm-17rings-x3-rim86-cut-files.svg`](https://github.com/Gernreich/trumpet-parts/blob/main/bell/bell-round10-153mm-17rings-x3-rim86-cut-files.svg) |
 | bell length | 204mm | 153mm |
 | bell mouth | ø138.8 of air in a ø144.8 rim | ø80.0 of air in a ø86.0 rim |
 | **cut the bell sheet** | **4 times** | **3 times** |
@@ -268,9 +268,9 @@ The mouthpiece and the bell come from
 
 ```sh
 cd ../trumpet-parts/mouthpiece
-python3 mouthpiece-round.py --bore=10 --rim=17 --layout=trumpet mouthpiece-bore10-trumpet-parts.svg
+python3 mouthpiece-round.py --bore=10 --rim=17 --layout=trumpet mouthpiece-bore10-trumpet-parts-cut-files.svg
 cd ../bell && python3 bell-round.py 17 --bore=10 --length=152 --mouth=80 \
-    --out=bell-round10-153mm-17rings-x3-rim86.svg
+    --out=bell-round10-153mm-17rings-x3-rim86-cut-files.svg
 ```
 
 Both sizes gate at **194 checks, 0 failed**. Nothing here should be cut from a
