@@ -272,7 +272,7 @@ frame a 16mm block leaves. SnakeBox raises rather than cutting something wrong:
     pin_width 12.0 is too wide for the 10.0mm end frame
 
 `bore_split.COMMON` therefore passes `--pin_width` explicitly: **0.48 x the
-sound square, floored at the finger joint tooth** and capped to leave 2mm of
+sound square, floored at the finger-joint tooth** and capped to leave 2mm of
 shoulder either side. The floor matters. A tooth is `2 x thickness` and does
 **not** shrink with the block, so scaling the tab alone took it below the teeth
 — at the 10mm bore the fraction alone gives 4.8mm against a 6mm tooth, which
