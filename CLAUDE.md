@@ -4,36 +4,40 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-A laser-cutting build repository, not a software project. The deliverables are two whole
-trumpets — a mouthpiece, a bore of six sections and a bell apiece — as **SVG cut files**
+A laser-cutting build repository, not a software project. The deliverable is **one bore at
+two sizes**, six sections apiece, as **SVG cut files**
 that someone sends to a laser, plus the pages describing them. The bores are **generated**
 by the sibling repository **`../bore-generator`**
 ([CLAUDE.md](https://github.com/Gernreich/bore-generator/blob/main/CLAUDE.md)); nothing in
 this repository is authored by hand except `README.md` and this file.
 
-It holds **one design at two sizes, as two complete instruments**:
+It holds **one design at two sizes**:
 
-    25mm/  mouthpiece/  bore/  bell/          31mm block
-    10mm/  mouthpiece/  bore/  bell/          16mm block
+    25mm/  bore/          31mm block
+    10mm/  bore/          16mm block
 
-Cut one folder and you have a trumpet. `index.html` is still at the root and still the
-published page; nothing else is loose there.
+Cut one folder and you have the tube; the two ends come from `../trumpet-parts`.
+`index.html` is still at the root and still the published page; nothing else is loose there.
 
-**Two moves got here, both on 2026-08-31.** First the 25mm set came off the root into
-`25mm/bore/`, so the sizes read as siblings rather than as a design and an afterthought.
-Then the bores went down a level into `<size>/bore/` and the mouthpiece and bell joined
-them, so a folder is an instrument rather than a part. Both moves were `git mv`, and both
-times regenerating afterwards left every bore SVG **byte-identical** — the only files that
-changed content were the viewers, which are named and titled for their folder.
+**Three moves got here.** On 2026-08-31 the 25mm set came off the root into `25mm/bore/`,
+so the sizes read as siblings rather than as a design and an afterthought; then the bores
+went down a level into `<size>/bore/` and the mouthpiece and bell joined them, so a folder
+was a whole instrument. On 2026-09-02 those two ends left again for `../trumpet-parts`.
+Regenerating after each move left every bore SVG **byte-identical**.
 
 **Where the parts come from.** The bell and the mouthpiece are generated in
 `../trumpet-parts`, which is where the two square-to-round generators live:
 
-**All four sheets live here outright — there are no copies.** They were briefly duplicated
-from `../trumpet-parts` on 2026-08-31 and the duplicates were removed the same day: nothing
-else cuts any of them, so this repository owns them and that one keeps the generators.
-`trumpet-coiled` and `trumpet-octagonal` take a different bell and the `asbuilt` mouthpiece,
-both still there.
+**All four sheets live in `../trumpet-parts`, and none of them here.** They were held here
+from 2026-08-31 to 2026-09-02 on the grounds that nothing else cut them — true of what had
+been cut, false of what fits. The 25mm mouthpiece and bell suit any 25mm channel, and
+`trumpet-coiled` and `trumpet-octagonal` are both exactly that, so keeping them here hid two
+general parts inside one instrument. The rule `trumpet-coiled` states is what decides it:
+neither end is touched by the way a bore turns, so **only the tube belongs to an
+instrument**. The 10mm pair suit no other bore today, which is an accident of the lineup
+rather than a principle, so they went too.
+
+**Do not move them back** without deciding what changed about that argument.
 
 Regenerating any of the four still means running a generator in `../trumpet-parts` and
 moving the result across, because they write into their own directory. Two traps in that:
@@ -51,9 +55,9 @@ moving the result across, because they write into their own directory. Two traps
 - **The generators number their own rings.** Every sheet here carries a
   `<g id="ring-numbers">`, and `bell-round.py` and `mouthpiece-round.py` write it themselves
   as the last step, so a regenerate keeps it. **A regenerate also adds an orientation tick**
-  beside each number, which the four sheets here predate — so a regenerated sheet will differ
-  from the committed one by one stroke per ring even though no label changed. That is
-  expected; do not treat it as drift. `--numbers=no` opts out; a numbering failure
+  beside each number, which all four predate — so a regenerated sheet will differ from the
+  committed one by one stroke per ring even though no label changed. That is expected; do not
+  treat it as drift. Those sheets are in `../trumpet-parts` now. `--numbers=no` opts out; a numbering failure
   deletes the sheet rather than leaving an unnumbered one to be cut. This used to be a
   separate command you had to remember, and forgetting it cost a sheet its numbering once.
 

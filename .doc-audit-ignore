@@ -9,3 +9,16 @@ bell-round.py
 mouthpiece-round.py
 
 sizes.py
+
+# The mouthpiece and the bell moved to ../trumpet-parts on 2026-09-02: neither is
+# touched by the way a bore turns, and the 25mm pair fit the coiled and octagonal
+# trumpets too. Named here so a builder knows which sheets to cut with this bore.
+
+mouthpiece-bore25-trumpet-parts.svg
+mouthpiece-bore25-trumpet-parts-section.svg
+mouthpiece-bore10-trumpet-parts.svg
+mouthpiece-bore10-trumpet-parts-section.svg
+bell-round-bore25-201mm-17rings.svg
+bell-round-bore25-201mm-17rings-section.svg
+bell-round-bore10-152mm-17rings.svg
+bell-round-bore10-152mm-17rings-section.svg

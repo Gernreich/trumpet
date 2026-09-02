@@ -1,10 +1,16 @@
 # trumpet-switchback
 
 A trumpet whose bore **folds back on itself twice**, which is what the
-switchback in the name means. **`25mm/` and `10mm/` each hold a complete
-instrument**: a mouthpiece, a bore of six laser-cut sections that assemble into
-one sealed passage, and a bell. Cut one folder and you have everything; nothing
-but the size differs between them.
+switchback in the name means. **This repository is the bore** — six laser-cut
+sections that assemble into one sealed passage — at two sizes, `25mm/` and
+`10mm/`, alike in everything but scale.
+
+The **mouthpiece** and the **bell** live in
+**[trumpet-parts](https://github.com/Gernreich/trumpet-parts)**, because neither
+is touched by the way the bore turns: the 25mm pair fit the
+[coiled](https://github.com/Gernreich/trumpet-coiled) and
+[octagonal](https://github.com/Gernreich/trumpet-octagonal) trumpets just as well,
+both being the same 25mm channel. Only the tube belongs to an instrument.
 
     N N1 W3 U2 E3 N3 D3 W2 U3 N1
 
@@ -40,14 +46,14 @@ generator and tool, indexed.
 ## What is in each folder
 
     25mm/                        10mm/
-      mouthpiece/                  mouthpiece/
       bore/                        bore/
-      bell/                        bell/
 
-Three parts, cut in that order and glued mouthpiece to bore to bell. Every
-sheet in a folder belongs to the same instrument, so there is no mixing to get
-wrong — see [Do not mix the folders](#do-not-mix-the-folders) for the one thing
-that can still bite.
+Six sheets each, cut in the order they are numbered. Glued mouthpiece to bore to
+bell, with the two ends coming from `trumpet-parts` — see
+[The mouthpiece and the bell](#the-mouthpiece-and-the-bell) for which ones. Every
+sheet in a folder belongs to the same size, so there is no mixing to get wrong —
+see [Do not mix the folders](#do-not-mix-the-folders) for the one thing that can
+still bite.
 
 ## The two sizes
 
@@ -132,12 +138,19 @@ is the least a section can have.
 
 ## The mouthpiece and the bell
 
-| | `25mm/` | `10mm/` |
+**Neither is here.** Both live in
+**[trumpet-parts](https://github.com/Gernreich/trumpet-parts)** with the rest of
+the shared parts, because neither depends on how a bore turns — the 25mm pair
+suit the coiled and octagonal trumpets equally, all three being the same 25mm
+channel. What this repository owns is the tube. These are the ones to cut with
+it:
+
+| | for `25mm/` | for `10mm/` |
 |---|---|---|
-| mouthpiece | [`mouthpiece-bore25-trumpet-parts.svg`](25mm/mouthpiece/mouthpiece-bore25-trumpet-parts.svg) | [`mouthpiece-bore10-trumpet-parts.svg`](10mm/mouthpiece/mouthpiece-bore10-trumpet-parts.svg) |
+| mouthpiece | [`mouthpiece-bore25-trumpet-parts.svg`](https://github.com/Gernreich/trumpet-parts/blob/main/mouthpiece/mouthpiece-bore25-trumpet-parts.svg) | [`mouthpiece-bore10-trumpet-parts.svg`](https://github.com/Gernreich/trumpet-parts/blob/main/mouthpiece/mouthpiece-bore10-trumpet-parts.svg) |
 | station one | 25mm square in a 31mm plate | 10mm square in a 16mm plate |
 | rim | ø16.5mm | ø17mm |
-| bell | [`bell-round-bore25-201mm-17rings.svg`](25mm/bell/bell-round-bore25-201mm-17rings.svg) | [`bell-round-bore10-152mm-17rings.svg`](10mm/bell/bell-round-bore10-152mm-17rings.svg) |
+| bell | [`bell-round-bore25-201mm-17rings.svg`](https://github.com/Gernreich/trumpet-parts/blob/main/bell/bell-round-bore25-201mm-17rings.svg) | [`bell-round-bore10-152mm-17rings.svg`](https://github.com/Gernreich/trumpet-parts/blob/main/bell/bell-round-bore10-152mm-17rings.svg) |
 | bell length | 204mm | 153mm |
 | bell mouth | ø138.8 of air in a ø144.8 rim | ø80.0 of air in a ø86.0 rim |
 | **cut the bell sheet** | **4 times** | **3 times** |
@@ -155,7 +168,7 @@ at every joint** — see
 [bell-round.py](https://github.com/Gernreich/trumpet-parts/blob/main/bell/bell-round.py).
 Each mouthpiece is 30 rings of one lamination, so its sheet is cut once.
 
-**Every ring on all four sheets carries its own number, engraved in blue before the
+**Every ring on all four carries its own number, engraved in blue before the
 cut** — hex, one character, 0 at the bore end. A mouthpiece narrows to the throat and
 opens again, so its backbore and its cup pass through the same diameters: once the rings
 are off the bed, nothing but the number says which half a given ring belongs to. The
@@ -164,27 +177,31 @@ generators engrave these themselves, so a regenerated sheet still has them.
 **Sheets regenerated from now on also carry an orientation tick** — a short mark on the
 baseline, right of the number. A ring is a circle and has no top, so a number alone is
 ambiguous: turned over, a `3` reads as an `E` and a `6` reads as a `9`. The tick says which
-way up the label was engraved. The four sheets here were cut before it existed and do not
-have one, which costs nothing — a ring without a tick reads exactly as it always has.
+way up the label was engraved. All four were cut before it existed and do not have one,
+which costs nothing — a ring without a tick reads exactly as it always has.
 Both mouthpieces use the `trumpet` layout, which spends its length on the
 backbore and keeps a short cup, as a real one does.
 
 Each also carries a section drawing — an axial slice showing the bore climbing
 one staircase and the outside climbing another:
-[`25mm/bell/bell-round-bore25-201mm-17rings-section.svg`](25mm/bell/bell-round-bore25-201mm-17rings-section.svg),
-[`25mm/mouthpiece/mouthpiece-bore25-trumpet-parts-section.svg`](25mm/mouthpiece/mouthpiece-bore25-trumpet-parts-section.svg),
-[`10mm/bell/bell-round-bore10-152mm-17rings-section.svg`](10mm/bell/bell-round-bore10-152mm-17rings-section.svg)
+[`bell-round-bore25-201mm-17rings-section.svg`](https://github.com/Gernreich/trumpet-parts/blob/main/bell/bell-round-bore25-201mm-17rings-section.svg),
+[`mouthpiece-bore25-trumpet-parts-section.svg`](https://github.com/Gernreich/trumpet-parts/blob/main/mouthpiece/mouthpiece-bore25-trumpet-parts-section.svg),
+[`bell-round-bore10-152mm-17rings-section.svg`](https://github.com/Gernreich/trumpet-parts/blob/main/bell/bell-round-bore10-152mm-17rings-section.svg)
 and
-[`10mm/mouthpiece/mouthpiece-bore10-trumpet-parts-section.svg`](10mm/mouthpiece/mouthpiece-bore10-trumpet-parts-section.svg).
+[`mouthpiece-bore10-trumpet-parts-section.svg`](https://github.com/Gernreich/trumpet-parts/blob/main/mouthpiece/mouthpiece-bore10-trumpet-parts-section.svg).
 **Those are display only — never cut one.**
 
-**All four sheets live here outright.** Nothing else cuts them: the 10mm pair
-suit no other bore, and the 25mm pair — the 17-ring bell and the
-`--layout=trumpet` mouthpiece — are cut by this instrument alone.
-`trumpet-coiled` and `trumpet-octagonal` take a different bell and the
-`asbuilt` mouthpiece, which stay in
-**[trumpet-parts](https://github.com/Gernreich/trumpet-parts)** along with the
-generators. So there is one copy of each sheet and nothing to keep in step.
+**All four live in `trumpet-parts`, not here.** They were kept in this repository
+until 2026-09-02 on the grounds that nothing else cut them — which was true of
+what had been cut, and not true of what fits. The 25mm mouthpiece and bell suit
+any 25mm channel, and `trumpet-coiled` and `trumpet-octagonal` are both exactly
+that, so holding them here hid two general parts inside one instrument. The rule
+`trumpet-coiled` already stated is the one that decides it: neither end is
+touched by the way a bore turns, so **only the tube belongs to an instrument**.
+
+The 10mm pair suit no other bore *today*, which is an accident of the current
+lineup rather than a principle, so they go with the rest. There is still one copy
+of each sheet and nothing to keep in step.
 
 **Every ring is engraved with its hex index**, 0 on the smallest. Rings glued
 in the wrong order is rings unglued, and consecutive rings differ by about two
