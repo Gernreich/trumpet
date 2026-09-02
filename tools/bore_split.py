@@ -103,9 +103,16 @@ MIN_FEATURE = 1.5    # and what check.py will actually refuse below
 #                                            0.15  perceptible rock
 #
 # The same zero clearance that jams the small joint is fine on the large one, so
-# the requirement is neither absolute nor constant. Why is not established: the
-# tab is 60% of the small frame against 48% of the large, and the shoulder
-# beside it 2.0mm against 6.5mm, and either could be what binds.
+# the requirement is neither absolute nor constant.
+#
+# The 10mm bore is the extreme case, not merely a small one: the two sizing rules
+# cross at exactly 10mm, where the tab is a full finger-joint tooth AND the
+# shoulder is at its 2mm minimum together. Its shoulder is 0.67 of a ply against
+# 2.17 at 25mm. Required clearance FALLS as the joint grows, which rules out both
+# a constant absolute clearance and a constant fraction of the tab; what fits is
+# a fabrication error fixed in millimetres against elastic take-up that scales.
+# Hypothesis, not result -- the full reasoning and the coupon test that would
+# settle it are in ../bore-generator/README.md.
 #
 # This is a lookup of what has been cut, not a curve through it, and it is kept
 # in step with ../bore-generator by hand. Every coil here is a 10mm bore, where
