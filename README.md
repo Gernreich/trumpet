@@ -150,7 +150,7 @@ it:
 | mouthpiece | [`mouthpiece-bore25-trumpet-parts.svg`](https://github.com/Gernreich/trumpet-parts/blob/main/mouthpiece/mouthpiece-bore25-trumpet-parts.svg) | [`mouthpiece-bore10-trumpet-parts.svg`](https://github.com/Gernreich/trumpet-parts/blob/main/mouthpiece/mouthpiece-bore10-trumpet-parts.svg) |
 | station one | 25mm square in a 31mm plate | 10mm square in a 16mm plate |
 | rim | ø16.5mm | ø17mm |
-| bell | [`bell-round-bore25-201mm-17rings.svg`](https://github.com/Gernreich/trumpet-parts/blob/main/bell/bell-round-bore25-201mm-17rings.svg) | [`bell-round-bore10-152mm-17rings.svg`](https://github.com/Gernreich/trumpet-parts/blob/main/bell/bell-round-bore10-152mm-17rings.svg) |
+| bell | [`bell-square25-204mm-17rings-x4-rim145.svg`](https://github.com/Gernreich/trumpet-parts/blob/main/bell/bell-square25-204mm-17rings-x4-rim145.svg) | [`bell-square10-153mm-17rings-x3-rim86.svg`](https://github.com/Gernreich/trumpet-parts/blob/main/bell/bell-square10-153mm-17rings-x3-rim86.svg) |
 | bell length | 204mm | 153mm |
 | bell mouth | ø138.8 of air in a ø144.8 rim | ø80.0 of air in a ø86.0 rim |
 | **cut the bell sheet** | **4 times** | **3 times** |
@@ -184,9 +184,9 @@ backbore and keeps a short cup, as a real one does.
 
 Each also carries a section drawing — an axial slice showing the bore climbing
 one staircase and the outside climbing another:
-[`bell-round-bore25-201mm-17rings-section.svg`](https://github.com/Gernreich/trumpet-parts/blob/main/bell/bell-round-bore25-201mm-17rings-section.svg),
+[`bell-square25-204mm-17rings-x4-rim145-section.svg`](https://github.com/Gernreich/trumpet-parts/blob/main/bell/bell-square25-204mm-17rings-x4-rim145-section.svg),
 [`mouthpiece-bore25-trumpet-parts-section.svg`](https://github.com/Gernreich/trumpet-parts/blob/main/mouthpiece/mouthpiece-bore25-trumpet-parts-section.svg),
-[`bell-round-bore10-152mm-17rings-section.svg`](https://github.com/Gernreich/trumpet-parts/blob/main/bell/bell-round-bore10-152mm-17rings-section.svg)
+[`bell-square10-153mm-17rings-x3-rim86-section.svg`](https://github.com/Gernreich/trumpet-parts/blob/main/bell/bell-square10-153mm-17rings-x3-rim86-section.svg)
 and
 [`mouthpiece-bore10-trumpet-parts-section.svg`](https://github.com/Gernreich/trumpet-parts/blob/main/mouthpiece/mouthpiece-bore10-trumpet-parts-section.svg).
 **Those are display only — never cut one.**
@@ -268,7 +268,7 @@ The mouthpiece and the bell come from
 cd ../trumpet-parts/mouthpiece
 python3 mouthpiece-round.py --bore=10 --rim=17 --layout=trumpet mouthpiece-bore10-trumpet-parts.svg
 cd ../bell && python3 bell-round.py 17 --bore=10 --length=152 --mouth=80 \
-    --out=bell-round-bore10-152mm-17rings.svg
+    --out=bell-square10-153mm-17rings-x3-rim86.svg
 ```
 
 Both sizes gate at **194 checks, 0 failed**. Nothing here should be cut from a
