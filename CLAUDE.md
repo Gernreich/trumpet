@@ -55,9 +55,8 @@ moving the result across, because they write into their own directory. Two traps
 - **The generators number their own rings.** Every sheet here carries a
   `<g id="ring-numbers">`, and `bell-round.py` and `mouthpiece-round.py` write it themselves
   as the last step, so a regenerate keeps it. **A regenerate also adds an orientation tick**
-  beside each number, which all four predate — so a regenerated sheet will differ from the
-  committed one by one stroke per ring even though no label changed. That is expected; do not
-  treat it as drift. Those sheets are in `../trumpet-parts` now. `--numbers=no` opts out; a numbering failure
+  beside each number. All four sheets carry it as of 2026-09-02; the parts already glued up
+  predate it. Those sheets are in `../trumpet-parts` now. `--numbers=no` opts out; a numbering failure
   deletes the sheet rather than leaving an unnumbered one to be cut. This used to be a
   separate command you had to remember, and forgetting it cost a sheet its numbering once.
 

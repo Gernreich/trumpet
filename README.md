@@ -177,8 +177,10 @@ generators engrave these themselves, so a regenerated sheet still has them.
 **Sheets regenerated from now on also carry an orientation tick** — a short mark on the
 baseline, right of the number. A ring is a circle and has no top, so a number alone is
 ambiguous: turned over, a `3` reads as an `E` and a `6` reads as a `9`. The tick says which
-way up the label was engraved. All four were cut before it existed and do not have one,
-which costs nothing — a ring without a tick reads exactly as it always has.
+way up the label was engraved. All four sheets carry it. The parts already glued up were
+cut before it existed and have only their number, which costs nothing on a stack that is
+already in order — but cut a fresh sheet and the ring you pick up tells you which way round
+it goes.
 Both mouthpieces use the `trumpet` layout, which spends its length on the
 backbore and keeps a short cup, as a real one does.
 
