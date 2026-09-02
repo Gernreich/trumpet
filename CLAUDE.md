@@ -43,7 +43,10 @@ moving the result across, because they write into their own directory. Two traps
   leave a second copy there.
 - **The generators number their own rings.** Every sheet here carries a
   `<g id="ring-numbers">`, and `bell-round.py` and `mouthpiece-round.py` write it themselves
-  as the last step, so a regenerate keeps it. `--numbers=no` opts out; a numbering failure
+  as the last step, so a regenerate keeps it. **A regenerate also adds an orientation tick**
+  beside each number, which the four sheets here predate — so a regenerated sheet will differ
+  from the committed one by one stroke per ring even though no label changed. That is
+  expected; do not treat it as drift. `--numbers=no` opts out; a numbering failure
   deletes the sheet rather than leaving an unnumbered one to be cut. This used to be a
   separate command you had to remember, and forgetting it cost a sheet its numbering once.
 

@@ -160,6 +160,12 @@ cut** — hex, one character, 0 at the bore end. A mouthpiece narrows to the thr
 opens again, so its backbore and its cup pass through the same diameters: once the rings
 are off the bed, nothing but the number says which half a given ring belongs to. The
 generators engrave these themselves, so a regenerated sheet still has them.
+
+**Sheets regenerated from now on also carry an orientation tick** — a short mark on the
+baseline, right of the number. A ring is a circle and has no top, so a number alone is
+ambiguous: turned over, a `3` reads as an `E` and a `6` reads as a `9`. The tick says which
+way up the label was engraved. The four sheets here were cut before it existed and do not
+have one, which costs nothing — a ring without a tick reads exactly as it always has.
 Both mouthpieces use the `trumpet` layout, which spends its length on the
 backbore and keeps a short cup, as a real one does.
 
