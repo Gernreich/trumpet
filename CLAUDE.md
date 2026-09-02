@@ -1,4 +1,6 @@
-# Working in this repository
+# CLAUDE.md
+
+## Working in this repository
 
 A laser-cutting build repository, not a software project. The deliverable is
 **`BuildA1_90_25.svg`** — the torus's 18 pieces in 20 contours — plus two pages describing
