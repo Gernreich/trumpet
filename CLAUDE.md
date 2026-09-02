@@ -40,11 +40,11 @@ moving the result across, because they write into their own directory. Two traps
 
 - **Name the sheet on the way out.** Both generators take the filename — a positional
   argument for `mouthpiece-round.py`, `--out=` for `bell-round.py` — and the names here put
-  the bore in every one: `mouthpiece-bore25-trumpet-parts.svg`, `bell-bore10-152mm-17rings.svg`. The
+  the bore in every one: `mouthpiece-bore25-trumpet-parts.svg`, `bell-round-bore10-152mm-17rings.svg`. The
   generated names say how a sheet was *made* (which script, what length), which is not what
   someone hunting for a part needs to read, and they left the 25mm sheets with no size in
   their names at all. Take the name and there is nothing to rename afterwards.
-- **A bare `bell-round.py` writes `bell-round-17rings.svg` back into `../trumpet-parts/bell`,**
+- **A bare `bell-round.py` writes `bell-round-bore25-201mm-17rings.svg` back into `../trumpet-parts/bell`,**
   since it is one of that script's four standard budgets. Give it a budget and an `--out` so
   it writes one named sheet; otherwise move the result here or delete it, and do not leave a
   second copy there.
@@ -293,7 +293,7 @@ commands are the whole job:
 cd ../trumpet-parts/mouthpiece
 python3 mouthpiece-round.py --bore=10 --rim=17 --layout=trumpet mouthpiece-bore10-trumpet-parts.svg
 cd ../bell && python3 bell-round.py 17 --bore=10 --length=152 --mouth=80 \
-    --out=bell-bore10-152mm-17rings.svg
+    --out=bell-round-bore10-152mm-17rings.svg
 ```
 
 **Always pass `--refuse-elbows` here.** This is a build repository, and the standard for a
