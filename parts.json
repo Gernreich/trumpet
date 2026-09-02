@@ -12,9 +12,9 @@
   "innerPieces": 42,
   "distinct": 4,
   "shapes": [
-   "bend_DDDLD",
-   "bend_DL",
+   "bend_DDDLD_buttin",
    "bend_DLD",
+   "bend_DL_buttout",
    "bend_DRD"
   ],
   "rhythm": 4,
@@ -38,12 +38,12 @@
   "innerPieces": 34,
   "distinct": 6,
   "shapes": [
-   "bend_DDDLLD",
+   "bend_DDDLLD_buttin",
    "bend_DLLD",
    "bend_DRRD",
    "bend_DRRU",
-   "bend_UULL",
-   "bend_UULLD"
+   "bend_UULLD",
+   "bend_UULL_buttout"
   ],
   "rhythm": 4,
   "repeats": 8.5,
@@ -66,12 +66,12 @@
   "innerPieces": 30,
   "distinct": 6,
   "shapes": [
-   "bend_DDDLLD",
+   "bend_DDDLLD_buttin",
    "bend_DDRRU",
    "bend_DLLD",
    "bend_DRRD",
-   "bend_UULL",
-   "bend_UULLD"
+   "bend_UULLD",
+   "bend_UULL_buttout"
   ],
   "rhythm": 4,
   "repeats": 7.5,
@@ -94,12 +94,12 @@
   "innerPieces": 30,
   "distinct": 6,
   "shapes": [
-   "bend_DDDLLD",
+   "bend_DDDLLD_buttin",
    "bend_DDRRD",
    "bend_DLLD",
    "bend_DRRU",
-   "bend_UULL",
-   "bend_UULLD"
+   "bend_UULLD",
+   "bend_UULL_buttout"
   ],
   "rhythm": 4,
   "repeats": 7.5,
@@ -122,12 +122,12 @@
   "innerPieces": 34,
   "distinct": 6,
   "shapes": [
-   "bend_DDDLLD",
+   "bend_DDDLLD_buttin",
    "bend_DLLD",
    "bend_DRRD",
    "bend_DRRU",
-   "bend_ULL",
-   "bend_ULLD"
+   "bend_ULLD",
+   "bend_ULL_buttout"
   ],
   "rhythm": 4,
   "repeats": 8.5,
@@ -150,12 +150,12 @@
   "innerPieces": 41,
   "distinct": 6,
   "shapes": [
-   "bend_DDDLLD",
+   "bend_DDDLLD_buttin",
    "bend_DLLD",
    "bend_DR",
    "bend_LD",
    "bend_RUUL",
-   "bend_RUULLL"
+   "bend_RUULLL_buttout"
   ],
   "rhythm": 4,
   "repeats": 10.25,
@@ -178,9 +178,9 @@
   "innerPieces": 43,
   "distinct": 6,
   "shapes": [
-   "bend_DL",
-   "bend_DLD",
    "bend_DLDLD",
+   "bend_DLD_buttin",
+   "bend_DL_buttout",
    "bend_DR",
    "bend_LD",
    "bend_RUUL"
@@ -206,12 +206,12 @@
   "innerPieces": 38,
   "distinct": 6,
   "shapes": [
-   "bend_DL",
+   "bend_DL_buttin",
    "bend_DRRU",
    "bend_LDL",
    "bend_RDR",
    "bend_ULLD",
-   "bend_ULLDDD"
+   "bend_ULLDDD_buttout"
   ],
   "rhythm": 4,
   "repeats": 9.5,
@@ -235,11 +235,11 @@
   "distinct": 6,
   "shapes": [
    "bend_DDRRU",
-   "bend_DL",
+   "bend_DL_buttin",
    "bend_LDL",
    "bend_RDR",
    "bend_UULLD",
-   "bend_UULLDDD"
+   "bend_UULLDDD_buttout"
   ],
   "rhythm": 4,
   "repeats": 8.5,
@@ -263,11 +263,11 @@
   "distinct": 6,
   "shapes": [
    "bend_DDRRU",
-   "bend_DL",
+   "bend_DL_buttin",
    "bend_LLDL",
    "bend_RRDR",
    "bend_UULLD",
-   "bend_UULLDDDD"
+   "bend_UULLDDDD_buttout"
   ],
   "rhythm": 4,
   "repeats": 7.5,
@@ -290,7 +290,7 @@
   "innerPieces": 45,
   "distinct": 10,
   "shapes": [
-   "bend_DDDL",
+   "bend_DDDL_buttin",
    "bend_DL",
    "bend_DR",
    "bend_DRRRU",
@@ -298,7 +298,7 @@
    "bend_LDDDR",
    "bend_RD",
    "bend_RUUUL",
-   "bend_RUUULLL",
+   "bend_RUUULLL_buttout",
    "bend_ULLLD"
   ],
   "rhythm": 12,
@@ -322,12 +322,12 @@
   "innerPieces": 34,
   "distinct": 6,
   "shapes": [
-   "bend_DL",
+   "bend_DL_buttin",
    "bend_DRRRU",
    "bend_LDL",
    "bend_RDR",
    "bend_ULLLD",
-   "bend_ULLLDDD"
+   "bend_ULLLDDD_buttout"
   ],
   "rhythm": 4,
   "repeats": 8.5,
@@ -350,12 +350,12 @@
   "innerPieces": 30,
   "distinct": 6,
   "shapes": [
-   "bend_DL",
+   "bend_DL_buttin",
    "bend_DRRRU",
    "bend_LLDL",
    "bend_RDR",
    "bend_UULLLD",
-   "bend_UULLLDDDD"
+   "bend_UULLLDDDD_buttout"
   ],
   "rhythm": 4,
   "repeats": 7.5,
@@ -379,11 +379,11 @@
   "distinct": 6,
   "shapes": [
    "bend_DDRRRU",
-   "bend_DL",
+   "bend_DL_buttin",
    "bend_LLDL",
    "bend_RRDR",
    "bend_UULLLD",
-   "bend_UULLLDDDD"
+   "bend_UULLLDDDD_buttout"
   ],
   "rhythm": 4,
   "repeats": 7.5,
@@ -406,7 +406,7 @@
   "innerPieces": 45,
   "distinct": 10,
   "shapes": [
-   "bend_DDDL",
+   "bend_DDDL_buttin",
    "bend_DL",
    "bend_DR",
    "bend_DRRU",
@@ -414,7 +414,7 @@
    "bend_LDDR",
    "bend_RD",
    "bend_RUUL",
-   "bend_RUULLL",
+   "bend_RUULLL_buttout",
    "bend_ULLD"
   ],
   "rhythm": 12,
@@ -438,12 +438,12 @@
   "innerPieces": 30,
   "distinct": 6,
   "shapes": [
-   "bend_DL",
+   "bend_DL_buttin",
    "bend_DRRRRU",
    "bend_LDL",
    "bend_RDR",
    "bend_ULLLLD",
-   "bend_ULLLLDDD"
+   "bend_ULLLLDDD_buttout"
   ],
   "rhythm": 4,
   "repeats": 7.5,
@@ -467,11 +467,11 @@
   "distinct": 6,
   "shapes": [
    "bend_DDRRRRU",
-   "bend_DL",
+   "bend_DL_buttin",
    "bend_LDL",
    "bend_RDR",
    "bend_UULLLLD",
-   "bend_UULLLLDDD"
+   "bend_UULLLLDDD_buttout"
   ],
   "rhythm": 4,
   "repeats": 7.5,

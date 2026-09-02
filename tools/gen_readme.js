@@ -6,6 +6,22 @@ const { metrics, period } = require('./spiral_metrics.js');
 const root = path.join(__dirname, '..');
 
 const parts = JSON.parse(fs.readFileSync(path.join(root, 'parts.json'), 'utf8'));
+
+// The reduction table was hardcoded, and every figure in it had gone stale: it claimed 14
+// walks reduce where reduce.js reports 13, and all four of its counts were wrong. Counting
+// them here is the whole point of this file -- reduced.json is what `reduce.js --write`
+// leaves behind, so the table cannot drift from the pass again.
+const reduced = JSON.parse(fs.readFileSync(path.join(root, 'reduced.json'), 'utf8'))
+  .filter(r => r.status === 'reduced');
+const RED = (f) => reduced.filter(f).length;
+const redRows = [
+  ['box smaller',        RED(r => r.after.vol < r.before.vol)],
+  ['box bigger',         RED(r => r.after.vol > r.before.vol)],
+  ['box unchanged',      RED(r => r.after.vol === r.before.vol)],
+  ['touching reduced',   RED(r => r.after.touching < r.before.touching)],
+  ['touching increased', RED(r => r.after.touching > r.before.touching)],
+  ['touching unchanged', RED(r => r.after.touching === r.before.touching)],
+];
 const rows = fs.readdirSync(path.join(root, 'walks')).filter(f => f.endsWith('.txt'))
   .map(f => { const name = f.replace(/\.txt$/, '');
     const walk = fs.readFileSync(path.join(root,'walks',f),'utf8').trim();
@@ -341,28 +357,11 @@ Shortening a leg still does not make a better coil — it cuts how far the coil 
 per turn, so the same tube buys more revolutions in a fatter package. The best box per
 block and the best walls-free box per block are both unchanged by the pass.
 
-Removing slack is not automatically safe. The rule is local, and a shortened walk can
-run into itself or start touching, so what the tool reports are candidates to put back
-through \`bore_split.py\`.
-
-### The reduction pass, and why minimality is not an optimisation
-
-\`tools/reduce.js\` takes the slack out and rebuilds at comparable length. It has to
-enumerate rather than apply, because **coiling is global and the elbow rule is local**.
-A period coils only if it closes: drifting on one axis and returning to where it started
-on the other two. Shorten one leg and not its opposite and the period stops closing, so
-the walk wanders off diagonally instead of coiling. Taken naively, one coil went from a
-box of 423 to **10,452** — still elbow-free, no longer a coil.
-
-Keeping only the reductions that still close and still wind a whole number of turns, 14
-of the ${minres.length} walks reduce. What that buys:
+What those ${reduced.length} reductions buy:
 
 | | |
 | --- | ---: |
-| box smaller | 6 |
-| box bigger | 7 |
-| touching reduced | 2 |
-| touching increased | 6 |
+${redRows.map(([k, v]) => `| ${k} | ${v} |`).join('\n')}
 
 And **nothing it produced beat what was already there**: the smallest box stayed at 423
 against the reduced field's 462, and the smallest walls-free at 477 against 522.
@@ -444,6 +443,17 @@ trimming the tail so the last block is not mid-turn — a turn in the last block
 after it to make it interior, so it is always its own piece. Then every candidate goes
 through the splitter, and only zero-elbow walks are kept. **The splitter decides, not the
 rule.**
+
+## The files behind the tables
+
+Each coil is one line of notation in \`walks/\`, named for the coil, and each has a gate
+transcript beside it in \`checks/\`:
+
+${rows.map(r => '`walks/' + r.name + '.txt`').join(', ')}
+
+\`standardised.json\` records the canonical form every walk was pinned to, and
+\`reduced.json\` what the reduction pass produced. Both are written by their tools, not
+by hand.
 
 ## Regenerating
 

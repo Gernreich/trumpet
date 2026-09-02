@@ -294,28 +294,16 @@ Shortening a leg still does not make a better coil — it cuts how far the coil 
 per turn, so the same tube buys more revolutions in a fatter package. The best box per
 block and the best walls-free box per block are both unchanged by the pass.
 
-Removing slack is not automatically safe. The rule is local, and a shortened walk can
-run into itself or start touching, so what the tool reports are candidates to put back
-through `bore_split.py`.
-
-### The reduction pass, and why minimality is not an optimisation
-
-`tools/reduce.js` takes the slack out and rebuilds at comparable length. It has to
-enumerate rather than apply, because **coiling is global and the elbow rule is local**.
-A period coils only if it closes: drifting on one axis and returning to where it started
-on the other two. Shorten one leg and not its opposite and the period stops closing, so
-the walk wanders off diagonally instead of coiling. Taken naively, one coil went from a
-box of 423 to **10,452** — still elbow-free, no longer a coil.
-
-Keeping only the reductions that still close and still wind a whole number of turns, 14
-of the 17 walks reduce. What that buys:
+What those 13 reductions buy:
 
 | | |
 | --- | ---: |
-| box smaller | 6 |
-| box bigger | 7 |
-| touching reduced | 2 |
-| touching increased | 6 |
+| box smaller | 7 |
+| box bigger | 4 |
+| box unchanged | 2 |
+| touching reduced | 1 |
+| touching increased | 7 |
+| touching unchanged | 5 |
 
 And **nothing it produced beat what was already there**: the smallest box stayed at 423
 against the reduced field's 462, and the smallest walls-free at 477 against 522.
@@ -397,6 +385,17 @@ trimming the tail so the last block is not mid-turn — a turn in the last block
 after it to make it interior, so it is always its own piece. Then every candidate goes
 through the splitter, and only zero-elbow walks are kept. **The splitter decides, not the
 rule.**
+
+## The files behind the tables
+
+Each coil is one line of notation in `walks/`, named for the coil, and each has a gate
+transcript beside it in `checks/`:
+
+`walks/coil_3x3_51.txt`, `walks/coil_3x7_22.txt`, `walks/coil_3x8_20.txt`, `walks/coil_3x9_18.txt`, `walks/coil_3x3_54.txt`, `walks/coil_3x3_54_2.txt`, `walks/coil_3x3_59.txt`, `walks/coil_2x2_134.txt`, `walks/coil_4x7_20.txt`, `walks/coil_4x8_18.txt`, `walks/coil_5x7_18.txt`, `walks/coil_4x9_18.txt`, `walks/coil_5x8_18.txt`, `walks/coil_4x4_50.txt`, `walks/coil_3x4_68.txt`, `walks/coil_3x4_79.txt`, `walks/coil_5x5_50.txt`
+
+`standardised.json` records the canonical form every walk was pinned to, and
+`reduced.json` what the reduction pass produced. Both are written by their tools, not
+by hand.
 
 ## Regenerating
 
