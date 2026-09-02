@@ -681,6 +681,14 @@ def piece_spec(rec, idx, k=None, laps=('', ''), ports=(False, False),
 
 
 def glyphs(text, h):
+    """The label, and a tick that says which way up it was engraved.
+
+    A part off the bed has no up. Turned 180 degrees this table's 9 is exactly its 6 --
+    the same point list rotated, by construction, not by resemblance -- so a section 6
+    and a section 9 are the same mark on a rectangular side wall. The tick sits on the
+    baseline right of the last digit: find it and the number reads one way only. It is
+    the seven-segment decimal point, which is why 6. and 9. are unambiguous on a meter.
+    """
     w, gap, out, cx = h*0.62, h*0.20, [], 0.0
     for ch in text:
         for st in G[ch]:
@@ -688,7 +696,12 @@ def glyphs(text, h):
             out.append(f'<polyline points="{pts}" fill="none" stroke="#0000ff" '
                        f'stroke-width="0.3" stroke-linecap="round" stroke-linejoin="round"/>')
         cx += w + gap
-    return out, cx - gap
+    right = cx - gap
+    tg, tl = h*0.16, h*0.22
+    out.append(f'<polyline points="{right+tg:.2f},0.00 {right+tg+tl:.2f},0.00" '
+               f'fill="none" stroke="#0000ff" stroke-width="0.3" '
+               f'stroke-linecap="round" stroke-linejoin="round"/>')
+    return out, right + tg + tl
 
 
 def cut(args, tag):
