@@ -134,10 +134,10 @@ is the least a section can have.
 
 | | `25mm/` | `10mm/` |
 |---|---|---|
-| mouthpiece | [`mouthpiece-trumpet-parts.svg`](25mm/mouthpiece/mouthpiece-trumpet-parts.svg) | [`mouthpiece-round-bore10-parts.svg`](10mm/mouthpiece/mouthpiece-round-bore10-parts.svg) |
+| mouthpiece | [`mouthpiece-bore25-parts.svg`](25mm/mouthpiece/mouthpiece-bore25-parts.svg) | [`mouthpiece-bore10-parts.svg`](10mm/mouthpiece/mouthpiece-bore10-parts.svg) |
 | station one | 25mm square in a 31mm plate | 10mm square in a 16mm plate |
 | rim | ø16.5mm | ø17mm |
-| bell | [`bell-round-17rings.svg`](25mm/bell/bell-round-17rings.svg) | [`bell-round-152mm-bore10-17rings.svg`](10mm/bell/bell-round-152mm-bore10-17rings.svg) |
+| bell | [`bell-bore25-17rings.svg`](25mm/bell/bell-bore25-17rings.svg) | [`bell-bore10-152mm-17rings.svg`](10mm/bell/bell-bore10-152mm-17rings.svg) |
 | bell length | 204mm | 153mm |
 | bell mouth | ø138.8 of air in a ø144.8 rim | ø80.0 of air in a ø86.0 rim |
 | **cut the bell sheet** | **4 times** | **3 times** |
@@ -171,11 +171,11 @@ backbore and keeps a short cup, as a real one does.
 
 Each also carries a section drawing — an axial slice showing the bore climbing
 one staircase and the outside climbing another:
-[`25mm/bell/bell-round-17rings-section.svg`](25mm/bell/bell-round-17rings-section.svg),
-[`25mm/mouthpiece/mouthpiece-trumpet-parts-section.svg`](25mm/mouthpiece/mouthpiece-trumpet-parts-section.svg),
-[`10mm/bell/bell-round-152mm-bore10-17rings-section.svg`](10mm/bell/bell-round-152mm-bore10-17rings-section.svg)
+[`25mm/bell/bell-bore25-17rings-section.svg`](25mm/bell/bell-bore25-17rings-section.svg),
+[`25mm/mouthpiece/mouthpiece-bore25-parts-section.svg`](25mm/mouthpiece/mouthpiece-bore25-parts-section.svg),
+[`10mm/bell/bell-bore10-152mm-17rings-section.svg`](10mm/bell/bell-bore10-152mm-17rings-section.svg)
 and
-[`10mm/mouthpiece/mouthpiece-round-bore10-parts-section.svg`](10mm/mouthpiece/mouthpiece-round-bore10-parts-section.svg).
+[`10mm/mouthpiece/mouthpiece-bore10-parts-section.svg`](10mm/mouthpiece/mouthpiece-bore10-parts-section.svg).
 **Those are display only — never cut one.**
 
 **All four sheets live here outright.** Nothing else cuts them: the 10mm pair
@@ -249,8 +249,9 @@ The mouthpiece and the bell come from
 
 ```sh
 cd ../trumpet-parts/mouthpiece
-python3 mouthpiece-round.py --bore=10 --rim=17 --layout=trumpet
-cd ../bell && python3 bell-round.py 17 --bore=10 --length=152 --mouth=80
+python3 mouthpiece-round.py --bore=10 --rim=17 --layout=trumpet mouthpiece-bore10-parts.svg
+cd ../bell && python3 bell-round.py 17 --bore=10 --length=152 --mouth=80 \
+    --out=bell-bore10-152mm-17rings.svg
 ```
 
 Both sizes gate at **194 checks, 0 failed**. Nothing here should be cut from a
