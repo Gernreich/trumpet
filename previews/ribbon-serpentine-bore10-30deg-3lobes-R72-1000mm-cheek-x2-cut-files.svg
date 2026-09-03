@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="552.28mm" height="274.21mm" viewBox="0 0 552.28 274.21">
-<title>Ribbon bore 1 of 3 - 10mm square bore, 30 degree facets, serpentine</title>
-<desc>1 user unit = 1mm. A duct of constant 10 x 10mm section swept along a planar curve. Two identical cheeks (0, both the same way up) and 50 wall panels numbered along the flow. The section is exact along every facet and 3.5% over at each mitre. 3mm ply, 0.1mm kerf, 0.025mm play per side taken out of the slot and never off the tab. blue #0000ff engraves, orange #ff8000 cuts the slots first, black #000000 frees the parts.</desc>
-  <g id="numbers" fill="none" stroke="#0000ff" stroke-width="0.2">
+<!-- DISPLAY ONLY - not a cut file.
+     The stroke is thickened, a light ground painted in, and the lightest inks
+     darkened: green, cyan and orange sit below the 3:1 graphics minimum against any
+     light background, so the cut order cannot be read from a faithful rendering. Hue
+     and sequence are unchanged. Geometry and sheet position are untouched, and the
+     CUT FILE keeps the exact values your laser keys on.
+     Cut the file in the repository root, not this one. -->
+  <rect x="0.0" y="0.0" width="552.28" height="274.21" fill="#faf7f0"/>
+<title>Ribbon bore, serpentine - the cheek - CUT THIS SHEET TWICE - 10mm square bore, 30 degree facets</title>
+<desc>1 user unit = 1mm. the cheek - CUT THIS SHEET TWICE. A duct of constant 10 x 10mm section swept along a planar curve; the two cheeks are the same part and both go on the same way up. 50 wall panels in all, numbered along the flow. The airway is exact along every facet and 3.5% over at each mitre. 3mm ply, 0.1mm kerf, 0.025mm play per side taken out of the slot and never off the tab. blue #0000ff engraves, orange #ff8000 cuts the slots first, black #000000 frees the parts.</desc>
+  <g id="numbers" fill="none" stroke="#0000ff" stroke-width="1.105">
     <path d="M 19.983,166.807 L 20.256,166.367 L 20.256,168.367"/>
     <path d="M 19.958,168.367 L 20.578,168.367"/>
     <path d="M 21.171,168.367 L 21.611,168.367"/>
@@ -179,7 +187,7 @@
     <path d="M 14.400,162.561 L 14.964,163.081 L 14.964,164.641 L 14.400,165.161 L 13.836,164.641 L 13.836,163.081 L 14.400,162.561"/>
     <path d="M 15.622,165.161 L 16.194,165.161"/>
   </g>
-  <g id="slots" fill="none" stroke="#ff8000" stroke-width="0.2">
+  <g id="slots" fill="none" stroke="#a85800" stroke-width="1.105">
     <path d="M 17.453,168.911 L 23.403,168.911 L 23.403,171.811 L 17.453,171.811 Z"/>
     <path d="M 35.209,167.693 L 40.956,166.153 L 41.707,168.954 L 35.959,170.494 Z"/>
     <path d="M 46.800,164.587 L 52.547,163.047 L 53.298,165.849 L 47.550,167.389 Z"/>
@@ -326,7 +334,7 @@
     <path d="M 537.372,80.400 L 538.912,86.148 L 536.110,86.898 L 534.571,81.151 Z"/>
     <path d="M 540.228,98.704 L 540.228,104.654 L 537.328,104.654 L 537.328,98.704 Z"/>
   </g>
-  <g id="outlines" fill="none" stroke="#000000" stroke-width="0.2">
+  <g id="outlines" fill="none" stroke="#000000" stroke-width="1.105">
     <path d="M 10.000,173.861 L 31.317,173.861 L 71.053,163.213 L 101.107,133.160 L 111.413,94.695 L 120.333,61.406 L 142.807,38.932 L 173.508,30.706 L 204.209,38.932 L 226.683,61.406 L 235.262,93.423 L 235.262,183.423 L 245.909,223.160 L 275.963,253.213 L 317.016,264.214 L 358.069,253.213 L 388.123,223.160 L 398.770,183.423 L 398.770,93.423 L 407.349,61.406 L 429.823,38.932 L 460.524,30.706 L 491.225,38.932 L 513.699,61.406 L 522.278,93.423 L 522.278,112.107 L 542.278,112.107 L 542.278,90.790 L 531.631,51.053 L 501.577,21.000 L 460.524,10.000 L 419.471,21.000 L 389.417,51.053 L 378.770,90.790 L 378.770,180.790 L 370.191,212.807 L 347.717,235.282 L 317.016,243.508 L 286.315,235.282 L 263.841,212.807 L 255.262,180.790 L 255.262,90.790 L 244.615,51.053 L 214.561,21.000 L 173.508,10.000 L 132.455,21.000 L 102.401,51.053 L 92.095,89.519 L 83.175,122.807 L 60.701,145.282 L 28.683,153.861 L 10.000,153.861 Z"/>
   </g>
 </svg>

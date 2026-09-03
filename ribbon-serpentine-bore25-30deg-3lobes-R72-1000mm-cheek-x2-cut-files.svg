@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="559.78mm" height="289.74mm" viewBox="0 0 559.78 289.74">
-<title>Ribbon bore 1 of 3 - 25mm square bore, 30 degree facets, serpentine</title>
-<desc>1 user unit = 1mm. A duct of constant 25 x 25mm section swept along a planar curve. Two identical cheeks (0, both the same way up) and 50 wall panels numbered along the flow. The section is exact along every facet and 3.5% over at each mitre. 3mm ply, 0.1mm kerf, 0mm play per side taken out of the slot and never off the tab. blue #0000ff engraves, orange #ff8000 cuts the slots first, black #000000 frees the parts.</desc>
+<title>Ribbon bore, serpentine - the cheek - CUT THIS SHEET TWICE - 25mm square bore, 30 degree facets</title>
+<desc>1 user unit = 1mm. the cheek - CUT THIS SHEET TWICE. A duct of constant 25 x 25mm section swept along a planar curve; the two cheeks are the same part and both go on the same way up. 50 wall panels in all, numbered along the flow. The airway is exact along every facet and 3.5% over at each mitre. 3mm ply, 0.1mm kerf, 0mm play per side taken out of the slot and never off the tab. blue #0000ff engraves, orange #ff8000 cuts the slots first, black #000000 frees the parts.</desc>
   <g id="numbers" fill="none" stroke="#0000ff" stroke-width="0.2">
     <path d="M 20.477,182.072 L 20.749,181.632 L 20.749,183.632"/>
     <path d="M 20.452,183.632 L 21.072,183.632"/>

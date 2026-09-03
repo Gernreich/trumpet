@@ -415,13 +415,18 @@ def bbox(pts):
 
 
 def items_for(parts, cheekpoly, cline):
-    """Every part as (outline, slots, labeller), in its own coordinates.
+    """(the cheek, the panels), each as (outline, slots, labeller).
+
+    ONE cheek, not two. The two are the same part, so the sheet that carries
+    it is cut twice - which is only possible if nothing else shares that
+    sheet. The packer used to fill the second cheek's sheet with panels, so
+    cutting the first sheet twice left you thirteen panels short.
 
     The labeller is deferred because a label's position depends on where the
     part is finally placed, and placement is the packer's business.
     """
     out = []
-    for k in range(2):
+    for k in range(1):
         def cheek_marks(dx, dy, _p=parts, _c=cline):
             m = []
             for q in _p:
@@ -445,6 +450,7 @@ def items_for(parts, cheekpoly, cline):
         out.append({'outline': cheekpoly,
                     'slots': [sl for q in parts for sl in slots_for(q)],
                     'marks': cheek_marks})
+    pan = []
     for q in parts:
         w = q['len'] + BURN
         h2 = (BORE + 2 * THICK + BURN) / 2
@@ -452,8 +458,8 @@ def items_for(parts, cheekpoly, cline):
 
         def panel_marks(dx, dy, _t=q['tag'], _w=w, _h=h2):
             return label(_t, _w / 2 + dx, _h + dy, 3.2)
-        out.append({'outline': poly, 'slots': [], 'marks': panel_marks})
-    return out
+        pan.append({'outline': poly, 'slots': [], 'marks': panel_marks})
+    return out, pan
 
 
 MARGIN_S = 10.0      # sheet margin: the packer's and the reported size's
@@ -496,42 +502,40 @@ def pack(items, margin=MARGIN_S, gap=4.0):
 
 
 def sheet(parts, cheekpoly, cline, path_out, write=True):
-    """Write one SVG per sheet, and report what went on them.
+    """Write the cut files: the cheek on its own sheet, the panels on theirs.
+
+    **The cheek's sheet is cut twice and nothing else is on it.** The two
+    cheeks are the same part, so one file loaded once and run twice is the
+    whole job - but only if the sheet holds nothing that should be cut once.
+    The packer used to fill the second cheek's sheet with panels, which made
+    that impossible without counting parts by hand.
 
     Colour is the cut order, shared with every repository here: blue engraves,
     then orange, then black. The slots are orange because they are inside the
     cheek and have to be cut while the sheet still holds it; black frees the
     parts.
-
-    The two cheeks are IDENTICAL and both go on the same way up. Flipping one
-    over mirrors its slot pattern, and neither of these shapes is symmetric
-    about the line you would flip it on, so a flipped cheek does not meet a
-    single tab.
     """
-    sheets = pack(items_for(parts, cheekpoly, cline))
-    ink, cut_slots, written = [], [], []
+    cheeks, panels = items_for(parts, cheekpoly, cline)
     over = 100 * (1 / math.cos(math.radians(FACET) / 2) - 1)
-    for n, placed in enumerate(sheets, 1):
+    stem, ext = os.path.splitext(path_out)
+    ink, cut_slots, written = [], [], []
+
+    def write_sheet(placed, path_here, note, n, of):
         marks, holes, cuts = [], [], []
         for it, dx, dy in placed:
             here = [(q[0] + dx, q[1] + dy) for q in it['outline']]
             cuts.append(path(here))
             for sl in it['slots']:
                 moved = [(q[0] + dx, q[1] + dy) for q in sl]
-                # tagged with the sheet, because two sheets are two files and
-                # their coordinates have nothing to do with each other. The
-                # first version of the slot check compared ink on sheet 3
-                # against slots on sheet 1 and reported three collisions that
-                # were two different pieces of paper.
-                cut_slots.append((moved, n))
+                # tagged with the file, because two sheets are two files and
+                # their coordinates have nothing to do with each other
+                cut_slots.append((moved, path_here))
                 holes.append(path(moved))
             for d in it['marks'](dx, dy):
                 marks.append(d)
                 for tok in d.replace('M ', '').replace('Z', '').split(' L '):
                     a, b = tok.strip().split(',')
-                    ink.append((float(a), float(b), here, n))
-        # the same margin the packer used, not a second constant that can
-        # drift from it
+                    ink.append((float(a), float(b), here, path_here))
         W = max(bbox(it['outline'])[2] + dx for it, dx, dy in placed) + MARGIN_S
         H = max(bbox(it['outline'])[3] + dy for it, dx, dy in placed) + MARGIN_S
 
@@ -543,28 +547,36 @@ def sheet(parts, cheekpoly, cline, path_out, write=True):
                     + '\n'.join(f'    <path d="{d}"/>' for d in ds)
                     + '\n  </g>\n')
 
-        of = f' {n} of {len(sheets)}' if len(sheets) > 1 else ''
-        stem, ext = os.path.splitext(path_out)
-        this = path_out if len(sheets) == 1 else f'{stem}-sheet{n}{ext}'
+        of_txt = f', sheet {n} of {of}' if of > 1 else ''
         body = (
             f'<?xml version="1.0" encoding="utf-8"?>\n'
             f'<svg xmlns="http://www.w3.org/2000/svg" width="{W:.2f}mm" '
             f'height="{H:.2f}mm" viewBox="0 0 {W:.2f} {H:.2f}">\n'
-            f'<title>Ribbon bore{of} - {BORE:g}mm square bore, {FACET:g} degree '
-            f'facets, {SHAPE}</title>\n'
-            f'<desc>1 user unit = 1mm. A duct of constant {BORE:g} x {BORE:g}mm '
-            f'section swept along a planar curve. Two identical cheeks (0, both '
-            f'the same way up) and {len(parts)} wall panels numbered along the '
-            f'flow. The section is exact along every facet and {over:.1f}% over '
-            f'at each mitre. {THICK:g}mm ply, {BURN:g}mm kerf, {play():g}mm play '
-            f'per side taken out of the slot and never off the tab. blue '
-            f'#0000ff engraves, orange #ff8000 cuts the slots first, black '
-            f'#000000 frees the parts.</desc>\n'
+            f'<title>Ribbon bore, {SHAPE} - {note}{of_txt} - {BORE:g}mm square '
+            f'bore, {FACET:g} degree facets</title>\n'
+            f'<desc>1 user unit = 1mm. {note}. A duct of constant '
+            f'{BORE:g} x {BORE:g}mm section swept along a planar curve; the '
+            f'two cheeks are the same part and both go on the same way up. '
+            f'{len(parts)} wall panels in all, numbered along the flow. The '
+            f'airway is exact along every facet and {over:.1f}% over at each '
+            f'mitre. {THICK:g}mm ply, {BURN:g}mm kerf, {play():g}mm play per '
+            f'side taken out of the slot and never off the tab. blue #0000ff '
+            f'engraves, orange #ff8000 cuts the slots first, black #000000 '
+            f'frees the parts.</desc>\n'
             + grp(marks, MARK, 'numbers') + grp(holes, INNER, 'slots')
             + grp(cuts, CUT, 'outlines') + '</svg>\n')
         if write:
-            open(this, 'w').write(body)
-        written.append((os.path.basename(this), W, H, len(placed)))
+            open(path_here, 'w').write(body)
+        written.append((os.path.basename(path_here), W, H, len(placed), note))
+
+    for gname, items, note in (
+            ('cheek-x2', cheeks, 'the cheek - CUT THIS SHEET TWICE'),
+            ('panels', panels, 'the wall panels')):
+        sheets = pack(items)
+        for n, placed in enumerate(sheets, 1):
+            tail = f'-sheet{n}' if len(sheets) > 1 else ''
+            write_sheet(placed, f'{stem}-{gname}{tail}-cut-files{ext}', note,
+                        n, len(sheets))
     return written, ink, cut_slots
 
 
@@ -693,9 +705,9 @@ def checks(c, inn, out, parts, cheekpoly, written, ink, cut_slots):
 
     # a number engraved over a slot is engraved into a hole, and what it
     # actually marks is the edge of the panel standing in it
-    over = sum(1 for x, y, _, sh in ink
-               if any(inside(sl, x, y) for sl, s2 in cut_slots if s2 == sh))
-    note(over == 0 and len(cut_slots) == 2 * len(allslots),
+    over = sum(1 for x, y, _, f in ink
+               if any(inside(sl, x, y) for sl, f2 in cut_slots if f2 == f))
+    note(over == 0 and len(cut_slots) == len(allslots),
          'no engraving lands in a slot',
          f'{len(ink)} points against {len(cut_slots)} slots, {over} inside one')
 
@@ -703,11 +715,11 @@ def checks(c, inn, out, parts, cheekpoly, written, ink, cut_slots):
          f'{WEB:g}mm of ply beside a {THICK:g}mm slot, band '
          f'{band():g}mm wide')
 
-    big = [n for n, w, h, _ in written if w > BED_W or h > BED_H]
+    big = [n for n, w, h, _, _ in written if w > BED_W or h > BED_H]
     note(not big and len(written) > 0, 'every sheet fits the P2S bed',
          f'{len(written)} sheet(s), largest '
-         f'{max(w for _, w, _, _ in written):.0f} x '
-         f'{max(h for _, _, h, _ in written):.0f}mm against '
+         f'{max(w for _, w, _, _, _ in written):.0f} x '
+         f'{max(h for _, _, h, _, _ in written):.0f}mm against '
          f'{BED_W:g} x {BED_H:g}')
     return res
 
@@ -739,12 +751,14 @@ def main(write=True):
     # this script tried out in the same folder therefore deleted the real cut
     # file. A trial writes somewhere else or it does not write at all.
     L = sum(seglen(a, b) for a, b in zip(c, c[1:]))
+    # the group goes before -cut-files, not after: every sheet in this
+    # project ends -cut-files.svg and a reader sorts on the tail
     if SHAPE == 'serpentine':
         stem = (f'ribbon-serpentine-bore{BORE:g}-{FACET:g}deg-{LOBES}lobes'
-                f'-R{LOBE_R:.0f}-{L:.0f}mm-cut-files.svg')
+                f'-R{LOBE_R:.0f}-{L:.0f}mm.svg')
     else:
         stem = (f'ribbon-coupon-bore{BORE:g}-{FACET:g}deg'
-                f'-R{RADIUS:g}-180turn-cut-files.svg')
+                f'-R{RADIUS:g}-180turn.svg')
     out_path = OUT or os.path.join(
         os.path.dirname(os.path.abspath(__file__)), stem)
     written, ink, cut_slots = sheet(parts, cheekpoly, c, out_path, write)
@@ -756,8 +770,8 @@ def main(write=True):
                   else '  (a flipped cheek meets no tab at any angle)'))
     print(f'\n  {len(parts)} wall panels + 2 cheeks = {len(parts) + 2} parts, '
           f'{len(written)} sheet{"s" if len(written) > 1 else ""}')
-    for name, w, h, k in written:
-        print(f'    {name:<56}{k:>3} parts  {w:.0f} x {h:.0f}mm')
+    for name, w, h, k, note in written:
+        print(f'    {name:<62}{k:>3} parts  {w:.0f} x {h:.0f}mm')
     bad = 0
     print()
     for ok, what, detail in checks(c, inn, out, parts, cheekpoly,
@@ -768,7 +782,7 @@ def main(write=True):
         print(f'\n  wrote {len(written)} file(s)')
     elif bad:
         if write:
-            for name, _, _, _ in written:
+            for name, _, _, _, _ in written:
                 f = os.path.join(os.path.dirname(os.path.abspath(out_path)), name)
                 if os.path.exists(f):
                     os.remove(f)

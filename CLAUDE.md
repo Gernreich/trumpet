@@ -108,6 +108,24 @@ checked by comparing the cut groups as position-independent shapes, which is
 the only comparison that means anything once the packer may have reordered
 them.
 
+## The cheek gets its own file, and that file is cut twice
+
+The two cheeks are the same part, so one file run twice is the whole job -
+**but only if nothing else is on that sheet.** `pack()` used to fill the second
+cheek's sheet with panels, so cutting one sheet twice left you thirteen panels
+short with nothing to notice it but counting. `items_for()` emits ONE cheek and
+`sheet()` packs cheeks and panels as separate groups:
+
+    ...-cheek-x2-cut-files.svg     one cheek. Cut it twice.
+    ...-panels-cut-files.svg       every wall panel. Cut once.
+
+`x2` is the bell's convention - `bell-round10-...-x3-...` means three plies -
+so the count of copies lives in the name, where a reader looking at a folder
+finds it.
+
+It also nests better: the serpentine went from three sheets to two, because the
+panels no longer have to fit around a cheek.
+
 ## One sheet per bedful
 
 `pack()` row-wraps into `BED - 2 x margin`, not into the bed. Filling to the

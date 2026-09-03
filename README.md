@@ -41,9 +41,9 @@ invisible on a page, so `previews/` holds a readable rendering of each — same
 geometry and same cut order, thicker strokes, inks darkened to stay legible on
 a light ground.
 
-<p align="center"><img src="previews/ribbon-serpentine-bore10-30deg-3lobes-R72-1000mm-cut-files-sheet1.svg" alt="One cheek of the 10mm serpentine: a thin band following three half-circles joined by straight runs, with 145 slots along it" width="760"></p>
+<p align="center"><img src="previews/ribbon-serpentine-bore10-30deg-3lobes-R72-1000mm-cheek-x2-cut-files.svg" alt="One cheek of the 10mm serpentine: a thin band following three half-circles joined by straight runs, with 145 slots along it" width="760"></p>
 
-<p align="center"><img src="previews/ribbon-coupon-bore10-30deg-R30-180turn-cut-files.svg" alt="The coupon sheet: two U-shaped cheeks and sixteen small wall panels, each a rectangle with a tab top and bottom" width="760"></p>
+<p align="center"><img src="previews/ribbon-coupon-bore10-30deg-R30-180turn-panels-cut-files.svg" alt="The coupon sheet: two U-shaped cheeks and sixteen small wall panels, each a rectangle with a tab top and bottom" width="760"></p>
 
 ## How this differs from the other two
 
@@ -103,14 +103,15 @@ open. A real Bb trumpet runs R/bore ≈ 4.3.
     python3 ribbon_bore.py --shape=serpentine              # the 10mm bore
     python3 ribbon_bore.py --shape=serpentine --bore=25    # the 25mm bore
 
-**1000.0mm of centreline**, in **52 parts on 3 sheets** — three half-circles of
+**1000.0mm of centreline**, in **52 parts on 2 files** — three half-circles of
 R 71.754 joined by 90mm straight runs, with a 20mm lead at each end.
 
 The same centreline is cut at both bores. Only the band around it changes:
 
 | | 10 × 10mm | 25 × 25mm |
 | --- | --- | --- |
-| files | [`bore10` sheet 1](ribbon-serpentine-bore10-30deg-3lobes-R72-1000mm-cut-files-sheet1.svg) · [2](ribbon-serpentine-bore10-30deg-3lobes-R72-1000mm-cut-files-sheet2.svg) · [3](ribbon-serpentine-bore10-30deg-3lobes-R72-1000mm-cut-files-sheet3.svg) | [`bore25` sheet 1](ribbon-serpentine-bore25-30deg-3lobes-R72-1000mm-cut-files-sheet1.svg) · [2](ribbon-serpentine-bore25-30deg-3lobes-R72-1000mm-cut-files-sheet2.svg) · [3](ribbon-serpentine-bore25-30deg-3lobes-R72-1000mm-cut-files-sheet3.svg) |
+| the cheek, **cut twice** | [`bore10`](ribbon-serpentine-bore10-30deg-3lobes-R72-1000mm-cheek-x2-cut-files.svg) | [`bore25`](ribbon-serpentine-bore25-30deg-3lobes-R72-1000mm-cheek-x2-cut-files.svg) |
+| the panels, cut once | [`bore10`](ribbon-serpentine-bore10-30deg-3lobes-R72-1000mm-panels-cut-files.svg) | [`bore25`](ribbon-serpentine-bore25-30deg-3lobes-R72-1000mm-panels-cut-files.svg) |
 | section | 100mm² | 625mm² |
 | cheek band | 20mm | 35mm |
 | R / bore | 7.2 | 2.9 |
@@ -162,9 +163,10 @@ not move when this arrived.
 
 ## The coupon
 
-**[`ribbon-coupon-bore10-30deg-R30-180turn-cut-files.svg`](ribbon-coupon-bore10-30deg-R30-180turn-cut-files.svg)**
-— a 180° turn at the 10mm bore, 107.6mm of centreline, **18 parts on a
-297 × 97mm sheet**.
+Two files: **[the cheek](ribbon-coupon-bore10-30deg-R30-180turn-cheek-x2-cut-files.svg)**,
+which you cut **twice**, and **[the panels](ribbon-coupon-bore10-30deg-R30-180turn-panels-cut-files.svg)**,
+which you cut once — a 180° turn at the 10mm bore, 123.2mm of centreline,
+**18 parts**.
 
 | | |
 | --- | --- |
@@ -197,6 +199,12 @@ cheek meets no tab at all.
 
 Same way up, both of them, either way. The consequence is that one cheek
 carries its numbers on the inside; that is the cheaper of the two mistakes.
+
+**Because they are the same part, the cheek gets its own file and you cut that
+file twice.** Nothing else is on it — the panels are a separate file, cut once.
+That is the whole reason for the split: the packer used to fill the second
+cheek's sheet with panels, so cutting one sheet twice left you thirteen panels
+short and no way to notice but counting.
 
 Panels are numbered in hex with the baseline tick, the same glyphs the bore
 sections, the bell rings and the torus pieces use — `6` and `9` are one shape
