@@ -120,10 +120,12 @@ walk, same six sections, same shapes, same in and out faces, no elbows — 352mm
 centreline instead of 682. The two bores differ in pitch and in nothing else, so a change
 to one is a change to both.
 
-**The two folders share every filename.** `01_bend_DL.svg` exists in both bores, because the
-shapes genuinely are the same and only the pitch differs. Nothing stops you cutting the
-wrong one; the sheet size is the tell — 247x59mm is small, 397x89mm is large — and the
-README tables carry both.
+**The two folders shared every filename until 2026-09-03.** `01_bend_DL.svg` existed in both
+bores, because the shapes genuinely are the same and only the pitch differs — but nothing
+stopped you cutting the wrong one, and the only tell was the sheet size. The bore is now in
+the name: `bore25-trumpet-switchback-01of06-bend-DL-buttin-cut-files.svg`, and each sheet
+carries a `<title>` and `<desc>` saying its bore, its blocks and its faces, so a file that
+has been renamed or moved can still be asked what it is.
 
 `--pin_width` is the one flag that does not simply scale. SnakeBox defaults it to 12mm,
 sized for the 25mm square, and 12mm does not fit a 10mm end frame — SnakeBox raises
@@ -233,8 +235,9 @@ concurrently modified:
 - Regenerating rewrites **every** SVG in the folder you point it at — and only that
   folder, so the two sizes have to be rebuilt one command each. A changed section length
   renames a file: `06_bend_RDD.svg` became `06_bend_RD.svg` when the last term went from
-  `N2` to `N1`. The old file is not deleted for you, in either folder. Check both for
-  orphans after a regenerate.
+  `N2` to `N1`. Since the names carry `NNofTT`, a walk that gains or loses a *section*
+  now renames **all** of them at once — six orphans, not one. The old files are not
+  deleted for you, in either folder. Check both for orphans after a regenerate.
 
 ## The gate does not run under the system python
 
