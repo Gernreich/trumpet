@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>bore-ribbon</title>
+<style>
+:root{--bg:#fbfbfa;--fg:#1a1c1e;--mut:#5b6067;--line:#e2e4e7;--card:#fff;--accent:#1d4ed8;
+--codebg:#f4f5f7;--thbg:#f0f1f3;--mark:#fff8c4}
+@media (prefers-color-scheme:dark){:root{--bg:#15171a;--fg:#e6e8ea;--mut:#9aa1a9;--line:#2b2f34;
+--card:#1b1e22;--accent:#7aa2f7;--codebg:#22262b;--thbg:#23272c;--mark:#4a411c}}
+:root[data-theme=dark]{--bg:#15171a;--fg:#e6e8ea;--mut:#9aa1a9;--line:#2b2f34;--card:#1b1e22;
+--accent:#7aa2f7;--codebg:#22262b;--thbg:#23272c;--mark:#4a411c}
+:root[data-theme=light]{--bg:#fbfbfa;--fg:#1a1c1e;--mut:#5b6067;--line:#e2e4e7;--card:#fff;
+--accent:#1d4ed8;--codebg:#f4f5f7;--thbg:#f0f1f3;--mark:#fff8c4}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+font:16px/1.62 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+-webkit-text-size-adjust:100%}
+.wrap{display:grid;grid-template-columns:250px minmax(0,1fr);gap:44px;max-width:1180px;
+margin:0 auto;padding:40px 28px 96px}
+nav{position:sticky;top:28px;align-self:start;max-height:calc(100vh - 56px);overflow:auto;
+border-right:1px solid var(--line);padding-right:16px;font-size:13.5px;line-height:1.45}
+nav b{display:block;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--mut);
+margin:0 0 12px}
+nav a{display:block;color:var(--mut);text-decoration:none;padding:3px 0;border-radius:4px}
+nav a:hover{color:var(--accent)}
+nav a.l1{color:var(--fg);font-weight:640;margin-top:11px}
+nav a.l2{padding-left:12px}
+main{min-width:0}
+h1{font-size:1.62rem;line-height:1.25;letter-spacing:-.015em;margin:2.4em 0 .5em;
+padding-bottom:.32em;border-bottom:2px solid var(--line)}
+main>h1:first-child{margin-top:0;border-bottom:none;font-size:1.95rem}
+h2{font-size:1.16rem;margin:2em 0 .5em;letter-spacing:-.01em}
+h3{font-size:1.02rem;font-weight:650;margin:1.7em 0 .45em}
+p{margin:.85em 0}
+ul,ol{margin:.85em 0;padding-left:1.35em}
+li{margin:.3em 0}
+hr{border:0;border-top:1px solid var(--line);margin:2.6em 0}
+figure{margin:1.6em 0}
+/* A paragraph holding two or more images is a gallery. Left to inline layout they
+   wrap at whatever fits, which put three bells on one row and the fourth alone
+   underneath - directly above the caption, so it read as the caption for that one
+   picture rather than for the set. Flex lets them share the row instead. */
+p:has(img + img){display:flex;flex-wrap:wrap;gap:10px;align-items:flex-start;
+justify-content:center}
+p:has(img + img) img{flex:1 1 140px;min-width:0;width:auto;max-width:100%;height:auto;
+border:1px solid var(--line);border-radius:10px}
+figure svg,figure img{display:block;width:100%;max-width:100%;height:auto;
+border:1px solid var(--line);border-radius:10px}
+a{color:var(--accent)}
+code{font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+background:var(--codebg);padding:.1em .32em;border-radius:4px;
+border:1px solid color-mix(in srgb,var(--line) 70%,transparent)}
+pre{background:var(--codebg);border:1px solid var(--line);border-radius:9px;
+padding:14px 16px;overflow-x:auto;margin:1.1em 0}
+pre code{background:none;border:0;padding:0;font-size:12.8px;line-height:1.62;white-space:pre}
+blockquote{margin:1.15em 0;padding:.7em 1.1em;border-left:4px solid var(--accent);
+background:var(--codebg);border-radius:0 7px 7px 0}
+blockquote p{margin:0}
+.tw{overflow-x:auto;margin:1.15em 0;border:1px solid var(--line);border-radius:9px;
+background:var(--card)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:8px 13px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+/* honour align="center" on gallery cells: a presentation attribute loses to any
+   CSS rule, so the line above would silently left-align every thumbnail caption */
+td[align=center],th[align=center]{text-align:center}
+th{background:var(--thbg);font-weight:630;white-space:nowrap;font-size:13px;
+letter-spacing:.01em}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover{background:color-mix(in srgb,var(--thbg) 45%,transparent)}
+td code,th code{white-space:nowrap}
+/* A walk inside a link is one token: breaking it mid-walk put "N" at the end of one
+   line and "N5 U" at the start of the next, which reads as two things. */
+a code{white-space:nowrap}
+.tog{position:fixed;top:14px;right:14px;z-index:9;background:var(--card);color:var(--mut);
+border:1px solid var(--line);border-radius:7px;padding:6px 11px;font-size:12.5px;cursor:pointer}
+.tog:hover{color:var(--accent)}
+@media (max-width:900px){.wrap{grid-template-columns:1fr;gap:20px;padding:26px 18px 72px}
+nav{position:static;max-height:none;border-right:0;border-bottom:1px solid var(--line);
+padding:0 0 16px;columns:2;column-gap:20px}}
+@media print{nav,.tog{display:none}.wrap{display:block;max-width:none;padding:0}
+pre,.tw{break-inside:avoid}h1{break-after:avoid}}
+</style>
+</head>
+<body>
+<button class="tog" type="button">theme</button>
+<div class="wrap">
+<nav><b>Contents</b><a class="l1" href="#bore-ribbon">bore-ribbon</a><a class="l2" href="#how-this-differs-from-the-other-two">How this differs from the other two</a><a class="l2" href="#why-a-planar-curve">Why a planar curve</a><a class="l2" href="#what-limits-the-bend">What limits the bend</a><a class="l2" href="#the-coupon">The coupon</a><a class="l2" href="#what-this-coupon-is-for">What this coupon is for</a></nav>
+<main>
+<h1 id="bore-ribbon">bore-ribbon</h1>
+<p>A bore of <strong>constant cross-section</strong> swept along a <strong>planar curve</strong> — cut flat, assembled with finger joints, no bending and no lamination.</p>
+<pre><code>python3 ribbon_bore.py</code></pre>
+<h2 id="how-this-differs-from-the-other-two">How this differs from the other two</h2>
+<div class='tw'><table><thead><tr><th></th><th>curve</th><th>section</th><th>joints</th></tr></thead><tbody><tr><td><a href="https://github.com/Gernreich/bore-generator"><code>bore-generator</code></a></td><td>90° lattice turns</td><td>+41.4% at each turn</td><td>finger joints</td></tr><tr><td><a href="https://github.com/Gernreich/torus-octagonal"><code>torus-octagonal</code></a></td><td>a circle, 45° facets</td><td>+8.2% at each facet</td><td>finger joints</td></tr><tr><td><strong><code>bore-ribbon</code></strong></td><td><strong>any planar curve</strong></td><td><strong>+3.5% at 30°, and the dial goes lower</strong></td><td><strong>finger joints</strong></td></tr></tbody></table></div>
+<h2 id="why-a-planar-curve">Why a planar curve</h2>
+<p>Sweep a rectangle along a curve that lies in a plane, with one axis normal to that plane, and the duct has <strong>two flat faces and two cylindrical ones</strong>. The flat pair are the cheeks and come straight off the sheet. The curved pair are the whole problem: 3mm birch will not bend to these radii, so they are faceted — short flat panels, each finger-jointed into both cheeks.</p>
+<p><strong><a href="https://github.com/Gernreich/bore-ribbon/archive/refs/heads/main.zip">Download everything as a ZIP</a></strong> — GitHub builds it from <code>main</code> on every push, so it is never out of date.</p>
+<p>Built for <strong><a href="https://www.youtube.com/@LaserMadeMusic">LaserMadeMusic</a></strong>, where the cutting and the playing are shown.</p>
+<p><strong><a href="https://gernreich.github.io/">The rest of the build files</a></strong> — every instrument, generator and tool, indexed.</p>
+<p>The section is exactly <code>bore × bore</code> along every facet. At each facet joint the walls mitre and the area there is <code>bore² / cos(φ/2)</code>:</p>
+<div class='tw'><table><thead><tr><th>facet angle</th><th>area at the joint</th><th></th></tr></thead><tbody><tr><td>90°</td><td>+41.4%</td><td>a turn in the Minecraft lattice</td></tr><tr><td>45°</td><td>+8.2%</td><td>the octagonal torus</td></tr><tr><td><strong>30°</strong></td><td><strong>+3.5%</strong></td><td><strong>this coupon</strong></td></tr><tr><td>15°</td><td>+0.9%</td><td></td></tr></tbody></table></div>
+<p>That is the whole design dial. It trades against part count, and against how short the inner panels get.</p>
+<h2 id="what-limits-the-bend">What limits the bend</h2>
+<p>The inner wall is the centreline offset inward by <code>bore/2</code>, so its radius is <code>R − bore/2</code> and <strong>there is no bore at all below <code>R = bore/2</code></strong>.</p>
+<p>Long before that the inner panel gets too short to carry a finger. A Boxes.py tooth is <code>2 × thickness</code> and <strong>does not scale with the bore</strong>, so at the 10mm bore and 30° facets:</p>
+<div class='tw'><table><thead><tr><th>R / bore</th><th>R</th><th>inner panel</th><th>holds a 6mm tooth?</th></tr></thead><tbody><tr><td>1.0</td><td>10mm</td><td>2.50mm</td><td>no</td></tr><tr><td>1.5</td><td>15mm</td><td>5.09mm</td><td>no</td></tr><tr><td>2.0</td><td>20mm</td><td>7.67mm</td><td>no</td></tr><tr><td><strong>2.5</strong></td><td><strong>25mm</strong></td><td><strong>10.26mm</strong></td><td><strong>yes, with 2.13mm shoulders</strong></td></tr><tr><td>4.0</td><td>40mm</td><td>18.03mm</td><td>yes, two teeth</td></tr></tbody></table></div>
+<p>The coupon is R 25 for that reason, not because the bend wants to be that open. A real Bb trumpet runs R/bore ≈ 4.3.</p>
+<h2 id="the-coupon">The coupon</h2>
+<p><strong><a href="ribbon-coupon-bore10-30deg-R25-180turn-cut-files.svg"><code>ribbon-coupon-bore10-30deg-R25-180turn-cut-files.svg</code></a></strong> — a 180° turn at the 10mm bore, 107.6mm of centreline, <strong>18 parts on a 297 × 99mm sheet</strong>.</p>
+<div class='tw'><table><thead><tr><th></th><th></th></tr></thead><tbody><tr><td>Material</td><td>3mm Baltic birch ply</td></tr><tr><td>Kerf (<code>BURN</code>)</td><td>0.1mm</td></tr><tr><td>Play</td><td>0.025mm per side, out of the slot, never off the tab</td></tr><tr><td>Section</td><td>10 × 10mm = 100mm², exact along every facet</td></tr><tr><td>Parts</td><td>2 cheeks (<code>0</code>) · 8 inner panels (<code>1</code>–<code>8</code>) · 8 outer panels (<code>9</code>–<code>10</code>)</td></tr></tbody></table></div>
+<p><strong>Both cheeks are identical and both go on the same way up.</strong> Flipping one over mirrors its slot pattern, and this U is not symmetric about the line you would flip it on, so a flipped cheek does not meet a single tab.</p>
+<p>Panels are numbered in hex with the baseline tick, the same glyphs the bore sections, the bell rings and the torus pieces use — <code>6</code> and <code>9</code> are one shape turned over and the tick says which way up. Each cheek slot carries the number of the panel that goes in it. Stand every panel with its number facing <strong>out</strong>; the engraving is 0.1mm of roughness and it does not belong in the airway.</p>
+<p><strong>Colour is the cut order</strong>: blue <code>#0000ff</code> engraves, orange <code>#ff8000</code> cuts the slots while the sheet still holds the cheek, black <code>#000000</code> frees the parts.</p>
+<h2 id="what-this-coupon-is-for">What this coupon is for</h2>
+<p>Three things, none of which a check can answer:</p>
+<ol><li><strong>The butt gap.</strong> Neighbouring wall panels do not join to each other — they butt, and the cheeks hold the alignment. At 30° facets with 3mm ply the gap on the convex side is <code>3 × tan(15°)</code> = <strong>0.80mm</strong>. That is a glue line, and whether it seals is the question.</li><li><strong>The tab fit at 0.025mm per side</strong>, on a tooth that is 6mm in a panel that is only 10.26mm long.</li><li><strong>Whether 18 small parts is an assembly anyone wants to do twice.</strong></li></ol>
+<p>If 0.80mm is too much, the gap is <code>thickness × tan(φ/2)</code>, so it comes down with the facet angle: <strong>0.53mm at 20°, 0.40mm at 15°</strong>. Halving it means 15°, not 20° — and 15° costs a bend radius of R 45 at this bore, because the inner panels shrink as the facets do and the tooth still does not scale.</p>
+</main>
+</div>
+<script>
+var r=document.documentElement,b=document.querySelector('.tog');
+function set(t){r.setAttribute('data-theme',t);try{localStorage.setItem('ctg-theme',t)}catch(e){}
+b.textContent=t==='dark'?'\u2600 light':'\u263e dark';}
+var saved=null;try{saved=localStorage.getItem('ctg-theme')}catch(e){}
+set(saved||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'));
+b.addEventListener('click',function(){set(r.getAttribute('data-theme')==='dark'?'light':'dark')});
+</script>
+</body>
+</html>
