@@ -95,8 +95,24 @@ def walk(spec):
     return pts
 
 
+def flip(pts):
+    """Negate y, so the file renders the way the shape is drawn.
+
+    Everything here is worked out with y running up, the way the geometry
+    reads. SVG runs y down, so writing those coordinates straight out renders
+    the shape upside down - a hump becomes a trough. The cut part is identical
+    either way, being a mirror of itself turned over, but a cut file that does
+    not look like the thing it makes is a cut file you check twice.
+
+    Applied here and nowhere else, so every offset, normal, mitre and label
+    angle downstream is computed in the flipped space and comes out right.
+    Glyphs are NOT flipped: label() already draws them for SVG.
+    """
+    return [(x, -y) for x, y in pts]
+
+
 def centreline():
-    """The centreline, already faceted at FACET.
+    """The centreline, already faceted at FACET and flipped into SVG's y.
 
     The panels ARE the segments of this polyline offset sideways - there is no
     separate faceting step, so there is nothing for it to disagree with.
@@ -113,7 +129,7 @@ def centreline():
             if i < LOBES - 1:
                 spec.append(('s', RISE))
         spec.append(('s', LEAD))
-        return walk(spec)
+        return flip(walk(spec))
     n = int(round(180.0 / FACET))
     if abs(n * FACET - 180.0) > 1e-9:
         raise ValueError(f'--facet={FACET:g} does not divide 180 a whole '
@@ -129,7 +145,7 @@ def centreline():
         a = -i * math.radians(FACET)              # (R,0) -> (0,-R) -> (-R,0)
         pts.append((RADIUS * math.cos(a), RADIUS * math.sin(a)))
     pts.append((-RADIUS, TAIL))                   # lead out, running +y
-    return pts
+    return flip(pts)
 
 
 def walls(poly):
@@ -318,6 +334,7 @@ def build():
     # are 10-14mm and the outer ones 15-16mm, and the cheek slot carries the
     # same number.
     seq = 0
+    cl = c
     for name, poly in (('inner', inn), ('outer', out)):
         for i, (a, b) in enumerate(zip(poly, poly[1:]), 1):
             L = seglen(a, b)
@@ -329,13 +346,15 @@ def build():
                     f'coarsen --facet; the tooth does not scale with the bore.')
             mid = ((a[0] + b[0]) / 2, (a[1] + b[1]) / 2)
             ang = math.atan2(b[1] - a[1], b[0] - a[0])
-            # away from the bore: the left normal of the segment, flipped
-            # for the inner wall. The number goes out here, on the flange -
-            # engraving inside the airway is roughness in the bore, and this
-            # is a bore.
-            nx, ny = -(b[1] - a[1]) / L, (b[0] - a[0]) / L
-            if name == 'inner':
-                nx, ny = -nx, -ny
+            # Away from the bore, measured rather than assumed: from the
+            # centreline's own midpoint out to the wall's. A left normal with
+            # a sign flip for the inner wall works only for one handedness,
+            # and flipping y into SVG's coordinates reverses it - which put
+            # 122 of 504 engraved points off the material.
+            m0 = ((cl[i - 1][0] + cl[i][0]) / 2, (cl[i - 1][1] + cl[i][1]) / 2)
+            dx, dy = mid[0] - m0[0], mid[1] - m0[1]
+            dl = math.hypot(dx, dy) or 1.0
+            nx, ny = dx / dl, dy / dl
             seq += 1
             tag = f'{seq:X}'
             parts.append({'kind': 'panel', 'wall': name, 'n': i, 'len': L,

@@ -58,6 +58,22 @@ what make it fit, because they buy length in y where there is room.
 against a smooth arc: an inscribed chord is **1.14% short** of the arc it
 spans, so a radius picked from the arc comes out 11mm long over a metre.
 
+## The geometry is worked out y-up and flipped once, in flip()
+
+SVG's y runs down, so writing y-up coordinates straight out renders the shape
+upside down — a hump becomes a trough, and a cut file that does not look like
+the thing it makes is a cut file you check twice. `flip()` negates y at the end
+of `centreline()` and **nowhere else**, so every offset, normal, mitre and label
+angle downstream is computed in the flipped space and comes out right. Glyphs
+are not flipped: `label()` already draws them for SVG.
+
+The flip reverses handedness, which broke one thing that had assumed it: the
+outward direction for a panel's number was a left normal with a sign flip for
+the inner wall, and that is only right for one handedness. **122 of 504 engraved
+points landed off the material.** It is now measured — from the centreline
+segment's midpoint out to the wall segment's — which has no handedness to get
+wrong.
+
 ## Long panels get more than one tooth
 
 `teeth(L)` gives `floor((L - 2*SHOULDER + TOOTH) / (2*TOOTH))`, alternating
