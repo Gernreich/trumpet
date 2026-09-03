@@ -34,11 +34,34 @@ import sys
 
 BORE = 10.0          # the square section, mm
 FACET = 30.0         # degrees of turn per wall panel
-RADIUS = 25.0        # bend radius of the centreline
+RADIUS = 30.0        # bend radius of the centreline; see the minimum below
 TAIL = 15.0          # straight lead-in and lead-out
 THICK = 3.0          # ply
 WEB = 2.0            # material left outboard of a slot; the cheek's thin part
-MARGIN = THICK / 2 + WEB   # so the cheek band hugs the slots and stops
+
+# Where a wall's CENTRELINE sits, and where the cheek's edge does.
+#
+# The wall is THICK thick and its slot is centred on this line, so its inner
+# face stands THICK/2 inboard of it. Offsetting the walls to +-BORE/2 - which
+# is what this did until 2026-09-03 - therefore puts the wall FACES at
+# +-(BORE-THICK)/2 and makes the airway BORE-THICK wide: 7mm at the 10mm bore,
+# not 10. Reported from a measurement of a cut file, and the section check did
+# not catch it because it measured centreline to centreline and called that
+# the bore.
+# Functions, not constants: --bore and --web change these, and a module-level
+# value computed at import cannot follow. WALL_OFF was a constant for exactly
+# one run and --bore=25 quietly kept the 10mm figure - which the airway check
+# caught, reporting 15mm of error against a 25mm bore.
+def wall_off():
+    return BORE / 2 + THICK / 2
+
+
+def cheek_off():
+    return wall_off() + THICK / 2 + WEB
+
+
+def band():
+    return 2 * cheek_off()
 BURN = 0.1           # kerf; the laser takes this out, centred on the line
 # Per side, and a lookup of what has actually been cut, not a curve through
 # it - bore-generator's PLAY_BY_BORE, same figures. 0 at the 25mm bore and
@@ -163,7 +186,8 @@ def walls(poly):
     round the centreline is written, and getting it backwards silently swaps
     every panel length in the cut list.
     """
-    a, b = offset(poly, BORE / 2), offset(poly, -BORE / 2)
+    w = wall_off()
+    a, b = offset(poly, w), offset(poly, -w)
     la = sum(seglen(p, q) for p, q in zip(a, a[1:]))
     lb = sum(seglen(p, q) for p, q in zip(b, b[1:]))
     return (a, b) if la < lb else (b, a)
@@ -297,8 +321,9 @@ def cheek(poly):
     one contour with no island - which for a U with open tails it genuinely
     is, and a hole would have been wrong.
     """
-    a = offset(poly, BORE / 2 + MARGIN)
-    b = offset(poly, -(BORE / 2 + MARGIN))
+    d = cheek_off()
+    a = offset(poly, d)
+    b = offset(poly, -d)
     return a + b[::-1]
 
 
@@ -560,10 +585,16 @@ def checks(c, inn, out, parts, cheekpoly, written, ink, cut_slots):
             L2 = ux * ux + uy * uy
             s = ((m[0] - p[0]) * ux + (m[1] - p[1]) * uy) / L2
             f = (p[0] + ux * s, p[1] + uy * s)
-            worst = max(worst, abs(math.hypot(f[0] - m[0], f[1] - m[1]) - BORE))
+            # centreline to centreline MINUS one wall thickness, because
+            # half a wall stands inboard on each side. Measuring the two
+            # offset lines and calling the answer the bore is how a 7mm
+            # airway passed this check calling itself 10mm.
+            air = math.hypot(f[0] - m[0], f[1] - m[1]) - THICK
+            worst = max(worst, abs(air - BORE))
             n += 1
-    note(n > 0 and worst < 1e-9, 'the section is the bore along every facet',
-         f'{n} stations, worst {worst:.2e}mm from {BORE:g}')
+    note(n > 0 and worst < 1e-9, 'the airway is the bore along every facet',
+         f'{n} stations, worst {worst:.2e}mm from {BORE:g} '
+         f'(wall face to wall face)')
 
     # --- every slot has to be in the cheek, or a tab has nothing to enter
     allslots = [sl for p in parts for sl in slots_for(p)]
@@ -611,7 +642,7 @@ def checks(c, inn, out, parts, cheekpoly, written, ink, cut_slots):
 
     note(WEB >= 1.5, 'the web outboard of a slot is cuttable',
          f'{WEB:g}mm of ply beside a {THICK:g}mm slot, band '
-         f'{BORE + 2 * MARGIN:g}mm wide')
+         f'{band():g}mm wide')
 
     big = [n for n, w, h, _ in written if w > BED_W or h > BED_H]
     note(not big and len(written) > 0, 'every sheet fits the P2S bed',
@@ -700,8 +731,6 @@ if __name__ == '__main__':
                    'facet': 'FACET', 'radius': 'RADIUS', 'lobes': 'LOBES',
                    'lobe-r': 'LOBE_R', 'rise': 'RISE', 'lead': 'LEAD',
                    'web': 'WEB'}[flag]] = v
-    # MARGIN is derived from WEB, so --web has to rebuild it
-    MARGIN = THICK / 2 + WEB
     try:
         sys.exit(main(write='--no-write' not in a))
     except ValueError as e:

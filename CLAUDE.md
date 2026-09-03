@@ -30,6 +30,30 @@ asserts which side came out inner, because the sign depends on which way round
 the centreline was written and getting it backwards silently swaps every panel
 length in the cut list.
 
+## The walls are offset to their FACES, not their centrelines
+
+`wall_off()` is `(BORE + THICK)/2`. A wall is `THICK` thick and its slot is
+centred on the offset line, so offsetting to `BORE/2` puts the wall *faces* at
+`(BORE - THICK)/2` and the airway comes out **`BORE - THICK`** wide. This
+generator did exactly that until 2026-09-03: a bore asked to be 10 x 10 was cut
+**7 x 10**, 70mm2 against 100. Reported by the author from a measurement of a
+finished part.
+
+**The check did not catch it because the check was wrong in the same way.** It
+measured the distance between the two offset polylines and called that the
+bore. It now subtracts one wall thickness and is named *the airway is the bore
+along every facet*, which is the thing that matters — a check named for the
+quantity it measures is harder to write against the wrong one.
+
+The height was right throughout: a panel's shoulders bear on the cheeks' inner
+faces, so shoulder-to-shoulder is the bore. Only the width was wrong, which is
+why the measured section was 10 x 7 and not 7 x 7.
+
+`wall_off()`, `cheek_off()` and `band()` are **functions**. They were constants
+for one run, and `--bore=25` kept the 10mm figure — caught immediately by the
+corrected airway check reporting 15mm of error, which is what a check named for
+its quantity buys you.
+
 ## What limits a bend, and it is not what you would guess
 
 The inner wall is the centreline offset inward by `bore/2`, so there is no bore

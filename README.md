@@ -49,22 +49,26 @@ short the inner panels get.
 
 ## What limits the bend
 
-The inner wall is the centreline offset inward by `bore/2`, so its radius is
-`R − bore/2` and **there is no bore at all below `R = bore/2`**.
+A wall is `thickness` thick and its slot is centred on the offset line, so the
+line the walls are offset to is **`(bore + thickness)/2`, not `bore/2`** — put
+them at `bore/2` and each wall intrudes half its thickness, leaving an airway
+of `bore − thickness`. That is exactly what this generator did until
+2026-09-03: a bore asked to be 10 × 10 came out **7 × 10**.
 
-Long before that the inner panel gets too short to carry a finger. A Boxes.py
-tooth is `2 × thickness` and **does not scale with the bore**, so at the 10mm
-bore and 30° facets:
+The inner wall's radius is `R − (bore + thickness)/2`, so there is no bore at
+all below that. Long before it, the inner panel gets too short to carry a
+finger: a Boxes.py tooth is `2 × thickness` and **does not scale with the
+bore**. At the 10mm bore and 30° facets:
 
 | R / bore | R | inner panel | holds a 6mm tooth? |
 | ---: | ---: | ---: | --- |
-| 1.0 | 10mm | 2.50mm | no |
-| 1.5 | 15mm | 5.09mm | no |
-| 2.0 | 20mm | 7.67mm | no |
-| **2.5** | **25mm** | **10.26mm** | **yes, with 2.13mm shoulders** |
-| 4.0 | 40mm | 18.03mm | yes, two teeth |
+| 2.0 | 20mm | 6.87mm | no |
+| 2.5 | 25mm | 9.46mm | no |
+| 2.61 | 26.1mm | 10.03mm | just |
+| **3.0** | **30mm** | **12.05mm** | **yes, with 3.02mm shoulders** |
+| 4.0 | 40mm | 17.22mm | yes |
 
-The coupon is R 25 for that reason, not because the bend wants to be that
+The coupon is R 30 for that reason, not because the bend wants to be that
 open. A real Bb trumpet runs R/bore ≈ 4.3.
 
 ## The 1000mm serpentine
@@ -81,11 +85,11 @@ The same centreline is cut at both bores. Only the band around it changes:
 | --- | --- | --- |
 | files | [`bore10` sheet 1](ribbon-serpentine-bore10-30deg-3lobes-R72-1000mm-cut-files-sheet1.svg) · [2](ribbon-serpentine-bore10-30deg-3lobes-R72-1000mm-cut-files-sheet2.svg) · [3](ribbon-serpentine-bore10-30deg-3lobes-R72-1000mm-cut-files-sheet3.svg) | [`bore25` sheet 1](ribbon-serpentine-bore25-30deg-3lobes-R72-1000mm-cut-files-sheet1.svg) · [2](ribbon-serpentine-bore25-30deg-3lobes-R72-1000mm-cut-files-sheet2.svg) · [3](ribbon-serpentine-bore25-30deg-3lobes-R72-1000mm-cut-files-sheet3.svg) |
 | section | 100mm² | 625mm² |
-| cheek band | 17mm | 32mm |
+| cheek band | 20mm | 35mm |
 | R / bore | 7.2 | 2.9 |
 | play, per side | 0.025mm | **0** |
-| shortest panel | 19.34mm | 18.35mm |
-| slots per cheek | 158 | 137 |
+| shortest panel | 19.14mm | 18.16mm |
+| slots per cheek | 145 | 137 |
 
 **The play is not a constant, it is a lookup.** `PLAY_BY_BORE` carries
 bore-generator's measured figures — 0.025mm per side at the 10mm bore and **0
@@ -94,8 +98,9 @@ that is not in the table gets the small-joint value and the generator says so,
 because too loose is a worse joint and too tight is no joint at all.
 
 The 25mm bore has *fewer* slots than the 10mm one on the same curve. The mitre
-trims each inner panel by `(bore/2) × tan(φ/2)` at both ends — 3.35mm at 25mm
-against 1.34mm at 10mm — so the panels are shorter and fit fewer teeth.
+trims each inner panel by `((bore + thickness)/2) × tan(φ/2)` at both ends —
+3.75mm at 25mm against 1.74mm at 10mm — so the panels are shorter and fit
+fewer teeth.
 
 ### Why three half-circles and not two
 
@@ -130,7 +135,7 @@ not move when this arrived.
 
 ## The coupon
 
-**[`ribbon-coupon-bore10-30deg-R25-180turn-cut-files.svg`](ribbon-coupon-bore10-30deg-R25-180turn-cut-files.svg)**
+**[`ribbon-coupon-bore10-30deg-R30-180turn-cut-files.svg`](ribbon-coupon-bore10-30deg-R30-180turn-cut-files.svg)**
 — a 180° turn at the 10mm bore, 107.6mm of centreline, **18 parts on a
 297 × 97mm sheet**.
 
@@ -143,8 +148,8 @@ not move when this arrived.
 | Parts | 2 cheeks (`0`) · 8 inner panels (`1`–`8`) · 8 outer panels (`9`–`10`) |
 
 **The cheek is a thin band, not a plate.** It stops `WEB` = 2mm outboard of
-each slot, so the band is 17mm wide for a 10mm bore — the bore, its two 3mm
-slots, and 2mm of ply either side. Less material, less weight, and the shape
+each slot, so the band is 20mm wide for a 10mm bore — the bore, its two 3mm
+walls, and 2mm of ply either side. Less material, less weight, and the shape
 tells you what it is. 1.5mm is the floor worth cutting in 3mm birch; below that
 the strip beside a slot chars through.
 
