@@ -30,6 +30,13 @@ slider builds it up a facet at a time.
 | [`ribbon-serpentine-bore10-30deg-3lobes-R72.html`](ribbon-serpentine-bore10-30deg-3lobes-R72.html) | the metre serpentine, 10mm bore |
 | [`ribbon-serpentine-bore25-30deg-3lobes-R72.html`](ribbon-serpentine-bore25-30deg-3lobes-R72.html) | the metre serpentine, 25mm bore |
 
+[`ribbon-torus-bore25-45deg-R76.html`](ribbon-torus-bore25-45deg-R76.html) is a
+fourth: **[torus-octagonal](https://gernreich.github.io/torus-octagonal/)
+drawn as a ribbon bore**, which is what it is — a closed ring of eight 45°
+facets at 25 × 25mm. Extrapolated from that repository's own cut file: a
+centreline octagon of circumradius 76.4696 puts the airway between apothems
+58.149 and 83.149, which is what its verifier measures. `--shape=torus`.
+
 Built by [`ribbon_view.py`](ribbon_view.py), which takes the same flags as the
 generator. **It draws the airway, not the plywood** — the passage the air takes,
 bounded by the wall faces. That is the point: the section this repository is

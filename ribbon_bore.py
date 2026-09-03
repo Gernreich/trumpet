@@ -160,6 +160,17 @@ def centreline():
     The panels ARE the segments of this polyline offset sideways - there is no
     separate faceting step, so there is nothing for it to disagree with.
     """
+    if SHAPE == 'torus':
+        # A closed regular ring of FACET turns. torus-octagonal is this at
+        # FACET 45: eight facets, a 25 x 25mm section, and the airway between
+        # apothems 58.149 and 83.149. RADIUS is the CIRCUMRADIUS of the
+        # centreline polygon, so its facet lines sit at RADIUS*cos(FACET/2),
+        # which for the torus is 70.649 - the mean of those two apothems.
+        n = int(round(360.0 / FACET))
+        if abs(n * FACET - 360.0) > 1e-9:
+            raise ValueError(f'--facet={FACET:g} does not divide a full turn '
+                             f'a whole number of times.')
+        return flip(walk([('a', 360, +1)]))
     if SHAPE == 'serpentine':
         # a lead-in, a quarter turn up, then alternating half-circles joined
         # by straight verticals, and a tail. The verticals are what make it
@@ -220,11 +231,17 @@ def offset(poly, d):
         nx, ny = -uy / L, ux / L                  # left normal
         segs.append(((a[0] + nx * d, a[1] + ny * d),
                      (b[0] + nx * d, b[1] + ny * d)))
-    out = [segs[0][0]]
-    for s, t in zip(segs, segs[1:]):
-        p = meet(s, t)
-        out.append(p if p else s[1])
-    out.append(segs[-1][1])
+    shut = (abs(poly[0][0] - poly[-1][0]) < 1e-9
+            and abs(poly[0][1] - poly[-1][1]) < 1e-9)
+    # A closed loop has a mitre at its seam like every other vertex. Without
+    # this the two facets either side of the join come out over-long - 53.35mm
+    # against 48.17 on the octagonal torus - and the ring does not close.
+    first = meet(segs[-1], segs[0]) if shut else None
+    out = [first or segs[0][0]]
+    for a, b in zip(segs, segs[1:]):
+        p = meet(a, b)
+        out.append(p if p else a[1])
+    out.append(first or segs[-1][1])
     return out
 
 

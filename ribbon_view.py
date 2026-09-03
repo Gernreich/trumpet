@@ -56,6 +56,7 @@ def data_for():
     for i in range(len(c)):
         V += [[a[i][0], a[i][1], -h], [a[i][0], a[i][1], h],
               [d[i][0], d[i][1], h], [d[i][0], d[i][1], -h]]
+    shut = (abs(c[0][0] - c[-1][0]) < 1e-6 and abs(c[0][1] - c[-1][1]) < 1e-6)
     for i in range(len(c) - 1):
         p, q = 4 * i, 4 * (i + 1)
         Q.append({'v': [p + 0, p + 1, q + 1, q + 0], 'f': 0, 's': i})   # inner
@@ -63,8 +64,11 @@ def data_for():
         Q.append({'v': [p + 1, p + 2, q + 2, q + 1], 'f': 2, 's': i})   # top
         Q.append({'v': [p + 0, q + 0, q + 3, p + 3], 'f': 3, 's': i})   # bottom
     n = len(c) - 1
-    Q.append({'v': [0, 1, 2, 3], 'f': 4, 's': 0})                       # mouth
-    Q.append({'v': [4*n+3, 4*n+2, 4*n+1, 4*n+0], 'f': 5, 's': n - 1})   # far end
+    if not shut:
+        Q.append({'v': [0, 1, 2, 3], 'f': 4, 's': 0})                   # mouth
+        Q.append({'v': [4*n+3, 4*n+2, 4*n+1, 4*n+0], 'f': 5, 's': n-1})  # far end
+    # a closed ring has no mouth and no far end; the last station IS the first,
+    # so its four vertices are already coincident with station 0's
 
     R = B.LOBE_R if B.SHAPE == 'serpentine' else B.RADIUS
     return {
@@ -78,8 +82,9 @@ def data_for():
         'segs': n,
         'over': round(100 * (1 / math.cos(math.radians(B.FACET) / 2) - 1), 2),
         'pal': wheel(n),
-        'faces': ['inner wall', 'outer wall', 'top cheek', 'bottom cheek',
-                  'mouth', 'far end'],
+        'shut': shut,
+        'faces': ['inner wall', 'outer wall', 'top cheek', 'bottom cheek']
+                 + ([] if shut else ['mouth', 'far end']),
         'facecol': ['#5aa9e6', '#3d7ebd', '#c9d6e3', '#8fa3b8',
                     '#1c1c20', '#e0457b'],
     }
@@ -261,10 +266,10 @@ function key(){
   k.innerHTML = '';
   const rows = mode === 'face'
     ? D.faces.map((n,i) => [D.facecol[i], n])
-    : [[D.facecol[4],'mouth'], [D.facecol[5],'far end'],
-       [D.pal[0], 'facet 1'], [D.pal[Math.floor(D.segs/2) % D.pal.length],
+    : (D.shut ? [] : [[D.facecol[4],'mouth'], [D.facecol[5],'far end']]).concat(
+      [[D.pal[0], 'facet 1'], [D.pal[Math.floor(D.segs/2) % D.pal.length],
         'facet ' + (Math.floor(D.segs/2)+1)],
-       [D.pal[(D.segs-1) % D.pal.length], 'facet ' + D.segs]];
+       [D.pal[(D.segs-1) % D.pal.length], 'facet ' + D.segs]]);
   for (const [c,n] of rows){
     const d = document.createElement('div'); d.className = 'key';
     d.innerHTML = `<span class="sw" style="background:${c}"></span><span>${n}</span>`;
@@ -406,7 +411,10 @@ def main():
         setattr(B, name, cast(hit[0].split('=', 1)[1]))
 
     here = os.path.dirname(os.path.abspath(__file__))
-    if B.SHAPE == 'serpentine':
+    if B.SHAPE == 'torus':
+        stem = f'ribbon-torus-bore{B.BORE:g}-{B.FACET:g}deg-R{B.RADIUS:.0f}'
+        title = f'Octagonal Torus, {B.BORE:g}mm Bore'
+    elif B.SHAPE == 'serpentine':
         stem = (f'ribbon-serpentine-bore{B.BORE:g}-{B.FACET:g}deg-'
                 f'{B.LOBES}lobes-R{B.LOBE_R:.0f}')
         title = (f'Ribbon Serpentine, {B.BORE:g}mm Bore')

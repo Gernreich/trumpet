@@ -108,6 +108,22 @@ checked by comparing the cut groups as position-independent shapes, which is
 the only comparison that means anything once the packer may have reordered
 them.
 
+## A closed ring is a shape too
+
+`--shape=torus` is a closed regular ring of FACET turns, and `offset()` mitres
+a closed polyline's seam like any other vertex. Without that the two facets
+either side of the join come out over-long - 53.35mm against 48.17 - and the
+ring does not close.
+
+**torus-octagonal is exactly this**: FACET 45, a 25 x 25mm section, and a
+centreline octagon of circumradius 76.4696 whose facets sit at apothem 70.649.
+Offset by +-12.5 that gives the airway apothems 58.149 and 83.149, which is
+what that repository's own verifier reports out of its cut file. The render is
+extrapolated from the cut file's numbers and agrees with them to 0.001mm.
+
+`ribbon_view.py` draws a closed loop with no mouth and no far end, because the
+last station is the first.
+
 ## The cheek gets its own file, and that file is cut twice
 
 The two cheeks are the same part, so one file run twice is the whole job -
