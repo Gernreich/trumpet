@@ -37,13 +37,15 @@ FACET = 30.0         # degrees of turn per wall panel
 RADIUS = 25.0        # bend radius of the centreline
 TAIL = 15.0          # straight lead-in and lead-out
 THICK = 3.0          # ply
-MARGIN = 6.0         # cheek flange outside each wall
+WEB = 2.0            # material left outboard of a slot; the cheek's thin part
+MARGIN = THICK / 2 + WEB   # so the cheek band hugs the slots and stops
 BURN = 0.1           # kerf; the laser takes this out, centred on the line
 PLAY = 0.025         # per side, from bore-generator's PLAY_BY_BORE at 10mm
 TOOTH = 2 * THICK    # Boxes.py FingerJointSettings; does not scale
 SHOULDER = 2.0       # least material either side of a tooth
 
 CUT, INNER, MARK = '#000000', '#ff8000', '#0000ff'
+OUT = None           # --out=PATH, for trying a change without touching the file
 
 
 def centreline():
@@ -249,7 +251,7 @@ def build():
     return c, inn, out, parts, report
 
 
-def sheet(parts, cheekpoly, path_out):
+def sheet(parts, cheekpoly, cline, path_out):
     """Lay the coupon out: two cheeks, then the panels in rows.
 
     Colour is the cut order, shared with every repository here: blue engraves,
@@ -267,6 +269,7 @@ def sheet(parts, cheekpoly, path_out):
     # own number was engraved in the hole in the middle of the arch until
     # this existed; the render showed it and no check did.
     ink = []
+    cut_slots = []          # slots where they were PLACED, for the checks
 
     def engrave(ds, owner):
         marks.extend(ds)
@@ -284,17 +287,24 @@ def sheet(parts, cheekpoly, path_out):
         cuts.append(path(here))
         for p in parts:
             mx, my = p['mid'][0] + dx, p['mid'][1] + dy
-            holes.append(path(slot((mx, my), p['ang'])))
+            here_slot = slot((mx, my), p['ang'])
+            cut_slots.append(here_slot)
+            holes.append(path(here_slot))
+            # Into the channel, not out onto the flange. With WEB at 2mm
+            # the flange is 2mm wide and a legible glyph does not fit on it.
+            # The channel is the floor of the bore, so this is 0.1mm of
+            # engraving inside a 10mm airway - which is the cheaper of the
+            # two mistakes, the other being sixteen near-identical panels
+            # with nothing on the cheek to say which slot each one goes in.
             ox, oy = p['out']
-            off = THICK / 2 + 1.9
-            engrave(label(p['tag'], mx + ox * off, my + oy * off, 2.0, p['ang']),
+            off = THICK / 2 + 1.5
+            engrave(label(p['tag'], mx - ox * off, my - oy * off, 2.0, p['ang']),
                     here)
-        # on the flange of the first tail, not the centre of the bounding
-        # box - for a U that centre is the hole in the middle of the arch,
-        # and the first attempt engraved the cheek's number onto the waste.
-        t0 = cheekpoly[0]
-        engrave(label('0', t0[0] + dx - MARGIN / 2, t0[1] + dy - 5.0, 3.6),
-                here)
+        # in the channel at the mouth of the first tail. Not the centre of
+        # the bounding box - for a U that centre is the hole in the middle
+        # of the arch, and the first attempt engraved this onto the waste.
+        t0 = cline[0]
+        engrave(label('0', t0[0] + dx, t0[1] + dy - 2.6, 2.6), here)
 
     y, x, wide = M + chh + GAP + 8, M, 0.0
     for p in parts:
@@ -335,7 +345,7 @@ def sheet(parts, cheekpoly, path_out):
         f'never off the tab. blue #0000ff engraves, orange #ff8000 cuts the '
         f'slots first, black #000000 frees the parts.</desc>\n'
         + body + '</svg>\n')
-    return W, H, ink
+    return W, H, ink, cut_slots
 
 
 def inside(poly, x, y):
@@ -347,7 +357,7 @@ def inside(poly, x, y):
     return c
 
 
-def checks(c, inn, out, parts, cheekpoly, W, H, ink):
+def checks(c, inn, out, parts, cheekpoly, W, H, ink, cut_slots):
     """What has to be true, said out loud with the number that makes it true.
 
     A check that measured nothing would print the same clean run as a check
@@ -407,6 +417,18 @@ def checks(c, inn, out, parts, cheekpoly, W, H, ink):
     note(off == 0 and len(ink) > 0, 'every engraved point is on its own part',
          f'{len(ink)} points, {off} off the material')
 
+    # a number engraved over a slot is engraved into a hole, and what it
+    # actually marks is the edge of the panel standing in it
+    over = sum(1 for x, y, _ in ink
+               if any(inside(sl, x, y) for sl in cut_slots))
+    note(over == 0 and len(cut_slots) == 2 * len(parts),
+         'no engraving lands in a slot',
+         f'{len(ink)} points against {len(cut_slots)} slots, {over} inside one')
+
+    note(WEB >= 1.5, 'the web outboard of a slot is cuttable',
+         f'{WEB:g}mm of ply beside a {THICK:g}mm slot, band '
+         f'{BORE + 2 * MARGIN:g}mm wide')
+
     note(W <= 600 and H <= 308, 'the sheet fits the P2S bed',
          f'{W:.0f} x {H:.0f}mm against 600 x 308')
     return res
@@ -427,17 +449,21 @@ def main(write=True):
         print(f'  {tag:<5}  {wall:<7}  {L:>6.2f}mm   {TOOTH:g}mm    '
               f'{(L - TOOTH) / 2:>5.2f}mm')
     cheekpoly = cheek(c)
-    out_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                            f'ribbon-coupon-bore{BORE:g}-{FACET:g}deg'
-                            f'-R{RADIUS:g}-180turn-cut-files.svg')
-    W, H, ink = sheet(parts, cheekpoly,
-                      out_path if write else '/dev/null')
+    # --out exists because a failing run deletes its output, and a copy of
+    # this script tried out in the same folder therefore deleted the real cut
+    # file. A trial writes somewhere else or it does not write at all.
+    out_path = OUT or os.path.join(
+        os.path.dirname(os.path.abspath(__file__)),
+        f'ribbon-coupon-bore{BORE:g}-{FACET:g}deg'
+        f'-R{RADIUS:g}-180turn-cut-files.svg')
+    W, H, ink, cut_slots = sheet(parts, cheekpoly, c,
+                                 out_path if write else '/dev/null')
     print(f'\n  {len(parts)} wall panels + 2 cheeks = {len(parts) + 2} parts, '
           f'sheet {W:.0f} x {H:.0f}mm')
     bad = 0
     print()
     for ok, what, detail in checks(c, inn, out, parts, cheekpoly,
-                                   W, H, ink):
+                                   W, H, ink, cut_slots):
         print(f'  {"pass" if ok else "FAIL"}  {what:<44} {detail}')
         bad += not ok
     if write and not bad:
@@ -451,8 +477,12 @@ def main(write=True):
 
 if __name__ == '__main__':
     # a geometry that cannot be built is an answer, not a crash
+    a = sys.argv[1:]
+    o = [x for x in a if x.startswith('--out=')]
+    if o:
+        OUT = o[0].split('=', 1)[1]
     try:
-        sys.exit(main(write='--no-write' not in sys.argv[1:]))
+        sys.exit(main(write='--no-write' not in a))
     except ValueError as e:
         print(f'error: {e}')
         sys.exit(1)

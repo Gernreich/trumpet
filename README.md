@@ -71,7 +71,7 @@ open. A real Bb trumpet runs R/bore ≈ 4.3.
 
 **[`ribbon-coupon-bore10-30deg-R25-180turn-cut-files.svg`](ribbon-coupon-bore10-30deg-R25-180turn-cut-files.svg)**
 — a 180° turn at the 10mm bore, 107.6mm of centreline, **18 parts on a
-297 × 99mm sheet**.
+297 × 97mm sheet**.
 
 | | |
 | --- | --- |
@@ -80,6 +80,17 @@ open. A real Bb trumpet runs R/bore ≈ 4.3.
 | Play | 0.025mm per side, out of the slot, never off the tab |
 | Section | 10 × 10mm = 100mm², exact along every facet |
 | Parts | 2 cheeks (`0`) · 8 inner panels (`1`–`8`) · 8 outer panels (`9`–`10`) |
+
+**The cheek is a thin band, not a plate.** It stops `WEB` = 2mm outboard of
+each slot, so the band is 17mm wide for a 10mm bore — the bore, its two 3mm
+slots, and 2mm of ply either side. Less material, less weight, and the shape
+tells you what it is. 1.5mm is the floor worth cutting in 3mm birch; below that
+the strip beside a slot chars through.
+
+Because there is no flange left to write on, **the panel numbers are engraved
+in the channel** — which is the floor of the bore. That is 0.1mm of roughness
+in a 10mm airway, and the alternative is sixteen near-identical panels with
+nothing on the cheek to say which slot each goes in.
 
 **Both cheeks are identical and both go on the same way up.** Flipping one over
 mirrors its slot pattern, and this U is not symmetric about the line you would

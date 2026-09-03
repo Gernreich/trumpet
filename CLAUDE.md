@@ -64,6 +64,17 @@ line you would flip it on, so a flipped cheek meets no tab at all. Two identical
 parts, same orientation. The consequence is that one cheek carries its numbers
 on the inside; that is the cheaper of the two mistakes.
 
+## The cheek stops 2mm outboard of its slots
+
+`WEB`, not `MARGIN`, is the number to change — `MARGIN` is derived from it.
+The band is `bore + 2 × (thickness/2 + WEB)`: 17mm at the 10mm bore. Asked for
+"as thin as possible" and 2mm is the answer that still cuts; 1.5mm is the floor
+in 3mm birch.
+
+The knock-on is that there is no flange left to engrave on, so the cheek's
+panel numbers moved **into the channel**, which is the floor of the bore. Two
+checks hold that: no engraved point off its own part, and none inside a slot.
+
 ## Look at the render. The checks do not see the drawing
 
 Two defects in this generator got through every check and were caught by
@@ -80,6 +91,13 @@ the second one immediately — 18 points off, exactly the two cheek labels. It i
 there because the render found it first. **Screenshot the SVG after any change
 to drawing code.**
 
+A third, from the same family: *no engraving lands in a slot* was written
+comparing ink in sheet coordinates against slots rebuilt at design
+coordinates. Two spaces that cannot overlap, so it passed, and the tell was
+that it said **16 slots on a sheet that has 32**. A count printed beside a
+verdict is what makes that visible. Both now come out of `sheet()`, which is
+the only place that knows where anything was actually put.
+
 Every check reports its own count (`40 stations`, `504 points`, `120 pairs`) so
 a check that measured nothing cannot print the same clean line as one that
 measured everything.
@@ -90,6 +108,11 @@ Measuring the output with `re.findall(r'd="([^"]+)"')` matches the `id`
 attribute too and hands you `slots` where a coordinate should be. Use
 `(?:^|\s)d="`. `torus-octagonal`'s writeup records the same trap; it still cost
 a run here.
+
+**A failing run deletes its output**, which is right — a sheet that failed a
+check should not be sitting there looking cuttable. It also means a copy of
+this script tried out in this folder writes to, and then deletes, the real cut
+file. That happened. Use `--out` for trials.
 
 ## Colour is the cut order
 
@@ -109,6 +132,7 @@ while the sheet still holds it, black for the outlines.
 ```sh
 python3 ribbon_bore.py                 # cut file + the checks
 python3 ribbon_bore.py --no-write      # the checks alone
+python3 ribbon_bore.py --out=/tmp/x.svg   # a trial, somewhere it cannot hurt
 
 G=~/LaserMadeMusic/GIT/lasermade-tools
 python3 $G/md2html.py README.md index.html
