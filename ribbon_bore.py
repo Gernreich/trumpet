@@ -46,15 +46,74 @@ SHOULDER = 2.0       # least material either side of a tooth
 
 CUT, INNER, MARK = '#000000', '#ff8000', '#0000ff'
 OUT = None           # --out=PATH, for trying a change without touching the file
+BED_W, BED_H = 600.0, 308.0        # xTool P2S work area
+
+# --shape. 'coupon' is the 180 degree test piece; 'serpentine' is a run of
+# alternating half-circles joined by straight verticals, which is the drawn
+# shape generalised. LOBES/LOBE_R/RISE describe it.
+SHAPE = 'coupon'
+# Solved against this generator's own faceted centreline, not a smooth arc:
+# an inscribed chord is 1.14% short of the arc it spans, so a radius picked
+# from the arc comes out 11mm long over a metre. R here gives 1000.0mm.
+# The rise is chosen to balance the cheek on the bed rather than to be small:
+# a half-circle advances only 2/pi of its own length in x, so a 1000mm run
+# wants 637mm of width and the bed has 600 - a straight vertical run buys
+# length in y, where there is room. At rise 90 the cheek is 531 x 251mm.
+LOBES, LOBE_R, RISE, LEAD = 3, 71.754, 90.0, 20.0
+
+
+def walk(spec):
+    """A faceted polyline from a list of ('s', mm) and ('a', degrees, sign).
+
+    Arcs are inscribed, so a chord's direction is the tangent at its midpoint
+    and the junction where a straight meets an arc turns by half a facet, not
+    a whole one. That is a smaller mitre and less area error, and it falls out
+    of inscribing rather than having to be arranged.
+    """
+    pts, x, y, a = [(0.0, 0.0)], 0.0, 0.0, 0.0
+    for item in spec:
+        if item[0] == 's':
+            x, y = x + math.cos(a) * item[1], y + math.sin(a) * item[1]
+            pts.append((x, y))
+        else:
+            _, deg, sign = item
+            n = int(round(deg / FACET))
+            if abs(n * FACET - deg) > 1e-9:
+                raise ValueError(
+                    f'--facet={FACET:g} does not divide a {deg:g} degree turn '
+                    f'a whole number of times; {n} facets would turn '
+                    f'{n * FACET:g} degrees.')
+            R = LOBE_R if SHAPE == 'serpentine' else RADIUS
+            cx = x - sign * R * math.sin(a)
+            cy = y + sign * R * math.cos(a)
+            t0 = math.atan2(y - cy, x - cx)
+            for i in range(1, n + 1):
+                t = t0 + sign * math.radians(deg) * i / n
+                x, y = cx + R * math.cos(t), cy + R * math.sin(t)
+                pts.append((x, y))
+            a += sign * math.radians(deg)
+    return pts
 
 
 def centreline():
-    """The coupon's centreline: a straight tail, a 180 turn, a straight tail.
+    """The centreline, already faceted at FACET.
 
-    Returned as a polyline already faceted at FACET, because the panels ARE
-    the segments of this polyline offset sideways - there is no separate
-    faceting step to disagree with it.
+    The panels ARE the segments of this polyline offset sideways - there is no
+    separate faceting step, so there is nothing for it to disagree with.
     """
+    if SHAPE == 'serpentine':
+        # a lead-in, a quarter turn up, then alternating half-circles joined
+        # by straight verticals, and a tail. The verticals are what make it
+        # fit: a half-circle advances only 2/pi of its own length in x, so a
+        # 1000mm run needs 637mm of width however it is divided, and the bed
+        # is 600. A vertical run buys length in y, where there is room.
+        spec = [('s', LEAD), ('a', 90, +1)]
+        for i in range(LOBES):
+            spec.append(('a', 180, -1 if i % 2 == 0 else +1))
+            if i < LOBES - 1:
+                spec.append(('s', RISE))
+        spec.append(('s', LEAD))
+        return walk(spec)
     n = int(round(180.0 / FACET))
     if abs(n * FACET - 180.0) > 1e-9:
         raise ValueError(f'--facet={FACET:g} does not divide 180 a whole '
@@ -137,6 +196,23 @@ def path(pts, close=True):
     return d + (' Z' if close else '')
 
 
+def teeth(L):
+    """Where the tabs sit along a panel of length L, as offsets from centre.
+
+    One tooth was enough at the coupon's 10-16mm panels and is a hinge at 90mm:
+    a straight run held by a single 6mm tab in its middle pivots about it and
+    the seam opens. Alternating tooth and gap of equal width, as Boxes.py does,
+    so a panel gets as many as it has room for:
+
+        n = floor((L - 2*SHOULDER + TOOTH) / (2*TOOTH))
+
+    which is 1 up to 17.9mm, 3 at 34mm and 7 at 90mm, and still 1 for every
+    panel on the coupon - so the coupon's cut file does not move.
+    """
+    n = max(1, int((L - 2 * SHOULDER + TOOTH) // (2 * TOOTH)))
+    return [(i - (n - 1) / 2.0) * 2 * TOOTH for i in range(n)]
+
+
 def panel(L):
     """One wall panel, flat, centred on the origin, kerf already taken out.
 
@@ -152,9 +228,26 @@ def panel(L):
     e = BURN / 2
     hl, ht = L / 2 + e, TOOTH / 2 + e
     hb, tip = BORE / 2 + e, BORE / 2 + THICK + e
-    return [(-hl, -hb), (-ht, -hb), (-ht, -tip), (ht, -tip), (ht, -hb),
-            (hl, -hb), (hl, hb), (ht, hb), (ht, tip), (-ht, tip),
-            (-ht, hb), (-hl, hb)]
+    cs = teeth(L)
+    out = [(-hl, -hb)]
+    for c in cs:
+        out += [(c - ht, -hb), (c - ht, -tip), (c + ht, -tip), (c + ht, -hb)]
+    out += [(hl, -hb), (hl, hb)]
+    for c in reversed(cs):
+        out += [(c + ht, hb), (c + ht, tip), (c - ht, tip), (c - ht, hb)]
+    out.append((-hl, hb))
+    return out
+
+
+def slots_for(part):
+    """Every mortice for one panel, placed on its segment.
+
+    One per tooth, spaced along the segment exactly as the tabs are.
+    """
+    mx, my = part['mid']
+    ca, sa = math.cos(part['ang']), math.sin(part['ang'])
+    return [slot((mx + c * ca, my + c * sa), part['ang'])
+            for c in teeth(part['len'])]
 
 
 def slot(mid, ang):
@@ -251,8 +344,92 @@ def build():
     return c, inn, out, parts, report
 
 
-def sheet(parts, cheekpoly, cline, path_out):
-    """Lay the coupon out: two cheeks, then the panels in rows.
+def bbox(pts):
+    xs = [q[0] for q in pts]
+    ys = [q[1] for q in pts]
+    return min(xs), min(ys), max(xs), max(ys)
+
+
+def items_for(parts, cheekpoly, cline):
+    """Every part as (outline, slots, labeller), in its own coordinates.
+
+    The labeller is deferred because a label's position depends on where the
+    part is finally placed, and placement is the packer's business.
+    """
+    out = []
+    for k in range(2):
+        def cheek_marks(dx, dy, _p=parts, _c=cline):
+            m = []
+            for q in _p:
+                mx, my = q['mid'][0] + dx, q['mid'][1] + dy
+                ox, oy = q['out']
+                off = THICK / 2 + 1.5
+                # into the channel: with WEB at 2mm there is no flange to
+                # write on, and the channel is the floor of the bore
+                m += label(q['tag'], mx - ox * off, my - oy * off, 2.0, q['ang'])
+            # a little way ALONG the first segment, not at its start: the
+            # band begins there and half the glyph hung off the end. A
+            # quarter of the way in also clears panel 1's label, which sits
+            # at the segment's midpoint offset across.
+            a0, a1 = _c[0], _c[1]
+            t = 0.22
+            gx = a0[0] + (a1[0] - a0[0]) * t + dx
+            gy = a0[1] + (a1[1] - a0[1]) * t + dy
+            m += label('0', gx, gy, 2.6,
+                       math.atan2(a1[1] - a0[1], a1[0] - a0[0]))
+            return m
+        out.append({'outline': cheekpoly,
+                    'slots': [sl for q in parts for sl in slots_for(q)],
+                    'marks': cheek_marks})
+    for q in parts:
+        w = q['len'] + BURN
+        h2 = (BORE + 2 * THICK + BURN) / 2
+        poly = [(px + w / 2, py + h2) for px, py in panel(q['len'])]
+
+        def panel_marks(dx, dy, _t=q['tag'], _w=w, _h=h2):
+            return label(_t, _w / 2 + dx, _h + dy, 3.2)
+        out.append({'outline': poly, 'slots': [], 'marks': panel_marks})
+    return out
+
+
+def pack(items, margin=10.0, gap=4.0):
+    """Row-wrap into sheets, closing a sheet when the next row would overflow.
+
+    Packs into BED minus a margin all round, not into the bed. Filling to the
+    edge gave a sheet 600 x 307 on a 600 x 308 bed, which passes a fits-the-bed
+    check and cannot be positioned on a real machine.
+
+    A part larger than the usable area is a refusal, not a smaller sheet: it
+    cannot be cut at all and saying so beats writing a file that looks fine.
+    """
+    use_w, use_h = BED_W - 2 * margin, BED_H - 2 * margin
+    sheets, cur = [], []
+    x, y, rowh = margin, margin, 0.0
+    for it in items:
+        x0, y0, x1, y1 = bbox(it['outline'])
+        w, h = x1 - x0, y1 - y0
+        if w > use_w or h > use_h:
+            raise ValueError(
+                f'a part is {w:.0f} x {h:.0f}mm and the usable area is '
+                f'{use_w:.0f} x {use_h:.0f} on a {BED_W:g} x {BED_H:g} bed. '
+                f'Nothing written. Shorten the bore, or add lobes so each '
+                f'half-circle is smaller.')
+        if x > margin and x + w > margin + use_w:
+            if y + rowh + gap + h > margin + use_h:
+                sheets.append(cur)
+                cur, x, y, rowh = [], margin, margin, 0.0
+            else:
+                x, y, rowh = margin, y + rowh + gap, 0.0
+        cur.append((it, x - x0, y - y0))
+        x += w + gap
+        rowh = max(rowh, h)
+    if cur:
+        sheets.append(cur)
+    return sheets
+
+
+def sheet(parts, cheekpoly, cline, path_out, write=True):
+    """Write one SVG per sheet, and report what went on them.
 
     Colour is the cut order, shared with every repository here: blue engraves,
     then orange, then black. The slots are orange because they are inside the
@@ -260,92 +437,66 @@ def sheet(parts, cheekpoly, cline, path_out):
     parts.
 
     The two cheeks are IDENTICAL and both go on the same way up. Flipping one
-    over mirrors its slot pattern, and this U is not symmetric about the line
-    you would flip it on, so a flipped cheek does not meet a single tab.
+    over mirrors its slot pattern, and neither of these shapes is symmetric
+    about the line you would flip it on, so a flipped cheek does not meet a
+    single tab.
     """
-    M, GAP, ROW = 10.0, 4.0, 300.0
-    marks, holes, cuts = [], [], []
-    # every engraved point, with the outline it has to sit on. The cheek's
-    # own number was engraved in the hole in the middle of the arch until
-    # this existed; the render showed it and no check did.
-    ink = []
-    cut_slots = []          # slots where they were PLACED, for the checks
-
-    def engrave(ds, owner):
-        marks.extend(ds)
-        for d in ds:
-            for tok in d.replace('M ', '').replace('Z', '').split(' L '):
-                a, b = tok.strip().split(',')
-                ink.append((float(a), float(b), owner))
-
-    xs = [p[0] for p in cheekpoly]
-    ys = [p[1] for p in cheekpoly]
-    cw, chh = max(xs) - min(xs), max(ys) - min(ys)
-    for k in range(2):
-        dx, dy = M - min(xs) + k * (cw + GAP), M - min(ys)
-        here = [(x + dx, y + dy) for x, y in cheekpoly]
-        cuts.append(path(here))
-        for p in parts:
-            mx, my = p['mid'][0] + dx, p['mid'][1] + dy
-            here_slot = slot((mx, my), p['ang'])
-            cut_slots.append(here_slot)
-            holes.append(path(here_slot))
-            # Into the channel, not out onto the flange. With WEB at 2mm
-            # the flange is 2mm wide and a legible glyph does not fit on it.
-            # The channel is the floor of the bore, so this is 0.1mm of
-            # engraving inside a 10mm airway - which is the cheaper of the
-            # two mistakes, the other being sixteen near-identical panels
-            # with nothing on the cheek to say which slot each one goes in.
-            ox, oy = p['out']
-            off = THICK / 2 + 1.5
-            engrave(label(p['tag'], mx - ox * off, my - oy * off, 2.0, p['ang']),
-                    here)
-        # in the channel at the mouth of the first tail. Not the centre of
-        # the bounding box - for a U that centre is the hole in the middle
-        # of the arch, and the first attempt engraved this onto the waste.
-        t0 = cline[0]
-        engrave(label('0', t0[0] + dx, t0[1] + dy - 2.6, 2.6), here)
-
-    y, x, wide = M + chh + GAP + 8, M, 0.0
-    for p in parts:
-        w = p['len'] + BURN
-        if x + w + M > ROW:
-            x, y = M, y + BORE + 2 * THICK + BURN + GAP
-        h2 = (BORE + 2 * THICK + BURN) / 2
-        here = [(px + x + w / 2, py + y + h2) for px, py in panel(p['len'])]
-        cuts.append(path(here))
-        engrave(label(p['tag'], x + w / 2, y + h2, 3.2), here)
-        x += w + GAP
-        wide = max(wide, x)
-    H = y + BORE + 2 * THICK + M
-    W = max(2 * cw + GAP + 2 * M, wide + M - GAP)
-
-    def grp(ds, col, name):
-        if not ds:
-            return ''
-        return (f'  <g id="{name}" fill="none" stroke="{col}" '
-                f'stroke-width="0.2">\n'
-                + '\n'.join(f'    <path d="{d}"/>' for d in ds) + '\n  </g>\n')
-
-    body = (grp(marks, MARK, 'numbers') + grp(holes, INNER, 'slots')
-            + grp(cuts, CUT, 'outlines'))
+    sheets = pack(items_for(parts, cheekpoly, cline))
+    ink, cut_slots, written = [], [], []
     over = 100 * (1 / math.cos(math.radians(FACET) / 2) - 1)
-    open(path_out, 'w').write(
-        f'<?xml version="1.0" encoding="utf-8"?>\n'
-        f'<svg xmlns="http://www.w3.org/2000/svg" width="{W:.2f}mm" '
-        f'height="{H:.2f}mm" viewBox="0 0 {W:.2f} {H:.2f}">\n'
-        f'<title>Ribbon bore coupon - {BORE:g}mm square bore, {FACET:g} degree '
-        f'facets, R{RADIUS:g} 180 degree bend</title>\n'
-        f'<desc>1 user unit = 1mm. A duct of constant {BORE:g} x {BORE:g}mm '
-        f'section swept along a planar curve. Two identical cheeks (C, both '
-        f'the same way up) and {len(parts)} wall panels: I* inside the bend, '
-        f'O* outside, numbered along the flow. The section is exact along '
-        f'every facet and {over:.1f}% over at each mitre. {THICK:g}mm ply, '
-        f'{BURN:g}mm kerf, {PLAY:g}mm play per side taken out of the slot and '
-        f'never off the tab. blue #0000ff engraves, orange #ff8000 cuts the '
-        f'slots first, black #000000 frees the parts.</desc>\n'
-        + body + '</svg>\n')
-    return W, H, ink, cut_slots
+    for n, placed in enumerate(sheets, 1):
+        marks, holes, cuts = [], [], []
+        for it, dx, dy in placed:
+            here = [(q[0] + dx, q[1] + dy) for q in it['outline']]
+            cuts.append(path(here))
+            for sl in it['slots']:
+                moved = [(q[0] + dx, q[1] + dy) for q in sl]
+                # tagged with the sheet, because two sheets are two files and
+                # their coordinates have nothing to do with each other. The
+                # first version of the slot check compared ink on sheet 3
+                # against slots on sheet 1 and reported three collisions that
+                # were two different pieces of paper.
+                cut_slots.append((moved, n))
+                holes.append(path(moved))
+            for d in it['marks'](dx, dy):
+                marks.append(d)
+                for tok in d.replace('M ', '').replace('Z', '').split(' L '):
+                    a, b = tok.strip().split(',')
+                    ink.append((float(a), float(b), here, n))
+        W = max(bbox(it['outline'])[2] + dx for it, dx, dy in placed) + 8.0
+        H = max(bbox(it['outline'])[3] + dy for it, dx, dy in placed) + 8.0
+
+        def grp(ds, col, name):
+            if not ds:
+                return ''
+            return (f'  <g id="{name}" fill="none" stroke="{col}" '
+                    f'stroke-width="0.2">\n'
+                    + '\n'.join(f'    <path d="{d}"/>' for d in ds)
+                    + '\n  </g>\n')
+
+        of = f' {n} of {len(sheets)}' if len(sheets) > 1 else ''
+        stem, ext = os.path.splitext(path_out)
+        this = path_out if len(sheets) == 1 else f'{stem}-sheet{n}{ext}'
+        body = (
+            f'<?xml version="1.0" encoding="utf-8"?>\n'
+            f'<svg xmlns="http://www.w3.org/2000/svg" width="{W:.2f}mm" '
+            f'height="{H:.2f}mm" viewBox="0 0 {W:.2f} {H:.2f}">\n'
+            f'<title>Ribbon bore{of} - {BORE:g}mm square bore, {FACET:g} degree '
+            f'facets, {SHAPE}</title>\n'
+            f'<desc>1 user unit = 1mm. A duct of constant {BORE:g} x {BORE:g}mm '
+            f'section swept along a planar curve. Two identical cheeks (0, both '
+            f'the same way up) and {len(parts)} wall panels numbered along the '
+            f'flow. The section is exact along every facet and {over:.1f}% over '
+            f'at each mitre. {THICK:g}mm ply, {BURN:g}mm kerf, {PLAY:g}mm play '
+            f'per side taken out of the slot and never off the tab. blue '
+            f'#0000ff engraves, orange #ff8000 cuts the slots first, black '
+            f'#000000 frees the parts.</desc>\n'
+            + grp(marks, MARK, 'numbers') + grp(holes, INNER, 'slots')
+            + grp(cuts, CUT, 'outlines') + '</svg>\n')
+        if write:
+            open(this, 'w').write(body)
+        written.append((os.path.basename(this), W, H, len(placed)))
+    return written, ink, cut_slots
 
 
 def inside(poly, x, y):
@@ -357,7 +508,7 @@ def inside(poly, x, y):
     return c
 
 
-def checks(c, inn, out, parts, cheekpoly, W, H, ink, cut_slots):
+def checks(c, inn, out, parts, cheekpoly, written, ink, cut_slots):
     """What has to be true, said out loud with the number that makes it true.
 
     A check that measured nothing would print the same clean run as a check
@@ -383,10 +534,11 @@ def checks(c, inn, out, parts, cheekpoly, W, H, ink, cut_slots):
          f'{n} stations, worst {worst:.2e}mm from {BORE:g}')
 
     # --- every slot has to be in the cheek, or a tab has nothing to enter
-    off = sum(1 for p in parts for pt in slot(p['mid'], p['ang'])
+    allslots = [sl for p in parts for sl in slots_for(p)]
+    off = sum(1 for sl in allslots for pt in sl
               if not inside(cheekpoly, *pt))
-    note(off == 0, 'every slot corner is inside its cheek',
-         f'{4 * len(parts)} corners, {off} outside')
+    note(off == 0 and allslots, 'every slot corner is inside its cheek',
+         f'{4 * len(allslots)} corners on {len(allslots)} slots, {off} outside')
 
     # --- and no two slots may run into each other
     # Separating axis, not centre distance: two slots 8mm apart can still
@@ -402,7 +554,7 @@ def checks(c, inn, out, parts, cheekpoly, W, H, ink, cut_slots):
                 if max(pa) <= min(pb) or max(pb) <= min(pa):
                     return True
         return False
-    boxes = [slot(p['mid'], p['ang']) for p in parts]
+    boxes = allslots
     pairs = [(i, j) for i in range(len(boxes)) for j in range(i + 1, len(boxes))]
     bad = sum(1 for i, j in pairs if not apart(boxes[i], boxes[j]))
     note(bad == 0, 'no two slots overlap',
@@ -413,15 +565,15 @@ def checks(c, inn, out, parts, cheekpoly, W, H, ink, cut_slots):
     note(short >= TOOTH + 2 * SHOULDER, 'the shortest panel still holds a tooth',
          f'{short:.2f}mm against {TOOTH + 2 * SHOULDER:g}mm needed')
 
-    off = sum(1 for x, y, owner in ink if not inside(owner, x, y))
+    off = sum(1 for x, y, owner, _ in ink if not inside(owner, x, y))
     note(off == 0 and len(ink) > 0, 'every engraved point is on its own part',
          f'{len(ink)} points, {off} off the material')
 
     # a number engraved over a slot is engraved into a hole, and what it
     # actually marks is the edge of the panel standing in it
-    over = sum(1 for x, y, _ in ink
-               if any(inside(sl, x, y) for sl in cut_slots))
-    note(over == 0 and len(cut_slots) == 2 * len(parts),
+    over = sum(1 for x, y, _, sh in ink
+               if any(inside(sl, x, y) for sl, s2 in cut_slots if s2 == sh))
+    note(over == 0 and len(cut_slots) == 2 * len(allslots),
          'no engraving lands in a slot',
          f'{len(ink)} points against {len(cut_slots)} slots, {over} inside one')
 
@@ -429,21 +581,28 @@ def checks(c, inn, out, parts, cheekpoly, W, H, ink, cut_slots):
          f'{WEB:g}mm of ply beside a {THICK:g}mm slot, band '
          f'{BORE + 2 * MARGIN:g}mm wide')
 
-    note(W <= 600 and H <= 308, 'the sheet fits the P2S bed',
-         f'{W:.0f} x {H:.0f}mm against 600 x 308')
+    big = [n for n, w, h, _ in written if w > BED_W or h > BED_H]
+    note(not big and len(written) > 0, 'every sheet fits the P2S bed',
+         f'{len(written)} sheet(s), largest '
+         f'{max(w for _, w, _, _ in written):.0f} x '
+         f'{max(h for _, _, h, _ in written):.0f}mm against '
+         f'{BED_W:g} x {BED_H:g}')
     return res
 
 
 def main(write=True):
     c, inn, out, parts, report = build()
     over = 100 * (1 / math.cos(math.radians(FACET) / 2) - 1)
-    print(f'ribbon bore coupon   {BORE:g}mm square, {FACET:g} degree facets, '
-          f'R{RADIUS:g} 180 degree bend')
+    R = LOBE_R if SHAPE == 'serpentine' else RADIUS
+    what = (f'{LOBES} half-circles of R{R:g} joined by {RISE:g}mm straights'
+            if SHAPE == 'serpentine' else f'one 180 degree bend of R{R:g}')
+    print(f'ribbon bore, {SHAPE}   {BORE:g}mm square, {FACET:g} degree facets')
+    print(f'  {what}')
     print(f'  centreline {sum(seglen(a, b) for a, b in zip(c, c[1:])):.1f}mm, '
           f'section {BORE:g} x {BORE:g} = {BORE * BORE:.0f}mm2, '
           f'+{over:.1f}% at each mitre')
-    print(f'  bend R/bore = {RADIUS / BORE:.1f}; the inner wall runs at '
-          f'R{RADIUS - BORE / 2:g}\n')
+    print(f'  bend R/bore = {R / BORE:.1f}; the inner wall runs at '
+          f'R{R - BORE / 2:g}\n')
     print('  part   wall     length     tooth   shoulders')
     for tag, wall, L in report:
         print(f'  {tag:<5}  {wall:<7}  {L:>6.2f}mm   {TOOTH:g}mm    '
@@ -452,25 +611,34 @@ def main(write=True):
     # --out exists because a failing run deletes its output, and a copy of
     # this script tried out in the same folder therefore deleted the real cut
     # file. A trial writes somewhere else or it does not write at all.
+    L = sum(seglen(a, b) for a, b in zip(c, c[1:]))
+    if SHAPE == 'serpentine':
+        stem = (f'ribbon-serpentine-bore{BORE:g}-{FACET:g}deg-{LOBES}lobes'
+                f'-R{LOBE_R:.0f}-{L:.0f}mm-cut-files.svg')
+    else:
+        stem = (f'ribbon-coupon-bore{BORE:g}-{FACET:g}deg'
+                f'-R{RADIUS:g}-180turn-cut-files.svg')
     out_path = OUT or os.path.join(
-        os.path.dirname(os.path.abspath(__file__)),
-        f'ribbon-coupon-bore{BORE:g}-{FACET:g}deg'
-        f'-R{RADIUS:g}-180turn-cut-files.svg')
-    W, H, ink, cut_slots = sheet(parts, cheekpoly, c,
-                                 out_path if write else '/dev/null')
+        os.path.dirname(os.path.abspath(__file__)), stem)
+    written, ink, cut_slots = sheet(parts, cheekpoly, c, out_path, write)
     print(f'\n  {len(parts)} wall panels + 2 cheeks = {len(parts) + 2} parts, '
-          f'sheet {W:.0f} x {H:.0f}mm')
+          f'{len(written)} sheet{"s" if len(written) > 1 else ""}')
+    for name, w, h, k in written:
+        print(f'    {name:<56}{k:>3} parts  {w:.0f} x {h:.0f}mm')
     bad = 0
     print()
     for ok, what, detail in checks(c, inn, out, parts, cheekpoly,
-                                   W, H, ink, cut_slots):
+                                   written, ink, cut_slots):
         print(f'  {"pass" if ok else "FAIL"}  {what:<44} {detail}')
         bad += not ok
     if write and not bad:
-        print(f'\n  wrote {os.path.basename(out_path)}')
+        print(f'\n  wrote {len(written)} file(s)')
     elif bad:
         if write:
-            os.remove(out_path)
+            for name, _, _, _ in written:
+                f = os.path.join(os.path.dirname(os.path.abspath(out_path)), name)
+                if os.path.exists(f):
+                    os.remove(f)
         print(f'\n  {bad} check(s) failed. Nothing written.')
     return 1 if bad else 0
 
@@ -478,9 +646,23 @@ def main(write=True):
 if __name__ == '__main__':
     # a geometry that cannot be built is an answer, not a crash
     a = sys.argv[1:]
-    o = [x for x in a if x.startswith('--out=')]
-    if o:
-        OUT = o[0].split('=', 1)[1]
+    for flag, cast in (('out', str), ('shape', str), ('bore', float),
+                       ('facet', float), ('radius', float), ('lobes', int),
+                       ('lobe-r', float), ('rise', float), ('lead', float),
+                       ('web', float)):
+        hit = [x for x in a if x.startswith(f'--{flag}=')]
+        if not hit:
+            continue
+        v = cast(hit[0].split('=', 1)[1])
+        {'out': 'OUT', 'shape': 'SHAPE', 'bore': 'BORE', 'facet': 'FACET',
+         'radius': 'RADIUS', 'lobes': 'LOBES', 'lobe-r': 'LOBE_R',
+         'rise': 'RISE', 'lead': 'LEAD', 'web': 'WEB'}[flag]
+        globals()[{'out': 'OUT', 'shape': 'SHAPE', 'bore': 'BORE',
+                   'facet': 'FACET', 'radius': 'RADIUS', 'lobes': 'LOBES',
+                   'lobe-r': 'LOBE_R', 'rise': 'RISE', 'lead': 'LEAD',
+                   'web': 'WEB'}[flag]] = v
+    # MARGIN is derived from WEB, so --web has to rebuild it
+    MARGIN = THICK / 2 + WEB
     try:
         sys.exit(main(write='--no-write' not in a))
     except ValueError as e:

@@ -46,6 +46,35 @@ R 25 is why this coupon is R 25. Coarser facets need less radius, finer facets
 need more: 20° wants R 35, 15° wants R 45. `build()` refuses rather than
 drawing a panel that cannot hold its tab.
 
+## A half-circle advances 2/pi of its own length
+
+Which is the whole reason the serpentine has three lobes and long straight
+runs. A 1000mm run of half-circles wants **637mm of width** whatever the lobe
+count, and the bed is 600 — dividing it finer only claws back the lead-in and
+shortens the panels until they cannot hold a tooth. The straight verticals are
+what make it fit, because they buy length in y where there is room.
+
+**Solve the radius against this generator's own faceted centreline**, never
+against a smooth arc: an inscribed chord is **1.14% short** of the arc it
+spans, so a radius picked from the arc comes out 11mm long over a metre.
+
+## Long panels get more than one tooth
+
+`teeth(L)` gives `floor((L - 2*SHOULDER + TOOTH) / (2*TOOTH))`, alternating
+tooth and gap of equal width. One tab in a 90mm straight run is a hinge: it
+pivots about the tab and the seam opens. Every coupon panel is short enough to
+want exactly one, so the coupon's cut geometry did not move when this arrived —
+checked by comparing the cut groups as position-independent shapes, which is
+the only comparison that means anything once the packer may have reordered
+them.
+
+## One sheet per bedful
+
+`pack()` row-wraps into `BED - 2 x margin`, not into the bed. Filling to the
+edge produced a sheet **600 x 307 on a 600 x 308 bed** — passes a fits-the-bed
+check and cannot be positioned on a real machine. A part bigger than the usable
+area is a refusal, not a smaller sheet.
+
 ## Kerf goes opposite ways on a part and on a hole
 
 The laser removes `BURN` centred on the line, so a part comes out `BURN` under
@@ -97,6 +126,12 @@ coordinates. Two spaces that cannot overlap, so it passed, and the tell was
 that it said **16 slots on a sheet that has 32**. A count printed beside a
 verdict is what makes that visible. Both now come out of `sheet()`, which is
 the only place that knows where anything was actually put.
+
+Then it failed the same way again once there were several sheets: it compared
+ink on sheet 3 against slots on sheet 1. Two sheets are two files and their
+coordinates have nothing to do with each other. Both are now tagged with their
+sheet. **Twice in one file is a pattern, not bad luck: any check comparing two
+sets of coordinates must first establish what space they are both in.**
 
 Every check reports its own count (`40 stations`, `504 points`, `120 pairs`) so
 a check that measured nothing cannot print the same clean line as one that

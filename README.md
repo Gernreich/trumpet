@@ -67,6 +67,49 @@ bore and 30° facets:
 The coupon is R 25 for that reason, not because the bend wants to be that
 open. A real Bb trumpet runs R/bore ≈ 4.3.
 
+## The 1000mm serpentine
+
+**[`ribbon-serpentine-bore10-30deg-3lobes-R72-1000mm-cut-files-sheet1.svg`](ribbon-serpentine-bore10-30deg-3lobes-R72-1000mm-cut-files-sheet1.svg)**
+· **[`sheet2`](ribbon-serpentine-bore10-30deg-3lobes-R72-1000mm-cut-files-sheet2.svg)**
+· **[`sheet3`](ribbon-serpentine-bore10-30deg-3lobes-R72-1000mm-cut-files-sheet3.svg)**
+
+    python3 ribbon_bore.py --shape=serpentine
+
+**1000.0mm of centreline** at 10 × 10mm, in **52 parts on 3 sheets** — three
+half-circles of R 71.754 joined by 90mm straight runs, with a 20mm lead at each
+end.
+
+### Why three half-circles and not two
+
+A half-circle advances only **2/π of its own length** in x. So a 1000mm
+serpentine wants **637mm of width** no matter how many lobes it is cut into,
+and the bed is 600mm. Dividing it finer barely helps — it only claws back the
+lead-in:
+
+| lobes | R | cheek | fits |
+| ---: | ---: | --- | --- |
+| 2 | 118mm | 634 × 274mm | no |
+| 4 | 65mm | 620 × 161mm | no |
+| 6 | 43mm | 600 × 119mm | no, by 0mm |
+| 8 | 32mm | 581 × 96mm | barely |
+
+What actually fixes it is the **straight vertical runs between the lobes**.
+They buy length in y, where there is room, instead of in x, where there is not.
+At three lobes and a 90mm rise the cheek is **531 × 251mm** with 57mm of spare
+in the worse direction, and the panels stay long enough to carry real joints.
+
+### Long panels get more than one tooth
+
+A 90mm straight run held by a single 6mm tab in its middle is a hinge, not a
+joint: it pivots and the seam opens. Teeth alternate with gaps of their own
+width, as Boxes.py does —
+
+    n = floor((L − 2 × shoulder + tooth) / (2 × tooth))
+
+— which is 1 up to 17.9mm, 3 at 34mm and **7 at 90mm**. Every panel on the
+coupon is short enough to want exactly one, so the coupon's cut geometry did
+not move when this arrived.
+
 ## The coupon
 
 **[`ribbon-coupon-bore10-30deg-R25-180turn-cut-files.svg`](ribbon-coupon-bore10-30deg-R25-180turn-cut-files.svg)**
