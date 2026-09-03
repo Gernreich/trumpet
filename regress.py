@@ -16,8 +16,13 @@ import os
 DESIGNS = [
     ('first trumpet', 'N N10 U2 W2 S7 U2 E4 N9 W2 D2 N4 N',
      '../../test/first_trumpet'),
+    # No folder: ../../test/spiral_trumpet holds a page and two photographs and
+    # no cut files at all. It was named here until 2026-09-03, and check.py
+    # globbed nothing, added no sheet checks and still reported 0 failed - the
+    # design looked covered for as long as nobody counted. check.py now fails a
+    # folder it was pointed at and found empty, which is how this surfaced.
     ('spiral trumpet', 'U U3 N2 W2 S4 E4 U2 N6 W6 S8 E8 U2 N10 W10 S12 E12 U3 U',
-     '../../test/spiral_trumpet'),
+     None),
     ('helix, rise 2', 'N N4 U2 E4 U2 S4 U2 W4 U2 N4 N', None),
     ('helix, rise 1', 'N N4 U1 E4 U1 S4 U1 W4 U1 N4 N', None),
     ('helix, side 6', 'N N6 U2 E6 U2 S6 U2 W6 U2 N6 U2 E6 E', None),

@@ -330,12 +330,16 @@ def check_sheets(folder):
                 L.append([f(float(a), float(b)) for a, b in
                           (t.split(',') for t in ch.get('points').split())])
 
+    seen = 0
     for fn in sorted(glob.glob(os.path.join(folder, '*.svg'))):
         name = os.path.basename(fn)
         # deepnest_* is a layout aid, not a cut file: parts are spread out on
-        # purpose and it carries no engraving
-        if not re.match(r'(\d\d_|nest_|recut_)', name):
+        # purpose and it carries no engraving.
+        # bore25-... is the name written since 2026-09-03; the bare NN_ form is
+        # what the frozen repositories still hold, and both are cut files.
+        if not re.match(r'(bore[\d.]+-|\d\d_|nest_|recut_)', name):
             continue
+        seen += 1
         root = ET.parse(fn).getroot()
         W = float(root.get('width')[:-2]); H = float(root.get('height')[:-2])
         P, L = [], []
@@ -353,6 +357,13 @@ def check_sheets(folder):
         off = sum(1 for lab in L for pt in lab
                   if not any(_inside(p, *pt) for p in P))
         note(off == 0, name, 'engraving on material', f'{off} points off')
+
+    # A filter that matches nothing reports a clean run over no files at all.
+    # Renaming the sheets did exactly that once: 194 checks became 176 and
+    # still said 0 failed, because the six it stopped looking at were the six
+    # that had been renamed. Asked to check a folder, say so if it was empty.
+    note(seen > 0, os.path.basename(os.path.normpath(folder)),
+         'folder holds cut files', f'{seen} matched *.svg')
 
 
 def main(text, folder=None, report=True):

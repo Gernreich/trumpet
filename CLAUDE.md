@@ -76,6 +76,20 @@ comfortably, and nothing compares a feature against the other features beside it
 that a joint has any clearance at all. **A passing gate means no check failed, not that the
 part is buildable.**
 
+**`--play` overrides the table, and it is for measuring, not for cutting.** `PLAY_BY_BORE`
+is a lookup of what has actually been cut — 0 at the 25mm bore, 0.025 at the 10mm — and a
+bore that is not in it gets 0.025, the safe direction. The comment above the table sets out
+the coupon that would settle whether the clearance really falls as the joint grows;
+`--play` is what cuts it, at values nobody has measured, without editing the table to say
+they have. Whatever fits, add the row and stop passing the flag.
+
+It is the same hazard as `--blocksize` and it bit the same way: `COMMON` is built once at
+import, so `set_play()` has to rebuild it. Until it did, the three coupons came out
+byte-identical — which reads as *play makes no difference* and is really *the flag is not
+connected*. The tell was that the difference should have been visible and exactly the play:
+it is, now, at every notch edge of section 1, and section 2 does not move at all, because
+the play comes off the notch and never off the tab.
+
 `--blocksize` is the same hazard with a quieter failure. It is two numbers, not one:
 `BLOCK`, the pitch the plan is laid out on, and `--blocksize` in `COMMON`, the pitch
 SnakeBox cuts to. Both now come from `set_blocksize()`, and `COMMON` is built by `_common()`
