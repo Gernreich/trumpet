@@ -40,7 +40,15 @@ THICK = 3.0          # ply
 WEB = 2.0            # material left outboard of a slot; the cheek's thin part
 MARGIN = THICK / 2 + WEB   # so the cheek band hugs the slots and stops
 BURN = 0.1           # kerf; the laser takes this out, centred on the line
-PLAY = 0.025         # per side, from bore-generator's PLAY_BY_BORE at 10mm
+# Per side, and a lookup of what has actually been cut, not a curve through
+# it - bore-generator's PLAY_BY_BORE, same figures. 0 at the 25mm bore and
+# 0.025 at the 10mm: required clearance FALLS as the joint grows, which fits a
+# fabrication error that does not scale against elastic take-up that does.
+# A bore not in the table gets the small-joint value, because too loose is a
+# worse joint and too tight is no joint at all.
+PLAY_BY_BORE = {25.0: 0.0, 10.0: 0.025}
+PLAY_UNMEASURED = 0.025
+PLAY = PLAY_BY_BORE.get(25.0, PLAY_UNMEASURED)   # set for BORE in main()
 TOOTH = 2 * THICK    # Boxes.py FingerJointSettings; does not scale
 SHOULDER = 2.0       # least material either side of a tooth
 
@@ -411,7 +419,10 @@ def items_for(parts, cheekpoly, cline):
     return out
 
 
-def pack(items, margin=10.0, gap=4.0):
+MARGIN_S = 10.0      # sheet margin: the packer's and the reported size's
+
+
+def pack(items, margin=MARGIN_S, gap=4.0):
     """Row-wrap into sheets, closing a sheet when the next row would overflow.
 
     Packs into BED minus a margin all round, not into the bed. Filling to the
@@ -482,8 +493,10 @@ def sheet(parts, cheekpoly, cline, path_out, write=True):
                 for tok in d.replace('M ', '').replace('Z', '').split(' L '):
                     a, b = tok.strip().split(',')
                     ink.append((float(a), float(b), here, n))
-        W = max(bbox(it['outline'])[2] + dx for it, dx, dy in placed) + 8.0
-        H = max(bbox(it['outline'])[3] + dy for it, dx, dy in placed) + 8.0
+        # the same margin the packer used, not a second constant that can
+        # drift from it
+        W = max(bbox(it['outline'])[2] + dx for it, dx, dy in placed) + MARGIN_S
+        H = max(bbox(it['outline'])[3] + dy for it, dx, dy in placed) + MARGIN_S
 
         def grp(ds, col, name):
             if not ds:
@@ -610,6 +623,8 @@ def checks(c, inn, out, parts, cheekpoly, written, ink, cut_slots):
 
 
 def main(write=True):
+    global PLAY
+    PLAY = PLAY_BY_BORE.get(round(BORE, 3), PLAY_UNMEASURED)
     c, inn, out, parts, report = build()
     over = 100 * (1 / math.cos(math.radians(FACET) / 2) - 1)
     R = LOBE_R if SHAPE == 'serpentine' else RADIUS
@@ -620,8 +635,13 @@ def main(write=True):
     print(f'  centreline {sum(seglen(a, b) for a, b in zip(c, c[1:])):.1f}mm, '
           f'section {BORE:g} x {BORE:g} = {BORE * BORE:.0f}mm2, '
           f'+{over:.1f}% at each mitre')
+    known = round(BORE, 3) in PLAY_BY_BORE
     print(f'  bend R/bore = {R / BORE:.1f}; the inner wall runs at '
-          f'R{R - BORE / 2:g}\n')
+          f'R{R - BORE / 2:g}')
+    print(f'  play {PLAY:g}mm per side'
+          + ('' if known else f'  (the {BORE:g}mm bore is not in PLAY_BY_BORE; '
+                              f'this is the small-joint default. Measure it '
+                              f'and add a row.)') + '\n')
     print('  part   wall     length     tooth   shoulders')
     for tag, wall, L in report:
         print(f'  {tag:<5}  {wall:<7}  {L:>6.2f}mm   {TOOTH:g}mm    '

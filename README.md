@@ -69,15 +69,33 @@ open. A real Bb trumpet runs R/bore ≈ 4.3.
 
 ## The 1000mm serpentine
 
-**[`ribbon-serpentine-bore10-30deg-3lobes-R72-1000mm-cut-files-sheet1.svg`](ribbon-serpentine-bore10-30deg-3lobes-R72-1000mm-cut-files-sheet1.svg)**
-· **[`sheet2`](ribbon-serpentine-bore10-30deg-3lobes-R72-1000mm-cut-files-sheet2.svg)**
-· **[`sheet3`](ribbon-serpentine-bore10-30deg-3lobes-R72-1000mm-cut-files-sheet3.svg)**
+    python3 ribbon_bore.py --shape=serpentine              # the 10mm bore
+    python3 ribbon_bore.py --shape=serpentine --bore=25    # the 25mm bore
 
-    python3 ribbon_bore.py --shape=serpentine
+**1000.0mm of centreline**, in **52 parts on 3 sheets** — three half-circles of
+R 71.754 joined by 90mm straight runs, with a 20mm lead at each end.
 
-**1000.0mm of centreline** at 10 × 10mm, in **52 parts on 3 sheets** — three
-half-circles of R 71.754 joined by 90mm straight runs, with a 20mm lead at each
-end.
+The same centreline is cut at both bores. Only the band around it changes:
+
+| | 10 × 10mm | 25 × 25mm |
+| --- | --- | --- |
+| files | [`bore10` sheet 1](ribbon-serpentine-bore10-30deg-3lobes-R72-1000mm-cut-files-sheet1.svg) · [2](ribbon-serpentine-bore10-30deg-3lobes-R72-1000mm-cut-files-sheet2.svg) · [3](ribbon-serpentine-bore10-30deg-3lobes-R72-1000mm-cut-files-sheet3.svg) | [`bore25` sheet 1](ribbon-serpentine-bore25-30deg-3lobes-R72-1000mm-cut-files-sheet1.svg) · [2](ribbon-serpentine-bore25-30deg-3lobes-R72-1000mm-cut-files-sheet2.svg) · [3](ribbon-serpentine-bore25-30deg-3lobes-R72-1000mm-cut-files-sheet3.svg) |
+| section | 100mm² | 625mm² |
+| cheek band | 17mm | 32mm |
+| R / bore | 7.2 | 2.9 |
+| play, per side | 0.025mm | **0** |
+| shortest panel | 19.34mm | 18.35mm |
+| slots per cheek | 158 | 137 |
+
+**The play is not a constant, it is a lookup.** `PLAY_BY_BORE` carries
+bore-generator's measured figures — 0.025mm per side at the 10mm bore and **0
+at the 25mm** — because required clearance *falls* as the joint grows. A bore
+that is not in the table gets the small-joint value and the generator says so,
+because too loose is a worse joint and too tight is no joint at all.
+
+The 25mm bore has *fewer* slots than the 10mm one on the same curve. The mitre
+trims each inner panel by `(bore/2) × tan(φ/2)` at both ends — 3.35mm at 25mm
+against 1.34mm at 10mm — so the panels are shorter and fit fewer teeth.
 
 ### Why three half-circles and not two
 
