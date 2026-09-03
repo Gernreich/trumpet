@@ -89,7 +89,7 @@ HTML = r'''<title>__TITLE__</title>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
 :root{color-scheme:dark;--bg:#14161a;--ink:#e8eaed;--dim:#9aa3ad;--line:#2a2f36;
-      --panel:#1b1e24;--accent:#e0457b}
+      --panel:#1b1e24;--accent:#e0457b;--edge:rgba(0,0,0,.30)}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);
      font:14px/1.5 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
@@ -145,6 +145,8 @@ dt{color:var(--dim)}dd{margin:0;text-align:right;font-variant-numeric:tabular-nu
 <script>
 const D = __DATA__;
 const cv = document.getElementById('c'), cx = cv.getContext('2d');
+const EDGE = getComputedStyle(document.documentElement)
+  .getPropertyValue('--edge').trim() || 'rgba(0,0,0,.30)';
 let yaw = -0.62, pitch = -0.42, zoom = 1, mode = 'face', reveal = D.segs;
 
 /* --- the model, centred on its own middle so rotation feels right --- */
@@ -203,7 +205,7 @@ function draw(){
     cx.moveTo(it.pts[0][0], it.pts[0][1]);
     for (let i=1;i<it.pts.length;i++) cx.lineTo(it.pts[i][0], it.pts[i][1]);
     cx.closePath(); cx.fill();
-    cx.strokeStyle = 'rgba(0,0,0,.30)'; cx.lineWidth = 0.6; cx.stroke();
+    cx.strokeStyle = EDGE; cx.lineWidth = 0.6; cx.stroke();
   }
 }
 function shade(hex, k){
@@ -288,10 +290,106 @@ draw();
 '''
 
 
-def build(title):
+EMBED = r"""<title>__TITLE__</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+/* An embed sits inside somebody else's page, so it follows the reader's
+   theme. It cannot see an explicit toggle on the host - a frame is its own
+   document - so this matches by default and not after a manual switch. */
+:root{color-scheme:light dark;--bg:#f7f5f1;--ink:#1b1e24;--dim:#6b7480;
+      --edge:rgba(0,0,0,.35)}
+@media (prefers-color-scheme:dark){
+  :root{--bg:#14161a;--ink:#e8eaed;--dim:#6f7883;--edge:rgba(0,0,0,.30)}}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);overflow:hidden;
+     font:13px/1.45 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+canvas{display:block;width:100%;height:100%;cursor:grab;touch-action:none}
+canvas.drag{cursor:grabbing}
+#cap{position:absolute;left:14px;bottom:12px;right:14px;pointer-events:none}
+#cap b{font-weight:650}
+#cap span{color:var(--dim)}
+#cap a{pointer-events:auto;color:#e0457b;text-decoration:none;
+       border-bottom:1px solid rgba(224,69,123,.45)}
+#cap a:hover,#cap a:focus-visible{border-bottom-color:#e0457b}
+#hint{position:absolute;right:14px;top:12px;color:var(--dim);font-size:12px;
+      pointer-events:none;transition:opacity .5s}
+@media (prefers-reduced-motion:reduce){#hint{transition:none}}
+</style>
+<canvas id="c"></canvas>
+<div id="hint">drag to turn</div>
+<div id="cap"></div>
+<script>
+const D = __DATA__;
+const cv = document.getElementById('c'), cx = cv.getContext('2d');
+let yaw = -0.75, pitch = -0.45, zoom = 1, mode = 'sec', reveal = D.segs;
+__DRAW__
+
+/* A slow idle turn, so the thing reads as something you can move rather than
+   a picture. It stops for good on the first interaction, and never starts if
+   the reader has asked for less motion. */
+const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+let idle = !still, t0 = performance.now();
+function tick(t){
+  if (idle){ yaw = -0.75 + Math.sin((t - t0) / 6000) * 0.5; draw(); }
+  requestAnimationFrame(tick);
+}
+let drag = null;
+function stop(){
+  if (!idle) return;
+  idle = false;
+  const h = document.getElementById('hint');
+  h.style.opacity = 0;
+}
+cv.addEventListener('pointerdown', e => {
+  stop(); drag = [e.clientX, e.clientY];
+  cv.classList.add('drag'); cv.setPointerCapture(e.pointerId);
+});
+cv.addEventListener('pointermove', e => {
+  if (!drag) return;
+  yaw += (e.clientX - drag[0]) * 0.008;
+  pitch = Math.max(-1.5, Math.min(1.5, pitch + (e.clientY - drag[1]) * 0.008));
+  drag = [e.clientX, e.clientY]; draw();
+});
+for (const ev of ['pointerup','pointercancel'])
+  cv.addEventListener(ev, () => { drag = null; cv.classList.remove('drag'); });
+cv.addEventListener('wheel', e => {
+  e.preventDefault(); stop();
+  zoom = Math.max(0.4, Math.min(5, zoom * (e.deltaY < 0 ? 1.1 : 1/1.1)));
+  draw();
+}, {passive:false});
+
+document.getElementById('cap').innerHTML =
+  `<b>${D.bore} \u00d7 ${D.bore}mm</b> <span>constant section, </span>`
+  + `<b>${D.mm}mm</b> <span>of bore on a planar curve \u2014 </span>`
+  + `<a href="__HOME__" target="_top">bore-ribbon</a>`;
+addEventListener('resize', draw);
+if (!still) requestAnimationFrame(tick); else draw();
+draw();
+</script>
+"""
+
+
+def build(title, embed=False, home=''):
     d = data_for()
-    return (HTML.replace('__TITLE__', title)
-                .replace('__DATA__', json.dumps(d, separators=(',', ':'))))
+    if not embed:
+        return (HTML.replace('__TITLE__', title)
+                    .replace('__DATA__', json.dumps(d, separators=(',', ':'))))
+    # the drawing code is shared verbatim: one place decides what this looks
+    # like, so an embed cannot quietly diverge from the page it links to
+    body = HTML.split('<script>', 1)[1]
+    draw = body.split("/* --- controls --- */", 1)[0]
+    # Drop the three lines the embed declares for itself. Slicing off the
+    # first line instead removed the blank line above them and left `const D`
+    # declared twice, which is a SyntaxError and a blank canvas.
+    drop = ('const D =', 'const cv =', 'let yaw =')
+    draw = '\n'.join(l for l in draw.splitlines()
+                     if not l.startswith(drop))
+    assert 'function draw(' in draw and 'const D =' not in draw, 'bad extract'
+    return (EMBED.replace('__TITLE__', title)
+                 .replace('__DRAW__', draw)
+                 .replace('__HOME__', home)
+                 .replace('__DATA__', json.dumps(d, separators=(',', ':'))))
 
 
 def main():
@@ -316,8 +414,13 @@ def main():
         stem = f'ribbon-coupon-bore{B.BORE:g}-{B.FACET:g}deg-R{B.RADIUS:g}'
         title = f'Ribbon Coupon, {B.BORE:g}mm Bore'
     out = [x for x in a if x.startswith('--out=')]
-    path = out[0].split('=', 1)[1] if out else os.path.join(here, stem + '.html')
-    open(path, 'w').write(build(title))
+    hm = [x for x in a if x.startswith('--home=')]
+    embed = '--embed' in a
+    path = out[0].split('=', 1)[1] if out else os.path.join(
+        here, stem + ('-embed.html' if embed else '.html'))
+    open(path, 'w').write(build(title, embed,
+                                hm[0].split('=', 1)[1] if hm else
+                                'https://gernreich.github.io/bore-ribbon/'))
     d = data_for()
     print(f'  {os.path.basename(path):<52}drag to turn, colour by face '
           f'or facet')

@@ -205,6 +205,27 @@ it cannot disagree with the generator about where anything is. It is *not* the
 lattice viewer in `bore-generator`: that one is built on integer cells and cube
 faces with occupancy-based hidden-face removal, and there is no lattice here.
 
+`--embed` writes a compact build for an iframe: canvas only, a caption, a slow
+idle turn that stops on the first interaction and never starts under
+`prefers-reduced-motion`. **The drawing code is extracted from the full page's
+own `<script>` rather than copied**, so an embed cannot quietly diverge from
+the page it links to. It drops three lines the embed declares for itself; the
+first version sliced off the leading blank line instead, left `const D`
+declared twice, and rendered a blank canvas.
+
+`gernreich.github.io` embeds one. Regenerate it from here when the geometry
+changes:
+
+```sh
+python3 ribbon_view.py --shape=serpentine --bore=25 --embed \
+    --out=../Gernreich.github.io/bore-viewer.html \
+    --home=https://gernreich.github.io/bore-ribbon/
+```
+
+An embed follows `prefers-color-scheme`, because it sits inside somebody
+else's page. It cannot see an explicit theme toggle on the host — a frame is
+its own document — so it matches by default and not after a manual switch.
+
 **Nothing gates it.** `check.py`'s lesson from `bore-stretched` applies —
 a render can be wrong while every check passes. Look at the page after changing
 it.
