@@ -79,13 +79,19 @@ Each folder also carries its own viewer:
 [`coil-10x10x30-2.25t.html`](coil-10x10x30-2.25t/coil-10x10x30-2.25t.html) and
 [`coil-10x10x30-3t.html`](coil-10x10x30-3t/coil-10x10x30-3t.html).
 
-**The sheets are numbered per coil, and the names repeat between them** — every
-coil has an `01_bend_DL_buttin.svg`, because the first section is the same shape
-in all four. Only the last differs, since that is where each one stops:
-[`03_bend_RD_buttout.svg`](coil-10x10x30-0.75t/03_bend_RD_buttout.svg) at 0.75,
-`06_bend_RD_buttout.svg` at 1.5,
-[`09_bend_LD_buttout.svg`](coil-10x10x30-2.25t/09_bend_LD_buttout.svg) at 2.25,
-`12_bend_LD_buttout.svg` at 3. Cut from one folder at a time.
+**Every sheet says which coil it belongs to and how many there are** — a name
+runs `bore10-coil-10x10x30-1.5t-01of06-bend-DL-buttin-cut-files.svg`, so a file
+that has left its folder can still be placed, and a set with a sheet missing
+says so. The first section is the same shape in all four coils; only the last
+differs, since that is where each one stops:
+[`…-03of03-bend-RD-buttout-…`](coil-10x10x30-0.75t/bore10-coil-10x10x30-0.75t-03of03-bend-RD-buttout-cut-files.svg)
+at 0.75,
+[`…-06of06-bend-RD-buttout-…`](coil-10x10x30-1.5t/bore10-coil-10x10x30-1.5t-06of06-bend-RD-buttout-cut-files.svg)
+at 1.5,
+[`…-09of09-bend-LD-buttout-…`](coil-10x10x30-2.25t/bore10-coil-10x10x30-2.25t-09of09-bend-LD-buttout-cut-files.svg)
+at 2.25 and
+[`…-12of12-bend-LD-buttout-…`](coil-10x10x30-3t/bore10-coil-10x10x30-3t-12of12-bend-LD-buttout-cut-files.svg)
+at 3. Cut from one folder at a time.
 
 **The 1.5t is [trumpet-switchback](https://github.com/Gernreich/trumpet-switchback)'s
 walk exactly.** It arrived here as a borrowed test before anyone noticed it was a
@@ -129,34 +135,34 @@ the elbow rule.
 
 | # | file | sheet | parts |
 |---|---|---|---:|
-| 1 | [`coil-10x10x30-0.75t/01_bend_DL_buttin.svg`](coil-10x10x30-0.75t/01_bend_DL_buttin.svg) | 325x70mm | 6 |
-| 2 | [`coil-10x10x30-0.75t/02_bend_LUUR.svg`](coil-10x10x30-0.75t/02_bend_LUUR.svg) | 456x86mm | 8 |
-| 3 | [`coil-10x10x30-0.75t/03_bend_RD_buttout.svg`](coil-10x10x30-0.75t/03_bend_RD_buttout.svg) | 337x70mm | 6 |
+| 1 | [`coil-10x10x30-0.75t/bore10-coil-10x10x30-0.75t-01of03-bend-DL-buttin-cut-files.svg`](coil-10x10x30-0.75t/bore10-coil-10x10x30-0.75t-01of03-bend-DL-buttin-cut-files.svg) | 325x70mm | 6 |
+| 2 | [`coil-10x10x30-0.75t/bore10-coil-10x10x30-0.75t-02of03-bend-LUUR-cut-files.svg`](coil-10x10x30-0.75t/bore10-coil-10x10x30-0.75t-02of03-bend-LUUR-cut-files.svg) | 456x86mm | 8 |
+| 3 | [`coil-10x10x30-0.75t/bore10-coil-10x10x30-0.75t-03of03-bend-RD-buttout-cut-files.svg`](coil-10x10x30-0.75t/bore10-coil-10x10x30-0.75t-03of03-bend-RD-buttout-cut-files.svg) | 337x70mm | 6 |
 
 ### 1.5 turns — `coil-10x10x30-1.5t/`
 
 | # | file | sheet | parts |
 |---|---|---|---:|
-| 1 | [`coil-10x10x30-1.5t/01_bend_DL_buttin.svg`](coil-10x10x30-1.5t/01_bend_DL_buttin.svg) | 325x70mm | 6 |
-| 2 | [`coil-10x10x30-1.5t/02_bend_LUUR.svg`](coil-10x10x30-1.5t/02_bend_LUUR.svg) | 456x86mm | 8 |
-| 3 | [`coil-10x10x30-1.5t/03_bend_RD.svg`](coil-10x10x30-1.5t/03_bend_RD.svg) | 337x70mm | 6 |
-| 4 | [`coil-10x10x30-1.5t/04_bend_DL.svg`](coil-10x10x30-1.5t/04_bend_DL.svg) | 331x73mm | 6 |
-| 5 | [`coil-10x10x30-1.5t/05_bend_DLLU.svg`](coil-10x10x30-1.5t/05_bend_DLLU.svg) | 482x73mm | 8 |
-| 6 | [`coil-10x10x30-1.5t/06_bend_RD_buttout.svg`](coil-10x10x30-1.5t/06_bend_RD_buttout.svg) | 337x70mm | 6 |
+| 1 | [`coil-10x10x30-1.5t/bore10-coil-10x10x30-1.5t-01of06-bend-DL-buttin-cut-files.svg`](coil-10x10x30-1.5t/bore10-coil-10x10x30-1.5t-01of06-bend-DL-buttin-cut-files.svg) | 325x70mm | 6 |
+| 2 | [`coil-10x10x30-1.5t/bore10-coil-10x10x30-1.5t-02of06-bend-LUUR-cut-files.svg`](coil-10x10x30-1.5t/bore10-coil-10x10x30-1.5t-02of06-bend-LUUR-cut-files.svg) | 456x86mm | 8 |
+| 3 | [`coil-10x10x30-1.5t/bore10-coil-10x10x30-1.5t-03of06-bend-RD-cut-files.svg`](coil-10x10x30-1.5t/bore10-coil-10x10x30-1.5t-03of06-bend-RD-cut-files.svg) | 337x70mm | 6 |
+| 4 | [`coil-10x10x30-1.5t/bore10-coil-10x10x30-1.5t-04of06-bend-DL-cut-files.svg`](coil-10x10x30-1.5t/bore10-coil-10x10x30-1.5t-04of06-bend-DL-cut-files.svg) | 331x73mm | 6 |
+| 5 | [`coil-10x10x30-1.5t/bore10-coil-10x10x30-1.5t-05of06-bend-DLLU-cut-files.svg`](coil-10x10x30-1.5t/bore10-coil-10x10x30-1.5t-05of06-bend-DLLU-cut-files.svg) | 482x73mm | 8 |
+| 6 | [`coil-10x10x30-1.5t/bore10-coil-10x10x30-1.5t-06of06-bend-RD-buttout-cut-files.svg`](coil-10x10x30-1.5t/bore10-coil-10x10x30-1.5t-06of06-bend-RD-buttout-cut-files.svg) | 337x70mm | 6 |
 
 ### 2.25 turns — `coil-10x10x30-2.25t/`
 
 | # | file | sheet | parts |
 |---|---|---|---:|
-| 1 | [`coil-10x10x30-2.25t/01_bend_DL_buttin.svg`](coil-10x10x30-2.25t/01_bend_DL_buttin.svg) | 325x70mm | 6 |
-| 2 | [`coil-10x10x30-2.25t/02_bend_LUUR.svg`](coil-10x10x30-2.25t/02_bend_LUUR.svg) | 456x86mm | 8 |
-| 3 | [`coil-10x10x30-2.25t/03_bend_RD.svg`](coil-10x10x30-2.25t/03_bend_RD.svg) | 337x70mm | 6 |
-| 4 | [`coil-10x10x30-2.25t/04_bend_DL.svg`](coil-10x10x30-2.25t/04_bend_DL.svg) | 331x73mm | 6 |
-| 5 | [`coil-10x10x30-2.25t/05_bend_DLLU.svg`](coil-10x10x30-2.25t/05_bend_DLLU.svg) | 482x73mm | 8 |
-| 6 | [`coil-10x10x30-2.25t/06_bend_RD.svg`](coil-10x10x30-2.25t/06_bend_RD.svg) | 337x70mm | 6 |
-| 7 | [`coil-10x10x30-2.25t/07_bend_DR.svg`](coil-10x10x30-2.25t/07_bend_DR.svg) | 331x73mm | 6 |
-| 8 | [`coil-10x10x30-2.25t/08_bend_RDDL.svg`](coil-10x10x30-2.25t/08_bend_RDDL.svg) | 456x86mm | 8 |
-| 9 | [`coil-10x10x30-2.25t/09_bend_LD_buttout.svg`](coil-10x10x30-2.25t/09_bend_LD_buttout.svg) | 337x70mm | 6 |
+| 1 | [`coil-10x10x30-2.25t/bore10-coil-10x10x30-2.25t-01of09-bend-DL-buttin-cut-files.svg`](coil-10x10x30-2.25t/bore10-coil-10x10x30-2.25t-01of09-bend-DL-buttin-cut-files.svg) | 325x70mm | 6 |
+| 2 | [`coil-10x10x30-2.25t/bore10-coil-10x10x30-2.25t-02of09-bend-LUUR-cut-files.svg`](coil-10x10x30-2.25t/bore10-coil-10x10x30-2.25t-02of09-bend-LUUR-cut-files.svg) | 456x86mm | 8 |
+| 3 | [`coil-10x10x30-2.25t/bore10-coil-10x10x30-2.25t-03of09-bend-RD-cut-files.svg`](coil-10x10x30-2.25t/bore10-coil-10x10x30-2.25t-03of09-bend-RD-cut-files.svg) | 337x70mm | 6 |
+| 4 | [`coil-10x10x30-2.25t/bore10-coil-10x10x30-2.25t-04of09-bend-DL-cut-files.svg`](coil-10x10x30-2.25t/bore10-coil-10x10x30-2.25t-04of09-bend-DL-cut-files.svg) | 331x73mm | 6 |
+| 5 | [`coil-10x10x30-2.25t/bore10-coil-10x10x30-2.25t-05of09-bend-DLLU-cut-files.svg`](coil-10x10x30-2.25t/bore10-coil-10x10x30-2.25t-05of09-bend-DLLU-cut-files.svg) | 482x73mm | 8 |
+| 6 | [`coil-10x10x30-2.25t/bore10-coil-10x10x30-2.25t-06of09-bend-RD-cut-files.svg`](coil-10x10x30-2.25t/bore10-coil-10x10x30-2.25t-06of09-bend-RD-cut-files.svg) | 337x70mm | 6 |
+| 7 | [`coil-10x10x30-2.25t/bore10-coil-10x10x30-2.25t-07of09-bend-DR-cut-files.svg`](coil-10x10x30-2.25t/bore10-coil-10x10x30-2.25t-07of09-bend-DR-cut-files.svg) | 331x73mm | 6 |
+| 8 | [`coil-10x10x30-2.25t/bore10-coil-10x10x30-2.25t-08of09-bend-RDDL-cut-files.svg`](coil-10x10x30-2.25t/bore10-coil-10x10x30-2.25t-08of09-bend-RDDL-cut-files.svg) | 456x86mm | 8 |
+| 9 | [`coil-10x10x30-2.25t/bore10-coil-10x10x30-2.25t-09of09-bend-LD-buttout-cut-files.svg`](coil-10x10x30-2.25t/bore10-coil-10x10x30-2.25t-09of09-bend-LD-buttout-cut-files.svg) | 337x70mm | 6 |
 
 ### 3 turns — `coil-10x10x30-3t/`
 
@@ -192,18 +198,18 @@ exactly on their minimum, so shortening any middle term costs an elbow at once.
 
 | # | file | sheet |
 |---|---|---|
-| 1 | [`coil-10x10x30-3t/01_bend_DL_buttin.svg`](coil-10x10x30-3t/01_bend_DL_buttin.svg) | 325x70mm |
-| 2 | [`coil-10x10x30-3t/02_bend_LUUR.svg`](coil-10x10x30-3t/02_bend_LUUR.svg) | 456x86mm |
-| 3 | [`coil-10x10x30-3t/03_bend_RD.svg`](coil-10x10x30-3t/03_bend_RD.svg) | 337x70mm |
-| 4 | [`coil-10x10x30-3t/04_bend_DL.svg`](coil-10x10x30-3t/04_bend_DL.svg) | 331x73mm |
-| 5 | [`coil-10x10x30-3t/05_bend_DLLU.svg`](coil-10x10x30-3t/05_bend_DLLU.svg) | 482x73mm |
-| 6 | [`coil-10x10x30-3t/06_bend_RD.svg`](coil-10x10x30-3t/06_bend_RD.svg) | 337x70mm |
-| 7 | [`coil-10x10x30-3t/07_bend_DR.svg`](coil-10x10x30-3t/07_bend_DR.svg) | 331x73mm |
-| 8 | [`coil-10x10x30-3t/08_bend_RDDL.svg`](coil-10x10x30-3t/08_bend_RDDL.svg) | 456x86mm |
-| 9 | [`coil-10x10x30-3t/09_bend_LD.svg`](coil-10x10x30-3t/09_bend_LD.svg) | 337x70mm |
-| 10 | [`coil-10x10x30-3t/10_bend_DR.svg`](coil-10x10x30-3t/10_bend_DR.svg) | 331x73mm |
-| 11 | [`coil-10x10x30-3t/11_bend_URRD.svg`](coil-10x10x30-3t/11_bend_URRD.svg) | 482x73mm |
-| 12 | [`coil-10x10x30-3t/12_bend_LD_buttout.svg`](coil-10x10x30-3t/12_bend_LD_buttout.svg) | 337x70mm |
+| 1 | [`coil-10x10x30-3t/bore10-coil-10x10x30-3t-01of12-bend-DL-buttin-cut-files.svg`](coil-10x10x30-3t/bore10-coil-10x10x30-3t-01of12-bend-DL-buttin-cut-files.svg) | 325x70mm |
+| 2 | [`coil-10x10x30-3t/bore10-coil-10x10x30-3t-02of12-bend-LUUR-cut-files.svg`](coil-10x10x30-3t/bore10-coil-10x10x30-3t-02of12-bend-LUUR-cut-files.svg) | 456x86mm |
+| 3 | [`coil-10x10x30-3t/bore10-coil-10x10x30-3t-03of12-bend-RD-cut-files.svg`](coil-10x10x30-3t/bore10-coil-10x10x30-3t-03of12-bend-RD-cut-files.svg) | 337x70mm |
+| 4 | [`coil-10x10x30-3t/bore10-coil-10x10x30-3t-04of12-bend-DL-cut-files.svg`](coil-10x10x30-3t/bore10-coil-10x10x30-3t-04of12-bend-DL-cut-files.svg) | 331x73mm |
+| 5 | [`coil-10x10x30-3t/bore10-coil-10x10x30-3t-05of12-bend-DLLU-cut-files.svg`](coil-10x10x30-3t/bore10-coil-10x10x30-3t-05of12-bend-DLLU-cut-files.svg) | 482x73mm |
+| 6 | [`coil-10x10x30-3t/bore10-coil-10x10x30-3t-06of12-bend-RD-cut-files.svg`](coil-10x10x30-3t/bore10-coil-10x10x30-3t-06of12-bend-RD-cut-files.svg) | 337x70mm |
+| 7 | [`coil-10x10x30-3t/bore10-coil-10x10x30-3t-07of12-bend-DR-cut-files.svg`](coil-10x10x30-3t/bore10-coil-10x10x30-3t-07of12-bend-DR-cut-files.svg) | 331x73mm |
+| 8 | [`coil-10x10x30-3t/bore10-coil-10x10x30-3t-08of12-bend-RDDL-cut-files.svg`](coil-10x10x30-3t/bore10-coil-10x10x30-3t-08of12-bend-RDDL-cut-files.svg) | 456x86mm |
+| 9 | [`coil-10x10x30-3t/bore10-coil-10x10x30-3t-09of12-bend-LD-cut-files.svg`](coil-10x10x30-3t/bore10-coil-10x10x30-3t-09of12-bend-LD-cut-files.svg) | 337x70mm |
+| 10 | [`coil-10x10x30-3t/bore10-coil-10x10x30-3t-10of12-bend-DR-cut-files.svg`](coil-10x10x30-3t/bore10-coil-10x10x30-3t-10of12-bend-DR-cut-files.svg) | 331x73mm |
+| 11 | [`coil-10x10x30-3t/bore10-coil-10x10x30-3t-11of12-bend-URRD-cut-files.svg`](coil-10x10x30-3t/bore10-coil-10x10x30-3t-11of12-bend-URRD-cut-files.svg) | 482x73mm |
+| 12 | [`coil-10x10x30-3t/bore10-coil-10x10x30-3t-12of12-bend-LD-buttout-cut-files.svg`](coil-10x10x30-3t/bore10-coil-10x10x30-3t-12of12-bend-LD-buttout-cut-files.svg) | 337x70mm |
 
 Sections 3 and 6 are the same shape, and 7 and 10; they are cut separately so
 each carries its own engraved number. [`coil-10x10x30-3t/coil-10x10x30-3t.html`](coil-10x10x30-3t/coil-10x10x30-3t.html) is its
@@ -318,7 +324,8 @@ Its generator installs into Boxes.py as **`SnakeBoxVar`**, beside the frozen
 ```sh
 cd tools
 python3 bore_split.py --bore=10 --straight=30 --refuse-elbows \
-    "$(cat walks/coil-1.5t.txt)" --write ../bore
+    --title="10x10x30 Coil, 1½ Turns" \
+    "$(cat walks/coil-1.5t.txt)" --write ../coil-10x10x30-1.5t
 ```
 
 `--bore` is the airway, square, rather than the block outside. `--straight` is

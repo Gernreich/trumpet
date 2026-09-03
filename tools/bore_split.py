@@ -1063,8 +1063,38 @@ def part_labels(p, code, args=None, neighbours=None):
             f'{cy-p["y0"]+gh*sc/2:.2f})">' + ''.join(gs) + '</g>')
 
 
+def provenance(meta, code, n, sheets, parts, sw, sh):
+    """The <title> and <desc> a section's sheet carries.
+
+    A cut file that has been downloaded, renamed or printed should still be
+    able to say what it is. The name carries the bore and the design; this
+    carries the rest, in the units the drawing is actually in - including the
+    straight length, which is the whole point of this repository and is the
+    one thing a stretched sheet cannot be told from a uniform one without.
+    """
+    if not meta:
+        return ''
+    bore = BLOCK - 2 * THICKNESS
+    of = f' of {int(meta["total"])}'
+    part = '' if len(sheets) == 1 else f', sheet {n} of {len(sheets)}'
+    title = (f'{meta["design"]} bore - section {int(code)}{of}'
+             f'{part}, {meta["kind"]} {meta["raw"][1:]}, '
+             f'{len(parts)} parts on {sw:.0f}x{sh:.0f}mm')
+    desc = (f'1 user unit = 1mm. {bore:g}mm square bore in {THICKNESS:g}mm '
+            f'stock, so a {BLOCK:g}mm block pitch; a block that runs straight '
+            f'is {STRAIGHT:g}mm long and a block that turns is a {BLOCK:g}mm '
+            f'cube. Blocks {meta["span"]} of the walk, entering on '
+            f'{meta["in"]} and leaving on {meta["out"]}, a {meta["plate"]} '
+            f'block plate laid flat. Two face plates (mirror images) and the '
+            f'side walls; every part carries the section number only. Inner '
+            f'cuts are the port and come before their outline. '
+            f'black #000000 cuts, blue #0000ff engraves.')
+    esc = lambda t: t.replace('&', '&amp;').replace('<', '&lt;')
+    return f'<title>{esc(title)}</title>\n<desc>{esc(desc)}</desc>\n'
+
+
 def sheet(parts, code, path, bed=BED, bed_h=None, args=None,
-          neighbours=None):
+          neighbours=None, meta=None):
     """Lay the parts out, turning and re-sheeting as the bed demands.
 
     A part taller than the bed is laid on its side; rows wrap at the bed width;
@@ -1117,25 +1147,74 @@ def sheet(parts, code, path, bed=BED, bed_h=None, args=None,
                  else f'translate({x:.3f},{y:.3f})')
             body.append(f'<g transform="{t}">{local}{lbl}</g>')
         stem, ext = os.path.splitext(path)
-        this = path if len(sheets) == 1 else f'{stem}_{n}{ext}'
+        this = path if len(sheets) == 1 else f'{stem}-sheet{n}{ext}'
         open(this, 'w').write(
             f'<?xml version="1.0" encoding="utf-8"?>\n'
             f'<svg xmlns="http://www.w3.org/2000/svg" width="{sw:.2f}mm" '
             f'height="{sh:.2f}mm" viewBox="0 0 {sw:.2f} {sh:.2f}">\n'
-            f'<!-- Section {code}. Two face plates (mirror images) and the\n'
-            f'     side walls; every part carries the section number only.\n'
-            f'     Inner cuts are the port and come before their outline.\n'
-            f'     black #000000 cuts, blue #0000ff engraves. -->\n'
+            + provenance(meta, code, n, sheets,
+                         [p for p, *_ in placed], sw, sh)
             + '\n'.join(body) + '\n</svg>\n')
         out.append((this, sw, sh))
     return out
 
 
+# Only a folder that says nothing but "bore" or a size is dull. 'bore-10mm'
+# is; 'bore-stretched' is not, and climbing past it once titled a page
+# "Git Bore Stretched Bore" off the parent directory.
+DULL = re.compile(r'bores?([-_][\d.]+mm)?|[\d.]+mm')
+
+
+def folder_stack(outdir):
+    """(folder name, the folder names that say what the design is).
+
+    A design folder inside a build repository is often just 'bore', which names
+    the page fine and titles it uselessly - a browser tab reading "Bore" says
+    nothing. Borrow the parent in that case: trumpet-coiled/bore reads as
+    "Trumpet Coiled Bore". 'bore-10mm' is as parentless as 'bore' is, and so is
+    the '10mm' that a candidate/10mm/bore layout puts between them: what those
+    name is the size, and the instrument is still further up. So climb until a
+    folder names something, rather than borrowing exactly one level.
+    """
+    full = os.path.normpath(os.path.abspath(outdir))
+    name = os.path.basename(full)
+    stack, at, cur = [name], full, name
+    while DULL.fullmatch(cur.lower()):
+        at = os.path.dirname(at)
+        cur = os.path.basename(at)
+        if not cur:
+            break
+        stack.insert(0, cur)
+    return name, stack
+
+
+def design_slug(stack):
+    """The design's part of a cut file's name.
+
+    The size terms come out, because the bore is stated separately and a name
+    that says it twice - bore10-trumpet-switchback-10mm - reads as a mistake.
+    """
+    keep = [w for w in stack if not DULL.fullmatch(w.lower())]
+    return '-'.join(keep).lower().replace('_', '-')
+
+
+def bore_tag():
+    """bore25 / bore10 - the sound square, not the block pitch.
+
+    Derived rather than typed, so it cannot disagree with the geometry the
+    same run is cutting. On a stretched lattice the straight length varies and
+    the bore does not, which is why the bore is the half that names the file.
+    """
+    return f'bore{BLOCK - 2 * THICKNESS:g}'
+
+
 def filename(code):
-    """A file name that survives the path letters.
+    """The shape half of a file name, surviving the path letters.
 
     The suffixes are kept off the alphabet a path uses (U D L R), so a piece
     whose path contains an L cannot have its name shredded by the lap marker.
+    Hyphens, not underscores, because the bell and mouthpiece sheets in
+    trumpet-parts are hyphenated and one project reads better in one style.
     """
     base = code
     bits = []
@@ -1148,12 +1227,30 @@ def filename(code):
         if tag in base:
             base = base.replace(tag, '')
             bits.append(name)
-    tail = ('_' + '_'.join(bits)) if bits else ''
+    tail = ('-' + '-'.join(bits)) if bits else ''
     if base.startswith('E'):
-        return f'elbow_{base[1:]}{tail}.svg'
+        return f'elbow-{base[1:]}{tail}'
     if base.startswith('S'):
-        return f'straight{base[1:]}{tail}.svg'
-    return f'bend_{base[1:]}{tail}.svg'
+        return f'straight{base[1:]}{tail}'
+    return f'bend-{base[1:]}{tail}'
+
+
+def cutname(code, total, raw, stack):
+    """The whole name of one section's sheet.
+
+    bore10-coil-10x10x30-1.5t-01of06-bend-DL-buttin-cut-files.svg
+
+    Every part of that earns its place. The bore, because the same walk at two
+    bores makes two different sets of parts under one name - which is what
+    these files did until 2026-09-03, in two repositories, and the only tell
+    was the sheet size. The design, because a Downloads folder holds files from
+    more than one, and because a stretched coil and a uniform one share both
+    the bore and the walk. NNofTT, because a set with a sheet missing should
+    say so.
+    """
+    lead = '-'.join(x for x in (bore_tag(), design_slug(stack)) if x)
+    return (f'{lead}-{int(code):02d}of{int(total):02d}-'
+            f'{filename(raw)}-cut-files.svg')
 
 
 def specs_for(text):
@@ -1264,6 +1361,7 @@ def main(text, outdir=None):
     print('assembly order   (a piece is one flat snake = one SVG)')
     print('  #    blocks   kind       in   out   plate            shape')
     toobig = []
+    facts = {}
     for (g, code, args, note, raw), k in zip(specs, [p['plan'][0] for p in plan]):
         r0, r1 = rec[g[0]], rec[g[-1]]
         span = f'{g[0]+1}-{g[-1]+1}'
@@ -1274,6 +1372,8 @@ def main(text, outdir=None):
             toobig.append((code, bl, mm))
         print(f'  {code:<4} {span:<8} {note:<10} {r0["in"]}    {r1["out"]}    '
               f'{size:<16} {raw}' + ('  !! over the bed' if not ok else ''))
+        facts[code] = {'span': span, 'in': r0['in'], 'out': r1['out'],
+                       'kind': note, 'plate': f'{bl[0]}x{bl[1]}'}
 
     if REFUSE_ELBOWS:
         bad = [code for _, code, _, note, _ in specs if note == 'elbow']
@@ -1288,9 +1388,12 @@ def main(text, outdir=None):
     print('\ncut list   (every part engraved with its section number)')
     total = 0
     shapes = {}
+    # the name a sheet is written under says which bore and which design it
+    # belongs to, so it has to be settled before the first file is written
+    fname, stack = folder_stack(outdir if outdir else '.')
     for g, code, args, note, raw in specs:
-        fn = f'{int(code):02d}_' + filename(raw)
-        line = f'  {code:>3}  {fn:<44}'
+        fn = cutname(code, len(specs), raw, stack)
+        line = f'  {code:>3}  {fn:<64}'
         if outdir:
             os.makedirs(outdir, exist_ok=True)
             parts = cut(args, code)
@@ -1301,7 +1404,9 @@ def main(text, outdir=None):
             if n < len(specs):
                 nb['out'] = f'{n}{n+1}'
             sheets = sheet(parts, code, os.path.join(outdir, fn),
-                           args=args, neighbours=nb)
+                           args=args, neighbours=nb,
+                           meta=dict(facts[code], total=len(specs), raw=raw,
+                                     design=design_slug(stack) or fname))
             total += len(parts)
             sizes = ' + '.join(f'{w:.0f}x{h:.0f}' for _, w, h in sheets)
             line += f'{len(parts)} parts   {sizes}mm'
@@ -1316,27 +1421,9 @@ def main(text, outdir=None):
         # a design folder gets the page that goes with it, named for the
         # folder, so cut files and the thing you turn around never drift apart
         import viewer
-        full = os.path.normpath(os.path.abspath(outdir))
-        name = os.path.basename(full)
-        # A design folder inside a build repository is often just 'bore', which
-        # names the page fine and titles it uselessly - a browser tab reading
-        # "Bore" says nothing. Borrow the parent for the title in that case:
-        # trumpet-coiled/bore reads as "Trumpet Coiled Bore".
-        # 'bore-10mm' is as parentless as 'bore' is, and so is the '10mm' that
-        # a candidate/10mm/bore layout puts between them: what those name is
-        # the size, and the instrument is still further up. So climb until a
-        # folder names something, rather than borrowing exactly one level.
-        # Only a folder that says nothing but "bore" or a size is dull.
-        # 'bore-10mm' is; 'bore-stretched' is not, and climbing past it once
-        # titled a page "Git Bore Stretched Bore" off the parent directory.
-        DULL = re.compile(r'bores?([-_][\d.]+mm)?|[\d.]+mm')
-        stack, at, cur = [name], full, name
-        while DULL.fullmatch(cur.lower()):
-            at = os.path.dirname(at)
-            cur = os.path.basename(at)
-            if not cur:
-                break
-            stack.insert(0, cur)
+        name = fname
+        # the same stack the file names were built from, so a page and the
+        # sheets beside it cannot end up naming two different designs
         words = ' '.join(stack)
         # folder names are hyphenated across these repositories
         # (trumpet-coiled, torus-octagonal), so a hyphen is a word break

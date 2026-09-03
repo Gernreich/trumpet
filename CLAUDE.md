@@ -81,11 +81,18 @@ Two things follow:
   disturb the shared checkout. The test is that the frozen toolchain still reproduces a
   shipped file byte for byte:
 
+The output folder has to be named the way the real one is, because since 2026-09-03 the
+design's name is in the file's name and in its `<title>` — write to `/tmp/f` and you get
+`bore10-f-...`, which will not compare against anything.
+
 ```sh
 cd ../bore-generator
 W="$(cat walks/trumpet_switchback.txt)"
-~/boxes/venv/bin/python bore_split.py --blocksize=16 --refuse-elbows "$W" --write /tmp/f
-cmp /tmp/f/02_bend_LUUR.svg ../trumpet-switchback/10mm/bore/02_bend_LUUR.svg
+rm -rf /tmp/f && mkdir -p /tmp/f/trumpet-switchback/10mm
+~/boxes/venv/bin/python bore_split.py --blocksize=16 --refuse-elbows "$W" \
+    --write /tmp/f/trumpet-switchback/10mm/bore
+cmp /tmp/f/trumpet-switchback/10mm/bore/bore10-trumpet-switchback-02of06-bend-LUUR-cut-files.svg \
+    ../trumpet-switchback/10mm/bore/bore10-trumpet-switchback-02of06-bend-LUUR-cut-files.svg
 ```
 
 ## A turn is a cube because it has to be
@@ -153,13 +160,26 @@ compare — do not read the tally.
 
 ## Commands
 
+One command per coil, and **`--title` is part of the command, not a flourish**: leave it out
+and the page is retitled "Coil 10x10x30 1.5t Bore" off the folder name. Regenerating without
+it is a silent change to a shipped page.
+
 ```sh
 cd tools
-W="$(cat walks/stretched_test.txt)"
-python3 bore_split.py --bore=10 --straight=30 --refuse-elbows "$W" --write ../bore
-~/boxes/venv/bin/python check.py "$W" --bore=10 --straight=30 --files ../bore
-C="$(cat walks/coil.txt)"
-python3 bore_split.py --bore=10 --straight=30 --refuse-elbows "$C" --write ../coil
+for t in 0.75:"¾ Turn" 1.5:"1½ Turns" 2.25:"2¼ Turns" 3:"3 Turns"; do
+  n=${t%%:*}; lab=${t#*:}
+  W="$(cat walks/coil-${n}t.txt)"
+  ~/boxes/venv/bin/python bore_split.py --bore=10 --straight=30 --refuse-elbows \
+      --title="10x10x30 Coil, $lab" "$W" --write ../coil-10x10x30-${n}t
+done
+python3 coils.py                    # ../coils.html, all four in one viewer
+```
+
+`--write` runs the gate itself. To run it alone against a folder:
+
+```sh
+~/boxes/venv/bin/python check.py "$(cat walks/coil-1.5t.txt)" \
+    --bore=10 --straight=30 --files ../coil-10x10x30-1.5t
 ```
 
 **Tune the fit with `PIN_PLAY`. Do not move the tab.** Two standing decisions, both the
