@@ -91,13 +91,13 @@ pre,.tw{break-inside:avoid}h1{break-after:avoid}}
 <h1 id="bore-ribbon">bore-ribbon</h1>
 <p>A bore of <strong>constant cross-section</strong> swept along a <strong>planar curve</strong> — cut flat, assembled with finger joints, no bending and no lamination.</p>
 <pre><code>python3 ribbon_bore.py</code></pre>
+<p><strong><a href="https://github.com/Gernreich/bore-ribbon/archive/refs/heads/main.zip">Download everything as a ZIP</a></strong> — GitHub builds it from <code>main</code> on every push, so it is never out of date.</p>
+<p>Built for <strong><a href="https://www.youtube.com/@LaserMadeMusic">LaserMadeMusic</a></strong>, where the cutting and the playing are shown.</p>
+<p><strong><a href="https://gernreich.github.io/">The rest of the build files</a></strong> — every instrument, generator and tool, indexed.</p>
 <h2 id="how-this-differs-from-the-other-two">How this differs from the other two</h2>
 <div class='tw'><table><thead><tr><th></th><th>curve</th><th>section</th><th>joints</th></tr></thead><tbody><tr><td><a href="https://github.com/Gernreich/bore-generator"><code>bore-generator</code></a></td><td>90° lattice turns</td><td>+41.4% at each turn</td><td>finger joints</td></tr><tr><td><a href="https://github.com/Gernreich/torus-octagonal"><code>torus-octagonal</code></a></td><td>a circle, 45° facets</td><td>+8.2% at each facet</td><td>finger joints</td></tr><tr><td><strong><code>bore-ribbon</code></strong></td><td><strong>any planar curve</strong></td><td><strong>+3.5% at 30°, and the dial goes lower</strong></td><td><strong>finger joints</strong></td></tr></tbody></table></div>
 <h2 id="why-a-planar-curve">Why a planar curve</h2>
 <p>Sweep a rectangle along a curve that lies in a plane, with one axis normal to that plane, and the duct has <strong>two flat faces and two cylindrical ones</strong>. The flat pair are the cheeks and come straight off the sheet. The curved pair are the whole problem: 3mm birch will not bend to these radii, so they are faceted — short flat panels, each finger-jointed into both cheeks.</p>
-<p><strong><a href="https://github.com/Gernreich/bore-ribbon/archive/refs/heads/main.zip">Download everything as a ZIP</a></strong> — GitHub builds it from <code>main</code> on every push, so it is never out of date.</p>
-<p>Built for <strong><a href="https://www.youtube.com/@LaserMadeMusic">LaserMadeMusic</a></strong>, where the cutting and the playing are shown.</p>
-<p><strong><a href="https://gernreich.github.io/">The rest of the build files</a></strong> — every instrument, generator and tool, indexed.</p>
 <p>The section is exactly <code>bore × bore</code> along every facet. At each facet joint the walls mitre and the area there is <code>bore² / cos(φ/2)</code>:</p>
 <div class='tw'><table><thead><tr><th>facet angle</th><th>area at the joint</th><th></th></tr></thead><tbody><tr><td>90°</td><td>+41.4%</td><td>a turn in the Minecraft lattice</td></tr><tr><td>45°</td><td>+8.2%</td><td>the octagonal torus</td></tr><tr><td><strong>30°</strong></td><td><strong>+3.5%</strong></td><td><strong>this coupon</strong></td></tr><tr><td>15°</td><td>+0.9%</td><td></td></tr></tbody></table></div>
 <p>That is the whole design dial. It trades against part count, and against how short the inner panels get.</p>

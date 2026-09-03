@@ -5,6 +5,19 @@ assembled with finger joints, no bending and no lamination.
 
     python3 ribbon_bore.py
 
+<!-- readme-only -->
+**[Read the writeup](https://gernreich.github.io/bore-ribbon/)** — the same
+text as this page, set for reading, with a table of contents.
+
+**[Download everything as a ZIP](https://github.com/Gernreich/bore-ribbon/archive/refs/heads/main.zip)**
+— GitHub builds it from `main` on every push, so it is never out of date.
+
+Built for **[LaserMadeMusic](https://www.youtube.com/@LaserMadeMusic)**, where
+the cutting and the playing are shown.
+
+**[The rest of the build files](https://gernreich.github.io/)** — every
+instrument, generator and tool, indexed.
+
 ## How this differs from the other two
 
 | | curve | section | joints |
@@ -20,19 +33,6 @@ that plane, and the duct has **two flat faces and two cylindrical ones**. The
 flat pair are the cheeks and come straight off the sheet. The curved pair are
 the whole problem: 3mm birch will not bend to these radii, so they are
 faceted — short flat panels, each finger-jointed into both cheeks.
-
-<!-- readme-only -->
-**[Read the writeup](https://gernreich.github.io/bore-ribbon/)** — the same
-text as this page, set for reading, with a table of contents.
-
-**[Download everything as a ZIP](https://github.com/Gernreich/bore-ribbon/archive/refs/heads/main.zip)**
-— GitHub builds it from `main` on every push, so it is never out of date.
-
-Built for **[LaserMadeMusic](https://www.youtube.com/@LaserMadeMusic)**, where
-the cutting and the playing are shown.
-
-**[The rest of the build files](https://gernreich.github.io/)** — every
-instrument, generator and tool, indexed.
 
 The section is exactly `bore × bore` along every facet. At each facet joint the
 walls mitre and the area there is `bore² / cos(φ/2)`:
