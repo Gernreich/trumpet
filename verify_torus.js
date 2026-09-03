@@ -118,8 +118,23 @@ function apo(dx, dy) {
 // Red and green were listed here until the trumpet lines were recoloured. They are
 // gone deliberately: red means CUT in every repository alongside this one, and a
 // verifier that quietly ignores it would pass a file whose parts never get cut.
-var IGNORE = { '#8000ff': 'violet — skip, not cut in this build' };
+var IGNORE = { '#8000ff': 'violet — skip, not cut in this build',
+               '#0000ff': 'blue — engraving, marked before anything is cut' };
 var palette = {};   // every stroke colour seen -> { n, ignored }
+
+// Blue is here for a different reason from violet, and the distinction is the
+// point of the warning above. Violet is geometry this build declines to cut.
+// Blue never cuts anywhere in these repositories -- it is the engrave stage,
+// and it carries the piece numbers written by number_pieces.js. Counted as cut
+// geometry it turns 20 contours into 34, puts 49 marks in the inventory and
+// makes the tool tell you to give blue a cutting operation, which would burn
+// the numbers straight through the ply.
+//
+// The earlier version this comment warns about skipped blue when nothing in
+// the file was blue and parts were: that was a recolour losing parts, not this.
+// The guard against repeating it is SKIP_IS_MARKING below -- blue is only
+// ignorable while every blue contour is small enough to be a mark.
+var ENGRAVE = '#0000ff', MARK_MAX = 20;   // mm; a glyph, not a part
 
 // An explicit #000000 and no stroke at all are the same operation on the machine,
 // so they must collapse to one key or the cut order sees an unknown colour.
@@ -352,6 +367,15 @@ function apoRange(p, cx, cy) {
 // which threw the eccentricity to 13.842mm and emptied the joint-phase pattern, so the
 // tool announced "NOT COMPLEMENTARY -- will not assemble" about a hole that was exactly
 // concentric. A segmented hole still passes: every segment lies on the same apothem.
+function pointIn(pts, x, y) {
+  var n = pts.length, c = false;
+  for (var i = 0, j = n - 1; i < n; j = i++) {
+    var a = pts[i], b = pts[j];
+    if ((a[1] > y) !== (b[1] > y) &&
+        x < (b[0] - a[0]) * (y - a[1]) / (b[1] - a[1]) + a[0]) c = !c;
+  }
+  return c;
+}
 function isHolePartOf(plate, p) {
   if (p === plate || isPanel(p)) return false;
   var r = apoRange(p, plate.cx, plate.cy);
@@ -744,6 +768,60 @@ if (plates.length) {
                                ' patches cut before their hole ✓   holes before rims ✓'));
 }
 
+// ─── the engraving ────────────────────────────────────────────────────────────
+// Blue is ignored as cut geometry, so like the skip lines it has to be re-read to be
+// described. This is also the guard the IGNORE comment promises: blue is only safely
+// ignorable while every blue contour is small enough to be a mark. A part recoloured
+// blue would be silently dropped otherwise -- which is the exact failure that comment
+// records from an earlier version.
+(function () {
+  var src = fs.readFileSync(file, 'utf8'), stack = [[1,0,0,1,0,0]], ink = [];
+  var re = /<(\/?)(g|path|rect|circle|ellipse|line|polyline|polygon)\b([^>]*?)(\/?)>/g, m;
+  while ((m = re.exec(src))) {
+    var close = m[1], tag = m[2], attrs = m[3], self = m[4];
+    if (tag === 'g') {
+      if (close) { stack.pop(); continue; }
+      var tm = /transform="([^"]+)"/.exec(attrs);
+      stack.push(tm ? mul(stack[stack.length-1], parseT(tm[1])) : stack[stack.length-1]);
+      if (self) stack.pop();
+      continue;
+    }
+    if (close) continue;
+    if (strokeOf(attrs) !== ENGRAVE) continue;
+    var dm = /(?:^|\s)d="([^"]+)"/.exec(attrs);
+    var base;
+    if (tag === 'path') { if (!dm) continue; base = pts_(dm[1]); }
+    else { if (!hasStroke(attrs)) continue; base = shapePts(tag, attrs); }
+    if (!base.length) continue;
+    var pm = /transform="([^"]+)"/.exec(attrs);
+    var M = pm ? mul(stack[stack.length-1], parseT(pm[1])) : stack[stack.length-1];
+    ink.push(base.map(function (t) { return apply(M, t); }));
+  }
+  if (!ink.length) return;
+
+  console.log('\n  ENGRAVING  (blue — marked, never cut)');
+  var big = 0, on = 0;
+  ink.forEach(function (q) {
+    var xs = q.map(function (t) { return t[0]; }), ys = q.map(function (t) { return t[1]; });
+    var w = Math.max.apply(null, xs) - Math.min.apply(null, xs);
+    var h = Math.max.apply(null, ys) - Math.min.apply(null, ys);
+    if (Math.max(w, h) > MARK_MAX) big++;
+    var cx = (Math.max.apply(null, xs) + Math.min.apply(null, xs)) / 2;
+    var cy = (Math.max.apply(null, ys) + Math.min.apply(null, ys)) / 2;
+    if (P.some(function (pc) { return pointIn(pc.pts, cx, cy); })) on++;
+  });
+  console.log('    ' + ink.length + ' strokes, ' + on + ' of them inside a cut piece');
+  if (big) {
+    console.log('    !! ' + big + ' blue contour(s) larger than ' + MARK_MAX +
+                'mm — too big to be a mark.');
+    console.log('       Blue is ignored as cut geometry. If a PART has been recoloured');
+    console.log('       blue it is being dropped from every check above. Fix the colour.');
+  } else {
+    console.log('    every blue contour fits in ' + MARK_MAX +
+                'mm \u2014 marks, not parts \u2713');
+  }
+})();
+
 // ─── the skip lines ───────────────────────────────────────────────────────────
 // collect() drops ignored colours before they ever become contours, which is right for
 // counting cut geometry and useless for describing what is skipped. So re-read the file
@@ -765,7 +843,9 @@ if (plates.length) {
       continue;
     }
     if (close) continue;
-    if (!Object.prototype.hasOwnProperty.call(IGNORE, strokeOf(attrs))) continue;
+    // violet only. IGNORE also holds blue since the piece numbers arrived, and
+    // reading blue here would report 49 glyph strokes as skip lines.
+    if (strokeOf(attrs) !== '#8000ff') continue;
     var dm = /(?:^|\s)d="([^"]+)"/.exec(attrs);
     var base;
     if (tag === 'path') { if (!dm) continue; base = pts_(dm[1]); }

@@ -50,6 +50,43 @@ almost invisibly against a transparency checkerboard. Green, orange and cyan are
 Dry-fit one plate against one inner panel in cardboard before committing a sheet. The plate's tabs
 around the hole should drop into the panel's notches.
 
+### Every piece carries its number
+
+Added 2026-09-03. The panels differ by very little and it matters: the outer ones are 73.326 and
+71.568mm wide, the inner ones 50.130 and 48.372mm. Off the bed they are a pile of near-identical
+rectangles, and a narrow panel in a wide panel's place does not close the ring.
+
+So each piece is engraved with a number in **blue `#0000ff`, which engraves and never cuts** —
+give it a marking operation, or leave it unmapped and lose nothing but the numbers. Hex, one glyph,
+counting 1 to 12 the way the bell rings and the bore sections do. **The tick below and right of the
+glyph is the baseline**: 6 and 9 are one shape turned over, and the tick says which way up you are
+holding it.
+
+| # | piece | size | cut stage |
+|---|---|---|---|
+| `1` | outer panel, narrow | 71.568 × 31.200mm | cyan — on the open sheet |
+| `2` | plate | 172.499 × 172.498mm | black — frees the plate |
+| `3` | inner panel, narrow | 48.372 × 31.200mm | cyan — on the open sheet |
+| `4` | outer panel, wide | 73.326 × 31.200mm | cyan — on the open sheet |
+| `5` | plate | 172.499 × 172.498mm | black — frees the plate |
+| `6` | inner panel, wide | 50.130 × 31.200mm | green — nested, cut first |
+| `7` | inner panel, wide | 50.130 × 31.200mm | green — nested, cut first |
+| `8` | outer panel, narrow | 71.568 × 31.200mm | cyan — on the open sheet |
+| `9` | outer panel, wide | 73.326 × 31.200mm | green — nested, cut first |
+| `A` | inner panel, narrow | 48.372 × 31.200mm | green — nested, cut first |
+| `B` | outer panel, narrow | 71.568 × 31.200mm | cyan — on the open sheet |
+| `C` | outer panel, narrow | 71.568 × 31.200mm | cyan — on the open sheet |
+| `D` | outer panel, wide | 73.326 × 31.200mm | green — nested, cut first |
+| `E` | inner panel, narrow | 48.372 × 31.200mm | green — nested, cut first |
+| `F` | inner panel, wide | 50.130 × 31.200mm | green — nested, cut first |
+| `10` | inner panel, wide | 50.130 × 31.200mm | green — nested, cut first |
+| `11` | inner panel, narrow | 48.372 × 31.200mm | cyan — on the open sheet |
+| `12` | outer panel, wide | 73.326 × 31.200mm | cyan — on the open sheet |
+
+Numbers run across the sheet, left to right and top to bottom, banded — the order the parts come
+off the bed. `node number_pieces.js --table` prints this table from the file, and
+`node number_pieces.js --clear` takes the engraving out again.
+
 **Cut everything except the violet.** Those 64 paths are the optional cuts — sixteen on each plate
 and ring, each running straight from the hole edge to the rim. Take them and the torus comes apart
 into sections, which is how you reach the simple trumpet, and the segments they define are the
@@ -62,8 +99,8 @@ holes have to be cut before the rims that free the plates. Give all four a cutti
 `verify_torus.js` checks the sequence and will tell you if it is wrong.
 
 **Violet `#8000ff` is skip** — the 24 optional cuts described above, twelve on each of the two
-plates. Leave it unmapped or delete it. Blue does not appear at all: blue means
-engrave across these repositories and never cuts.
+plates. Leave it unmapped or delete it. **Blue `#0000ff` is the piece numbers**: blue means engrave
+across these repositories and never cuts, so give it a marking operation or leave it unmapped.
 
 The sequence is shared by every LaserMadeMusic repository — blue engraves, then
 green → orange → cyan → black, with black always the cut that frees the part and violet always

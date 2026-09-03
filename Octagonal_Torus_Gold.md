@@ -255,8 +255,11 @@ lines are the optional cuts across the plate walls, twelve per plate, which this
 does not make. Marking them explicitly is the point, so "not cut" is a decision recorded in the
 drawing rather than a colour someone forgot to map.
 
-**Blue does not appear here, and that is deliberate.** Blue means *engrave* across these
-repositories and never cuts, and this file has nothing to engrave.
+**Blue is the piece numbers, and it engraves.** Blue means *engrave* across these repositories and
+never cuts. From 2026-09-03 every one of the eighteen pieces carries a hex number in blue, written
+by `number_pieces.js`, because the outer panels differ by 1.758mm and the inner ones by the same,
+and off the bed they are a pile of near-identical rectangles. Give blue a marking operation, or
+leave it unmapped and lose nothing but the numbers.
 
 The sequence is shared by every LaserMadeMusic repository: blue engraves, then
 green → orange → cyan → black, black always the cut that frees the part, violet always
@@ -822,6 +825,12 @@ Five pitfalls cost real time and are worth recording:
    must name what it dropped: the palette is now printed with every colour marked counted or
    ignored, so the same recolour is visible rather than silent. Same lesson as pitfall 4, from the
    other direction — the tool, not the file.
+
+   Blue went back on the ignore list in 2026-09-03 when the piece numbers arrived, which is the
+   same move that caused the bug — so it does not stand alone. `verify_torus.js` now measures every
+   blue contour and refuses to be quiet about one bigger than 20mm: a glyph is a mark, a panel is
+   not, and a part recoloured blue is reported instead of vanishing. An ignore list is safe only
+   while something checks that what it drops is what it meant to drop.
 
 Plus: `id="..."` contains the substring `d="..."`, so a naive regex will match it and parse
 nonsense.
