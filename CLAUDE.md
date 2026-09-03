@@ -126,12 +126,24 @@ the 10mm bore.
 Measured back out of the written file rather than asserted: a 6.100mm drawn tab
 and a 5.950mm drawn slot give a 6.000mm tab in a 6.050mm slot, 0.025mm a side.
 
-## Both cheeks are identical and both go on the same way up
+## Both cheeks are the same part, and both go on the same way up
 
-Flipping one over mirrors its slot pattern, and a U is not symmetric about the
-line you would flip it on, so a flipped cheek meets no tab at all. Two identical
-parts, same orientation. The consequence is that one cheek carries its numbers
-on the inside; that is the cheaper of the two mistakes.
+Outline, slots and engraving are identical - checked against the written files,
+not assumed.
+
+**Whether a flipped cheek would fit depends on the shape**, so `flippable()`
+reports it and does not guess. The coupon's U *is* congruent to its own mirror:
+turn it over, rotate 180 degrees, and every tab lands. The serpentine is not, at
+any angle. The instruction is the same either way, because a flipped cheek
+carries its numbers mirrored and facing into the bore - so one cheek always has
+its numbers on the inside, which is the cheaper of the two mistakes.
+
+That was documented backwards until 2026-09-03, on the strength of a test that
+zipped two sorted point lists. **Sorting is unstable under a small
+perturbation**: two nearly equal points swap order and every pair after them is
+compared with the wrong partner. A 0.025mm difference read as 20.7mm of error
+and answered the question the wrong way round. `flippable()` matches nearest
+points as a bijection instead.
 
 ## The cheek stops 2mm outboard of its slots
 

@@ -185,9 +185,18 @@ in the channel** — which is the floor of the bore. That is 0.1mm of roughness
 in a 10mm airway, and the alternative is sixteen near-identical panels with
 nothing on the cheek to say which slot each goes in.
 
-**Both cheeks are identical and both go on the same way up.** Flipping one over
-mirrors its slot pattern, and this U is not symmetric about the line you would
-flip it on, so a flipped cheek does not meet a single tab.
+**The two cheeks are the same part — outline, slots and engraving all
+identical — and both go on the same way up.**
+
+Whether a flipped cheek would *fit* depends on the shape, and the generator
+reports it rather than assuming: the coupon's U is congruent to its own mirror,
+so one cheek could be turned over and rotated 180° and every tab would still
+land. **Do it anyway and its numbers read mirrored, facing into the bore.** The
+serpentine is not congruent to its mirror at any angle, so there a flipped
+cheek meets no tab at all.
+
+Same way up, both of them, either way. The consequence is that one cheek
+carries its numbers on the inside; that is the cheaper of the two mistakes.
 
 Panels are numbered in hex with the baseline tick, the same glyphs the bore
 sections, the bell rings and the torus pieces use — `6` and `9` are one shape

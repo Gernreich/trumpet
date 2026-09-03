@@ -71,7 +71,19 @@ BURN = 0.1           # kerf; the laser takes this out, centred on the line
 # worse joint and too tight is no joint at all.
 PLAY_BY_BORE = {25.0: 0.0, 10.0: 0.025}
 PLAY_UNMEASURED = 0.025
-PLAY = PLAY_BY_BORE.get(25.0, PLAY_UNMEASURED)   # set for BORE in main()
+
+
+def play():
+    """Per side, for the current bore.
+
+    A function for the same reason wall_off() is one: it was a global that
+    only main() assigned, so anything importing this module and calling
+    build() got whichever bore's figure happened to be baked in at import -
+    0 - and drew slots 0.025mm off. Nothing shipped wrong, because main()
+    did set it, but every check written against the library disagreed with
+    the file by exactly the play.
+    """
+    return PLAY_BY_BORE.get(round(BORE, 3), PLAY_UNMEASURED)
 TOOTH = 2 * THICK    # Boxes.py FingerJointSettings; does not scale
 SHOULDER = 2.0       # least material either side of a tooth
 
@@ -306,7 +318,7 @@ def slot(mid, ang):
     figure for the 10mm bore, taken out of the notch and never off the tab.
     """
     e = BURN / 2
-    hw = (TOOTH + 2 * PLAY) / 2 - e
+    hw = (TOOTH + 2 * play()) / 2 - e
     hh = THICK / 2 - e
     box = [(-hw, -hh), (hw, -hh), (hw, hh), (-hw, hh)]
     return [(mid[0] + p[0] * math.cos(ang) - p[1] * math.sin(ang),
@@ -544,7 +556,7 @@ def sheet(parts, cheekpoly, cline, path_out, write=True):
             f'section swept along a planar curve. Two identical cheeks (0, both '
             f'the same way up) and {len(parts)} wall panels numbered along the '
             f'flow. The section is exact along every facet and {over:.1f}% over '
-            f'at each mitre. {THICK:g}mm ply, {BURN:g}mm kerf, {PLAY:g}mm play '
+            f'at each mitre. {THICK:g}mm ply, {BURN:g}mm kerf, {play():g}mm play '
             f'per side taken out of the slot and never off the tab. blue '
             f'#0000ff engraves, orange #ff8000 cuts the slots first, black '
             f'#000000 frees the parts.</desc>\n'
@@ -554,6 +566,53 @@ def sheet(parts, cheekpoly, cline, path_out, write=True):
             open(this, 'w').write(body)
         written.append((os.path.basename(this), W, H, len(placed)))
     return written, ink, cut_slots
+
+
+def flippable(cheekpoly, parts):
+    """Can a cheek be turned over and still meet every tab?
+
+    Only if the cheek - outline and slots together - is congruent to its own
+    mirror image. Reflection alone is not the test: the part may also be
+    turned in its own plane, so a reflected copy is tried at every angle.
+
+    Matched as a BIJECTION between nearest points, not by zipping two sorted
+    lists. Sorting is unstable under a perturbation of a few hundredths: two
+    nearly equal points swap order and every pair after them is compared with
+    the wrong partner, which turned a 0.025mm difference into 20.7mm of
+    apparent error and answered this question backwards.
+
+    Neither answer is a fault, which is why this is reported and not checked.
+    The build instruction is the same either way - both cheeks the same way
+    up - because a flipped cheek carries its numbers mirrored and facing into
+    the bore.
+    """
+    pts = list(cheekpoly) + [q for p in parts for sl in slots_for(p) for q in sl]
+
+    def shift(ps):
+        x0 = min(q[0] for q in ps)
+        y0 = min(q[1] for q in ps)
+        return [(q[0] - x0, q[1] - y0) for q in ps]
+
+    base = shift(pts)
+    for k in range(720):
+        a = math.radians(k * 0.5)
+        c, sn = math.cos(a), math.sin(a)
+        t = shift([(x * c + y * sn, x * sn - y * c) for x, y in pts])
+        if len(t) != len(base):
+            continue
+        left, worst = list(range(len(t))), 0.0
+        for u in base:
+            j = min(left, key=lambda i: (t[i][0] - u[0]) ** 2
+                                      + (t[i][1] - u[1]) ** 2)
+            d = math.hypot(t[j][0] - u[0], t[j][1] - u[1])
+            if d > worst:
+                worst = d
+            if worst > 0.02:
+                break
+            left.remove(j)
+        if worst <= 0.02 and not left:
+            return k * 0.5
+    return None
 
 
 def inside(poly, x, y):
@@ -654,8 +713,6 @@ def checks(c, inn, out, parts, cheekpoly, written, ink, cut_slots):
 
 
 def main(write=True):
-    global PLAY
-    PLAY = PLAY_BY_BORE.get(round(BORE, 3), PLAY_UNMEASURED)
     c, inn, out, parts, report = build()
     over = 100 * (1 / math.cos(math.radians(FACET) / 2) - 1)
     R = LOBE_R if SHAPE == 'serpentine' else RADIUS
@@ -669,7 +726,7 @@ def main(write=True):
     known = round(BORE, 3) in PLAY_BY_BORE
     print(f'  bend R/bore = {R / BORE:.1f}; the inner wall runs at '
           f'R{R - BORE / 2:g}')
-    print(f'  play {PLAY:g}mm per side'
+    print(f'  play {play():g}mm per side'
           + ('' if known else f'  (the {BORE:g}mm bore is not in PLAY_BY_BORE; '
                               f'this is the small-joint default. Measure it '
                               f'and add a row.)') + '\n')
@@ -691,6 +748,12 @@ def main(write=True):
     out_path = OUT or os.path.join(
         os.path.dirname(os.path.abspath(__file__)), stem)
     written, ink, cut_slots = sheet(parts, cheekpoly, c, out_path, write)
+    turn = flippable(cheekpoly, parts)
+    print(f'\n  the two cheeks are identical, and go on the same way up.')
+    print('  ' + (f'  (geometrically one could be flipped and turned '
+                  f'{turn:g} deg, but its numbers would then read mirrored '
+                  f'and face into the bore)' if turn is not None
+                  else '  (a flipped cheek meets no tab at any angle)'))
     print(f'\n  {len(parts)} wall panels + 2 cheeks = {len(parts) + 2} parts, '
           f'{len(written)} sheet{"s" if len(written) > 1 else ""}')
     for name, w, h, k in written:
