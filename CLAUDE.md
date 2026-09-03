@@ -189,6 +189,34 @@ check should not be sitting there looking cuttable. It also means a copy of
 this script tried out in this folder writes to, and then deletes, the real cut
 file. That happened. Use `--out` for trials.
 
+## `ribbon_view.py` draws the airway, not the plywood
+
+One self-contained page per design, beside the cut files it belongs to, so the
+thing you cut and the thing you turn around cannot drift apart. Same flags as
+the generator.
+
+**It draws the passage, bounded by the wall faces at ±bore/2 — not the parts.**
+That is the whole reason it exists: the bore was cut 3mm narrow for a week and
+nothing in this repository drew the space inside it. A picture of the plywood
+would not have shown it; a picture of the airway would.
+
+It reuses `offset()` for the wall faces rather than reading the cut files, so
+it cannot disagree with the generator about where anything is. It is *not* the
+lattice viewer in `bore-generator`: that one is built on integer cells and cube
+faces with occupancy-based hidden-face removal, and there is no lattice here.
+
+**Nothing gates it.** `check.py`'s lesson from `bore-stretched` applies —
+a render can be wrong while every check passes. Look at the page after changing
+it.
+
+## Previews, because a cut file is invisible on a page
+
+`previews/` holds a readable rendering of every cut file, built by
+`lasermade-tools/make-preview.py`. Same geometry, same cut order, thicker
+strokes, and the three inks that fail contrast on a light ground darkened.
+Rebuild them whenever a cut file changes — verified by comparing the path data,
+which must be identical to the source.
+
 ## Colour is the cut order
 
 Shared across all these repositories: **blue engraves, then green → orange →
@@ -208,6 +236,11 @@ while the sheet still holds it, black for the outlines.
 python3 ribbon_bore.py                 # cut file + the checks
 python3 ribbon_bore.py --no-write      # the checks alone
 python3 ribbon_bore.py --out=/tmp/x.svg   # a trial, somewhere it cannot hurt
+python3 ribbon_view.py --shape=serpentine --bore=25    # the page you turn
+
+for f in ribbon-*.svg; do
+  python3 $G/make-preview.py "$f"       # previews/<name>, readable on a page
+done
 
 G=~/LaserMadeMusic/GIT/lasermade-tools
 python3 $G/md2html.py README.md index.html

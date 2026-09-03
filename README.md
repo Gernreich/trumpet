@@ -18,6 +18,33 @@ the cutting and the playing are shown.
 **[The rest of the build files](https://gernreich.github.io/)** — every
 instrument, generator and tool, indexed.
 
+## See it before you cut it
+
+Three pages, self-contained, **drag to turn**. Colour by face to read the
+construction, or by facet to follow the bore along its length; the reveal
+slider builds it up a facet at a time.
+
+| | |
+| --- | --- |
+| [`ribbon-coupon-bore10-30deg-R30.html`](ribbon-coupon-bore10-30deg-R30.html) | the 180° coupon |
+| [`ribbon-serpentine-bore10-30deg-3lobes-R72.html`](ribbon-serpentine-bore10-30deg-3lobes-R72.html) | the metre serpentine, 10mm bore |
+| [`ribbon-serpentine-bore25-30deg-3lobes-R72.html`](ribbon-serpentine-bore25-30deg-3lobes-R72.html) | the metre serpentine, 25mm bore |
+
+Built by [`ribbon_view.py`](ribbon_view.py), which takes the same flags as the
+generator. **It draws the airway, not the plywood** — the passage the air takes,
+bounded by the wall faces. That is the point: the section this repository is
+about is a property of the airway, and the bore was cut 3mm narrow for a week
+because nothing drew the space inside it.
+
+The cut files themselves are hairlines on no background, which is close to
+invisible on a page, so `previews/` holds a readable rendering of each — same
+geometry and same cut order, thicker strokes, inks darkened to stay legible on
+a light ground.
+
+<p align="center"><img src="previews/ribbon-serpentine-bore10-30deg-3lobes-R72-1000mm-cut-files-sheet1.svg" alt="One cheek of the 10mm serpentine: a thin band following three half-circles joined by straight runs, with 145 slots along it" width="760"></p>
+
+<p align="center"><img src="previews/ribbon-coupon-bore10-30deg-R30-180turn-cut-files.svg" alt="The coupon sheet: two U-shaped cheeks and sixteen small wall panels, each a rectangle with a tab top and bottom" width="760"></p>
+
 ## How this differs from the other two
 
 | | curve | section | joints |
