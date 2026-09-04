@@ -66,6 +66,32 @@ the torus's own R 59.693 run with
 is **COMPLEMENTARY ✓** — the plate's tabs land in the panel's notches — so the side panels cut for the torus mate with this plate
 too, and a dry-fit done for one is a dry-fit done for both.
 
+## The traced bore
+
+**[`octagonal-trumpet-trace.svg`](octagonal-trumpet-trace.svg)** — the bore
+band's cheek, traced by hand, with the centreline taken from it: **1107.9mm
+over twelve facets of 45°** at 25 × 25mm. **Display only, not a cut file.**
+
+The curve behind this sheet is not written down as parameters anywhere, so it
+was measured rather than generated. The trace confirmed as much as it supplied:
+the strip came out **31.2mm wide** — 25mm of airway with a 3mm wall each side —
+the turns came out at **±45°**, the same facet angle as the torus, and the total
+turning came out at **0°**, which is what a bore between a mouthpiece and a bell
+must do. The width scatters 30.7 to 35.5mm about that nominal, so treat the
+length as ±1%.
+
+The numbers live in
+[`bore-ribbon/traces/octagonal-trumpet.json`](https://github.com/Gernreich/bore-ribbon/blob/main/traces/octagonal-trumpet.json)
+with how they were taken, and the bore is drawn, turnable, at
+[bore-ribbon](https://gernreich.github.io/bore-ribbon/).
+
+**It is kept out of the cut file deliberately.** Red is a cut colour in every
+repository here, so a red path on a sheet is a path the laser tries to cut —
+[the torus's verifier](https://github.com/Gernreich/torus-octagonal/blob/main/verify_torus.js)
+says so in as many words: *#ff0000 is a cut colour with no place in the cut
+order*. Drawing it there also grew the canvas from
+444 × 485mm to **798 × 492mm**, wider than the 600mm bed.
+
 ## Colour is the cut order
 
 **Blue engraves, then green → orange → cyan → black**, with black always the cut that frees
