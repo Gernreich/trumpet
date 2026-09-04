@@ -73,7 +73,8 @@ def data_for():
     # The spiral has no single bend radius - that is the point of it - so it
     # reports the range it sweeps. Falling through to RADIUS printed the
     # coupon's R30 on a bore whose arcs run R34.7 to R112.9.
-    R = (B.SPIRAL_RI if B.SHAPE == 'spiral'
+    R = (B.WAVE_TROUGH_R if B.SHAPE == 'wave'
+         else B.SPIRAL_RI if B.SHAPE == 'spiral'
          else B.LOBE_R if B.SHAPE in ('serpentine', 'opposed') else B.RADIUS)
     return {
         'V': [[round(v, 3) for v in p] for p in V],
@@ -460,6 +461,10 @@ def main():
     if B.SHAPE == 'torus':
         stem = f'ribbon-torus-bore{B.BORE:g}-{B.FACET:g}deg-R{B.RADIUS:.0f}'
         title = f'Octagonal Torus, {B.BORE:g}mm Bore'
+    elif B.SHAPE == 'wave':
+        stem = (f'ribbon-wave-bore{B.BORE:g}-{B.FACET:g}deg-'
+                f'{B.WAVE_LOBE_ARCS}arc')
+        title = f'Ribbon Wave, {B.BORE:g}mm Bore'
     elif B.SHAPE == 'spiral':
         stem = (f'ribbon-spiral-bore{B.BORE:g}-{B.FACET:g}deg-'
                 f'R{B.SPIRAL_RI:.0f}to{B.SPIRAL_RO:.0f}')

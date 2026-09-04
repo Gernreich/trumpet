@@ -124,6 +124,21 @@ OPPOSED_R, OPPOSED_RISE = 64.0, 82.4539
 # The radii then follow from wanting 1000mm with 22mm between neighbouring
 # passes, against the 20mm the cheek band needs.
 SPIRAL_FACETS, SPIRAL_RI, SPIRAL_RO = 17, 34.662, 112.903
+# 'wave' is the drawn shape: level, down into a trough, up over a crest,
+# and out level again. It is the easiest bore here and worth saying why -
+# nothing nests. A coil has to hold every pass 20mm off every other pass it
+# wraps around, which is what made the spiral hard; a wave only has to
+# clear its own two lobes, and it does that by 97mm.
+#
+# Equal arc counts either side of the middle make the turns cancel, so the
+# openings come out opposed with no facet-counting to get right.
+WAVE_LEAD_ARCS, WAVE_LOBE_ARCS = 2, 5
+# A straight between the trough and the crest, for the same reason the
+# serpentine has one between its lobes: curvature reverses there, and the two
+# offset walls cross each other if that reversal happens at a single vertex.
+# Without it the airway came out 67mm wrong on a 10mm bore.
+WAVE_RISE = 100.0
+WAVE_LEAD_R, WAVE_TROUGH_R, WAVE_CREST_R = 90.0, 55.0, 55.0
 
 
 def walk(spec):
@@ -192,6 +207,39 @@ def centreline():
             raise ValueError(f'--facet={FACET:g} does not divide a full turn '
                              f'a whole number of times.')
         return flip(walk([('a', 360, +1)]))
+    if SHAPE == 'wave':
+        floor = wall_off() + (TOOTH + 2 * SHOULDER) / 2 / math.sin(
+            math.radians(FACET / 2))
+        tight = min(WAVE_LEAD_R, WAVE_TROUGH_R, WAVE_CREST_R)
+        if tight < floor:
+            raise ValueError(
+                f'the tightest arc is R{tight:g} and a {BORE:g}mm bore at '
+                f'{FACET:g} degree facets needs R{floor:.1f}.')
+        segs = ([('a', WAVE_LEAD_R, +1)] * WAVE_LEAD_ARCS
+                + [('a', WAVE_TROUGH_R, -1)] * WAVE_LOBE_ARCS
+                + [('s', WAVE_RISE, 0)]
+                + [('a', WAVE_CREST_R, +1)] * WAVE_LOBE_ARCS
+                + [('a', WAVE_LEAD_R, -1)] * WAVE_LEAD_ARCS)
+        step = math.radians(FACET)
+        x = y = a = 0.0
+        pts = [(0.0, 0.0)]
+        for kind, v, sg in segs:
+            if kind == 's':
+                x, y = x + math.cos(a) * v, y + math.sin(a) * v
+                pts.append((x, y))
+                continue
+            cx, cy = x - sg * v * math.sin(a), y + sg * v * math.cos(a)
+            t0 = math.atan2(y - cy, x - cx)
+            x, y = (cx + v * math.cos(t0 + sg * step),
+                    cy + v * math.sin(t0 + sg * step))
+            pts.append((x, y))
+            a += sg * step
+
+        def tail(u, v):
+            dx, dy = u[0] - v[0], u[1] - v[1]
+            m = math.hypot(dx, dy)
+            return (u[0] + dx / m * LEAD, u[1] + dy / m * LEAD)
+        return flip([tail(pts[0], pts[1])] + pts + [tail(pts[-1], pts[-2])])
     if SHAPE == 'spiral':
         if (SPIRAL_FACETS - 1) * FACET % 360.0 > 1e-9:
             raise ValueError(
@@ -811,9 +859,13 @@ def checks(c, inn, out, parts, cheekpoly, written, ink, cut_slots):
 def main(write=True):
     c, inn, out, parts, report = build()
     over = 100 * (1 / math.cos(math.radians(FACET) / 2) - 1)
-    R = (SPIRAL_RI if SHAPE == 'spiral'
+    R = (WAVE_TROUGH_R if SHAPE == 'wave'
+         else SPIRAL_RI if SHAPE == 'spiral'
          else LOBE_R if SHAPE in ('serpentine', 'opposed') else RADIUS)
-    what = (f'a flat coil, {SPIRAL_FACETS} facets, R{SPIRAL_RI:g} at the '
+    what = (f'a wave: a trough of R{WAVE_TROUGH_R:g} and a crest of '
+            f'R{WAVE_CREST_R:g}, level at both ends'
+            if SHAPE == 'wave' else
+            f'a flat coil, {SPIRAL_FACETS} facets, R{SPIRAL_RI:g} at the '
             f'centre out to R{SPIRAL_RO:g} at the rim'
             if SHAPE == 'spiral' else
             f'{LOBES} half-circles of R{R:g} joined by {RISE:g}mm straights'
@@ -844,7 +896,10 @@ def main(write=True):
     L = sum(seglen(a, b) for a, b in zip(c, c[1:]))
     # the group goes before -cut-files, not after: every sheet in this
     # project ends -cut-files.svg and a reader sorts on the tail
-    if SHAPE == 'spiral':
+    if SHAPE == 'wave':
+        stem = (f'ribbon-wave-bore{BORE:g}-{FACET:g}deg-'
+                f'{WAVE_LOBE_ARCS}arc-{L:.0f}mm.svg')
+    elif SHAPE == 'spiral':
         stem = (f'ribbon-spiral-bore{BORE:g}-{FACET:g}deg-'
                 f'R{SPIRAL_RI:.0f}to{SPIRAL_RO:.0f}-{L:.0f}mm.svg')
     elif SHAPE in ('serpentine', 'opposed'):
@@ -890,7 +945,9 @@ if __name__ == '__main__':
     for flag, cast in (('out', str), ('shape', str), ('bore', float),
                        ('facet', float), ('radius', float), ('lobes', int),
                        ('lobe-r', float), ('rise', float), ('lead', float),
-                       ('web', float), ('spiral-facets', int),
+                       ('web', float), ('wave-rise', float),
+                       ('wave-trough-r', float), ('wave-crest-r', float),
+                       ('wave-lead-r', float), ('spiral-facets', int),
                        ('spiral-ri', float), ('spiral-ro', float)):
         hit = [x for x in a if x.startswith(f'--{flag}=')]
         if not hit:
@@ -899,12 +956,18 @@ if __name__ == '__main__':
         {'out': 'OUT', 'shape': 'SHAPE', 'bore': 'BORE', 'facet': 'FACET',
          'radius': 'RADIUS', 'lobes': 'LOBES', 'lobe-r': 'LOBE_R',
          'rise': 'RISE', 'lead': 'LEAD', 'web': 'WEB',
+         'wave-rise': 'WAVE_RISE', 'wave-trough-r': 'WAVE_TROUGH_R',
+         'wave-crest-r': 'WAVE_CREST_R', 'wave-lead-r': 'WAVE_LEAD_R',
          'spiral-facets': 'SPIRAL_FACETS', 'spiral-ri': 'SPIRAL_RI',
          'spiral-ro': 'SPIRAL_RO'}[flag]
         globals()[{'out': 'OUT', 'shape': 'SHAPE', 'bore': 'BORE',
                    'facet': 'FACET', 'radius': 'RADIUS', 'lobes': 'LOBES',
                    'lobe-r': 'LOBE_R', 'rise': 'RISE', 'lead': 'LEAD',
-                   'web': 'WEB', 'spiral-facets': 'SPIRAL_FACETS',
+                   'web': 'WEB', 'wave-rise': 'WAVE_RISE',
+                   'wave-trough-r': 'WAVE_TROUGH_R',
+                   'wave-crest-r': 'WAVE_CREST_R',
+                   'wave-lead-r': 'WAVE_LEAD_R',
+                   'spiral-facets': 'SPIRAL_FACETS',
                    'spiral-ri': 'SPIRAL_RI',
                    'spiral-ro': 'SPIRAL_RO'}[flag]] = v
     # per-shape defaults, and only where the caller has not spoken

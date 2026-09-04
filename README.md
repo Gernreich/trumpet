@@ -30,6 +30,7 @@ slider builds it up a facet at a time.
 | [`ribbon-serpentine-bore10-30deg-3lobes-R72.html`](ribbon-serpentine-bore10-30deg-3lobes-R72.html) | the metre serpentine, 10mm bore |
 | [`ribbon-opposed-bore10-30deg-3lobes-R64.html`](ribbon-opposed-bore10-30deg-3lobes-R64.html) | the metre again, with mouth and bell facing opposite ways |
 | [`ribbon-spiral-bore10-45deg-R35to113.html`](ribbon-spiral-bore10-45deg-R35to113.html) | the metre wound flat, two and a bit turns |
+| [`ribbon-wave-bore10-45deg-5arc.html`](ribbon-wave-bore10-45deg-5arc.html) | a trough and a crest, level at both ends |
 
 Two more draw instruments that live in other repositories, and they are the only
 things here still cut at 25mm — the objects are, so their names say so.
@@ -186,6 +187,48 @@ width, as Boxes.py does —
 — which is 1 up to 17.9mm, 3 at 34mm and **7 at 90mm**. Every panel on the
 coupon is short enough to want exactly one, so the coupon's cut geometry did
 not move when this arrived.
+
+## The wave
+
+    python3 ribbon_bore.py --shape=wave --facet=45
+
+**836.5mm of centreline**, in **36 parts on 2 files** — level, down into a
+trough, up over a crest, out level again, in a **362 × 300mm** cheek.
+
+**It is the easiest bore here, and worth saying why: nothing nests.** A coil has
+to hold every pass 20mm off every other pass it wraps around, which is what made
+the spiral hard. A wave only has to clear its own two lobes, and it does that by
+**97mm**. Equal arc counts either side of the middle make the turns cancel, so
+the openings come out opposed with no facet-counting to get right.
+
+**The straight between the trough and the crest is not decoration.** Curvature
+reverses there, and if that happens at a single vertex the two offset walls cross
+each other — the airway came out **67mm wrong** on a 10mm bore. The serpentine
+has a riser between its lobes for the same reason. At 100mm it is clean.
+
+| | 10 × 10mm |
+| --- | --- |
+| the cheek, **cut twice** | [`bore10`](ribbon-wave-bore10-45deg-5arc-836mm-cheek-x2-cut-files.svg) |
+| the panels, cut once | [`bore10`](ribbon-wave-bore10-45deg-5arc-836mm-panels-cut-files.svg) |
+| section | 100mm² |
+| centreline | 836.5mm |
+| the two openings | 180° apart |
+| trough and crest | R55 each, R/bore 5.5 |
+| the straight between them | 100mm |
+| shortest panel | 20.00mm |
+| slots per cheek | 132 |
+| the two sheets | 362 × 300mm and 581 × 96mm |
+
+<div class="tw">
+<table>
+<tr>
+<td align="center"><a href="ribbon-wave-bore10-45deg-5arc-836mm-cheek-x2-cut-files.svg"><img src="previews/ribbon-wave-bore10-45deg-5arc-836mm-cheek-x2-cut-files.svg" alt="The cheek: a band following a trough and a crest, orange slots down both of its walls each with a small blue hex number, and a straight lead at either end" width="620"></a></td>
+</tr>
+<tr>
+<td align="center"><sub>ribbon-wave-bore10-45deg-5arc-836mm-cheek-x2-cut-files.svg &middot; 362 &times; 300mm sheet</sub></td>
+</tr>
+</table>
+</div>
 
 ## The spiral
 
