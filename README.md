@@ -28,29 +28,6 @@ slider builds it up a facet at a time.
 | --- | --- |
 | [`ribbon-coupon-bore10-30deg-R30.html`](ribbon-coupon-bore10-30deg-R30.html) | the 180° coupon |
 | [`ribbon-serpentine-bore10-30deg-3lobes-R72.html`](ribbon-serpentine-bore10-30deg-3lobes-R72.html) | the metre serpentine, 10mm bore |
-| [`ribbon-serpentine-bore25-30deg-3lobes-R72.html`](ribbon-serpentine-bore25-30deg-3lobes-R72.html) | the metre serpentine, 25mm bore |
-
-[`ribbon-torus-bore25-45deg-R76.html`](ribbon-torus-bore25-45deg-R76.html) is a
-fourth: **[torus-octagonal](https://gernreich.github.io/torus-octagonal/)
-drawn as a ribbon bore**, which is what it is — a closed ring of eight 45°
-facets at 25 × 25mm. Extrapolated from that repository's own cut file: a
-centreline octagon of circumradius 76.4696 puts the airway between apothems
-58.149 and 83.149, which is what its verifier measures. `--shape=torus`.
-
-And a fifth is **traced, not generated**:
-[`ribbon-traced-octagonal-trumpet-bore25-45deg.html`](ribbon-traced-octagonal-trumpet-bore25-45deg.html)
-is **[trumpet-octagonal](https://gernreich.github.io/trumpet-octagonal/)'s
-bore** — 1107.9mm at 25 × 25mm, twelve facets of 45°. That sheet's band is
-hand-authored and its curve is not written down as parameters anywhere, so the
-centreline was measured off a trace of the cheek and kept, with how it was
-taken, in [`traces/octagonal-trumpet.json`](traces/octagonal-trumpet.json).
-
-The trace confirmed the model rather than only supplying it: the strip came out
-**31.2mm wide** — 25mm of airway with a 3mm wall each side — the turns came out
-at **±45°**, the same facet angle as the torus, and the total turning came out
-at **0°**, which is what a bore between a mouthpiece and a bell has to do. Treat
-its length as ±1%: the traced width scatters 30.7 to 35.5mm about that nominal
-31.2.
 
 Built by [`ribbon_view.py`](ribbon_view.py), which takes the same flags as the
 generator, plus `--trace=`. **It draws the airway, not the plywood** — the passage the air takes,
@@ -122,24 +99,24 @@ open. A real Bb trumpet runs R/bore ≈ 4.3.
 
 ## The 1000mm serpentine
 
-    python3 ribbon_bore.py --shape=serpentine              # the 10mm bore
-    python3 ribbon_bore.py --shape=serpentine --bore=25    # the 25mm bore
+    python3 ribbon_bore.py --shape=serpentine
 
 **1000.0mm of centreline**, in **52 parts on 2 files** — three half-circles of
 R 71.754 joined by 90mm straight runs, with a 20mm lead at each end.
 
-The same centreline is cut at both bores. Only the band around it changes:
+Only the 10mm bore is cut here. `--bore` still takes any value, so another is one
+command away and git has the 25mm sheets that were here until 2026-09-03.
 
-| | 10 × 10mm | 25 × 25mm |
-| --- | --- | --- |
-| the cheek, **cut twice** | [`bore10`](ribbon-serpentine-bore10-30deg-3lobes-R72-1000mm-cheek-x2-cut-files.svg) | [`bore25`](ribbon-serpentine-bore25-30deg-3lobes-R72-1000mm-cheek-x2-cut-files.svg) |
-| the panels, cut once | [`bore10`](ribbon-serpentine-bore10-30deg-3lobes-R72-1000mm-panels-cut-files.svg) | [`bore25`](ribbon-serpentine-bore25-30deg-3lobes-R72-1000mm-panels-cut-files.svg) |
-| section | 100mm² | 625mm² |
-| cheek band | 20mm | 35mm |
-| R / bore | 7.2 | 2.9 |
-| play, per side | 0.025mm | **0** |
-| shortest panel | 19.14mm | 18.16mm |
-| slots per cheek | 145 | 137 |
+| | 10 × 10mm |
+| --- | --- |
+| the cheek, **cut twice** | [`bore10`](ribbon-serpentine-bore10-30deg-3lobes-R72-1000mm-cheek-x2-cut-files.svg) |
+| the panels, cut once | [`bore10`](ribbon-serpentine-bore10-30deg-3lobes-R72-1000mm-panels-cut-files.svg) |
+| section | 100mm² |
+| cheek band | 20mm |
+| R / bore | 7.2 |
+| play, per side | 0.025mm |
+| shortest panel | 19.14mm |
+| slots per cheek | 145 |
 
 **The play is not a constant, it is a lookup.** `PLAY_BY_BORE` carries
 bore-generator's measured figures — 0.025mm per side at the 10mm bore and **0
@@ -147,10 +124,10 @@ at the 25mm** — because required clearance *falls* as the joint grows. A bore
 that is not in the table gets the small-joint value and the generator says so,
 because too loose is a worse joint and too tight is no joint at all.
 
-The 25mm bore has *fewer* slots than the 10mm one on the same curve. The mitre
-trims each inner panel by `((bore + thickness)/2) × tan(φ/2)` at both ends —
-3.75mm at 25mm against 1.74mm at 10mm — so the panels are shorter and fit
-fewer teeth.
+A bigger bore gets *fewer* slots on the same curve, which is worth knowing before
+changing `--bore`. The mitre trims each inner panel by
+`((bore + thickness)/2) × tan(φ/2)` at both ends — 1.74mm at the 10mm bore
+against 3.75mm at 25 — so the panels get shorter and fit fewer teeth.
 
 ### Why three half-circles and not two
 

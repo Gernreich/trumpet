@@ -1,5 +1,10 @@
 # CLAUDE.md
 
+**The 25mm sheets went on 2026-09-03**, with the torus and traced-trumpet viewers that
+were named for that bore. `--bore` is untouched and takes any value; only the sheets
+kept here are 10mm. `traces/octagonal-trumpet.json` stays - the instrument it was
+measured off is still there, it is only its viewer that went.
+
 ## Working in this repository
 
 A laser-cutting build repository. `ribbon_bore.py` is the generator and the
