@@ -17,6 +17,10 @@ an instrument.
 Built for **[LaserMadeMusic](https://www.youtube.com/@LaserMadeMusic)**, where the cutting
 and the playing are shown.
 
+<!-- readme-only -->
+**[Read the writeup](https://gernreich.github.io/trumpet-octagonal/)** — the same text as
+this page, set for reading, with a table of contents.
+
 **[Download everything as a ZIP](https://github.com/Gernreich/trumpet-octagonal/archive/refs/heads/main.zip)**
 — the cut file and the page it regenerates from. GitHub builds it from `main` on every
 push, so it is never out of date.
