@@ -28,7 +28,7 @@ slider builds it up a facet at a time.
 | --- | --- |
 | [`ribbon-coupon-bore10-30deg-R30.html`](ribbon-coupon-bore10-30deg-R30.html) | the 180° coupon |
 | [`ribbon-serpentine-bore10-30deg-3lobes-R72.html`](ribbon-serpentine-bore10-30deg-3lobes-R72.html) | the metre serpentine, 10mm bore |
-| [`ribbon-reversing-bore10-30deg-3lobes-R72.html`](ribbon-reversing-bore10-30deg-3lobes-R72.html) | the same run with its ends facing opposite ways |
+| [`ribbon-opposed-bore10-30deg-3lobes-R64.html`](ribbon-opposed-bore10-30deg-3lobes-R64.html) | the metre again, with mouth and bell facing opposite ways |
 
 Two more draw instruments that live in other repositories, and they are the only
 things here still cut at 25mm — the objects are, so their names say so.
@@ -50,10 +50,9 @@ cheek and kept, with how it was taken, in
 confirmed the model rather than only supplying it: the strip came out **31.2mm
 wide** — 25mm of airway with a 3mm wall each side — the turns came out at
 **±45°**, the same facet angle as the torus, and the total turning came out at
-**0°** — every turn cancels, so its mouth and its bell face the same way, not
-opposite ways. That is a fact about the traced shape and not a rule: the turn a
-mouthpiece and a bell want is 180°, which is what
-[the reversing bore](#the-reversing-bore) below draws. Treat
+**0°**, which is what a bore between a mouthpiece and a bell must do — see
+[the opposed-ends bore](#the-opposed-ends-bore) below for why the number is 0
+and not 180. Treat
 its length as ±1%: the traced width scatters 30.7 to 35.5mm about that nominal.
 
 Built by [`ribbon_view.py`](ribbon_view.py), which takes the same flags as the
@@ -187,46 +186,54 @@ width, as Boxes.py does —
 coupon is short enough to want exactly one, so the coupon's cut geometry did
 not move when this arrived.
 
-## The reversing bore
+## The opposed-ends bore
 
-    python3 ribbon_bore.py --shape=reversing
+    python3 ribbon_bore.py --shape=opposed
 
-**1111.4mm of centreline**, in **58 parts on 2 files** — the serpentine and
-then one more quarter turn, which is the whole difference between the two.
+**1000.0mm of centreline**, in **58 parts on 2 files** — the serpentine with one
+more quarter turn on the end, and a smaller lobe to pay for it.
 
-An odd number of half-circles leaves the serpentine's tail at **90°** to its
-mouth. A quarter turn on the end takes that to **180°**, so the bore comes out
-facing back the way it went in. That is the shape a mouthpiece and a bell want:
-you blow one way and the instrument speaks the other, and neither end is asked
-to sit at an angle to the run it grows out of.
+**A mouthpiece and a bell want their openings facing opposite ways**: you blow
+towards the instrument and it speaks away from you. That is a turn of **0°**,
+not 180°. An opening faces *out* of the tube, so the mouth faces backwards along
+the run and the bell forwards, and those two are opposed exactly when every turn
+cancels. Three half-circles is an odd count, which leaves the serpentine at 90°;
+the closing quarter turn brings it to 0.
 
-It costs 111.4mm of centreline and no bed at all. The turn folds back inside the
-envelope the lobes already occupy, so the cheek grows by 0.35mm in x and not at
-all in y, and the closest the bore comes to itself is **37.14mm** — the same
-37.14mm the serpentine already had between its own lobes, in a different place.
-The cheek band is 20mm, so two runs need 20mm centre to centre.
+**The sign of that quarter turn is the whole of it.** Turned the other way it
+reaches 180°, which reads like the answer and is not: it puts both openings on
+the same heading and folds the tail back inside the lobes, aiming the bell into
+the bore with **0.2mm** to spare. Turned this way each opening leaves the
+envelope with **22mm** of clearance, against the 20mm the cheek band needs.
+
+The turn that goes outward costs width the one that folds back does not, and
+R 71.754 puts the cheek at 614mm on a bed with 580 of usable width. A
+half-circle advances 2/π of its own length in x however the run is divided, so
+adding lobes buys nothing — the arc itself comes down to **R 64** and the
+straights take up the slack at **82.4539mm**, which is 1000.0mm again.
 
 | | 10 × 10mm |
 | --- | --- |
-| the cheek, **cut twice** | [`bore10`](ribbon-reversing-bore10-30deg-3lobes-R72-1111mm-cheek-x2-cut-files.svg) |
-| the panels, cut once | [`bore10`](ribbon-reversing-bore10-30deg-3lobes-R72-1111mm-panels-cut-files.svg) |
+| the cheek, **cut twice** | [`bore10`](ribbon-opposed-bore10-30deg-3lobes-R64-1000mm-cheek-x2-cut-files.svg) |
+| the panels, cut once | [`bore10`](ribbon-opposed-bore10-30deg-3lobes-R64-1000mm-panels-cut-files.svg) |
 | section | 100mm² |
-| turn, mouth to tail | 180° |
-| centreline | 1111.4mm |
+| the two openings | 180° apart, each 22mm clear |
+| centreline | 1000.0mm |
 | cheek band | 20mm |
-| R / bore | 7.2 |
+| R / bore | 6.4 |
 | play, per side | 0.025mm |
 | shortest panel | 19.14mm |
-| slots per cheek | 160 |
-| the two sheets | 552.6 × 274.2mm and 591.1 × 116.5mm |
+| slots per cheek | 152 |
+| the cheek | 552.0 × 231.2mm |
+| the two sheets | 572.0 × 251.2mm and 596.6 × 96.4mm |
 
 <div class="tw">
 <table>
 <tr>
-<td align="center"><a href="ribbon-reversing-bore10-30deg-3lobes-R72-1111mm-panels-cut-files.svg"><img src="previews/ribbon-reversing-bore10-30deg-3lobes-R72-1111mm-panels-cut-files.svg" alt="The panel sheet: fifty-six finger-jointed wall panels laid out in rows, each engraved with a small blue hex number running 1 to 38" width="620"></a></td>
+<td align="center"><a href="ribbon-opposed-bore10-30deg-3lobes-R64-1000mm-cheek-x2-cut-files.svg"><img src="previews/ribbon-opposed-bore10-30deg-3lobes-R64-1000mm-cheek-x2-cut-files.svg" alt="The cheek: one long thin band following three half-circles and a closing quarter turn, pierced by two rows of orange slots, one row for each wall,each with a small blue number beside it" width="620"></a></td>
 </tr>
 <tr>
-<td align="center"><sub>ribbon-reversing-bore10-30deg-3lobes-R72-1111mm-panels-cut-files.svg &middot; 591.1 &times; 116.5mm sheet</sub></td>
+<td align="center"><sub>ribbon-opposed-bore10-30deg-3lobes-R64-1000mm-cheek-x2-cut-files.svg &middot; 572.0 &times; 251.2mm sheet</sub></td>
 </tr>
 </table>
 </div>

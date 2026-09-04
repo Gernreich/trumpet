@@ -70,7 +70,7 @@ def data_for():
     # a closed ring has no mouth and no far end; the last station IS the first,
     # so its four vertices are already coincident with station 0's
 
-    R = B.LOBE_R if B.SHAPE in ('serpentine', 'reversing') else B.RADIUS
+    R = B.LOBE_R if B.SHAPE in ('serpentine', 'opposed') else B.RADIUS
     return {
         'V': [[round(v, 3) for v in p] for p in V],
         'Q': Q,
@@ -410,6 +410,13 @@ def main():
                 'rise': 'RISE', 'lead': 'LEAD', 'web': 'WEB'}[flag]
         setattr(B, name, cast(hit[0].split('=', 1)[1]))
 
+    # the opposed shape carries its own lobe; see ribbon_bore.OPPOSED_R
+    if B.SHAPE == 'opposed':
+        if not any(x.startswith('--lobe-r=') for x in a):
+            B.LOBE_R = B.OPPOSED_R
+        if not any(x.startswith('--rise=') for x in a):
+            B.RISE = B.OPPOSED_RISE
+
     here = os.path.dirname(os.path.abspath(__file__))
     # --trace draws a centreline measured off somebody else's cut file rather
     # than one this repository generates. trumpet-octagonal's bore is the only
@@ -440,11 +447,11 @@ def main():
     if B.SHAPE == 'torus':
         stem = f'ribbon-torus-bore{B.BORE:g}-{B.FACET:g}deg-R{B.RADIUS:.0f}'
         title = f'Octagonal Torus, {B.BORE:g}mm Bore'
-    elif B.SHAPE in ('serpentine', 'reversing'):
+    elif B.SHAPE in ('serpentine', 'opposed'):
         stem = (f'ribbon-{B.SHAPE}-bore{B.BORE:g}-{B.FACET:g}deg-'
                 f'{B.LOBES}lobes-R{B.LOBE_R:.0f}')
-        title = ('Ribbon Reversing Bore, %gmm' % B.BORE
-                 if B.SHAPE == 'reversing'
+        title = ('Ribbon Opposed-Ends Bore, %gmm' % B.BORE
+                 if B.SHAPE == 'opposed'
                  else f'Ribbon Serpentine, {B.BORE:g}mm Bore')
     else:
         stem = f'ribbon-coupon-bore{B.BORE:g}-{B.FACET:g}deg-R{B.RADIUS:g}'

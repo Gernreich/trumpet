@@ -133,10 +133,11 @@ number nobody can check.
 **Three things fell out of the trace that were not assumed**, and they are why
 it is trustworthy: the strip is 31.2mm wide, which is 25mm of airway with a 3mm
 wall each side; the turns are +-45 degrees, the same facet angle as the torus;
-and the total turning is 0, so its mouth and its bell face the same way. Do
-not read that as the requirement - it is a measurement of the shape that was
-traced. The turn a mouthpiece and a bell want is 180 degrees, mouth and bell
-facing opposite ways, which is --shape=reversing.
+and the total turning is 0, which is what a bore between a mouthpiece and a
+bell must do. An opening faces out of the tube, so the mouth faces back along
+the run and the bell forwards; they are opposed when the turns cancel. 180
+degrees is the wrong answer and puts both openings on the same heading -
+--shape=opposed exists because that mistake was made and cut.
 
 It is a trace, so it is not exact. The width scatters 30.7 to 35.5mm about a
 nominal 31.2, two turns are still 5 degrees off square, and two stations a few
