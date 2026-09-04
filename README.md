@@ -50,7 +50,10 @@ cheek and kept, with how it was taken, in
 confirmed the model rather than only supplying it: the strip came out **31.2mm
 wide** — 25mm of airway with a 3mm wall each side — the turns came out at
 **±45°**, the same facet angle as the torus, and the total turning came out at
-**0°**, which is what a bore between a mouthpiece and a bell has to do. Treat
+**0°** — every turn cancels, so its mouth and its bell face the same way, not
+opposite ways. That is a fact about the traced shape and not a rule: the turn a
+mouthpiece and a bell want is 180°, which is what
+[the reversing bore](#the-reversing-bore) below draws. Treat
 its length as ±1%: the traced width scatters 30.7 to 35.5mm about that nominal.
 
 Built by [`ribbon_view.py`](ribbon_view.py), which takes the same flags as the
