@@ -246,7 +246,7 @@ Three things, none of which a check can answer:
    on the convex side is `3 × tan(15°)` = **0.80mm**. That is a glue line, and
    whether it seals is the question.
 2. **The tab fit at 0.025mm per side**, on a tooth that is 6mm in a panel that
-   is only 10.26mm long.
+   is only 12.05mm long.
 3. **Whether 18 small parts is an assembly anyone wants to do twice.**
 
 If 0.80mm is too much, the gap is `thickness × tan(φ/2)`, so it comes down with

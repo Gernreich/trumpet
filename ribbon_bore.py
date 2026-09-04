@@ -101,7 +101,7 @@ SHAPE = 'coupon'
 # The rise is chosen to balance the cheek on the bed rather than to be small:
 # a half-circle advances only 2/pi of its own length in x, so a 1000mm run
 # wants 637mm of width and the bed has 600 - a straight vertical run buys
-# length in y, where there is room. At rise 90 the cheek is 531 x 251mm.
+# length in y, where there is room. At rise 90 the cheek is 532 x 254mm.
 LOBES, LOBE_R, RISE, LEAD = 3, 71.754, 90.0, 20.0
 
 
@@ -392,9 +392,10 @@ def build():
     # Numbered straight through in hex rather than I1/O1: the glyph table is
     # the one the bore sections and bell rings use, and adding I and O to it
     # would put I beside 1 and O beside 0 on a part you read at the bench.
-    # Which wall a panel belongs to is never in doubt anyway - the inner ones
-    # are 10-14mm and the outer ones 15-16mm, and the cheek slot carries the
-    # same number.
+    # The number identifies a panel, not its length. On the coupon the inner
+    # panels run 12.05-14.14mm and the outer 15.86-19.01mm, so length tells
+    # them apart; on the serpentine both walls run 19.14-90.00mm and it tells
+    # you nothing. Either way the cheek slot carries the same number.
     seq = 0
     cl = c
     for name, poly in (('inner', inn), ('outer', out)):
