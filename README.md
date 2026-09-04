@@ -31,6 +31,7 @@ slider builds it up a facet at a time.
 | [`ribbon-opposed-bore10-30deg-3lobes-R64.html`](ribbon-opposed-bore10-30deg-3lobes-R64.html) | the metre again, with mouth and bell facing opposite ways |
 | [`ribbon-spiral-bore10-45deg-R35to113.html`](ribbon-spiral-bore10-45deg-R35to113.html) | the metre wound flat, two and a bit turns |
 | [`ribbon-wave-bore10-45deg-5arc.html`](ribbon-wave-bore10-45deg-5arc.html) | a trough and a crest, level at both ends |
+| [`ribbon-spiral-bore10-45deg-R36to130.html`](ribbon-spiral-bore10-45deg-R36to130.html) | three turns, the volute's shape, cuttable |
 | [`ribbon-traced-volute-bore10-45deg.html`](ribbon-traced-volute-bore10-45deg.html) | the volute, drawn but not cuttable |
 
 Two more draw instruments that live in other repositories, and they are the only
@@ -366,6 +367,15 @@ retraced the inward path exactly. The 135° is the same story — a chord's
 direction is the tangent at its arc's midpoint, so **F facets turn the run
 (F−1) facets**, and at 45° facets an opposed pair needs F = 8k+1, which is one
 facet more than any whole number of semicircles gives.
+
+**The volute's shape is cuttable; the volute's numbers are not.** Its passes sit
+12mm apart where the cheek band needs 20, which is the whole of what is wrong
+with it. Opened out to a 20mm step it becomes
+[`--spiral-facets=25 --spiral-ri=36 --spiral-ro=130`](ribbon-spiral-bore10-45deg-R36to130-1628mm-cheek-x2-cut-files.svg)
+— three turns, every check passing, 56 parts in a 270 × 282mm cheek. It costs
+length: three turns 20mm apart cannot be a metre at this bore, so that one is
+**1628.1mm**. The metre is the seventeen-facet spiral above, at two and a bit
+turns.
 
 [`volute.html`](volute/volute.html) draws it flat and to scale, from the
 [`volute.json`](volute/volute.json) the script writes, and

@@ -415,13 +415,22 @@ def main():
     a = sys.argv[1:]
     for flag, cast in (('shape', str), ('bore', float), ('facet', float),
                        ('radius', float), ('lobes', int), ('lobe-r', float),
-                       ('rise', float), ('lead', float), ('web', float)):
+                       ('rise', float), ('lead', float), ('web', float),
+                       ('spiral-facets', int), ('spiral-ri', float),
+                       ('spiral-ro', float), ('wave-rise', float),
+                       ('wave-trough-r', float), ('wave-crest-r', float),
+                       ('wave-lead-r', float)):
         hit = [x for x in a if x.startswith(f'--{flag}=')]
         if not hit:
             continue
         name = {'shape': 'SHAPE', 'bore': 'BORE', 'facet': 'FACET',
                 'radius': 'RADIUS', 'lobes': 'LOBES', 'lobe-r': 'LOBE_R',
-                'rise': 'RISE', 'lead': 'LEAD', 'web': 'WEB'}[flag]
+                'rise': 'RISE', 'lead': 'LEAD', 'web': 'WEB',
+                'spiral-facets': 'SPIRAL_FACETS', 'spiral-ri': 'SPIRAL_RI',
+                'spiral-ro': 'SPIRAL_RO', 'wave-rise': 'WAVE_RISE',
+                'wave-trough-r': 'WAVE_TROUGH_R',
+                'wave-crest-r': 'WAVE_CREST_R',
+                'wave-lead-r': 'WAVE_LEAD_R'}[flag]
         setattr(B, name, cast(hit[0].split('=', 1)[1]))
 
     # the opposed shape carries its own lobe; see ribbon_bore.OPPOSED_R
