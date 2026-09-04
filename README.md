@@ -2,15 +2,16 @@
 
 A trumpet whose bore **folds back on itself twice**, which is what the
 switchback in the name means. **This repository is the bore** — six laser-cut
-sections that assemble into one sealed passage — at two sizes, `25mm/` and
-`10mm/`, alike in everything but scale.
+sections that assemble into one sealed passage, at a **10mm bore on a 16mm
+block**.
 
 The **mouthpiece** and the **bell** live in
 **[trumpet-parts](https://github.com/Gernreich/trumpet-parts)**, because neither
-is touched by the way the bore turns: the 25mm pair fit the
+is touched by the way the bore turns. Only the tube belongs to an instrument.
+The 25mm pair that used to sit beside them, and fitted the
 [coiled](https://github.com/Gernreich/trumpet-coiled) and
-[octagonal](https://github.com/Gernreich/trumpet-octagonal) trumpets just as well,
-both being the same 25mm channel. Only the tube belongs to an instrument.
+[octagonal](https://github.com/Gernreich/trumpet-octagonal) trumpets equally, was
+retired on 2026-09-03.
 
     N N1 W3 U2 E3 N3 D3 W2 U3 N1
 
@@ -45,8 +46,8 @@ generator and tool, indexed.
 
 ## What is in each folder
 
-    25mm/                        10mm/
-      bore/                        bore/
+    10mm/
+      bore/                    six cut files and the page they belong to
 
 Six sheets each, cut in the order they are numbered. Glued mouthpiece to bore to
 bell, with the two ends coming from `trumpet-parts` — see
@@ -61,12 +62,11 @@ A block is the sound square plus a wall each side, so **the bore is the block
 less 6mm** in 3mm stock. That one number is the whole difference between the
 folders:
 
-| | `25mm/` | `10mm/` |
-|---|---|---|
-| bore | 25mm square | 10mm square |
-| block | 31mm | 16mm |
-| centreline | 682mm | 352mm |
-| switch | *(default)* | `--blocksize=16` |
+| | `10mm/` |
+| --- | --- |
+| bore | 10mm square |
+| block | 16mm outside |
+| centreline | 352mm |
 
 Everything else is shared: the same walk, the same six sections in the same
 order, the same shapes, the same in and out faces, no elbows in either.
@@ -84,8 +84,8 @@ block: 12mm at 25, 6mm at 10. Without that floor the fraction alone gives
 exactly backwards.
 
 The notch it enters is opened by a clearance that **differs between the two
-sizes, because both were measured**: the 25mm joint carries **0.0** and the 10mm
-**0.05mm**. That is not an oversight. Zero assembles and fits well at 25mm — it
+sizes, because both were measured**: the 25mm joint carried **0.0** and the 10mm
+carries **0.05mm**. That is not an oversight. Zero assembles and fits well at 25mm — it
 is what this trumpet was built with — and at 10mm the same zero will not go
 together at all, while 0.3 rocked and 0.1 was still slightly loose. The tab
 keeps its full width at both. SnakeBox leaves that at zero, on the grounds that finger joints have no
@@ -93,20 +93,7 @@ play either, but a finger joint is a dozen teeth sharing an edge and a section
 seam is one tab in one notch. At zero the two are drawn the same width and the
 sections will not go together.
 
-### 25mm bore — `25mm/bore/`
-
-Cut in order; each part is engraved with its section number.
-
-| # | file | blocks | in | out | plate | shape | sheet |
-|---|---|---|---|---|---|---|---|
-| 1 | [`25mm/bore/bore25-trumpet-switchback-01of06-bend-DL-buttin-cut-files.svg`](25mm/bore/bore25-trumpet-switchback-01of06-bend-DL-buttin-cut-files.svg) | 1-3 | N | W | 2×2 | BDL~a | 391×86mm |
-| 2 | [`25mm/bore/bore25-trumpet-switchback-02of06-bend-LUUR-cut-files.svg`](25mm/bore/bore25-trumpet-switchback-02of06-bend-LUUR-cut-files.svg) | 4-8 | W | E | 2×3 | BLUUR | 554×117mm |
-| 3 | [`25mm/bore/bore25-trumpet-switchback-03of06-bend-RD-cut-files.svg`](25mm/bore/bore25-trumpet-switchback-03of06-bend-RD-cut-files.svg) | 9-11 | E | N | 2×2 | BRD | 403×86mm |
-| 4 | [`25mm/bore/bore25-trumpet-switchback-04of06-bend-DL-cut-files.svg`](25mm/bore/bore25-trumpet-switchback-04of06-bend-DL-cut-files.svg) | 12-14 | N | D | 2×2 | BDL | 397×89mm |
-| 5 | [`25mm/bore/bore25-trumpet-switchback-05of06-bend-DLLU-cut-files.svg`](25mm/bore/bore25-trumpet-switchback-05of06-bend-DLLU-cut-files.svg) | 15-19 | D | U | 3×2 | BDLLU | 537×130mm |
-| 6 | [`25mm/bore/bore25-trumpet-switchback-06of06-bend-RD-buttout-cut-files.svg`](25mm/bore/bore25-trumpet-switchback-06of06-bend-RD-buttout-cut-files.svg) | 20-22 | U | N | 2×2 | BRD~b | 403×86mm |
-
-### 10mm bore — `10mm/bore/`
+### The cut files — `10mm/bore/`
 
 | # | file | blocks | in | out | plate | shape | sheet |
 |---|---|---|---|---|---|---|---|
@@ -140,26 +127,19 @@ is the least a section can have.
 
 **Neither is here.** Both live in
 **[trumpet-parts](https://github.com/Gernreich/trumpet-parts)** with the rest of
-the shared parts, because neither depends on how a bore turns — the 25mm pair
-suit the coiled and octagonal trumpets equally, all three being the same 25mm
-channel. What this repository owns is the tube. These are the ones to cut with
+the shared parts, because neither depends on how a bore turns. What this repository owns is the tube. These are the ones to cut with
 it:
 
-| | for `25mm/` | for `10mm/` |
-|---|---|---|
-| mouthpiece | [`mouthpiece-bore25-trumpet-parts-cut-files.svg`](https://github.com/Gernreich/trumpet-parts/blob/main/mouthpiece/mouthpiece-bore25-trumpet-parts-cut-files.svg) | [`mouthpiece-bore10-trumpet-parts-cut-files.svg`](https://github.com/Gernreich/trumpet-parts/blob/main/mouthpiece/mouthpiece-bore10-trumpet-parts-cut-files.svg) |
-| station one | 25mm square in a 31mm plate | 10mm square in a 16mm plate |
-| rim | ø16.5mm | ø17mm |
-| bell | [`bell-round25-204mm-17rings-x4-rim145-cut-files.svg`](https://github.com/Gernreich/trumpet-parts/blob/main/bell/bell-round25-204mm-17rings-x4-rim145-cut-files.svg) | [`bell-round10-153mm-17rings-x3-rim86-cut-files.svg`](https://github.com/Gernreich/trumpet-parts/blob/main/bell/bell-round10-153mm-17rings-x3-rim86-cut-files.svg) |
-| bell length | 204mm | 153mm |
-| bell mouth | ø138.8 of air in a ø144.8 rim | ø80.0 of air in a ø86.0 rim |
-| **cut the bell sheet** | **4 times** | **3 times** |
-| bell pieces | 68 | 51 |
+| | for `10mm/` |
+| --- | --- |
+| mouthpiece | [`mouthpiece-bore10-trumpet-parts-cut-files.svg`](https://github.com/Gernreich/trumpet-parts/blob/main/mouthpiece/mouthpiece-bore10-trumpet-parts-cut-files.svg) |
+| station one | 10mm square in a 16mm plate |
+| bell | [`bell-round10-153mm-17rings-x3-rim86-cut-files.svg`](https://github.com/Gernreich/trumpet-parts/blob/main/bell/bell-round10-153mm-17rings-x3-rim86-cut-files.svg) |
 
 **The bell sheet draws every ring once and is cut more than once.** A ring is a
-stack of 3mm laminations — four of them at 25mm, three at 10mm — so the sheet
-goes through the machine that many times and you glue the copies up into one
-ring. Cut it once and you get a **51mm bell** instead of 204 or 153, which is
+stack of 3mm laminations, three of them here, so the sheet goes through the
+machine that many times and you glue the copies up into one ring. Cut it once
+and you get a **51mm bell** instead of 153, which is
 the single most expensive mistake in this build. The bore is not like this:
 those six sheets are cut once each.
 
@@ -181,23 +161,21 @@ way up the label was engraved. All four sheets carry it. The parts already glued
 cut before it existed and have only their number, which costs nothing on a stack that is
 already in order — but cut a fresh sheet and the ring you pick up tells you which way round
 it goes.
-Both mouthpieces use the `trumpet` layout, which spends its length on the
+The mouthpiece uses the `trumpet` layout, which spends its length on the
 backbore and keeps a short cup, as a real one does.
 
 Each also carries a section drawing — an axial slice showing the bore climbing
 one staircase and the outside climbing another:
-[`bell-round25-204mm-17rings-x4-rim145-section.svg`](https://github.com/Gernreich/trumpet-parts/blob/main/bell/bell-round25-204mm-17rings-x4-rim145-section.svg),
-[`mouthpiece-bore25-trumpet-parts-section.svg`](https://github.com/Gernreich/trumpet-parts/blob/main/mouthpiece/mouthpiece-bore25-trumpet-parts-section.svg),
 [`bell-round10-153mm-17rings-x3-rim86-section.svg`](https://github.com/Gernreich/trumpet-parts/blob/main/bell/bell-round10-153mm-17rings-x3-rim86-section.svg)
 and
 [`mouthpiece-bore10-trumpet-parts-section.svg`](https://github.com/Gernreich/trumpet-parts/blob/main/mouthpiece/mouthpiece-bore10-trumpet-parts-section.svg).
 **Those are display only — never cut one.**
 
-**All four live in `trumpet-parts`, not here.** They were kept in this repository
+**Both live in `trumpet-parts`, not here.** They were kept in this repository
 until 2026-09-02 on the grounds that nothing else cut them — which was true of
-what had been cut, and not true of what fits. The 25mm mouthpiece and bell suit
-any 25mm channel, and `trumpet-coiled` and `trumpet-octagonal` are both exactly
-that, so holding them here hid two general parts inside one instrument. The rule
+what had been cut, and not true of what fits: the pair then kept here suited any
+channel of their size, and holding them here hid two general parts inside one
+instrument. The rule
 `trumpet-coiled` already stated is the one that decides it: neither end is
 touched by the way a bore turns, so **only the tube belongs to an instrument**.
 
@@ -221,30 +199,20 @@ The bell and the mouthpiece are safe: their filenames differ between sizes.
 
 ## The pages
 
-**[`sizes.html`](sizes.html) holds both sizes in one page**, with a control that
-switches between them. That is the useful comparison: the walk, the sections and
-the shapes are identical at 25mm and 10mm, and what changes is how big it is —
-682mm of centreline against 352. The page is drawn to a **locked scale**, so the
-10mm really does appear at 16/31 of the 25mm rather than being refitted to the
-canvas, and the switch keeps your camera so the two swap in place. Two separate
-pages make that hard to see, because you lose the camera opening the second.
-`bore-generator/sizes.py` writes it, through the same viewer the per-size pages
-use.
+**[`10mm/bore/bore.html`](10mm/bore/bore.html)** is the bore, drawn and
+turnable. Drag to turn, colour by direction or by section, and a slider follows
+the bore from the mouth. It is self-contained apart from its fonts, so it opens
+from a checkout as readily as from the published page.
 
-Each bore folder also carries its own viewer —
-[`25mm/bore/bore.html`](25mm/bore/bore.html) and
-[`10mm/bore/bore.html`](10mm/bore/bore.html). Drag to turn, colour by
-direction or by section, and a slider follows the bore from the mouth. They are
-the same page with different measurements in them, and self-contained apart
-from their fonts, so either opens from a checkout as readily as from the
-published page.
+`sizes.html`, which held both sizes in one page with a control to swap them,
+went with the 25mm folder on 2026-09-03.
 
 ## Where it comes from
 
 Generated by
 **[bore-generator](https://github.com/Gernreich/bore-generator)**, which holds
 the walk as `walks/trumpet_switchback.txt` and gates these files in
-`regress.py` as two designs, one per size. Its
+`regress.py`. Its
 [CLAUDE.md](https://github.com/Gernreich/bore-generator/blob/main/CLAUDE.md)
 carries the conventions — the elbow rule, which switches reach the gate, and why
 a regenerated folder is not a checked one. To rebuild and check:
@@ -253,7 +221,6 @@ a regenerated folder is not a checked one. To rebuild and check:
 cd ../bore-generator
 W="$(cat walks/trumpet_switchback.txt)"
 D=../trumpet-switchback
-python3 bore_split.py --refuse-elbows "$W" --write $D/25mm/bore
 python3 bore_split.py --blocksize=16 --refuse-elbows "$W" --write $D/10mm/bore
 ~/boxes/venv/bin/python regress.py trumpet
 ```

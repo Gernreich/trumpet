@@ -1,5 +1,11 @@
 # CLAUDE.md
 
+**The 25mm folder was deleted on 2026-09-03.** This repository is a 10mm bore now:
+six sections on a 16mm block, 352mm of centreline. `sizes.html` went with it - it
+existed to hold both sizes in one page. Notes below that named a 25mm sheet now name
+the 10mm one; notes that are ABOUT having had two sizes are kept, because that is
+where the play table's two measured figures came from.
+
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## What this is
@@ -44,11 +50,11 @@ moving the result across, because they write into their own directory. Two traps
 
 - **Name the sheet on the way out.** Both generators take the filename — a positional
   argument for `mouthpiece-round.py`, `--out=` for `bell-round.py` — and the names here put
-  the bore in every one: `mouthpiece-bore25-trumpet-parts-cut-files.svg`, `bell-round10-153mm-17rings-x3-rim86-cut-files.svg`. The
+  the bore in every one: `mouthpiece-bore10-trumpet-parts-cut-files.svg`, `bell-round10-153mm-17rings-x3-rim86-cut-files.svg`. The
   generated names say how a sheet was *made* (which script, what length), which is not what
   someone hunting for a part needs to read, and they left the 25mm sheets with no size in
   their names at all. Take the name and there is nothing to rename afterwards.
-- **A bare `bell-round.py` writes `bell-round25-204mm-17rings-x4-rim145-cut-files.svg` back into `../trumpet-parts/bell`,**
+- **A bare `bell-round.py` writes `bell-round10-153mm-17rings-x3-rim86-cut-files.svg` back into `../trumpet-parts/bell`,**
   since it is one of that script's four standard budgets. Give it a budget and an `--out` so
   it writes one named sheet; otherwise move the result here or delete it, and do not leave a
   second copy there.
@@ -123,7 +129,7 @@ to one is a change to both.
 **The two folders shared every filename until 2026-09-03.** `01_bend_DL.svg` existed in both
 bores, because the shapes genuinely are the same and only the pitch differs — but nothing
 stopped you cutting the wrong one, and the only tell was the sheet size. The bore is now in
-the name: `bore25-trumpet-switchback-01of06-bend-DL-buttin-cut-files.svg`, and each sheet
+the name: `bore10-trumpet-switchback-01of06-bend-DL-buttin-cut-files.svg`, and each sheet
 carries a `<title>` and `<desc>` saying its bore, its blocks and its faces, so a file that
 has been renamed or moved can still be asked what it is.
 
