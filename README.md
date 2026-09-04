@@ -251,6 +251,32 @@ If the *finger joints* are loose too, `pin_play` is the wrong dial — that is
 `burn`, which should be half your kerf. Too low a burn loosens everything at
 once.
 
+### The 16mm coupon, cut and ready
+
+`PLAY_BY_BORE` is a lookup of what has been cut — **0 at the 25mm bore, 0.025
+at the 10mm** — and the direction between those two says required clearance
+*falls* as the joint grows. That is a hypothesis with two points on it. The
+coupon in [`coupon-16mm/`](coupon-16mm) is the test that settles it, at the
+bore where the 48% tab fraction binds and the tab comes out **7.68mm**.
+
+| sheet | cut | |
+| --- | --- | --- |
+| [`mating-section-cut-once.svg`](coupon-16mm/mating-section-cut-once.svg) | **once** | section 2, the tab side — identical at all three clearances |
+| [`notch-A-play0-cut-once.svg`](coupon-16mm/notch-A-play0-cut-once.svg) | once | section 1 at **0** per side |
+| [`notch-B-play0.0125-cut-once.svg`](coupon-16mm/notch-B-play0.0125-cut-once.svg) | once | section 1 at **0.0125** |
+| [`notch-C-play0.025-cut-once.svg`](coupon-16mm/notch-C-play0.025-cut-once.svg) | once | section 1 at **0.025** |
+
+Cut all four, then try each notch section against the one tab section. **If
+take-up scales with the joint, B is the one that fits.**
+
+**The tags are not decoration.** Every part on a notch sheet is engraved `1A`,
+`1B` or `1C`, because the three differ by 0.0125mm of notch and otherwise come
+off the bed as three identical piles. Without them the test can be performed
+and not read.
+
+Whatever fits, add the row to `PLAY_BY_BORE` and stop passing `--play`: the
+table is what has been measured, and the flag exists to measure.
+
 ## The connector
 
 Both ends are open. One end carries four tabs, the other four matching notches,
