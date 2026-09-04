@@ -238,6 +238,42 @@ straights take up the slack at **82.4539mm**, which is 1000.0mm again.
 </table>
 </div>
 
+## The volute, which is not finished
+
+    python3 volute/volute.py
+
+[`volute/`](volute/) holds a metre of bore wound flat as **six semicircles of
+stepping radius**, R82.3 down to R22.3 — the classical compass construction of a
+spiral. It is kept because the construction is the answer to something that
+defeated a smooth spiral: **a spiral's radius is still changing across a facet,
+and [`offset()`](ribbon_bore.py) mitres a vertex assuming the curvature either
+side of it is constant.** That is true of an arc and false of a spiral, and
+building this shape smoothly cost **6.44mm of a 10mm airway**. An arc chain
+holds the radius across each facet and steps it only at the joins, where a mitre
+already expects a corner.
+
+**No cut file, because it is not yet an instrument**, and
+[`volute.py`](volute/volute.py) says so itself — it runs the same kind of checks
+the generator does and two of them fail:
+
+| | |
+| --- | --- |
+| the bore stays clear of itself | **7.75mm** against the 20mm cheek band |
+| the two openings are opposed | **135°** apart, 180° is opposed |
+| every arc holds a tooth | R22.3 against R19.6 needed |
+| the cheek fits the P2S bed | 192 × 173mm against 580 × 288 |
+
+Both failures are one problem. A volute winds inward and **stops at the centre**,
+and that end is enclosed: a straight lead leaving it runs 1mm before it is inside
+the coil. Getting both openings onto the rim means winding in and back out again
+with the return arm *between* the turns, and every interleaving tried so far
+retraced the inward path exactly. The 135° is the same story — a chord's
+direction is the tangent at its arc's midpoint, so **F facets turn the run
+(F−1) facets**, and at 45° facets an opposed pair needs F = 8k+1, which is one
+facet more than any whole number of semicircles gives.
+
+[`volute.html`](volute/volute.html) draws it to scale.
+
 ## The coupon
 
 Two files: **[the cheek](ribbon-coupon-bore10-30deg-R30-180turn-cheek-x2-cut-files.svg)**,
