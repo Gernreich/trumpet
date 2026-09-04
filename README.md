@@ -1,7 +1,7 @@
 # bore-stretched
 
 Bores whose **straight blocks are longer than their turns**. The cross-section
-stays square the whole way — 10 x 10mm of air — but a block that runs straight
+stays square the whole way — 10 × 10mm of air — but a block that runs straight
 is 30mm long, while a block that turns is a 16mm cube. The same walk that gives
 352mm of centreline on a uniform 16mm block gives **548mm** here, without
 changing a single term of it.
@@ -26,6 +26,17 @@ the cutting and the playing are shown.
 **[The rest of the build files](https://gernreich.github.io/)** — every
 instrument, generator and tool, indexed.
 
+<div class="tw">
+<table>
+<tr>
+<td align="center"><a href="coil-10x10x30-1.5t/bore10-coil-10x10x30-1.5t-01of06-bend-DL-buttin-cut-files.svg"><img src="coil-10x10x30-1.5t/previews/bore10-coil-10x10x30-1.5t-01of06-bend-DL-buttin-cut-files.svg" alt="The first of six sheets for the 1.5-turn coil: flat finger-jointed plates for one bend of a 10 × 10mm bore, each engraved with its number" width="620"></a></td>
+</tr>
+<tr>
+<td align="center"><sub>bore10-coil-10x10x30-1.5t-01of06-bend-DL-buttin-cut-files.svg &middot; 325.2 &times; 70.2mm sheet</sub></td>
+</tr>
+</table>
+</div>
+
 ## Why a turn has to be a cube
 
 A block is 16mm outside and 10mm of air, a 3mm wall each side. Along the way the
@@ -42,7 +53,7 @@ That is the whole design. Eight of the 22 blocks turn, so:
 | turning blocks, 16mm cubes | 8 |
 | centreline | 548mm |
 | the same walk on a uniform 16mm block | 352mm |
-| envelope | 92 x 92 x 152mm |
+| envelope | 92 × 92 × 152mm |
 
 **1.56x, not 3x.** Stretching 30/16 is 1.875 per straight block, and the turns
 do not stretch at all.
@@ -54,10 +65,10 @@ lands every three terms, and the walk can be cut at any spacer:
 
 | folder | turns | blocks | centreline | sections | envelope |
 | --- | ---: | ---: | ---: | ---: | --- |
-| [`coil-10x10x30-0.75t`](coil-10x10x30-0.75t/) | 0.75 | 11 | 274mm | 3 | 92 x 62 x 76mm |
-| [`coil-10x10x30-1.5t`](coil-10x10x30-1.5t/) | 1.5 | 22 | 548mm | 6 | 92 x 92 x 152mm |
-| [`coil-10x10x30-2.25t`](coil-10x10x30-2.25t/) | 2.25 | 33 | 822mm | 9 | 122 x 92 x 228mm |
-| [`coil-10x10x30-3t`](coil-10x10x30-3t/) | 3 | 44 | 1096mm | 12 | 122 x 122 x 304mm |
+| [`coil-10x10x30-0.75t`](coil-10x10x30-0.75t/) | 0.75 | 11 | 274mm | 3 | 92 × 62 × 76mm |
+| [`coil-10x10x30-1.5t`](coil-10x10x30-1.5t/) | 1.5 | 22 | 548mm | 6 | 92 × 92 × 152mm |
+| [`coil-10x10x30-2.25t`](coil-10x10x30-2.25t/) | 2.25 | 33 | 822mm | 9 | 122 × 92 × 228mm |
+| [`coil-10x10x30-3t`](coil-10x10x30-3t/) | 3 | 44 | 1096mm | 12 | 122 × 122 × 304mm |
 
 Each group costs exactly **11 blocks**, so shortening to the previous spacer is a
 flat price — 11, 22, 33, 44. All four enter and leave north with flat outer faces, and none has
@@ -181,7 +192,7 @@ terms in each circuit read `3 2 3`, and the middle ones taken in order spell
 | --- | ---: |
 | blocks | 44 — 28 straights at 30mm, 16 cubic turns |
 | centreline | **1096mm** |
-| envelope | 122 x 122 x 304mm |
+| envelope | 122 × 122 × 304mm |
 | sections | 12, 80 flat parts |
 
 **It enters and leaves north, and both outer faces are flat**, so a mouthpiece
