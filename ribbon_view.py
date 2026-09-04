@@ -411,6 +411,32 @@ def main():
         setattr(B, name, cast(hit[0].split('=', 1)[1]))
 
     here = os.path.dirname(os.path.abspath(__file__))
+    # --trace draws a centreline measured off somebody else's cut file rather
+    # than one this repository generates. trumpet-octagonal's bore is the only
+    # one so far: its sheet is a hand-authored band and the curve is not
+    # written down anywhere as parameters, so it was traced and the trace is
+    # kept, with its provenance, in traces/.
+    tr = [x for x in a if x.startswith('--trace=')]
+    if tr:
+        import json
+        doc = json.load(open(tr[0].split('=', 1)[1]))
+        pts = [tuple(q) for q in doc['stations']]
+        B.BORE, B.FACET, B.SHAPE = doc['bore'], doc['facet'], 'traced'
+        B.centreline = lambda: pts          # already in SVG coordinates
+        seg = [B.seglen(pts[i], pts[i+1]) for i in range(len(pts)-1)]
+        inner = sorted(seg)[1:-1]
+        B.RADIUS = round((sum(inner) / len(inner))
+                         / (2 * math.tan(math.radians(B.FACET / 2))), 3)
+        stem = f'ribbon-traced-{doc["name"]}-bore{B.BORE:g}-{B.FACET:g}deg'
+        title = f'Octagonal Trumpet Bore, {B.BORE:g}mm — traced'
+        out = [x for x in a if x.startswith('--out=')]
+        path = out[0].split('=', 1)[1] if out else os.path.join(here, stem + '.html')
+        open(path, 'w').write(build(title))
+        d = data_for()
+        print(f'  {os.path.basename(path):<52}drag to turn, colour by face '
+              f'or facet')
+        print(f'  {"":52}{d["mm"]}mm, {d["segs"]} facets, traced')
+        return 0
     if B.SHAPE == 'torus':
         stem = f'ribbon-torus-bore{B.BORE:g}-{B.FACET:g}deg-R{B.RADIUS:.0f}'
         title = f'Octagonal Torus, {B.BORE:g}mm Bore'

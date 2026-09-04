@@ -37,8 +37,23 @@ facets at 25 × 25mm. Extrapolated from that repository's own cut file: a
 centreline octagon of circumradius 76.4696 puts the airway between apothems
 58.149 and 83.149, which is what its verifier measures. `--shape=torus`.
 
+And a fifth is **traced, not generated**:
+[`ribbon-traced-octagonal-trumpet-bore25-45deg.html`](ribbon-traced-octagonal-trumpet-bore25-45deg.html)
+is **[trumpet-octagonal](https://gernreich.github.io/trumpet-octagonal/)'s
+bore** — 1107.9mm at 25 × 25mm, twelve facets of 45°. That sheet's band is
+hand-authored and its curve is not written down as parameters anywhere, so the
+centreline was measured off a trace of the cheek and kept, with how it was
+taken, in [`traces/octagonal-trumpet.json`](traces/octagonal-trumpet.json).
+
+The trace confirmed the model rather than only supplying it: the strip came out
+**31.2mm wide** — 25mm of airway with a 3mm wall each side — the turns came out
+at **±45°**, the same facet angle as the torus, and the total turning came out
+at **0°**, which is what a bore between a mouthpiece and a bell has to do. Treat
+its length as ±1%: the traced width scatters 30.7 to 35.5mm about that nominal
+31.2.
+
 Built by [`ribbon_view.py`](ribbon_view.py), which takes the same flags as the
-generator. **It draws the airway, not the plywood** — the passage the air takes,
+generator, plus `--trace=`. **It draws the airway, not the plywood** — the passage the air takes,
 bounded by the wall faces. That is the point: the section this repository is
 about is a property of the airway, and the bore was cut 3mm narrow for a week
 because nothing drew the space inside it.

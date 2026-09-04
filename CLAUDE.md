@@ -108,6 +108,29 @@ checked by comparing the cut groups as position-independent shapes, which is
 the only comparison that means anything once the packer may have reordered
 them.
 
+## A traced centreline is kept with how it was taken
+
+`--trace=` draws a bore measured off somebody else's cut file. Only
+trumpet-octagonal needs it: its sheet is a hand-authored band, and the curve
+behind it is not written down as parameters anywhere.
+
+`traces/octagonal-trumpet.json` carries the stations **and the provenance** -
+which path in which file, which transforms were composed onto it, how the
+midline was taken, and what was measured. A traced number without that is a
+number nobody can check.
+
+**Three things fell out of the trace that were not assumed**, and they are why
+it is trustworthy: the strip is 31.2mm wide, which is 25mm of airway with a 3mm
+wall each side; the turns are +-45 degrees, the same facet angle as the torus;
+and the total turning is 0, which is what a bore between a mouthpiece and a
+bell must do.
+
+It is a trace, so it is not exact. The width scatters 30.7 to 35.5mm about a
+nominal 31.2, two turns are still 5 degrees off square, and two stations a few
+millimetres apart had to be merged - the shortest real facet on this channel is
+2*R*tan(22.5), about 62mm, so 12mm was a safe threshold. **If the parameters
+ever turn up, generate it instead and delete the trace.**
+
 ## A closed ring is a shape too
 
 `--shape=torus` is a closed regular ring of FACET turns, and `offset()` mitres
