@@ -120,14 +120,22 @@ MIN_SHOULDER = 2.0   # material left either side of the tab, along the frame
 # frames at 16mm, where the tab is 7.68mm and the 48% fraction binds, at 0.0,
 # 0.0125 and 0.025 per side. If take-up scales, the middle one fits.
 #
-# --play cuts it. The walk is the shortest two-section one with no elbows, so
-# the sheet carries the joint and almost nothing else:
+# --play cuts it, and --tag tells the results apart. The walk is the shortest
+# two-section one with no elbows, so the sheet carries the joint and almost
+# nothing else:
 #
 #   W="N N2 U3 E3 E"
-#   for pl in 0 0.0125 0.025; do
-#     bore_split.py --blocksize=22 --play=$pl --refuse-elbows "$W" \
-#         --write ../test/coupon-16mm/play-$pl
+#   for t in A:0 B:0.0125 C:0.025; do
+#     bore_split.py --blocksize=22 --play=${t#*:} --tag=${t%%:*} \
+#         --refuse-elbows "$W" --write ../test/coupon-16mm/notch-${t%%:*}
 #   done
+#
+# FOUR SHEETS, and the tag is not decoration. Section 2 carries the tab and is
+# identical at all three clearances, so it is cut once. Section 1 carries the
+# notch and is cut three times - and those three come off the bed as three
+# indistinguishable piles, because the difference between them is 0.0125mm of
+# notch. --tag=A engraves an A beside every number on that run. Without it the
+# test cannot be read, only performed.
 #
 # 22mm block is the 16mm bore, and --pin_width comes out at 7.68mm, which is the
 # figure this paragraph is about. Measured across the three runs: only section 1
@@ -950,14 +958,24 @@ def label_spot(part, gw, gh, step=1.5):
     return bx, by, scale
 
 
+TAG = ''             # --tag=, appended to every part's engraved number
+
+
 def part_labels(p, code, args=None, neighbours=None):
-    """The engraving for one part: its section number, and nothing else.
+    """The engraving for one part: its section number, and TAG if there is one.
+
+    A coupon cut three times at three clearances comes off the bed as three
+    identical piles - the difference is 0.0125mm of notch, which no one can
+    see. --tag=A puts an A beside every number on that run, so the piles stay
+    told apart. It changes the engraving and nothing else: the cut paths are
+    the same with it and without.
 
     Part names and edge marks were tried and were harder to read than they
     were worth on parts this size. The number says which section a loose part
     belongs to, which is what actually gets lost on the bench.
     """
     gh = 5.0 / 3.0
+    code = f'{code}{TAG}'
     _, gw0 = glyphs(code, gh)
     spot = label_spot(p, gw0, gh)
     if not spot:
@@ -1395,6 +1413,10 @@ if __name__ == '__main__':
     if bs:
         a.remove(bs[0])
         B.set_blocksize(bs[0].split('=', 1)[1])
+    tg = [x for x in a if x.startswith('--tag=')]
+    if tg:
+        a.remove(tg[0])
+        B.TAG = tg[0].split('=', 1)[1]
     pl = [x for x in a if x.startswith('--play=')]
     if pl:
         a.remove(pl[0])
