@@ -80,8 +80,14 @@ The curve behind this sheet is not written down as parameters anywhere, so it
 was measured rather than generated. The trace confirmed as much as it supplied:
 the strip came out **31.2mm wide** — 25mm of airway with a 3mm wall each side —
 the turns came out at **±45°**, the same facet angle as the torus, and the total
-turning came out at **0°**, which is what a bore between a mouthpiece and a bell
-must do. The width scatters 30.7 to 35.5mm about that nominal, so treat the
+turning came out at **0°** — every turn cancels, so this bore's mouth and its
+bell face the **same** way. That is a description of this sheet, not a rule: a
+bore wants to reverse, mouth and bell facing opposite ways, so that you blow one
+way and the instrument speaks the other and neither end sits at an angle to the
+run. That is 180°, and
+[bore-ribbon](https://gernreich.github.io/bore-ribbon/) draws it as
+`--shape=reversing`. This one turning 0° is a property of the shape that was
+traced, and worth knowing before it becomes an instrument. The width scatters 30.7 to 35.5mm about that nominal, so treat the
 length as ±1%.
 
 The numbers live in
