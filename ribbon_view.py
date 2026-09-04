@@ -70,7 +70,11 @@ def data_for():
     # a closed ring has no mouth and no far end; the last station IS the first,
     # so its four vertices are already coincident with station 0's
 
-    R = B.LOBE_R if B.SHAPE in ('serpentine', 'opposed') else B.RADIUS
+    # The spiral has no single bend radius - that is the point of it - so it
+    # reports the range it sweeps. Falling through to RADIUS printed the
+    # coupon's R30 on a bore whose arcs run R34.7 to R112.9.
+    R = (B.SPIRAL_RI if B.SHAPE == 'spiral'
+         else B.LOBE_R if B.SHAPE in ('serpentine', 'opposed') else B.RADIUS)
     return {
         'V': [[round(v, 3) for v in p] for p in V],
         'Q': Q,
@@ -78,6 +82,9 @@ def data_for():
         'mm': round(sum(B.seglen(p, q) for p, q in zip(c, c[1:])), 1),
         'facet': B.FACET,
         'shape': B.SHAPE,
+        'rrange': ([round(B.SPIRAL_RI, 1), round(B.SPIRAL_RO, 1)]
+                   if B.SHAPE == 'spiral' else None),
+        'flat': B.SHAPE == 'spiral',
         'R': R,
         'segs': n,
         'over': round(100 * (1 / math.cos(math.radians(B.FACET) / 2) - 1), 2),
@@ -152,7 +159,10 @@ const D = __DATA__;
 const cv = document.getElementById('c'), cx = cv.getContext('2d');
 const EDGE = getComputedStyle(document.documentElement)
   .getPropertyValue('--edge').trim() || 'rgba(0,0,0,.30)';
-let yaw = -0.62, pitch = -0.42, zoom = 1, mode = 'face', reveal = D.segs;
+// A flat coil is 10mm thick against 212 across, so a near-overhead default
+// reads as a drawing rather than a thing. Start it further round.
+let yaw = -0.62, pitch = D.flat ? -0.95 : -0.42, zoom = 1,
+    mode = 'face', reveal = D.segs;
 
 /* --- the model, centred on its own middle so rotation feels right --- */
 const C = (() => {
@@ -240,7 +250,7 @@ cv.addEventListener('wheel', e => {
   draw();
 }, {passive:false});
 cv.addEventListener('dblclick', () => {
-  yaw = -0.62; pitch = -0.42; zoom = 1; draw();
+  yaw = -0.62; pitch = D.flat ? -0.95 : -0.42; zoom = 1; draw();
 });
 
 const $ = id => document.getElementById(id);
@@ -283,8 +293,11 @@ $('sub').innerHTML = `<b>${D.bore} \u00d7 ${D.bore}mm</b> section, `
 $('nums').innerHTML = [
   ['shape', D.shape], ['bore', D.bore + ' \u00d7 ' + D.bore + 'mm'],
   ['section', (D.bore*D.bore) + 'mm\u00b2'],
-  ['centreline', D.mm + 'mm'], ['bend radius', D.R + 'mm'],
-  ['R / bore', (D.R/D.bore).toFixed(1)],
+  ['centreline', D.mm + 'mm'],
+  ['bend radius', D.rrange ? ('R' + D.rrange[0] + ' to R' + D.rrange[1]) : (D.R + 'mm')],
+  ['R / bore', D.rrange
+     ? (D.rrange[0]/D.bore).toFixed(1) + ' to ' + (D.rrange[1]/D.bore).toFixed(1)
+     : (D.R/D.bore).toFixed(1)],
   ['facet', D.facet + '\u00b0'], ['area at a mitre', '+' + D.over + '%'],
 ].map(([a,b]) => `<dt>${a}</dt><dd>${b}</dd>`).join('');
 
