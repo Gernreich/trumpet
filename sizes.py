@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 """One page holding a design at every block size it is cut at.
 
-    python3 sizes.py trumpet_switchback ../trumpet-switchback/sizes.html
+    python3 sizes.py trumpet_switchback /tmp/sizes.html
+
+Nothing here is cut at two sizes any more - trumpet-switchback's 25mm folder
+went on 2026-09-03 - so this writes no page that is kept. It is left in place
+because the next design cut at two pitches will want it, and because the
+locked-scale drawing it does is the only way to see one.
 
 A design cut at two sizes is one shape and two pitches: the walk, the sections
 and the shapes are identical, and only the millimetres differ. Two pages make

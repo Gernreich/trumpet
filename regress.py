@@ -63,16 +63,12 @@ DESIGNS = [
     # short at both ends to leave room for the mouthpiece and the bell. Four
     # of its six sections come out as one of two shapes, so it is the set's
     # check that duplicates still get their own section number engraved.
+    # On a 16mm block - 10mm of air inside 3mm walls. The only design here not
+    # cut at the stock pitch, so it is the one thing keeping --blocksize
+    # honest: everything scaled with the block except SnakeBox's 12mm tab,
+    # which does not fit a 10mm frame. Its 25mm twin was retired with
+    # trumpet-switchback's 25mm folder on 2026-09-03.
     ('trumpet switchback',
-     'walks/trumpet_switchback.txt',
-     '../trumpet-switchback/25mm/bore'),
-    # the same walk on a 16mm block - 10mm of air inside 3mm walls, where the
-    # 31mm sibling above gives 25. The only design here not cut at the stock
-    # pitch, so it is the one thing keeping --blocksize honest: everything
-    # scaled with the block except SnakeBox's 12mm tab, which does not fit a
-    # 10mm frame. Its folder is named for the bore, not the block, so it reads
-    # against bore-25mm rather than against 16.
-    ('trumpet switchback, 10mm',
      'walks/trumpet_switchback.txt',
      '../trumpet-switchback/10mm/bore', 16),
     # The elbow-free walks. Every design above either contains elbows or is too
@@ -105,7 +101,17 @@ def main(pattern=None):
         if pattern and pattern.lower() not in name.lower():
             continue
         args = [sys.executable, 'check.py', walk_of(walk, here)]
-        if folder and os.path.isdir(os.path.join(here, folder)):
+        if folder:
+            # A NAMED FOLDER THAT IS NOT THERE IS A FAILURE, not a skip. This
+            # used to fall through to a geometry-only run: when
+            # trumpet-switchback's 25mm folder was deleted, this design went
+            # from 195 checks to 176 and still said "pass". check.py's own
+            # guard cannot help - it only fires on a folder that exists and is
+            # empty, and this one had stopped existing.
+            if not os.path.isdir(os.path.join(here, folder)):
+                print(f'  FAIL  {name:<16} names {folder}, which is not there')
+                bad += 1
+                continue
             args += ['--files', folder]
         # a fourth field is the block pitch, for the designs not cut at 31
         if rest:

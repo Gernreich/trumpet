@@ -1,5 +1,15 @@
 # CLAUDE.md
 
+**trumpet-switchback is one size from 2026-09-03.** Its 25mm folder was deleted, so
+`regress.py` names one switchback design rather than two, and `sizes.py` writes no
+page that is kept. Notes below about having had two sizes are history and stay: the
+play table's two measured figures came from exactly that pair.
+
+**A design naming a folder that is not there now fails.** It used to fall through to
+a geometry-only run - deleting the 25mm folder took that design from 195 checks to
+176 and it still said pass. `check.py`'s empty-folder guard could not catch it,
+because that fires on a folder which exists and is empty.
+
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## What this is
