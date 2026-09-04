@@ -28,6 +28,7 @@ slider builds it up a facet at a time.
 | --- | --- |
 | [`ribbon-coupon-bore10-30deg-R30.html`](ribbon-coupon-bore10-30deg-R30.html) | the 180° coupon |
 | [`ribbon-serpentine-bore10-30deg-3lobes-R72.html`](ribbon-serpentine-bore10-30deg-3lobes-R72.html) | the metre serpentine, 10mm bore |
+| [`ribbon-reversing-bore10-30deg-3lobes-R72.html`](ribbon-reversing-bore10-30deg-3lobes-R72.html) | the same run with its ends facing opposite ways |
 
 Two more draw instruments that live in other repositories, and they are the only
 things here still cut at 25mm — the objects are, so their names say so.
@@ -182,6 +183,50 @@ width, as Boxes.py does —
 — which is 1 up to 17.9mm, 3 at 34mm and **7 at 90mm**. Every panel on the
 coupon is short enough to want exactly one, so the coupon's cut geometry did
 not move when this arrived.
+
+## The reversing bore
+
+    python3 ribbon_bore.py --shape=reversing
+
+**1111.4mm of centreline**, in **58 parts on 2 files** — the serpentine and
+then one more quarter turn, which is the whole difference between the two.
+
+An odd number of half-circles leaves the serpentine's tail at **90°** to its
+mouth. A quarter turn on the end takes that to **180°**, so the bore comes out
+facing back the way it went in. That is the shape a mouthpiece and a bell want:
+you blow one way and the instrument speaks the other, and neither end is asked
+to sit at an angle to the run it grows out of.
+
+It costs 111.4mm of centreline and no bed at all. The turn folds back inside the
+envelope the lobes already occupy, so the cheek grows by 0.35mm in x and not at
+all in y, and the closest the bore comes to itself is **37.14mm** — the same
+37.14mm the serpentine already had between its own lobes, in a different place.
+The cheek band is 20mm, so two runs need 20mm centre to centre.
+
+| | 10 × 10mm |
+| --- | --- |
+| the cheek, **cut twice** | [`bore10`](ribbon-reversing-bore10-30deg-3lobes-R72-1111mm-cheek-x2-cut-files.svg) |
+| the panels, cut once | [`bore10`](ribbon-reversing-bore10-30deg-3lobes-R72-1111mm-panels-cut-files.svg) |
+| section | 100mm² |
+| turn, mouth to tail | 180° |
+| centreline | 1111.4mm |
+| cheek band | 20mm |
+| R / bore | 7.2 |
+| play, per side | 0.025mm |
+| shortest panel | 19.14mm |
+| slots per cheek | 160 |
+| the two sheets | 552.6 × 274.2mm and 591.1 × 116.5mm |
+
+<div class="tw">
+<table>
+<tr>
+<td align="center"><a href="ribbon-reversing-bore10-30deg-3lobes-R72-1111mm-panels-cut-files.svg"><img src="previews/ribbon-reversing-bore10-30deg-3lobes-R72-1111mm-panels-cut-files.svg" alt="The panel sheet: fifty-six finger-jointed wall panels laid out in rows, each engraved with a small blue hex number running 1 to 38" width="620"></a></td>
+</tr>
+<tr>
+<td align="center"><sub>ribbon-reversing-bore10-30deg-3lobes-R72-1111mm-panels-cut-files.svg &middot; 591.1 &times; 116.5mm sheet</sub></td>
+</tr>
+</table>
+</div>
 
 ## The coupon
 

@@ -126,7 +126,7 @@ def walk(spec):
                     f'--facet={FACET:g} does not divide a {deg:g} degree turn '
                     f'a whole number of times; {n} facets would turn '
                     f'{n * FACET:g} degrees.')
-            R = LOBE_R if SHAPE == 'serpentine' else RADIUS
+            R = LOBE_R if SHAPE in ('serpentine', 'reversing') else RADIUS
             cx = x - sign * R * math.sin(a)
             cy = y + sign * R * math.cos(a)
             t0 = math.atan2(y - cy, x - cx)
@@ -171,7 +171,7 @@ def centreline():
             raise ValueError(f'--facet={FACET:g} does not divide a full turn '
                              f'a whole number of times.')
         return flip(walk([('a', 360, +1)]))
-    if SHAPE == 'serpentine':
+    if SHAPE in ('serpentine', 'reversing'):
         # a lead-in, a quarter turn up, then alternating half-circles joined
         # by straight verticals, and a tail. The verticals are what make it
         # fit: a half-circle advances only 2/pi of its own length in x, so a
@@ -182,6 +182,16 @@ def centreline():
             spec.append(('a', 180, -1 if i % 2 == 0 else +1))
             if i < LOBES - 1:
                 spec.append(('s', RISE))
+        # 'reversing' closes with one more quarter turn, which is the whole
+        # difference between the two. An odd count of half-circles leaves the
+        # serpentine's tail at 90 degrees to its mouth; a quarter turn on the
+        # end takes it to 180, so the bore comes out facing back the way it
+        # went in. That is the shape a mouthpiece and a bell want: you blow
+        # one way and the instrument speaks the other, with no bend asked of
+        # either end. It costs 111.4mm of centreline and no bed at all - the
+        # turn folds back inside the envelope the lobes already occupy.
+        if SHAPE == 'reversing':
+            spec.append(('a', 90, -1))
         spec.append(('s', LEAD))
         return flip(walk(spec))
     n = int(round(180.0 / FACET))
@@ -745,9 +755,11 @@ def checks(c, inn, out, parts, cheekpoly, written, ink, cut_slots):
 def main(write=True):
     c, inn, out, parts, report = build()
     over = 100 * (1 / math.cos(math.radians(FACET) / 2) - 1)
-    R = LOBE_R if SHAPE == 'serpentine' else RADIUS
+    R = LOBE_R if SHAPE in ('serpentine', 'reversing') else RADIUS
     what = (f'{LOBES} half-circles of R{R:g} joined by {RISE:g}mm straights'
-            if SHAPE == 'serpentine' else f'one 180 degree bend of R{R:g}')
+            + (', then a quarter turn back' if SHAPE == 'reversing' else '')
+            if SHAPE in ('serpentine', 'reversing')
+            else f'one 180 degree bend of R{R:g}')
     print(f'ribbon bore, {SHAPE}   {BORE:g}mm square, {FACET:g} degree facets')
     print(f'  {what}')
     print(f'  centreline {sum(seglen(a, b) for a, b in zip(c, c[1:])):.1f}mm, '
@@ -771,8 +783,8 @@ def main(write=True):
     L = sum(seglen(a, b) for a, b in zip(c, c[1:]))
     # the group goes before -cut-files, not after: every sheet in this
     # project ends -cut-files.svg and a reader sorts on the tail
-    if SHAPE == 'serpentine':
-        stem = (f'ribbon-serpentine-bore{BORE:g}-{FACET:g}deg-{LOBES}lobes'
+    if SHAPE in ('serpentine', 'reversing'):
+        stem = (f'ribbon-{SHAPE}-bore{BORE:g}-{FACET:g}deg-{LOBES}lobes'
                 f'-R{LOBE_R:.0f}-{L:.0f}mm.svg')
     else:
         stem = (f'ribbon-coupon-bore{BORE:g}-{FACET:g}deg'

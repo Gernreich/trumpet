@@ -70,7 +70,7 @@ def data_for():
     # a closed ring has no mouth and no far end; the last station IS the first,
     # so its four vertices are already coincident with station 0's
 
-    R = B.LOBE_R if B.SHAPE == 'serpentine' else B.RADIUS
+    R = B.LOBE_R if B.SHAPE in ('serpentine', 'reversing') else B.RADIUS
     return {
         'V': [[round(v, 3) for v in p] for p in V],
         'Q': Q,
@@ -440,10 +440,12 @@ def main():
     if B.SHAPE == 'torus':
         stem = f'ribbon-torus-bore{B.BORE:g}-{B.FACET:g}deg-R{B.RADIUS:.0f}'
         title = f'Octagonal Torus, {B.BORE:g}mm Bore'
-    elif B.SHAPE == 'serpentine':
-        stem = (f'ribbon-serpentine-bore{B.BORE:g}-{B.FACET:g}deg-'
+    elif B.SHAPE in ('serpentine', 'reversing'):
+        stem = (f'ribbon-{B.SHAPE}-bore{B.BORE:g}-{B.FACET:g}deg-'
                 f'{B.LOBES}lobes-R{B.LOBE_R:.0f}')
-        title = (f'Ribbon Serpentine, {B.BORE:g}mm Bore')
+        title = ('Ribbon Reversing Bore, %gmm' % B.BORE
+                 if B.SHAPE == 'reversing'
+                 else f'Ribbon Serpentine, {B.BORE:g}mm Bore')
     else:
         stem = f'ribbon-coupon-bore{B.BORE:g}-{B.FACET:g}deg-R{B.RADIUS:g}'
         title = f'Ribbon Coupon, {B.BORE:g}mm Bore'
