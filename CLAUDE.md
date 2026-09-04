@@ -1,9 +1,15 @@
 # CLAUDE.md
 
-**The 25mm sheets went on 2026-09-03**, with the torus and traced-trumpet viewers that
-were named for that bore. `--bore` is untouched and takes any value; only the sheets
-kept here are 10mm. `traces/octagonal-trumpet.json` stays - the instrument it was
-measured off is still there, it is only its viewer that went.
+**The 25mm CUT SHEETS went on 2026-09-03**; `--bore` is untouched and takes any value,
+and only the sheets kept here are 10mm.
+
+**The two 25mm VIEWERS stayed** - `ribbon-torus-bore25-45deg-R76.html` and
+`ribbon-traced-octagonal-trumpet-bore25-45deg.html`. They went briefly with the sheets,
+because a name filter cannot tell a 25mm sheet from a drawing of a 25mm instrument, and
+came back the same day: torus-octagonal and trumpet-octagonal are both still here, and
+those pages are their only 3D views. **They keep the 25 in their names because the
+objects are 25mm.** Renaming them to survive a filter would be the filter deciding what
+is true.
 
 ## Working in this repository
 

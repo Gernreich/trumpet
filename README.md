@@ -29,6 +29,29 @@ slider builds it up a facet at a time.
 | [`ribbon-coupon-bore10-30deg-R30.html`](ribbon-coupon-bore10-30deg-R30.html) | the 180° coupon |
 | [`ribbon-serpentine-bore10-30deg-3lobes-R72.html`](ribbon-serpentine-bore10-30deg-3lobes-R72.html) | the metre serpentine, 10mm bore |
 
+Two more draw instruments that live in other repositories, and they are the only
+things here still cut at 25mm — the objects are, so their names say so.
+
+[`ribbon-torus-bore25-45deg-R76.html`](ribbon-torus-bore25-45deg-R76.html) is
+**[torus-octagonal](https://gernreich.github.io/torus-octagonal/) drawn as a
+ribbon bore**, which is what it is — a closed ring of eight 45° facets at
+25 × 25mm. Extrapolated from that repository's own cut file: a centreline
+octagon of circumradius 76.4696 puts the airway between apothems 58.149 and
+83.149, which is what its verifier measures. `--shape=torus`.
+
+[`ribbon-traced-octagonal-trumpet-bore25-45deg.html`](ribbon-traced-octagonal-trumpet-bore25-45deg.html)
+is **[trumpet-octagonal](https://gernreich.github.io/trumpet-octagonal/)'s
+bore** — 1107.9mm at 25 × 25mm, twelve facets of 45°, and **traced, not
+generated**. That sheet's band is hand-authored and its curve is not written
+down as parameters anywhere, so the centreline was measured off a trace of the
+cheek and kept, with how it was taken, in
+[`traces/octagonal-trumpet.json`](traces/octagonal-trumpet.json). The trace
+confirmed the model rather than only supplying it: the strip came out **31.2mm
+wide** — 25mm of airway with a 3mm wall each side — the turns came out at
+**±45°**, the same facet angle as the torus, and the total turning came out at
+**0°**, which is what a bore between a mouthpiece and a bell has to do. Treat
+its length as ±1%: the traced width scatters 30.7 to 35.5mm about that nominal.
+
 Built by [`ribbon_view.py`](ribbon_view.py), which takes the same flags as the
 generator, plus `--trace=`. **It draws the airway, not the plywood** — the passage the air takes,
 bounded by the wall faces. That is the point: the section this repository is
