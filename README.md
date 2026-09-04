@@ -31,6 +31,7 @@ slider builds it up a facet at a time.
 | [`ribbon-opposed-bore10-30deg-3lobes-R64.html`](ribbon-opposed-bore10-30deg-3lobes-R64.html) | the metre again, with mouth and bell facing opposite ways |
 | [`ribbon-spiral-bore10-45deg-R35to113.html`](ribbon-spiral-bore10-45deg-R35to113.html) | the metre wound flat, two and a bit turns |
 | [`ribbon-wave-bore10-45deg-5arc.html`](ribbon-wave-bore10-45deg-5arc.html) | a trough and a crest, level at both ends |
+| [`ribbon-traced-volute-bore10-45deg.html`](ribbon-traced-volute-bore10-45deg.html) | the volute, drawn but not cuttable |
 
 Two more draw instruments that live in other repositories, and they are the only
 things here still cut at 25mm — the objects are, so their names say so.
@@ -366,8 +367,12 @@ direction is the tangent at its arc's midpoint, so **F facets turn the run
 (F−1) facets**, and at 45° facets an opposed pair needs F = 8k+1, which is one
 facet more than any whole number of semicircles gives.
 
-[`volute.html`](volute/volute.html) draws it to scale, from the
-[`volute.json`](volute/volute.json) the script writes.
+[`volute.html`](volute/volute.html) draws it flat and to scale, from the
+[`volute.json`](volute/volute.json) the script writes, and
+[`ribbon-traced-volute-bore10-45deg.html`](ribbon-traced-volute-bore10-45deg.html)
+turns it in three dimensions from [`traces/volute.json`](traces/volute.json) —
+the same `--trace=` route the octagonal trumpet's bore uses, which is what
+draws a centreline this repository did not generate.
 
 ## The coupon
 

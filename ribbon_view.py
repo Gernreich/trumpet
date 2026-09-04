@@ -449,7 +449,10 @@ def main():
         B.RADIUS = round((sum(inner) / len(inner))
                          / (2 * math.tan(math.radians(B.FACET / 2))), 3)
         stem = f'ribbon-traced-{doc["name"]}-bore{B.BORE:g}-{B.FACET:g}deg'
-        title = f'Octagonal Trumpet Bore, {B.BORE:g}mm — traced'
+        # the trace names itself; this used to be hard-coded to the octagonal
+        # trumpet, which put that title on every other traced bore
+        title = (doc['name'].replace('-', ' ').title()
+                 + f', {B.BORE:g}mm \u2014 traced')
         out = [x for x in a if x.startswith('--out=')]
         path = out[0].split('=', 1)[1] if out else os.path.join(here, stem + '.html')
         open(path, 'w').write(build(title))
