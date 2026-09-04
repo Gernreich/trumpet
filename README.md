@@ -25,6 +25,17 @@ Split out of `octomino-snakes`, which enumerated and classified the 369 octomino
 now archived and private. The bore toolchain kept growing after that work finished, and a
 live instrument should not depend on a frozen repository to rebuild its own parts.
 
+<div class="tw">
+<table>
+<tr>
+<td align="center"><a href="coupon-16mm/mating-section-cut-once.svg"><img src="coupon-16mm/previews/mating-section-cut-once.svg" alt="The 16mm play coupon: a long finger-jointed strip of mating sections, cut once, engraved with the number each part carries" width="620"></a></td>
+</tr>
+<tr>
+<td align="center"><sub>coupon-16mm/mating-section-cut-once.svg &middot; 483.2 &times; 71.2mm sheet</sub></td>
+</tr>
+</table>
+</div>
+
 ## Install
 
 `bore_split.py` looks for Boxes.py at `~/boxes` and its interpreter at
@@ -102,7 +113,7 @@ name the open faces:
 boxes SnakeBox --path= --open_faces=S,E --blocksize=31
 ```
 
-That is a 31mm cube with two adjacent faces open — four parts, each 31.2 x 31.2
+That is a 31mm cube with two adjacent faces open — four parts, each 31.2 × 31.2
 at `--pin_length=0`. Opposite faces (`--open_faces=S,N`) give a one-cell straight
 instead.
 
@@ -124,7 +135,7 @@ four symmetric positions engage.
 Because those two openings share an edge, the elbow has no material along it,
 and neither neighbouring tube reaches it either — one stops at one opening
 plane, the other at the other. That leaves the **inside of the bend open by
-`t` x `t` across the bore's width**: 3 x 3 x 25 = 225mm^3 at `blocksize=31`.
+`t` × `t` across the bore's width**: 3 × 3 × 25 = 225mm^3 at `blocksize=31`.
 Modelled as solids it is sealed from outside by the two neighbours' walls and
 the elbow's plates, so it is a notch in the bore rather than a leak — but it
 shows as a gap where the two neighbouring walls fail to meet.
@@ -135,7 +146,7 @@ Of the four tabs at an elbow joint, the one facing the elbow's missing face
 meets nothing. `--lap_in` / `--lap_out` name a face whose wall runs `t` past
 that opening as a **full-width tongue** instead of a tab: `blocksize - 2t` wide
 and `t` deep, which is exactly the missing corner. The next piece's end face
-then lands flat on it — two flat faces, 3 x 25mm of glue area. Modelled as
+then lands flat on it — two flat faces, 3 × 25mm of glue area. Modelled as
 solids, the empty corner goes from 225mm^3 to **0**.
 
 The tongue is only as wide as the wall. Running the wall's whole length on
@@ -507,7 +518,7 @@ and `bend_<path>.svg` for a multi-block piece that turns, where `<path>` is the
 
 ### Sheets and labels
 
-Sheets wrap to the **xTool P2S work area, 600 x 308mm**. A piece too big to fit
+Sheets wrap to the **xTool P2S work area, 600 × 308mm**. A piece too big to fit
 is still written, but flagged in the cut list. `BED_W` / `BED_H` at the top of
 `bore_split.py` set this; note that a single *part* wider than the bed cannot be
 wrapped, only reported.
@@ -597,7 +608,7 @@ runs the gate over. They exist because every one of them broke something once:
 Run them all:
 
 ```sh
-python3 regress.py
+~/boxes/venv/bin/python regress.py
 ```
 
 Add one by dropping a `.txt` in beside the others. `regress.py` picks it up by
