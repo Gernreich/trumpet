@@ -111,6 +111,19 @@ LOBES, LOBE_R, RISE, LEAD = 3, 71.754, 90.0, 20.0
 # itself has to come down and the straights take up the slack. These give
 # exactly 1000.0mm again, with the cheek at 562 x 231mm.
 OPPOSED_R, OPPOSED_RISE = 64.0, 82.4539
+# 'spiral' is the drawn shape: a flat coil of two and a bit turns with a lead
+# at each end. Every facet is its own constant-radius arc and the radius steps
+# by a fixed amount, which is the classical compass spiral and, more to the
+# point, the only construction offset() can follow - it mitres a vertex
+# assuming the curvature either side is constant, true of an arc and false of
+# a smooth spiral, and building this smoothly cost 6.44mm of a 10mm airway.
+#
+# 17 facets is not a free choice. A chord's direction is the tangent at its
+# arc's midpoint, so F facets turn the run (F-1) facets, and the openings are
+# opposed only when that is a whole number of turns: F = 8k+1 at 45 degrees.
+# The radii then follow from wanting 1000mm with 22mm between neighbouring
+# passes, against the 20mm the cheek band needs.
+SPIRAL_FACETS, SPIRAL_RI, SPIRAL_RO = 17, 34.662, 112.903
 
 
 def walk(spec):
@@ -179,6 +192,36 @@ def centreline():
             raise ValueError(f'--facet={FACET:g} does not divide a full turn '
                              f'a whole number of times.')
         return flip(walk([('a', 360, +1)]))
+    if SHAPE == 'spiral':
+        if (SPIRAL_FACETS - 1) * FACET % 360.0 > 1e-9:
+            raise ValueError(
+                f'{SPIRAL_FACETS} facets turn the run '
+                f'{(SPIRAL_FACETS - 1) * FACET:g} degrees, which is not a whole '
+                f'number of turns, so the ends do not come out opposed. At '
+                f'{FACET:g} degree facets use {int(round(360 / FACET))}k + 1.')
+        floor = wall_off() + (TOOTH + 2 * SHOULDER) / 2 / math.sin(
+            math.radians(FACET / 2))
+        if min(SPIRAL_RI, SPIRAL_RO) < floor:
+            raise ValueError(
+                f'the tightest arc is R{min(SPIRAL_RI, SPIRAL_RO):g} and a '
+                f'{BORE:g}mm bore at {FACET:g} degree facets needs '
+                f'R{floor:.1f}.')
+        step = math.radians(FACET)
+        x = y = a = 0.0
+        pts = [(0.0, 0.0)]
+        for k in range(SPIRAL_FACETS):
+            r = SPIRAL_RI + (SPIRAL_RO - SPIRAL_RI) * k / (SPIRAL_FACETS - 1)
+            cx, cy = x - r * math.sin(a), y + r * math.cos(a)
+            t0 = math.atan2(y - cy, x - cx)
+            x, y = cx + r * math.cos(t0 + step), cy + r * math.sin(t0 + step)
+            pts.append((x, y))
+            a += step
+
+        def tail(u, v):
+            dx, dy = u[0] - v[0], u[1] - v[1]
+            m = math.hypot(dx, dy)
+            return (u[0] + dx / m * LEAD, u[1] + dy / m * LEAD)
+        return flip([tail(pts[0], pts[1])] + pts + [tail(pts[-1], pts[-2])])
     if SHAPE in ('serpentine', 'opposed'):
         # a lead-in, a quarter turn up, then alternating half-circles joined
         # by straight verticals, and a tail. The verticals are what make it
@@ -768,8 +811,12 @@ def checks(c, inn, out, parts, cheekpoly, written, ink, cut_slots):
 def main(write=True):
     c, inn, out, parts, report = build()
     over = 100 * (1 / math.cos(math.radians(FACET) / 2) - 1)
-    R = LOBE_R if SHAPE in ('serpentine', 'opposed') else RADIUS
-    what = (f'{LOBES} half-circles of R{R:g} joined by {RISE:g}mm straights'
+    R = (SPIRAL_RI if SHAPE == 'spiral'
+         else LOBE_R if SHAPE in ('serpentine', 'opposed') else RADIUS)
+    what = (f'a flat coil, {SPIRAL_FACETS} facets, R{SPIRAL_RI:g} at the '
+            f'centre out to R{SPIRAL_RO:g} at the rim'
+            if SHAPE == 'spiral' else
+            f'{LOBES} half-circles of R{R:g} joined by {RISE:g}mm straights'
             + (', then a quarter turn to bring the ends opposed'
                if SHAPE == 'opposed' else '')
             if SHAPE in ('serpentine', 'opposed')
@@ -797,7 +844,10 @@ def main(write=True):
     L = sum(seglen(a, b) for a, b in zip(c, c[1:]))
     # the group goes before -cut-files, not after: every sheet in this
     # project ends -cut-files.svg and a reader sorts on the tail
-    if SHAPE in ('serpentine', 'opposed'):
+    if SHAPE == 'spiral':
+        stem = (f'ribbon-spiral-bore{BORE:g}-{FACET:g}deg-'
+                f'R{SPIRAL_RI:.0f}to{SPIRAL_RO:.0f}-{L:.0f}mm.svg')
+    elif SHAPE in ('serpentine', 'opposed'):
         stem = (f'ribbon-{SHAPE}-bore{BORE:g}-{FACET:g}deg-{LOBES}lobes'
                 f'-R{LOBE_R:.0f}-{L:.0f}mm.svg')
     else:
@@ -840,18 +890,23 @@ if __name__ == '__main__':
     for flag, cast in (('out', str), ('shape', str), ('bore', float),
                        ('facet', float), ('radius', float), ('lobes', int),
                        ('lobe-r', float), ('rise', float), ('lead', float),
-                       ('web', float)):
+                       ('web', float), ('spiral-facets', int),
+                       ('spiral-ri', float), ('spiral-ro', float)):
         hit = [x for x in a if x.startswith(f'--{flag}=')]
         if not hit:
             continue
         v = cast(hit[0].split('=', 1)[1])
         {'out': 'OUT', 'shape': 'SHAPE', 'bore': 'BORE', 'facet': 'FACET',
          'radius': 'RADIUS', 'lobes': 'LOBES', 'lobe-r': 'LOBE_R',
-         'rise': 'RISE', 'lead': 'LEAD', 'web': 'WEB'}[flag]
+         'rise': 'RISE', 'lead': 'LEAD', 'web': 'WEB',
+         'spiral-facets': 'SPIRAL_FACETS', 'spiral-ri': 'SPIRAL_RI',
+         'spiral-ro': 'SPIRAL_RO'}[flag]
         globals()[{'out': 'OUT', 'shape': 'SHAPE', 'bore': 'BORE',
                    'facet': 'FACET', 'radius': 'RADIUS', 'lobes': 'LOBES',
                    'lobe-r': 'LOBE_R', 'rise': 'RISE', 'lead': 'LEAD',
-                   'web': 'WEB'}[flag]] = v
+                   'web': 'WEB', 'spiral-facets': 'SPIRAL_FACETS',
+                   'spiral-ri': 'SPIRAL_RI',
+                   'spiral-ro': 'SPIRAL_RO'}[flag]] = v
     # per-shape defaults, and only where the caller has not spoken
     if SHAPE == 'opposed':
         if not any(x.startswith('--lobe-r=') for x in a):

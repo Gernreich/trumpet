@@ -447,6 +447,10 @@ def main():
     if B.SHAPE == 'torus':
         stem = f'ribbon-torus-bore{B.BORE:g}-{B.FACET:g}deg-R{B.RADIUS:.0f}'
         title = f'Octagonal Torus, {B.BORE:g}mm Bore'
+    elif B.SHAPE == 'spiral':
+        stem = (f'ribbon-spiral-bore{B.BORE:g}-{B.FACET:g}deg-'
+                f'R{B.SPIRAL_RI:.0f}to{B.SPIRAL_RO:.0f}')
+        title = f'Ribbon Spiral, {B.BORE:g}mm Bore'
     elif B.SHAPE in ('serpentine', 'opposed'):
         stem = (f'ribbon-{B.SHAPE}-bore{B.BORE:g}-{B.FACET:g}deg-'
                 f'{B.LOBES}lobes-R{B.LOBE_R:.0f}')

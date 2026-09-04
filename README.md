@@ -29,6 +29,7 @@ slider builds it up a facet at a time.
 | [`ribbon-coupon-bore10-30deg-R30.html`](ribbon-coupon-bore10-30deg-R30.html) | the 180° coupon |
 | [`ribbon-serpentine-bore10-30deg-3lobes-R72.html`](ribbon-serpentine-bore10-30deg-3lobes-R72.html) | the metre serpentine, 10mm bore |
 | [`ribbon-opposed-bore10-30deg-3lobes-R64.html`](ribbon-opposed-bore10-30deg-3lobes-R64.html) | the metre again, with mouth and bell facing opposite ways |
+| [`ribbon-spiral-bore10-45deg-R35to113.html`](ribbon-spiral-bore10-45deg-R35to113.html) | the metre wound flat, two and a bit turns |
 
 Two more draw instruments that live in other repositories, and they are the only
 things here still cut at 25mm — the objects are, so their names say so.
@@ -186,6 +187,56 @@ width, as Boxes.py does —
 coupon is short enough to want exactly one, so the coupon's cut geometry did
 not move when this arrived.
 
+## The spiral
+
+    python3 ribbon_bore.py --shape=spiral --facet=45
+
+**1000.0mm of centreline**, in **40 parts on 2 files** — the drawn shape: a flat
+coil of two and a bit turns with a lead at each end, in a disc **225 × 221mm**.
+
+**Every facet is its own arc.** The radius holds across each one and steps
+4.89mm at the joins, which is the classical compass spiral and the only
+construction [`offset()`](ribbon_bore.py) can follow: it mitres a vertex
+assuming the curvature either side of it is constant, which is true of an arc
+and false of a smooth spiral. Built smoothly this shape lost **6.44mm of a
+10mm airway**, the same class of fault as a bore that measures 10 by 7.
+
+**17 facets is not a free choice.** A chord's direction is the tangent at its
+arc's midpoint, so **F facets turn the run (F−1) facets, not F** — and the two
+openings are opposed only when that is a whole number of turns. At 45° that
+means F = 8k+1. Counting arcs instead of facets is what put an earlier attempt's
+ends 135° apart while reporting them as opposed.
+
+**Why 45° and not 30°.** The tightest arc has to leave a tooth on the inner
+panel: the inner wall sits `wall_off()` inside the centreline and its facet is a
+chord `2r sin(φ/2)`, so the floor is **R26 at 30° and R20 at 45°**. A metre
+wound this tight needs the smaller floor, and it costs area at each mitre —
+**+8.2% against +3.5%**.
+
+| | 10 × 10mm |
+| --- | --- |
+| the cheek, **cut twice** | [`bore10`](ribbon-spiral-bore10-45deg-R35to113-1000mm-cheek-x2-cut-files.svg) |
+| the panels, cut once | [`bore10`](ribbon-spiral-bore10-45deg-R35to113-1000mm-panels-cut-files.svg) |
+| section | 100mm² |
+| centreline | 1000.0mm |
+| the two openings | 180° apart |
+| radius, centre to rim | R34.662 to R112.903, stepping 4.89mm a facet |
+| the bore's closest approach to itself | 22.00mm, against a 20mm band |
+| shortest panel | 20.00mm |
+| slots per cheek | 154 |
+| the two sheets | 239.5 × 243.0mm and 592.7 × 96.4mm |
+
+<div class="tw">
+<table>
+<tr>
+<td align="center"><a href="ribbon-spiral-bore10-45deg-R35to113-1000mm-cheek-x2-cut-files.svg"><img src="previews/ribbon-spiral-bore10-45deg-R35to113-1000mm-cheek-x2-cut-files.svg" alt="The cheek: a spiral band of two and a bit turns, orange slots down both of its walls, each with a small blue hex number, and a straight lead running out of the open middle" width="620"></a></td>
+</tr>
+<tr>
+<td align="center"><sub>ribbon-spiral-bore10-45deg-R35to113-1000mm-cheek-x2-cut-files.svg &middot; 239.5 &times; 243.0mm sheet</sub></td>
+</tr>
+</table>
+</div>
+
 ## The opposed-ends bore
 
     python3 ribbon_bore.py --shape=opposed
@@ -272,7 +323,8 @@ direction is the tangent at its arc's midpoint, so **F facets turn the run
 (F−1) facets**, and at 45° facets an opposed pair needs F = 8k+1, which is one
 facet more than any whole number of semicircles gives.
 
-[`volute.html`](volute/volute.html) draws it to scale.
+[`volute.html`](volute/volute.html) draws it to scale, from the
+[`volute.json`](volute/volute.json) the script writes.
 
 ## The coupon
 
