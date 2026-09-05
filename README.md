@@ -31,6 +31,8 @@ slider builds it up a facet at a time.
 | [`ribbon-opposed-bore10-30deg-3lobes-R64.html`](ribbon-opposed-bore10-30deg-3lobes-R64.html) | the metre again, with mouth and bell facing opposite ways |
 | [`ribbon-spiral-bore10-45deg-R35to113.html`](ribbon-spiral-bore10-45deg-R35to113.html) | the metre wound flat, two and a bit turns |
 | [`ribbon-wave-bore10-45deg-5arc.html`](ribbon-wave-bore10-45deg-5arc.html) | a trough and a crest, level at both ends |
+| [`ribbon-spiral-bore10-45deg-R74to144.html`](ribbon-spiral-bore10-45deg-R74to144.html) | the coil at two turns, 1458.2mm |
+| [`ribbon-spiral-bore10-45deg-R36to144.html`](ribbon-spiral-bore10-45deg-R36to144.html) | the coil at three turns, 1766.9mm |
 | [`ribbon-traced-volute-bore10-45deg.html`](ribbon-traced-volute-bore10-45deg.html) | the volute, drawn but not cuttable |
 
 Two more draw instruments that live in other repositories, and they are the only
