@@ -63,6 +63,25 @@ def data_for():
         Q.append({'v': [p + 3, q + 3, q + 2, p + 2], 'f': 1, 's': i})   # outer
         Q.append({'v': [p + 1, p + 2, q + 2, q + 1], 'f': 2, 's': i})   # top
         Q.append({'v': [p + 0, q + 0, q + 3, p + 3], 'f': 3, 's': i})   # bottom
+    # The plywood, not just the passage. The airway above is 10mm across; the
+    # cheek that carries it is 20mm across and sits 3mm proud of it top and
+    # bottom, and a render of the airway alone reads as a much thinner object
+    # than the part you cut. These are the two cheek plates, at full band width.
+    half = B.band() / 2.0
+    e = B.offset(c, half)
+    g = B.offset(c, -half)
+    if sum(B.seglen(p, q) for p, q in zip(e, e[1:])) > \
+       sum(B.seglen(p, q) for p, q in zip(g, g[1:])):
+        e, g = g, e
+    base = len(V)
+    for i in range(len(c)):
+        V += [[e[i][0], e[i][1], h + B.THICK], [g[i][0], g[i][1], h + B.THICK],
+              [e[i][0], e[i][1], -h - B.THICK], [g[i][0], g[i][1], -h - B.THICK]]
+    for i in range(len(c) - 1):
+        p, q = base + 4 * i, base + 4 * (i + 1)
+        Q.append({'v': [p + 0, p + 1, q + 1, q + 0], 'f': 6, 's': i})   # top ply
+        Q.append({'v': [p + 2, q + 2, q + 3, p + 3], 'f': 7, 's': i})   # bottom ply
+
     n = len(c) - 1
     if not shut:
         Q.append({'v': [0, 1, 2, 3], 'f': 4, 's': 0})                   # mouth
@@ -91,10 +110,13 @@ def data_for():
         'over': round(100 * (1 / math.cos(math.radians(B.FACET) / 2) - 1), 2),
         'pal': wheel(n),
         'shut': shut,
-        'faces': ['inner wall', 'outer wall', 'top cheek', 'bottom cheek']
-                 + ([] if shut else ['mouth', 'far end']),
+        # always eight, in face-index order; the key shows only the ones the
+        # quads actually use, so a closed ring drops mouth and far end by
+        # itself rather than by shifting every index after them
+        'faces': ['inner wall', 'outer wall', 'top cheek', 'bottom cheek',
+                  'mouth', 'far end', 'ply, top', 'ply, bottom'],
         'facecol': ['#5aa9e6', '#3d7ebd', '#c9d6e3', '#8fa3b8',
-                    '#1c1c20', '#e0457b'],
+                    '#1c1c20', '#e0457b', '#d8cbb2', '#b9a888'],
     }
 
 
@@ -276,7 +298,8 @@ function key(){
   const k = $('key');
   k.innerHTML = '';
   const rows = mode === 'face'
-    ? D.faces.map((n,i) => [D.facecol[i], n])
+    ? D.faces.map((n,i) => [D.facecol[i], n, i])
+        .filter(([,,i]) => D.Q.some(q => q.f === i)).map(([c,n]) => [c,n])
     : (D.shut ? [] : [[D.facecol[4],'mouth'], [D.facecol[5],'far end']]).concat(
       [[D.pal[0], 'facet 1'], [D.pal[Math.floor(D.segs/2) % D.pal.length],
         'facet ' + (Math.floor(D.segs/2)+1)],

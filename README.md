@@ -31,10 +31,6 @@ slider builds it up a facet at a time.
 | [`ribbon-opposed-bore10-30deg-3lobes-R64.html`](ribbon-opposed-bore10-30deg-3lobes-R64.html) | the metre again, with mouth and bell facing opposite ways |
 | [`ribbon-spiral-bore10-45deg-R35to113.html`](ribbon-spiral-bore10-45deg-R35to113.html) | the metre wound flat, two and a bit turns |
 | [`ribbon-wave-bore10-45deg-5arc.html`](ribbon-wave-bore10-45deg-5arc.html) | a trough and a crest, level at both ends |
-| [`ribbon-spiral-bore10-45deg-R36to130.html`](ribbon-spiral-bore10-45deg-R36to130.html) | the same spiral opened out to three turns |
-| [`ribbon-spiral-bore10-45deg-R76to140.html`](ribbon-spiral-bore10-45deg-R76to140.html) | two turns, as long as two turns get |
-| [`ribbon-spiral-bore10-45deg-R52to140.html`](ribbon-spiral-bore10-45deg-R52to140.html) | three turns, as long as three turns get |
-| [`ribbon-spiral-bore10-45deg-R23to142.html`](ribbon-spiral-bore10-45deg-R23to142.html) | four turns, the longest bore in the repository |
 | [`ribbon-traced-volute-bore10-45deg.html`](ribbon-traced-volute-bore10-45deg.html) | the volute, drawn but not cuttable |
 
 Two more draw instruments that live in other repositories, and they are the only
@@ -195,29 +191,10 @@ not move when this arrived.
 
 ### How long the coil goes
 
-The metre above is not the limit. Facets come in eights plus one, so the coil
-comes in whole turns, and each one buys length until the cheek stops fitting the
-bed:
-
-| facets | turns | longest | R, centre to rim | cut files |
-| ---: | ---: | ---: | --- | --- |
-| 17 | 2.1 | **1445.2mm** | R76 to R140 | [cheek](ribbon-spiral-bore10-45deg-R76to140-1445mm-cheek-x2-cut-files.svg) · [panels](ribbon-spiral-bore10-45deg-R76to140-1445mm-panels-cut-files.svg) |
-| 25 | 3.1 | **1876.9mm** | R52 to R140 | [cheek](ribbon-spiral-bore10-45deg-R52to140-1877mm-cheek-x2-cut-files.svg) · [panels](ribbon-spiral-bore10-45deg-R52to140-1877mm-panels-cut-files.svg) |
-| 33 | 4.1 | **2130.0mm** | R23 to R142.5 | [cheek](ribbon-spiral-bore10-45deg-R23to142-2130mm-cheek-x2-cut-files.svg) · [panels](ribbon-spiral-bore10-45deg-R23to142-2130mm-panels-cut-files.svg) |
-| 41 | 5.1 | — | — | none: see below |
-
-**R140 is not an arbitrary stopping point.** Sweeping the outer radius out to
-R260 finds nothing better — past about R142 the cheek is deeper than the bed,
-and the cheek is one piece.
-
-**Five turns cannot be cut at all**, and for three separate reasons across the
-window searched: mostly the cheek runs 290 to 371mm deep against 288mm of bed,
-sometimes the cheek crosses itself, and at the smallest inner radii a panel
-drops under the 10mm a tooth needs. Four turns is the ceiling at a 10mm bore.
-
-The 2130mm cheek comes out **588 × 308mm on a 600 × 308 bed** — legal, and with
-no margin at all in depth. The three-turn one at 575 × 303mm is the easier cut
-for nearly the same length.
+The metre above is not the limit — facets come in eights plus one, so the coil
+comes in whole turns and each turn buys length. **Those longer variants are
+withdrawn** while their radii are re-solved: they were cut before the generator
+could tell that a cheek crosses itself, and four of them did.
 
 ## The wave
 
@@ -397,22 +374,12 @@ direction is the tangent at its arc's midpoint, so **F facets turn the run
 (F−1) facets**, and at 45° facets an opposed pair needs F = 8k+1, which is one
 facet more than any whole number of semicircles gives.
 
-**There is no volute cut file, and the three-turn spiral is not one.** Its
-passes sit 12mm apart where the cheek band needs 20, and that is what stops it.
-[`--spiral-facets=25 --spiral-ri=36 --spiral-ro=130`](ribbon-spiral-bore10-45deg-R36to130-1628mm-cheek-x2-cut-files.svg)
-reaches three turns with every check passing at **1628.1mm**: 56 parts across
-[the cheek](ribbon-spiral-bore10-45deg-R36to130-1628mm-cheek-x2-cut-files.svg),
-cut twice at 270 × 282mm, and
-[the panels](ribbon-spiral-bore10-45deg-R36to130-1628mm-panels-cut-files.svg),
-cut once. But it is a *different curve*. A volute holds its radius constant
-across each semicircle and steps it between them; that spiral gives every facet
-its own arc and steps the radius 3.9mm at a time. Both come out as a flat coil
-of three turns, which is why they are easy to confuse, and they are not the same
-shape.
-
-Cutting an actual volute would mean a shape of its own in the generator, with a
-step of at least 40mm so consecutive passes land 20mm apart, and its radii
-re-solved from there. That has not been done.
+**There is no volute cut file.** Its passes sit 12mm apart where the cheek band
+needs 20, and that is what stops it. A three-turn spiral was cut and offered as
+"the volute's shape"; it was neither the volute — a volute holds its radius
+constant across each semicircle and steps it between them, where that spiral
+gives every facet its own arc — nor sound, because its cheek crossed itself.
+It has been withdrawn.
 
 [`volute.html`](volute/volute.html) draws it flat and to scale, from the
 [`volute.json`](volute/volute.json) the script writes, and

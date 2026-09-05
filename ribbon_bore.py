@@ -843,6 +843,30 @@ def checks(c, inn, out, parts, cheekpoly, written, ink, cut_slots):
          'no engraving lands in a slot',
          f'{len(ink)} points against {len(cut_slots)} slots, {over} inside one')
 
+    # The cheek is one piece and it must not cross itself. Every other check
+    # here asks about slots, panels or engraving, and all of them passed on a
+    # cheek whose outline ran straight through a later loop of the spiral -
+    # the author found it by looking at the file. A closed band can be entirely
+    # self-consistent slot by slot and still be an impossible piece of wood.
+    def edges_cross(a, b, c, d):
+        d1 = (b[0] - a[0], b[1] - a[1])
+        d2 = (d[0] - c[0], d[1] - c[1])
+        den = d1[0] * d2[1] - d1[1] * d2[0]
+        if abs(den) < 1e-12:
+            return False
+        u = ((c[0] - a[0]) * d2[1] - (c[1] - a[1]) * d2[0]) / den
+        v = ((c[0] - a[0]) * d1[1] - (c[1] - a[1]) * d1[0]) / den
+        return 1e-9 < u < 1 - 1e-9 and 1e-9 < v < 1 - 1e-9
+
+    ring = cheekpoly
+    m = len(ring) - 1
+    bad_edges = [(i, j) for i in range(m) for j in range(i + 2, m)
+                 if not (i == 0 and j == m - 1)
+                 and edges_cross(ring[i], ring[i + 1], ring[j], ring[j + 1])]
+    note(not bad_edges, 'the cheek outline does not cross itself',
+         f'{m} edges, {len(bad_edges)} crossing'
+         + (f', first at {bad_edges[0]}' if bad_edges else ''))
+
     note(WEB >= 1.5, 'the web outboard of a slot is cuttable',
          f'{WEB:g}mm of ply beside a {THICK:g}mm slot, band '
          f'{band():g}mm wide')
