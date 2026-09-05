@@ -236,6 +236,26 @@ A ported file is named `-ported`, so it never overwrites the plain one, and
 the two share a geometry exactly: the unported cheek is byte-identical before
 and after this was added.
 
+**Every shape here takes it**, and every one is cut both ways:
+
+| bore | plain | ported |
+| --- | --- | --- |
+| the coupon, 123.2mm | [cheek](ribbon-coupon-bore10-30deg-R30-180turn-cheek-x2-cut-files.svg) · [panels](ribbon-coupon-bore10-30deg-R30-180turn-panels-cut-files.svg) | [cheek](ribbon-coupon-bore10-30deg-R30-180turn-ported-cheek-x2-cut-files.svg) · [panels](ribbon-coupon-bore10-30deg-R30-180turn-ported-panels-cut-files.svg) |
+| the serpentine, 1000.0mm | [cheek](ribbon-serpentine-bore10-30deg-3lobes-R72-1000mm-cheek-x2-cut-files.svg) · [panels](ribbon-serpentine-bore10-30deg-3lobes-R72-1000mm-panels-cut-files.svg) | [cheek](ribbon-serpentine-bore10-30deg-3lobes-R72-1000mm-ported-cheek-x2-cut-files.svg) · [panels](ribbon-serpentine-bore10-30deg-3lobes-R72-1000mm-ported-panels-cut-files.svg) |
+| the opposed bore, 1000.0mm | [cheek](ribbon-opposed-bore10-30deg-3lobes-R64-1000mm-cheek-x2-cut-files.svg) · [panels](ribbon-opposed-bore10-30deg-3lobes-R64-1000mm-panels-cut-files.svg) | [cheek](ribbon-opposed-bore10-30deg-3lobes-R64-1000mm-ported-cheek-x2-cut-files.svg) · [panels](ribbon-opposed-bore10-30deg-3lobes-R64-1000mm-ported-panels-cut-files.svg) |
+| the wave, 836.5mm | [cheek](ribbon-wave-bore10-45deg-5arc-836mm-cheek-x2-cut-files.svg) · [panels](ribbon-wave-bore10-45deg-5arc-836mm-panels-cut-files.svg) | [cheek](ribbon-wave-bore10-45deg-5arc-836mm-ported-cheek-x2-cut-files.svg) · [panels](ribbon-wave-bore10-45deg-5arc-836mm-ported-panels-cut-files.svg) |
+| the spiral, 1000.0mm | [cheek](ribbon-spiral-bore10-45deg-R35to113-1000mm-cheek-x2-cut-files.svg) · [panels](ribbon-spiral-bore10-45deg-R35to113-1000mm-panels-cut-files.svg) | [cheek](ribbon-spiral-bore10-45deg-R35to113-1000mm-ported-cheek-x2-cut-files.svg) · [panels](ribbon-spiral-bore10-45deg-R35to113-1000mm-ported-panels-cut-files.svg) |
+| the coil at two turns, 1458.2mm | [cheek](ribbon-spiral-bore10-45deg-R74to144-1458mm-cheek-x2-cut-files.svg) · [panels](ribbon-spiral-bore10-45deg-R74to144-1458mm-panels-cut-files.svg) | [cheek](ribbon-spiral-bore10-45deg-R74to144-1458mm-ported-cheek-x2-cut-files.svg) · [panels](ribbon-spiral-bore10-45deg-R74to144-1458mm-ported-panels-cut-files.svg) |
+| the coil at three turns, 1766.9mm | [cheek](ribbon-spiral-bore10-45deg-R36to144-1767mm-cheek-x2-cut-files.svg) · [panels](ribbon-spiral-bore10-45deg-R36to144-1767mm-panels-cut-files.svg) | [cheek](ribbon-spiral-bore10-45deg-R36to144-1767mm-ported-cheek-x2-cut-files.svg) · [panels](ribbon-spiral-bore10-45deg-R36to144-1767mm-ported-panels-cut-files.svg) |
+
+A ported cheek is **exactly the same size as its plain twin** — measured, all
+seven pairs agree to 0.0mm in both dimensions, because a port is a hole and
+changes nothing about the outline. All fourteen cheeks were audited for
+self-crossing and none crosses.
+
+The 3D views show the plain bore only: the viewer draws the tube, and a hole
+through a cheek is not part of that model.
+
 **It needs no extra lead.** An earlier attempt gave the port a bore of it to
 keep the panel numbering clear, and that moved the whole coil enough to make
 the cheek cross itself — which is why a sweep of the entire radius range then
