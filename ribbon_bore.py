@@ -89,6 +89,9 @@ SHOULDER = 2.0       # least material either side of a tooth
 
 CUT, INNER, MARK = '#000000', '#ff8000', '#0000ff'
 OUT = None           # --out=PATH, for trying a change without touching the file
+PORT = False         # --port: a bore-square opening through the cheek at the
+                     # mouth, so a mouthpiece or a bell can go in at 90
+                     # degrees to the plane the bore is wound in
 BED_W, BED_H = 600.0, 308.0        # xTool P2S work area
 
 # --shape. 'coupon' is the 180 degree test piece; 'serpentine' is a run of
@@ -546,6 +549,32 @@ def bbox(pts):
     return min(xs), min(ys), max(xs), max(ys)
 
 
+def port_hole(cline):
+    """A square opening through the cheek at the mouth, for a mouthpiece.
+
+    The airway is bounded top and bottom by the cheeks, so the only way out of
+    the plane is through one. This cuts a bore-square hole in the last BORE of
+    the run and the bore turns 90 degrees into z there. Both cheeks carry it,
+    because they are one part cut twice and that is worth more than saving a
+    hole: you get a socket right through, plug the side you are not using.
+
+    It is a slot, not an outline cut, so it is taken in the orange stage while
+    the sheet still holds the cheek - the same reason the tab slots are.
+    """
+    a, b = cline[0], cline[1]
+    ux, uy = b[0] - a[0], b[1] - a[1]
+    m = math.hypot(ux, uy)
+    ux, uy = ux / m, uy / m
+    nx, ny = -uy, ux
+    half = BORE / 2 + BURN / 2          # the hole is a hole: kerf goes under
+    mid = (a[0] + ux * (BORE / 2), a[1] + uy * (BORE / 2))
+    return [(mid[0] + ux * half + nx * half, mid[1] + uy * half + ny * half),
+            (mid[0] + ux * half - nx * half, mid[1] + uy * half - ny * half),
+            (mid[0] - ux * half - nx * half, mid[1] - uy * half - ny * half),
+            (mid[0] - ux * half + nx * half, mid[1] - uy * half + ny * half),
+            (mid[0] + ux * half + nx * half, mid[1] + uy * half + ny * half)]
+
+
 def items_for(parts, cheekpoly, cline):
     """(the cheek, the panels), each as (outline, slots, labeller).
 
@@ -574,13 +603,21 @@ def items_for(parts, cheekpoly, cline):
             # at the segment's midpoint offset across.
             a0, a1 = _c[0], _c[1]
             t = 0.22
+            if PORT:
+                # the port takes the mouth end of the lead, where the cheek's
+                # own '0' used to sit; put it on the tail lead instead
+                a0, a1 = _c[-1], _c[-2]
+                t = 0.22
             gx = a0[0] + (a1[0] - a0[0]) * t + dx
             gy = a0[1] + (a1[1] - a0[1]) * t + dy
             m += label('0', gx, gy, 2.6,
                        math.atan2(a1[1] - a0[1], a1[0] - a0[0]))
             return m
+        cheek_slots = [sl for q in parts for sl in slots_for(q)]
+        if PORT:
+            cheek_slots.append(port_hole(cline))
         out.append({'outline': cheekpoly,
-                    'slots': [sl for q in parts for sl in slots_for(q)],
+                    'slots': cheek_slots,
                     'marks': cheek_marks})
     pan = []
     for q in parts:
@@ -1000,6 +1037,11 @@ if __name__ == '__main__':
             LOBE_R = OPPOSED_R
         if not any(x.startswith('--rise=') for x in a):
             RISE = OPPOSED_RISE
+    PORT = '--port' in a
+    if PORT and not any(x.startswith('--lead=') for x in a):
+        # the opening takes the first BORE of the lead, and the first panel's
+        # number was landing on its far edge. Give the lead that much back.
+        LEAD = LEAD + BORE
     try:
         sys.exit(main(write='--no-write' not in a))
     except ValueError as e:

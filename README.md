@@ -192,9 +192,34 @@ not move when this arrived.
 ### How long the coil goes
 
 The metre above is not the limit — facets come in eights plus one, so the coil
-comes in whole turns and each turn buys length. **Those longer variants are
-withdrawn** while their radii are re-solved: they were cut before the generator
-could tell that a cheek crosses itself, and four of them did.
+comes in whole turns and each turn buys length, until the cheek stops fitting
+the bed or starts crossing itself:
+
+| facets | turns | longest | R, centre to rim | cut files |
+| ---: | ---: | ---: | --- | --- |
+| 17 | 2.1 | **1458.2mm** | R74 to R144 | [cheek](ribbon-spiral-bore10-45deg-R74to144-1458mm-cheek-x2-cut-files.svg) · [panels](ribbon-spiral-bore10-45deg-R74to144-1458mm-panels-cut-files.svg) |
+| 25 | 3.1 | **1766.9mm** | R36.5 to R144 | [cheek](ribbon-spiral-bore10-45deg-R36to144-1767mm-cheek-x2-cut-files.svg) · [panels](ribbon-spiral-bore10-45deg-R36to144-1767mm-panels-cut-files.svg) |
+| 33 | 4.1 | — | — | none passes |
+
+**Four turns was offered once and was wrong.** It measured 2130mm and every
+check of the day passed it, because none of them asked whether the cheek
+crossed itself. With that check in place nothing at four turns survives, and
+three turns is the ceiling at a 10mm bore.
+
+### A port for the mouthpiece
+
+    python3 ribbon_bore.py --shape=spiral --facet=45 --port
+
+The airway is bounded top and bottom by the cheeks, so **the only way out of the
+plane is through one**. `--port` cuts a bore-square opening in the last 10mm of
+the run and the bore turns 90° into z there. Both cheeks carry it — they are one
+part cut twice, and a socket right through is worth more than saving a hole;
+plug the side you are not using. It is taken in the orange stage, while the
+sheet still holds the cheek, for the same reason the tab slots are.
+
+The port lengthens the lead by one bore, so a design's radii have to be re-solved
+with it on: the metre spiral's cheek crosses itself once the lead grows. **No
+ported design is cut yet.**
 
 ## The wave
 
