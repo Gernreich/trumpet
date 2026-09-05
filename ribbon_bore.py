@@ -567,7 +567,9 @@ def port_hole(cline):
     ux, uy = ux / m, uy / m
     nx, ny = -uy, ux
     half = BORE / 2 + BURN / 2          # the hole is a hole: kerf goes under
-    mid = (a[0] + ux * (BORE / 2), a[1] + uy * (BORE / 2))
+    # a bore back from the tip, not half a bore: centred at BORE/2 the hole
+    # ran to the very end of the cheek and two of its corners fell outside
+    mid = (a[0] + ux * BORE, a[1] + uy * BORE)
     return [(mid[0] + ux * half + nx * half, mid[1] + uy * half + ny * half),
             (mid[0] + ux * half - nx * half, mid[1] + uy * half - ny * half),
             (mid[0] - ux * half - nx * half, mid[1] - uy * half - ny * half),
@@ -838,6 +840,8 @@ def checks(c, inn, out, parts, cheekpoly, written, ink, cut_slots):
 
     # --- every slot has to be in the cheek, or a tab has nothing to enter
     allslots = [sl for p in parts for sl in slots_for(p)]
+    if PORT:
+        allslots = allslots + [port_hole(c)]
     off = sum(1 for sl in allslots for pt in sl
               if not inside(cheekpoly, *pt))
     note(off == 0 and allslots, 'every slot corner is inside its cheek',
@@ -969,6 +973,11 @@ def main(write=True):
     else:
         stem = (f'ribbon-coupon-bore{BORE:g}-{FACET:g}deg'
                 f'-R{RADIUS:g}-180turn.svg')
+    if PORT:
+        # a ported design is a different part from its unported twin - same
+        # coil, one hole, and radii solved separately - so it gets its own
+        # name rather than overwriting the one without
+        stem = stem[:-4] + '-ported.svg'
     out_path = OUT or os.path.join(
         os.path.dirname(os.path.abspath(__file__)), stem)
     written, ink, cut_slots = sheet(parts, cheekpoly, c, out_path, write)

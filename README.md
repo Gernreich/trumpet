@@ -217,9 +217,16 @@ part cut twice, and a socket right through is worth more than saving a hole;
 plug the side you are not using. It is taken in the orange stage, while the
 sheet still holds the cheek, for the same reason the tab slots are.
 
-The port lengthens the lead by one bore, so a design's radii have to be re-solved
-with it on: the metre spiral's cheek crosses itself once the lead grows. **No
-ported design is cut yet.**
+**No ported design is cut yet, and it is not a matter of choosing radii.** A
+sweep of 17- and 25-facet spirals over the whole radius range found nothing
+that passes, and three checks fail together: two corners of the opening fall
+outside the cheek, an engraved number lands in it, and the cheek crosses
+itself once the lead grows by a bore to make room. The first two are the port
+colliding with a cheek that is only 20mm wide — a bore-square hole leaves 5mm
+of band each side, and the panel numbering wants that space. A ported design
+needs the numbering moved off the mouth end, not different radii.
+
+A ported file is named `-ported`, so it never overwrites the plain one.
 
 ## The wave
 
