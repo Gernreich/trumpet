@@ -549,6 +549,18 @@ def bbox(pts):
     return min(xs), min(ys), max(xs), max(ys)
 
 
+def in_poly(poly, x, y):
+    """Crossing count. Used to keep engraving out of the port."""
+    n = len(poly) - 1
+    ins = False
+    for i in range(n):
+        x1, y1 = poly[i]
+        x2, y2 = poly[i + 1]
+        if (y1 > y) != (y2 > y) and x < x1 + (y - y1) / (y2 - y1) * (x2 - x1):
+            ins = not ins
+    return ins
+
+
 def port_hole(cline):
     """A square opening through the cheek at the mouth, for a mouthpiece.
 
@@ -592,13 +604,26 @@ def items_for(parts, cheekpoly, cline):
     for k in range(1):
         def cheek_marks(dx, dy, _p=parts, _c=cline):
             m = []
+            hole = [(q[0] + dx, q[1] + dy) for q in port_hole(_c)] if PORT else None
             for q in _p:
                 mx, my = q['mid'][0] + dx, q['mid'][1] + dy
                 ox, oy = q['out']
                 off = THICK / 2 + 1.5
                 # into the channel: with WEB at 2mm there is no flange to
                 # write on, and the channel is the floor of the bore
-                m += label(q['tag'], mx - ox * off, my - oy * off, 2.0, q['ang'])
+                lx, ly = mx - ox * off, my - oy * off
+                if hole is not None and in_poly(hole, lx, ly):
+                    # this one sits in the opening. Slide it along its own
+                    # panel until it clears - the alternative, giving the port
+                    # a bore of extra lead, moves the whole coil and was what
+                    # made the cheek cross itself.
+                    for step in (1, 2, 3):
+                        cx = math.cos(q['ang']) * BORE * step
+                        cy = math.sin(q['ang']) * BORE * step
+                        if not in_poly(hole, lx + cx, ly + cy):
+                            lx, ly = lx + cx, ly + cy
+                            break
+                m += label(q['tag'], lx, ly, 2.0, q['ang'])
             # a little way ALONG the first segment, not at its start: the
             # band begins there and half the glyph hung off the end. A
             # quarter of the way in also clears panel 1's label, which sits
@@ -1047,10 +1072,6 @@ if __name__ == '__main__':
         if not any(x.startswith('--rise=') for x in a):
             RISE = OPPOSED_RISE
     PORT = '--port' in a
-    if PORT and not any(x.startswith('--lead=') for x in a):
-        # the opening takes the first BORE of the lead, and the first panel's
-        # number was landing on its far edge. Give the lead that much back.
-        LEAD = LEAD + BORE
     try:
         sys.exit(main(write='--no-write' not in a))
     except ValueError as e:

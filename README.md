@@ -219,16 +219,28 @@ part cut twice, and a socket right through is worth more than saving a hole;
 plug the side you are not using. It is taken in the orange stage, while the
 sheet still holds the cheek, for the same reason the tab slots are.
 
-**No ported design is cut yet, and it is not a matter of choosing radii.** A
-sweep of 17- and 25-facet spirals over the whole radius range found nothing
-that passes, and three checks fail together: two corners of the opening fall
-outside the cheek, an engraved number lands in it, and the cheek crosses
-itself once the lead grows by a bore to make room. The first two are the port
-colliding with a cheek that is only 20mm wide — a bore-square hole leaves 5mm
-of band each side, and the panel numbering wants that space. A ported design
-needs the numbering moved off the mouth end, not different radii.
+**The opening lands at the inner end of the coil**, which is the end that had
+nowhere to go: a spiral's inner opening faces along the tube, into the next
+turn. Through the cheek is the only way out of the plane, so the port is what
+makes a coiled bore playable at all.
 
-A ported file is named `-ported`, so it never overwrites the plain one.
+| | 10 × 10mm, ported |
+| --- | --- |
+| the cheek, **cut twice** | [`bore10`](ribbon-spiral-bore10-45deg-R35to113-1000mm-ported-cheek-x2-cut-files.svg) |
+| the panels, cut once | [`bore10`](ribbon-spiral-bore10-45deg-R35to113-1000mm-ported-panels-cut-files.svg) |
+| centreline | 1000.0mm |
+| the opening | 10.1mm square, one bore back from the mouth |
+| the two sheets | 240 × 243mm and 593 × 96mm |
+
+A ported file is named `-ported`, so it never overwrites the plain one, and
+the two share a geometry exactly: the unported cheek is byte-identical before
+and after this was added.
+
+**It needs no extra lead.** An earlier attempt gave the port a bore of it to
+keep the panel numbering clear, and that moved the whole coil enough to make
+the cheek cross itself — which is why a sweep of the entire radius range then
+found nothing. Only one label ever collides, so only that label moves: it
+slides along its own panel until it is clear.
 
 ## The wave
 
