@@ -32,6 +32,9 @@ slider builds it up a facet at a time.
 | [`ribbon-spiral-bore10-45deg-R35to113.html`](ribbon-spiral-bore10-45deg-R35to113.html) | the metre wound flat, two and a bit turns |
 | [`ribbon-wave-bore10-45deg-5arc.html`](ribbon-wave-bore10-45deg-5arc.html) | a trough and a crest, level at both ends |
 | [`ribbon-spiral-bore10-45deg-R36to130.html`](ribbon-spiral-bore10-45deg-R36to130.html) | the same spiral opened out to three turns |
+| [`ribbon-spiral-bore10-45deg-R76to140.html`](ribbon-spiral-bore10-45deg-R76to140.html) | two turns, as long as two turns get |
+| [`ribbon-spiral-bore10-45deg-R52to140.html`](ribbon-spiral-bore10-45deg-R52to140.html) | three turns, as long as three turns get |
+| [`ribbon-spiral-bore10-45deg-R23to142.html`](ribbon-spiral-bore10-45deg-R23to142.html) | four turns, the longest bore in the repository |
 | [`ribbon-traced-volute-bore10-45deg.html`](ribbon-traced-volute-bore10-45deg.html) | the volute, drawn but not cuttable |
 
 Two more draw instruments that live in other repositories, and they are the only
@@ -189,6 +192,32 @@ width, as Boxes.py does —
 — which is 1 up to 17.9mm, 3 at 34mm and **7 at 90mm**. Every panel on the
 coupon is short enough to want exactly one, so the coupon's cut geometry did
 not move when this arrived.
+
+### How long the coil goes
+
+The metre above is not the limit. Facets come in eights plus one, so the coil
+comes in whole turns, and each one buys length until the cheek stops fitting the
+bed:
+
+| facets | turns | longest | R, centre to rim | cut files |
+| ---: | ---: | ---: | --- | --- |
+| 17 | 2.1 | **1445.2mm** | R76 to R140 | [cheek](ribbon-spiral-bore10-45deg-R76to140-1445mm-cheek-x2-cut-files.svg) · [panels](ribbon-spiral-bore10-45deg-R76to140-1445mm-panels-cut-files.svg) |
+| 25 | 3.1 | **1876.9mm** | R52 to R140 | [cheek](ribbon-spiral-bore10-45deg-R52to140-1877mm-cheek-x2-cut-files.svg) · [panels](ribbon-spiral-bore10-45deg-R52to140-1877mm-panels-cut-files.svg) |
+| 33 | 4.1 | **2130.0mm** | R23 to R142.5 | [cheek](ribbon-spiral-bore10-45deg-R23to142-2130mm-cheek-x2-cut-files.svg) · [panels](ribbon-spiral-bore10-45deg-R23to142-2130mm-panels-cut-files.svg) |
+| 41 | 5.1 | — | — | none: see below |
+
+**R140 is not an arbitrary stopping point.** Sweeping the outer radius out to
+R260 finds nothing better — past about R142 the cheek is deeper than the bed,
+and the cheek is one piece.
+
+**Five turns cannot be cut at all**, and for three separate reasons across the
+window searched: mostly the cheek runs 290 to 371mm deep against 288mm of bed,
+sometimes the cheek crosses itself, and at the smallest inner radii a panel
+drops under the 10mm a tooth needs. Four turns is the ceiling at a 10mm bore.
+
+The 2130mm cheek comes out **588 × 308mm on a 600 × 308 bed** — legal, and with
+no margin at all in depth. The three-turn one at 575 × 303mm is the easier cut
+for nearly the same length.
 
 ## The wave
 
