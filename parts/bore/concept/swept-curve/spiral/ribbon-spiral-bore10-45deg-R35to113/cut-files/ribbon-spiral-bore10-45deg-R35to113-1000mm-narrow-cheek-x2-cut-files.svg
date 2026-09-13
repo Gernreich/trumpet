@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="236.50mm" height="238.51mm" viewBox="0 0 236.50 238.51">
 <title>Ribbon bore, spiral - the cheek - CUT THIS SHEET TWICE - 10mm square bore, 45 degree facets</title>
-<desc>1 user unit = 1mm. the cheek - CUT THIS SHEET TWICE. A duct of constant 10 x 10mm section swept along a planar curve; the two cheeks are the same part and both go on the same way up. 38 wall panels in all, numbered along the flow. The airway is exact along every facet and 8.2% over at each mitre. 3mm ply, slots cut for a 3mm sheet at 0.15mm kerf, 0.025mm play per side taken out of the slot and never off the tab. NARROW: the cheek is only as wide as the duct, so every mortice is open at the rim and each tab is held across its thickness on one side only. The plain 16mm square on the panels sheet is the end cap: it glues over the open end of the duct so the air turns into the port, it carries no number, and ONE is needed. blue #0000ff engraves, orange #ff8000 cuts the slots first, black #000000 frees the parts.</desc>
+<desc>1 user unit = 1mm. the cheek - CUT THIS SHEET TWICE. A duct of constant 10 x 10mm section swept along a planar curve; the two cheeks are the same part and both go on the same way up. 38 wall panels in all, numbered along the flow. The airway is exact along every facet and 8.2% over at each mitre. 3mm ply, slots cut for a 3mm sheet at 0.15mm kerf, 0.025mm play per side taken out of the slot and never off the tab. NARROW: the cheek is only as wide as the duct, so every mortice is open at the rim and each tab is held across its thickness on one side only. blue #0000ff engraves, orange #ff8000 cuts the slots first, black #000000 frees the parts.</desc>
   <g id="numbers" fill="none" stroke="#0000ff" stroke-width="0.2">
-    <path d="M 123.376,138.037 L 123.459,137.526 L 124.225,139.373"/>
-    <path d="M 123.950,139.487 L 124.523,139.250"/>
-    <path d="M 125.070,139.023 L 125.477,138.855"/>
+    <path d="M 114.137,141.863 L 114.221,141.353 L 114.986,143.200"/>
+    <path d="M 114.711,143.314 L 115.284,143.077"/>
+    <path d="M 115.832,142.850 L 116.238,142.682"/>
     <path d="M 134.520,133.320 L 134.581,132.819 L 135.039,132.629 L 135.436,132.940 L 135.574,133.273 L 135.117,134.761 L 136.033,134.382"/>
     <path d="M 136.444,134.212 L 136.850,134.043"/>
     <path d="M 151.113,116.293 L 151.493,115.376 L 152.111,116.236"/>
@@ -57,10 +57,10 @@
     <path d="M 212.791,178.764 L 213.707,178.385 L 213.536,179.430"/>
     <path d="M 213.536,179.430 L 214.052,179.216 L 214.350,179.937 L 214.266,180.318 L 213.762,180.527 L 213.434,180.317"/>
     <path d="M 214.883,180.063 L 215.289,179.894"/>
-    <path d="M 125.315,144.810 L 125.399,144.299 L 126.165,146.147"/>
-    <path d="M 125.890,146.261 L 126.462,146.023"/>
-    <path d="M 127.849,145.449 L 127.084,143.601 L 126.940,145.133 L 127.856,144.753"/>
-    <path d="M 128.488,145.184 L 128.895,145.016"/>
+    <path d="M 116.077,148.637 L 116.160,148.126 L 116.926,149.974"/>
+    <path d="M 116.651,150.087 L 117.224,149.850"/>
+    <path d="M 118.610,149.276 L 117.845,147.428 L 117.701,148.960 L 118.617,148.580"/>
+    <path d="M 119.249,149.011 L 119.656,148.843"/>
     <path d="M 138.105,139.553 L 138.189,139.042 L 138.954,140.889"/>
     <path d="M 138.679,141.003 L 139.252,140.766"/>
     <path d="M 140.045,138.273 L 139.301,138.581 L 139.588,139.436 L 139.935,139.141 L 140.371,139.220 L 140.631,139.589 L 140.650,140.057 L 140.295,140.334 L 139.917,140.231"/>
@@ -132,8 +132,8 @@
     <path d="M 214.160,186.250 L 214.220,185.749 L 214.679,185.559 L 215.076,185.871 L 215.214,186.203 L 214.757,187.692 L 215.673,187.312"/>
     <path d="M 216.356,185.038 L 215.985,185.018 L 215.756,185.438 L 215.948,186.224 L 216.154,186.723 L 216.521,186.961 L 216.831,186.833 L 216.956,186.391 L 216.803,186.021 L 216.410,185.816 L 216.043,185.968 L 215.948,186.224"/>
     <path d="M 217.562,186.530 L 217.968,186.361"/>
-    <path d="M 219.903,182.096 L 219.183,181.832 L 218.586,180.391 L 218.908,179.694 L 219.628,179.959 L 220.225,181.400 L 219.903,182.096"/>
-    <path d="M 217.779,180.162 L 217.251,180.381"/>
+    <path d="M 110.249,146.461 L 110.969,146.726 L 111.566,148.167 L 111.244,148.864 L 110.523,148.599 L 109.926,147.158 L 110.249,146.461"/>
+    <path d="M 112.373,148.396 L 112.901,148.177"/>
   </g>
   <g id="slots" fill="none" stroke="#ff8000" stroke-width="0.2">
     <path d="M 110.162,139.327 L 115.613,137.069 L 116.703,139.702 L 111.252,141.960 Z"/>
@@ -287,7 +287,6 @@
     <path d="M 185.509,200.429 L 190.960,198.171 L 192.050,200.804 L 186.600,203.062 Z"/>
     <path d="M 196.595,195.837 L 202.046,193.579 L 203.137,196.212 L 197.686,198.470 Z"/>
     <path d="M 213.449,188.856 L 218.899,186.598 L 219.990,189.231 L 214.539,191.489 Z"/>
-    <path d="M 123.628,146.034 L 121.007,139.705 L 108.211,145.005 L 110.833,151.334 L 123.628,146.034 Z"/>
   </g>
   <g id="outlines" fill="none" stroke="#000000" stroke-width="0.2">
     <path d="M 109.714,156.668 L 128.191,149.014 L 155.734,137.606 L 169.831,103.573 L 154.302,66.082 L 113.353,49.121 L 68.947,67.514 L 49.120,115.379 L 70.379,166.701 L 125.159,189.391 L 183.396,165.268 L 208.951,103.573 L 181.964,38.420 L 113.353,10.000 L 41.284,39.852 L 10.000,115.379 L 42.716,194.363 L 125.159,228.512 L 208.026,194.187 L 226.503,186.533 L 220.438,171.890 L 201.960,179.543 L 125.159,211.356 L 54.847,182.232 L 27.156,115.379 L 53.415,51.983 L 113.353,27.156 L 169.833,50.551 L 191.795,103.573 L 171.265,153.137 L 125.159,172.235 L 82.510,154.569 L 66.276,115.379 L 81.078,79.645 L 113.353,66.276 L 142.171,78.213 L 152.675,103.573 L 143.603,125.475 L 122.126,134.371 L 103.648,142.025 Z"/>
